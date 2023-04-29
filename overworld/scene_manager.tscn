@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://bdm5w86rrq8vp"]
+
+[ext_resource type="PackedScene" uid="uid://cut53pqr86koo" path="res://overworld/red_town.tscn" id="1_akul3"]
+
+[node name="SceneManager" type="Node2D"]
+
+[node name="CurrentScene" type="Node2D" parent="."]
+
+[node name="RedTown" parent="CurrentScene" instance=ExtResource("1_akul3")]
+
+[node name="Menu" type="CanvasLayer" parent="."]
+
+[node name="ScreenTransition" type="CanvasLayer" parent="."]

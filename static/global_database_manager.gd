@@ -29,54 +29,94 @@ func exists_monster( monster ) -> bool:
 	
 	db = SQLite.new()
 	db.path = db_name
+	db.open_db()
+	
 	var query_result = db.select_rows( table_name_monster, str("umid = ", monster.umid), row_array );
+	
+	db.close_db()
 	
 	if (query_result is Array && query_result.size() > 0):
 		return true
 	
 	return false
 	
-	pass
+	#pass
+
+func get_monster_summary( monster ) -> Dictionary:
+	var summary : Dictionary = Dictionary()
+	
+	summary["current_health"] = monster.stats_current[GlobalMonster.BattleStats.HEALTH]
+	summary["current_spirit"] = monster.stats_current[GlobalMonster.BattleStats.SPIRIT]
+	summary["current_attack"] = monster.stats_current[GlobalMonster.BattleStats.ATTACK]
+	summary["current_defense"] = monster.stats_current[GlobalMonster.BattleStats.DEFENSE]
+	summary["current_speed"] = monster.stats_current[GlobalMonster.BattleStats.SPEED]
+	summary["current_evasion"] = monster.stats_current[GlobalMonster.BattleStats.EVASION]
+	summary["current_intimidate"] = monster.stats_current[GlobalMonster.BattleStats.INTIMIDATION]
+	summary["current_resolve"] = monster.stats_current[GlobalMonster.BattleStats.RESOLVE]
+	summary["current_mana"] = monster.stats_current[GlobalMonster.BattleStats.MANA]
+	summary["max_health"] = monster.stats_base[GlobalMonster.BattleStats.HEALTH]
+	summary["max_spirit"] = monster.stats_base[GlobalMonster.BattleStats.SPIRIT]
+	summary["max_attack"] = monster.stats_base[GlobalMonster.BattleStats.ATTACK]
+	summary["max_defense"] = monster.stats_base[GlobalMonster.BattleStats.DEFENSE]
+	summary["max_speed"] = monster.stats_base[GlobalMonster.BattleStats.SPEED]
+	summary["max_evasion"] = monster.stats_base[GlobalMonster.BattleStats.EVASION]
+	summary["max_intimidate"] = monster.stats_base[GlobalMonster.BattleStats.INTIMIDATION]
+	summary["max_resolve"] = monster.stats_base[GlobalMonster.BattleStats.RESOLVE]
+	summary["max_mana"] = monster.stats_base[GlobalMonster.BattleStats.MANA]
+	summary["ability"] = monster.ability
+	summary["exp"] = monster.exp 
+	summary["level"] = monster.level 
+	summary["name"] = monster.birth_name 
+	summary["item_held"] = monster.item_held 
+	
+	return summary;
+
+func set_monster_summary( monster, summary:Dictionary ):
+	#var summary : Dictionary = Dictionary()
+	
+	monster.stats_current[GlobalMonster.BattleStats.HEALTH] = summary["current_health"]
+	monster.stats_current[GlobalMonster.BattleStats.SPIRIT] = summary["current_spirit"]
+	monster.stats_current[GlobalMonster.BattleStats.ATTACK] = summary["current_attack"]
+	monster.stats_current[GlobalMonster.BattleStats.DEFENSE] = summary["current_defense"]
+	monster.stats_current[GlobalMonster.BattleStats.SPEED] = summary["current_speed"]
+	monster.stats_current[GlobalMonster.BattleStats.EVASION] = summary["current_evasion"]
+	monster.stats_current[GlobalMonster.BattleStats.INTIMIDATION] = summary["current_intimidate"]
+	monster.stats_current[GlobalMonster.BattleStats.RESOLVE] = summary["current_resolve"]
+	monster.stats_current[GlobalMonster.BattleStats.MANA] = summary["current_mana"]
+	monster.stats_base[GlobalMonster.BattleStats.HEALTH] = summary["max_health"]
+	monster.stats_base[GlobalMonster.BattleStats.SPIRIT] = summary["max_spirit"]
+	monster.stats_base[GlobalMonster.BattleStats.ATTACK] = summary["max_attack"]
+	monster.stats_base[GlobalMonster.BattleStats.DEFENSE] = summary["max_defense"]
+	monster.stats_base[GlobalMonster.BattleStats.SPEED] = summary["max_speed"]
+	monster.stats_base[GlobalMonster.BattleStats.EVASION] = summary["max_evasion"]
+	monster.stats_base[GlobalMonster.BattleStats.INTIMIDATION] = summary["max_intimidate"]
+	monster.stats_base[GlobalMonster.BattleStats.RESOLVE] = summary["max_resolve"]
+	monster.stats_base[GlobalMonster.BattleStats.MANA] = summary["max_mana"]
+	monster.ability = summary["ability"]
+	monster.exp = summary["exp"]
+	monster.level = summary["level"]
+	monster.birth_name = summary["name"]
+	monster.item_held = summary["item_held"]
+
 
 # To be called by GlobalMonsterSpawner
 func create_monster( monster ):
 	
 	
-	var row_dict : Dictionary = Dictionary()
-	#for i in range(0,ids.size()):
-	#row_dict["current_health"] = monster.get_current_stat( GlobalMonster.BattleStats.HEALTH ) 
-	row_dict["current_health"] = monster.stats_current[GlobalMonster.BattleStats.HEALTH]
-	row_dict["current_spirit"] = monster.stats_current[GlobalMonster.BattleStats.SPIRIT]
-	row_dict["current_attack"] = monster.stats_current[GlobalMonster.BattleStats.ATTACK]
-	row_dict["current_defense"] = monster.stats_current[GlobalMonster.BattleStats.DEFENSE]
-	row_dict["current_speed"] = monster.stats_current[GlobalMonster.BattleStats.SPEED]
-	row_dict["current_evasion"] = monster.stats_current[GlobalMonster.BattleStats.EVASION]
-	row_dict["current_intimidate"] = monster.stats_current[GlobalMonster.BattleStats.INTIMIDATION]
-	row_dict["current_resolve"] = monster.stats_current[GlobalMonster.BattleStats.RESOLVE]
-	row_dict["current_mana"] = monster.stats_current[GlobalMonster.BattleStats.MANA]
-	row_dict["max_health"] = monster.stats_base[GlobalMonster.BattleStats.HEALTH]
-	row_dict["max_spirit"] = monster.stats_base[GlobalMonster.BattleStats.SPIRIT]
-	row_dict["max_attack"] = monster.stats_base[GlobalMonster.BattleStats.ATTACK]
-	row_dict["max_defense"] = monster.stats_base[GlobalMonster.BattleStats.DEFENSE]
-	row_dict["max_speed"] = monster.stats_base[GlobalMonster.BattleStats.SPEED]
-	row_dict["max_evasion"] = monster.stats_base[GlobalMonster.BattleStats.EVASION]
-	row_dict["max_intimidate"] = monster.stats_base[GlobalMonster.BattleStats.INTIMIDATION]
-	row_dict["max_resolve"] = monster.stats_base[GlobalMonster.BattleStats.RESOLVE]
-	row_dict["max_mana"] = monster.stats_base[GlobalMonster.BattleStats.MANA]
-	row_dict["ability"] = monster.ability
-	row_dict["exp"] = monster.exp 
-	row_dict["level"] = monster.level 
-	row_dict["name"] = monster.birth_name 
-	row_dict["item_held"] = monster.item_held 
+	var row_dict : Dictionary = get_monster_summary( monster );
 	
 	db = SQLite.new()
 	db.path = db_name
 	
-	var query_condition = str("umid = ", monster.umid)
+	db.open_db()
+	
+	#var query_condition = str("umid = ", monster.umid)
 	
 	var row_array = [row_dict]
 	
 	db.insert_rows( table_name_monster, row_array )
+	
+	db.close_db()
 	
 	pass
 
@@ -91,45 +131,17 @@ func save_monster( monster ):
 # Contains code to save monster character to database
 func update_monster( monster ):
 	
-	var row_dict : Dictionary = Dictionary()
-	#for i in range(0,ids.size()):
-	row_dict["current_health"] = monster.get_current_stat( GlobalMonster.BattleStats.HEALTH ) 
-	row_dict["current_health"] = monster.stats_current[GlobalMonster.BattleStats.HEALTH]
-	row_dict["current_spirit"] = monster.stats_current[GlobalMonster.BattleStats.SPIRIT]
-	row_dict["current_attack"] = monster.stats_current[GlobalMonster.BattleStats.ATTACK]
-	row_dict["current_defense"] = monster.stats_current[GlobalMonster.BattleStats.DEFENSE]
-	row_dict["current_speed"] = monster.stats_current[GlobalMonster.BattleStats.SPEED]
-	row_dict["current_evasion"] = monster.stats_current[GlobalMonster.BattleStats.EVASION]
-	row_dict["current_intimidate"] = monster.stats_current[GlobalMonster.BattleStats.INTIMIDATION]
-	row_dict["current_resolve"] = monster.stats_current[GlobalMonster.BattleStats.RESOLVE]
-	row_dict["current_mana"] = monster.stats_current[GlobalMonster.BattleStats.MANA]
-	row_dict["max_health"] = monster.stats_base[GlobalMonster.BattleStats.HEALTH]
-	row_dict["max_spirit"] = monster.stats_base[GlobalMonster.BattleStats.SPIRIT]
-	row_dict["max_attack"] = monster.stats_base[GlobalMonster.BattleStats.ATTACK]
-	row_dict["max_defense"] = monster.stats_base[GlobalMonster.BattleStats.DEFENSE]
-	row_dict["max_speed"] = monster.stats_base[GlobalMonster.BattleStats.SPEED]
-	row_dict["max_evasion"] = monster.stats_base[GlobalMonster.BattleStats.EVASION]
-	row_dict["max_intimidate"] = monster.stats_base[GlobalMonster.BattleStats.INTIMIDATION]
-	row_dict["max_resolve"] = monster.stats_base[GlobalMonster.BattleStats.RESOLVE]
-	row_dict["max_mana"] = monster.stats_base[GlobalMonster.BattleStats.MANA]
-	row_dict["ability"] = monster.ability
-	row_dict["exp"] = monster.exp 
-	row_dict["level"] = monster.level 
-	row_dict["nam"] = monster.given_name 
-	row_dict["item_held"] = monster.item_held 
+	var row_dict : Dictionary = get_monster_summary( monster ); 
 	
 	db = SQLite.new()
 	db.path = db_name
+	db.open_db()
 	
 	var query_condition = str("umid = ", monster.umid)
 	
 	db.update_rows( table_name_monster, query_condition, row_dict )
-	#var insert_query : String = "UPDATE character SET "
 	
-	
-	
-	
-	#db.query(insert_query);
+	db.close_db()
 	
 	pass
 
@@ -144,6 +156,27 @@ func save_world():
 	pass
 	
 func load_monster( monster ):
+	
+	var selected_columns : Array = ["current_health", "current_spirit", 
+									"current_attack", "current_defense", 
+									"current_speed", "current_evasion", 
+									"current_intimidate", "current_resolve", 
+									"current_mana", "max_health", "max_spirit", 
+									"max_attack", "max_defense", "max_speed", 
+									"max_evasion", "max_intimidate", "max_resolve", 
+									"max_mana", "ability", "exp", "level", 
+									"name", "item_held"];
+	
+	var summary_dict : Dictionary = Dictionary();
+	
+	db = SQLite.new()
+	db.path = db_name
+	db.open_db()
+	
+	var fetched:Array = db.select_rows( table_name_monster, str("umid = ", monster.umid), selected_columns )
+	
+	set_monster_summary( monster, fetched[-1] );
+	
 	pass
 	
 func load_player():

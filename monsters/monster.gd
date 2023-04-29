@@ -16,26 +16,26 @@ func _process(delta):
 	pass
 
 # Used for proper saving/loading/reloading
-var umid = 0
+var umid = -1
 
-var level = 0
+@export var level = -1
 	# Used to track what moves should be accessible at this point, and is used in same places as stat increases and Evo checks
 
-var exp = 0
+@export var exp = -1
 	# Used to track experience points, which reset upon levelling up
 
-var species = 0
+var species = -1
 	# Either reference ID for species base info, or storage of summary 
 
 var ability = ""
 	# Either reference ID for ability info, or storage of object
 
 var birth_name := ""
-var nickname := ""
+@export var nickname := ""
 
 var item_held = ""
 
-var met_at_level = 0
+var met_at_level = -1
 
 # May convert to PackedByteArray or Dictionary
 # Represents genetic component to personality
@@ -104,7 +104,7 @@ func load_data():
 	# Read this monster from disk, or a database, by feeding the results of global/singleton into unpackData
 
 func _to_string():
-	return str(name, " is a ", species, " with moves ", moves, " and stats ", stats_base, " -> ", stats_current)
+	return str(name, "(", umid, ") is a ", species, " with moves ", moves, " and stats ", stats_base, " -> ", stats_current)
 
 #func saveAndReload:
 	# Call saveData and loadData sequentially, possibly setting everything to zero in between

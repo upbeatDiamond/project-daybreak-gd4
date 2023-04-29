@@ -1,0 +1,49 @@
+If the metadate be wrong, let it be known:
+
+All assets and code used in this project (as of 23 April 2023, 07:36:45 GMT, within 1 hour of Unix epoch 1682235427) are licensed under CC0, MIT, or were mislabelled. Please assume that all licenses listed only apply to the newest version of this project, and that old versions may be mis- or un-labelled.
+
+Text used in this project, I don't know or care.
+
+In the following lists, the website the username is applicable to will be listed in parentheses in its minimal recognizable form (that is, no 'www' where feasible).
+
+Images, graphics, pictures, sprites, and bitmaps are derived from the work of multiple people, which might include artists or uploaders such as:
+
+- YCbCr (OpenGameArt)
+- adythewolf (OpenGameArt)
+- yd (OpenGameArt)
+- Jetrel (OpenGameArt)
+- mutantleg (OpenGameArt)
+- Scouser (OpenGameArt)
+- Kthulhu1947 (OpenGameArt)
+- FacadeGaikan (OpenGameArt)
+- surt (OpenGameArt)
+- MedicineStorm (OpenGameArt), and the team at https://github.com/crawl/tiles
+- richtaur (OpenGameArt), with some sprites by Matt Hackett of Lost Decade Games
+- Hyptosis (OpenGameArt), who wants a link to www.lorestrome.com (big help!)
+- Buch (OpenGameArt), who wants a link to http://blog-buch.rhcloud.com (big help!)
+- Jannax (OpenGameArt) / Janna / Lilius
+- cyanowl (OpenGameArt)
+- sithoius (OpenGameArt)
+- SpiderDave (OpenGameArt)
+- Cough-E (OpenGameArt)
+- marionline (OpenGameArt)
+- ArMM1998 (OpenGameArt) (big help!)
+- Corey Archer (OpenGameArt)
+- caeles (OpenGameArt)
+- NaRNeRZz (OpenGameArt)
+- Weissnix (OpenGameArt)
+- Fry (OpenGameArt)
+- drummyfish (OpenGameArt)
+- Flowly (OpenGameArt)
+- rubberduck (OpenGameArt)
+- Kenney (OpenGameArt), who wants a link to www.kenney.nl (big help!)
+- Matiaan
+- ansimuz (OpenGameArt)
+- .bee (OpenGameArt)
+- Chasersgaming (OpenGameArt)
+- Shepardskin (OpenGameArt) (Twitter)
+
+
+Thank you, OpenGameArt for helping me find assets!
+
+Thank you, Arkeve and Magiscarf for helping me get a feel for how I want my game to feel/look!
