@@ -11,6 +11,12 @@ func _process(delta):
 	pass
 
 
+var effect_struct : Dictionary = {
+	"effect" = 0,
+	"hit_chance" = 0,
+}
+
+
 enum TargetFlags
 {
 	HAS_SPECIAL_TARGETING,	# Does not abide by the other flags necessarily...
@@ -24,6 +30,7 @@ enum TargetFlags
 	CAN_SELECT_TARGET,		# Can you specify who is/isnt affected?
 	HAS_EXTENDED_RANGE,		# Can you reach everyone in a 3v3?
 }
+# Interesting combinations: affects_all_enemies but not can_target_enemies.
 
 enum BooleanFlags
 {
@@ -50,8 +57,23 @@ var type_matchup = {}
 
 var moves_loaded = {}
 
+var secondary_moveeffect_template = {
+	"moveeffect" = null,
+	"type_one" = null,
+	"type_two" = null,
+	"accuracy" = 0,
+	"flag_bitfield" = 0,
+	"flag_target" = 0,
+	"accuracy_dependence" = false	# true = only executes if primary effect executes
+}
+
+
+
+
+
 # Index = "similarity value" ~= index matchup counted in a roundabout way
 # Higher value = better. Max as of this comment is 6 in theory, but should be unreachable normally
+# This system may be replaced in a future version.
 var stab_multiplier = [1, 1.25, 1.5, 1.5, 1.5, 2, 2.25]
 
 func load_move_from_database( move_reference ):
@@ -66,7 +88,24 @@ func execute_move( move, user, target : Array ):
 func calculate_raw_damage( move, user, target ) -> float: 
 	var type_damage = type_matchup[ move.type1 ][ target.type1 ] * type_matchup[ move.type1 ][ target.type2 ] + ( type_matchup[ move.type2 ][ target.type1 ] + type_matchup[ move.type2 ][ target.type2 ] + 1 ) / 3;
 	
+	var stab_level = calculate_stab_level( move, user, target );
+	
+	return type_damage * stab_multiplier[stab_level] * move.base_power
+
+# Duplicate, please change/edit/replace
+func calculate_raw_special_damage( move, user, target ) -> float: 
+	var type_damage = calculate_type_effectiveness( move, target )
+	var stab_level = calculate_stab_level( move, user, target );
+	return type_damage * stab_multiplier[stab_level] * move.base_power
+
+
+
+func calculate_type_effectiveness( move, target ) -> float:
+	return type_matchup[ move.type1 ][ target.type1 ] * type_matchup[ move.type1 ][ target.type2 ] + ( type_matchup[ move.type2 ][ target.type1 ] + type_matchup[ move.type2 ][ target.type2 ] + 1 ) / 3;
+
+func calculate_stab_level( move, user, target ) -> int:
 	var stab_level = 0;
+	
 	if (move.type1 == user.type1):
 		stab_level += 3
 	if (move.type2 == user.type1 || move.type1 == user.type2):
@@ -74,4 +113,4 @@ func calculate_raw_damage( move, user, target ) -> float:
 	if (move.type2 == user.type2):
 		stab_level += 1
 	
-	return type_damage * stab_multiplier[stab_level] * move.base_power
+	return stab_level

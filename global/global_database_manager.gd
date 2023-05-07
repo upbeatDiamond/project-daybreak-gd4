@@ -1,6 +1,7 @@
 extends Node
 # Contains code relating to SQLite bindings
 
+#const BattleAI = preload("res://battle/monster_battle_ai.gd")
 
 var db : SQLite = null
 
@@ -183,4 +184,9 @@ func load_player():
 	pass
 	
 func load_world():
+	pass
+
+# I call this a 'struct' because I like the C langauge.
+func load_move_effectiveness_struct(move_id):
+	print( sqrt(-1)/0 ); # Because I don't know how throwing and catching works in GD 4
 	pass

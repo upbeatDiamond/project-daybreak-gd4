@@ -1,7 +1,7 @@
-[gd_scene load_steps=29 format=3 uid="uid://vpr3t7b05qgi"]
+[gd_scene load_steps=29 format=3 uid="uid://cb845yxiqimel"]
 
-[ext_resource type="Script" path="res://player/player.gd" id="1_4alr1"]
-[ext_resource type="Texture2D" uid="uid://13h6vtkjx4sb" path="res://player/player_base_move.png" id="2_rloa0"]
+[ext_resource type="Script" path="res://player/player.gd" id="1_btc0i"]
+[ext_resource type="Texture2D" uid="uid://13h6vtkjx4sb" path="res://player/player_base_move.png" id="2_or77u"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rea4m"]
 size = Vector2(16, 16)
@@ -228,11 +228,11 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody2D"]
-script = ExtResource("1_4alr1")
+script = ExtResource("1_btc0i")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(8, 0)
-texture = ExtResource("2_rloa0")
+texture = ExtResource("2_or77u")
 hframes = 7
 vframes = 4
 frame = 7

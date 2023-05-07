@@ -21,18 +21,16 @@ func _init( base_power, accuracy, primary_effect, flag_bitfield, effects, effect
 var flag_bitfield
 
 var base_power
-var accuracy
-var primary_effect
+var primary_moveeffect_accuracy
+var primary_moveeffect
 	# The overall accuracy. If this misses, no effects are used.
 
 # 2D array, with 2nd dimension being pairs of Effect and Element.
-var effects = []
-var effect_accuracies = []
-	# These two arrays have to be syncronized. Maybe use a Dict.
+var secondary_moveeffects = []
 
 
-var type1 # This type is always in play for primary effect
-var type2 # This type might be in play anywhere
+var type_one # This type is always in play for primary effect
+var type_two # This type might be in play anywhere
 
 var priority
 var energy_cost

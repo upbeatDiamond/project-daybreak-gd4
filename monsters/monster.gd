@@ -37,6 +37,10 @@ var item_held = ""
 
 var met_at_level = -1
 
+
+var health: set = set_health, get = get_health;
+var spirit: set = set_spirit, get = get_spirit;
+
 # May convert to PackedByteArray or Dictionary
 # Represents genetic component to personality
 var p_factor_base = PackedByteArray(); 
@@ -46,7 +50,7 @@ var p_factor_base = PackedByteArray();
 var p_factor_offset = PackedByteArray();
 
 # The moves currently accessible
-var moves = {}
+var moves_learned = {}
 var moves_active = []; 
 
 var status_conditions = {}
@@ -95,6 +99,19 @@ func increase_health( healing ):
 func change_base_health( change ):
 	stats_base[ GlobalMonster.BattleStats.HEALTH ] += change;
 
+
+func get_spirit() -> int:
+	var spirit = stats_current[ GlobalMonster.BattleStats.SPIRIT ];
+	if (spirit == null):
+		spirit = 0
+	return spirit
+
+# can turn this into a setget
+func set_spirit( spirit:int ):
+	stats_current[ GlobalMonster.BattleStats.HEALTH ] = spirit;
+
+
+
 func save_data():
 	GlobalDatabaseManager.save_monster(self);
 	# Write this monster to disk, or to a database, by sending the results of packData to global/singleton
@@ -103,8 +120,11 @@ func load_data():
 	GlobalDatabaseManager.load_monster(self);
 	# Read this monster from disk, or a database, by feeding the results of global/singleton into unpackData
 
+func get_active_moves():
+	return moves_active;
+
 func _to_string():
-	return str(name, "(", umid, ") is a ", species, " with moves ", moves, " and stats ", stats_base, " -> ", stats_current)
+	return str(name, "(", umid, ") is a ", species, " with moves ", moves_learned, " and stats ", stats_base, " -> ", stats_current)
 
 #func saveAndReload:
 	# Call saveData and loadData sequentially, possibly setting everything to zero in between

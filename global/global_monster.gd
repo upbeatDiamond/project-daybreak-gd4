@@ -65,6 +65,15 @@ enum BooleanFlags
 	
 }
 
+# Might be implemented as integer that gets bitshifted and modulo'd
+enum Sex
+{
+	IS_SPERMATOGEN,		# Kids, ask your biology teacher about this. And maybe etymology...
+	IS_OOGEN
+	
+}
+
+
 enum LostSoulHints
 {
 	FAMILIAR,		# Represents creature from this game, but is corrupted or unimplemented

@@ -20,15 +20,15 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-GlobalDatabaseManager="*res://static/global_database_manager.gd"
-GlobalMonster="*res://static/global_monster.gd"
-GlobalMonsterSpawner="*res://static/global_monster_spawner.gd"
-GlobalMove="*res://static/global_move.gd"
-GlobalBitfieldManip="*res://static/global_bitfield_manip.gd"
+GlobalDatabaseManager="*res://global/global_database_manager.gd"
+GlobalMonster="*res://global/global_monster.gd"
+GlobalMonsterSpawner="*res://global/global_monster_spawner.gd"
+GlobalMove="*res://global/global_move.gd"
+GlobalBitfieldManip="*res://global/global_bit_manip.gd"
 
 [display]
 
-window/stretch/aspect="expand"
+window/stretch/mode="viewport"
 
 [editor_plugins]
 

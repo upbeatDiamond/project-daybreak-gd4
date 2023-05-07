@@ -27,14 +27,16 @@ func set_row(row_index: int, values: Array):
 
 
 
-func append_col(row_index: int, col : Array):
+func append_col(col : Array):
 	data[rows] = col
+	cols += 1;
 
 
 
-func append_row(col_index: int, row : Array):
+func append_row(row : Array):
 	for i in range( rows ):
 		data[i][cols] = row[i]
+	rows += 1;
 
 
 

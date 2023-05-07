@@ -3,14 +3,19 @@ extends CharacterBody2D
 @export var move_speed : float = 8.0
 const TILE_SIZE = 16
 
+@onready var animation_tree = $AnimationTree
+@onready var state_machine = animation_tree["parameters/playback"]
+
 var is_moving = false;
-var input_direction;
-var facing_direction;
-var initial_position = Vector2(0,0)
+var input_direction = Vector2(0,0);
+var facing_direction = Vector2(0,0);
+var initial_position = Vector2(0,0);
 var percent_moved_to_next_tile = 0.0;
 
 func _ready():
 	initial_position = position
+	animation_tree.active = true
+	update_anim_tree()
 
 
 func _physics_process(delta):
@@ -20,18 +25,12 @@ func _physics_process(delta):
 		move(delta);
 	else:
 		is_moving = false;
-
-	#velocity = input_direction * move_speed
-	
-	#move_and_slide()
-	#move_and_collide()
+		update_anim_tree()
 
 
 func process_movement_input():
-	input_direction = Vector2(
-		int( Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left") ),
-		int( Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up") )
-	)
+	
+	input_direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	
 	if input_direction != facing_direction:
 		if (input_direction.x != 0) && (input_direction.y != 0) && (input_direction != Vector2.ZERO):
@@ -42,7 +41,8 @@ func process_movement_input():
 	if input_direction != Vector2.ZERO:
 		initial_position = position
 		is_moving = true
-	
+		update_anim_tree()
+
 
 func move(delta):
 	percent_moved_to_next_tile += move_speed * delta
@@ -55,11 +55,11 @@ func move(delta):
 		position = initial_position + (TILE_SIZE * input_direction * percent_moved_to_next_tile)
 
 
-# Written using the following tutorial videos:
-#
-# fornclake  --  (Youtube, Gp_98cuqXUY)
-# Chris' Tutorials  --  (Youtube, Luf2Kr5s3BM)
-# Arkeve  --  (Youtube, jSv5sGpnFso)
-#
-# Thus, I do not trust I can release this under any particular license.
-# I will still release it, for my 1 (one) Twitter follower. (and also getting the project moving already)
+func update_anim_tree():
+	animation_tree.set("parameters/Idle/blend_position", facing_direction)
+	animation_tree.set("parameters/Walk/blend_position", facing_direction)
+	
+	if is_moving == true:
+		state_machine.travel("Walk")
+	else:
+		state_machine.travel("Idle")
