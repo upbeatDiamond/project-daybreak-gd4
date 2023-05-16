@@ -6,6 +6,7 @@
 size = Vector2(16, 16)
 
 [node name="StaticBody2D" type="StaticBody2D"]
+collision_mask = 3
 
 [node name="Grass" type="Sprite2D" parent="."]
 position = Vector2(8, 8)

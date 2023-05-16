@@ -55,7 +55,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		
 		selected.emit(_get_cell_under_mouse())
-		FieldEvents.cell_selected.emit(_get_cell_under_mouse())
+		GlobalFieldEvents.cell_selected.emit(_get_cell_under_mouse())
 
 
 func _set_focus(value: Vector2i) -> void:
@@ -74,7 +74,7 @@ func _set_focus(value: Vector2i) -> void:
 		highlight_strategy.highlight(self, _focus)
 	
 	focus_changed.emit(old_focus, _focus)
-	FieldEvents.cell_highlighted.emit(_focus)
+	GlobalFieldEvents.cell_highlighted.emit(_focus)
 
 
 func _get_cell_under_mouse() -> Vector2i:

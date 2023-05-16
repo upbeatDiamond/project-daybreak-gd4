@@ -6,6 +6,7 @@
 size = Vector2(32, 32)
 
 [node name="StaticBody2D" type="StaticBody2D"]
+collision_mask = 3
 
 [node name="Tree" type="Sprite2D" parent="."]
 position = Vector2(16, 4)

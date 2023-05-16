@@ -6,18 +6,27 @@ extends Node
 func _init():
 	randomize()
 
-# Needs testing
-func compare_bitfield_flag( bitfield, flag_index ):
-	return (bitfield >> flag_index) & 01
+func get_bitflag(bitfield:int, flag_index:int):
+	return compare_bitfield_flag(bitfield, flag_index);
+
+# Needs testing, depricated name
+func compare_bitfield_flag( bitfield:int, flag_index:int ):
+	return (bitfield >> flag_index) & 0x1
 
 # Needs testing
-func compare_bitfield_mask( bitfield, mask ):
+func compare_bitfield_mask( bitfield:int, mask:int ):
 	return bitfield & mask
 
-# Needs testing
-func update_bitfield_flag( bitfield, flag_index, value ):
+func set_bitflag(bitfield:int, flag_index:int, value:int):
+	return update_bitfield_flag( bitfield, flag_index, value )
+
+func invert( bitfield:int ):
+	return 0 - bitfield - 1		# Some weird Two's Complement stuff, not yet tested
+
+# Needs testing, depricated name
+func update_bitfield_flag( bitfield:int, flag_index:int, value:int ):
 	var filter = 1						# Sets the variable to 0x00...01
-	value << flag_index					# Shifts the value into position
+	value = value << flag_index			# Shifts the value into position
 	filter = ~(filter << flag_index)	# Shifts the 1 into position, ...
 										# ...then flips everything so that that bit is excluded.
 	return (bitfield & filter) + value	# Fills in excluded position with new bit value
