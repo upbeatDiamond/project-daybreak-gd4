@@ -134,7 +134,7 @@ func _swap_animation(next_sequence: String, keep_position: bool) -> void:
 
 
 func _on_gamepiece_arrived() -> void:
-	_gfx.position = Vector2(0, 0)
+	_gfx.position = _collision_shape.position
 	
 	play("idle")
 

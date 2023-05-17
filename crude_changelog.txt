@@ -1,11 +1,7 @@
 Welcome to crude changelog, the log that gets facts wrong about your favorite changes.
-I'm jan Wiwijen (jan Opitaman) (mije meli (mi ken ala ken jan tonsi? n ala!)), 
-and today we'll be discussing an unnumbered version of an unnamed project.
-(Je suis un programmeur, apparemment)
+I'm jan Wiwijen (jan Opitaman), and today we'll be discussing an alpha version of an unnamed project.
 
-Codename: Project Daybreak, push name: The Starting Line
-Reasoning: Continuing the previous name trend, but with Neil Cicierega <3
-
+Codename: Project Daybreak
 
 
 Notable additions:
@@ -13,8 +9,10 @@ Notable additions:
 	+ Grass object and associated assets
 	+ Adopted code from https://github.com/food-please/godot4-open-rpg
 		* Will be phasing out Arkeve style movement code in favor of food-please style
-		* In testing and editing, some files may have been altered such that they signal as "corrupted".
-	+ Started blocking out the failsafe (used to trap errors)
+		* In testing and editing, some files may have been altered such that they signal as "corrupted". This is fine.
+		+ In case this adoption fails, a third 'player' class has been created to facilitate a merger and rewrite
+	+ Started blocking out the failsafe (used to trap errors) (itself causes so many errors)
+		+ By extension, added new tileset, shader, and sounds
 
 
 Notable subtractions:
@@ -27,21 +25,17 @@ Notable changes:
 	* Renamed 'effect' to 'moveeffect' in both filenames and database, to account for vfx, sfx, and effecting
 	* Renamed GlobalBitfieldManip to GlobalBitManip to roll off the tongue better, and expanded functionality
 	* Changed folder name 'Static' to 'Global'
+	* Due to adoption of Gamepiece, Grid, and associated objects, all RedTown objects were moved to positive coords.
 
 
 Commentary:
-	> I don't remember what's in the previous version. 
-	> Also I'll be updating this using the desktop apps in between pushes, so some versions may be unnamed.
-	> This is good, actually. Don't want stuff to be clogged with goofy titles.
-	
 	> Code that is reused often, or is otherwise bulky, should be moved to "global" classes.
 	> That way, I don't have to worry about whether the code is duplicating the same functions, enums, etc.
 	> Only issue then would be too many "global" (autoload) classes.
 	
-	> This whole thing is a redo because the previous version was a Godot 3.X project using Arkeve's tutorials, 
-	> including copyrighted assets. I replaced them with CC-BY, but I got confused between 
-	> code and asset licensing in the GitHub repository settings, so I'm starting over by incorporating
-	> more (and more varied) tutorials and MIT license code and only CC0 or custom assets for now. 
-	> Also GD 4.0.2
-	
-	> Cool words: Eoan, Benight, fere
+	> This whole thing is a redo for multiple reasons including: 
+		> Being confused between code and asset licensing in the GitHub repository settings
+		> Following tutorials from unknown license repositories
+		> Improper credits documentation
+		> Outdated version of Godot
+		> Setting up is the funnest part once you know how to do it. Expanding and bugfixing on the other hand...?

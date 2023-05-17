@@ -6,49 +6,49 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rea4m"]
 size = Vector2(16, 16)
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_g5omi"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bulbt"]
 animation = &"idle_down"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4obkq"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bf78p"]
 animation = &"idle_up"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_03h6j"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qsq55"]
 animation = &"idle_right"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_u4jdb"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_c8phb"]
 animation = &"idle_left"
 
 [sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_k4c3o"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_g5omi")
+blend_point_0/node = SubResource("AnimationNodeAnimation_bulbt")
 blend_point_0/pos = Vector2(0, 1)
-blend_point_1/node = SubResource("AnimationNodeAnimation_4obkq")
+blend_point_1/node = SubResource("AnimationNodeAnimation_bf78p")
 blend_point_1/pos = Vector2(0, -1)
-blend_point_2/node = SubResource("AnimationNodeAnimation_03h6j")
+blend_point_2/node = SubResource("AnimationNodeAnimation_qsq55")
 blend_point_2/pos = Vector2(1, 0)
-blend_point_3/node = SubResource("AnimationNodeAnimation_u4jdb")
+blend_point_3/node = SubResource("AnimationNodeAnimation_c8phb")
 blend_point_3/pos = Vector2(-1, 0)
 blend_mode = 1
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dd8v5"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_spd45"]
 animation = &"walk_down"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6r4yu"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dcshb"]
 animation = &"walk_down"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kk56l"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_jx6id"]
 animation = &"walk_left"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_41fha"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_8af56"]
 animation = &"walk_right"
 
 [sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_c6xtp"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_dd8v5")
+blend_point_0/node = SubResource("AnimationNodeAnimation_spd45")
 blend_point_0/pos = Vector2(0, 1)
-blend_point_1/node = SubResource("AnimationNodeAnimation_6r4yu")
+blend_point_1/node = SubResource("AnimationNodeAnimation_dcshb")
 blend_point_1/pos = Vector2(0, -1)
-blend_point_2/node = SubResource("AnimationNodeAnimation_kk56l")
+blend_point_2/node = SubResource("AnimationNodeAnimation_jx6id")
 blend_point_2/pos = Vector2(-1, 0)
-blend_point_3/node = SubResource("AnimationNodeAnimation_41fha")
+blend_point_3/node = SubResource("AnimationNodeAnimation_8af56")
 blend_point_3/pos = Vector2(1, 0)
 blend_mode = 1
 
@@ -76,7 +76,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("Body:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -92,7 +92,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("Body:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = false
 tracks/0/keys = {
@@ -108,7 +108,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("Body:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = false
 tracks/0/keys = {
@@ -124,7 +124,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("Body:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = false
 tracks/0/keys = {
@@ -140,7 +140,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("Body:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = false
 tracks/0/keys = {
@@ -156,7 +156,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("Body:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = false
 tracks/0/keys = {
@@ -172,7 +172,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("Body:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = false
 tracks/0/keys = {
@@ -188,7 +188,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("Body:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = false
 tracks/0/keys = {
@@ -204,7 +204,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("Body:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = false
 tracks/0/keys = {
@@ -232,12 +232,11 @@ collision_layer = 2
 collision_mask = 7
 script = ExtResource("1_4alr1")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Body" type="Sprite2D" parent="."]
 position = Vector2(8, 0)
 texture = ExtResource("2_rloa0")
 hframes = 7
 vframes = 4
-frame = 7
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(8, 8)

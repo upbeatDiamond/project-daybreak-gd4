@@ -92,6 +92,7 @@ func _ready() -> void:
 		# to the gamepiece's position.
 		cell = grid.pixel_to_cell(position)
 		_follower.position = position
+		print(" _follower.position = Vector2i(%d,%d)" % _follower.position.x, _follower.position.y)
 
 
 func _get_configuration_warnings() -> PackedStringArray:

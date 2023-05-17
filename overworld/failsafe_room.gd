@@ -23,19 +23,27 @@ enum Flags{
 # It's probably a bad idea to have the enum and variable have the same name.
 # Or maybe it's the best idea and I use it nowhere else yet.
 var bitfield := 0
-
+var is_ready := false
 var _backrooms: TileMap
 
 func _ready():
+	
+	while _backrooms == null:
+		_backrooms = get_parent()
+		print("why is the floor missing? Try again!")
+	
 	if not Engine.is_editor_hint():
 		_backrooms = get_parent() as TileMap
 		assert(_backrooms, "The FailsafeRoom must have a TileMap as a parent. "
 			+ "%s is not a tilemap!" % get_parent().name)
 	else:
 		pass
+	
+	is_ready = true
 
 
 func _init( room_size ):
+	
 	GlobalBitManip.update_bitfield_flag( bitfield, Flags.NORTH_ACCESS, randi_range(0,1) );
 	GlobalBitManip.update_bitfield_flag( bitfield, Flags.EAST_ACCESS, randi_range(0,1) );
 	GlobalBitManip.update_bitfield_flag( bitfield, Flags.SOUTH_ACCESS, randi_range(0,1) );
@@ -63,14 +71,10 @@ func print_all_properties():
 	pass
 
 
-
-
 func make_clone_of( room ):
 	self.bitfield = room.bitfield
 	set_properties( bitfield, GlobalBitManip.invert(0) )
 	pass
-
-
 
 
 func set_neighbor_of( room ):

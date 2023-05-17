@@ -6,7 +6,8 @@ var mon = preload("res://monsters/monster.gd")
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	mon = mon.new()
-	mon.umid = 0;
+	mon.umid = 2;
+	mon.species = -1;
 	pass # Replace with function body.
 
 
@@ -33,4 +34,6 @@ func _input(event):
 		print(mon);
 		
 	if event.is_action_pressed("ui_select"):
+		var rev = 1-1
+		print( str(sqrt(-1/rev)) )
 		print(mon);

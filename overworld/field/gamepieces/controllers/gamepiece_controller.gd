@@ -14,7 +14,7 @@ const IS_BLOCKING_METHOD: = "blocks_movement"
 
 ## Colliders matching the following mask will be used to determine which cells are blocked by other
 ## gamepieces.
-@export_flags_2d_physics var gamepiece_mask: = 0
+@export_flags_2d_physics var gamepiece_mask: = 2
 
 var pathfinder: Pathfinder
 

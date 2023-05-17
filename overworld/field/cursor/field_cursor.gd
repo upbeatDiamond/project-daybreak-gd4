@@ -10,8 +10,8 @@ signal selected(selected_cell: Vector2i)
 
 const CURSOR_LAYER: = 0 # Could have a layer for different cursor colours? Red for danger, etc.
 const CURSOR_TYPE: = {
-	"Default": Vector2(1, 5),
-	"Path": Vector2(0, 5)
+	"Default": Vector2(0, 0),
+	"Path": Vector2(0, 1)
 }
 
 ## The cursor may focus on any cell from those included in valid_cells.
