@@ -1,4 +1,4 @@
-extends Node2D
+extends TileMap
 
 # This is the "failsafe" program to "catch" "errors".
 # Really though, this is an expression of pedantry and obstinacy.
@@ -33,7 +33,7 @@ func _ready():
 	
 	for i in ROOM_BOUNDS.x:
 		for j in ROOM_BOUNDS.y:
-			new_room = Room.new( ROOM_SIZE )
+			new_room = Room.new( ROOM_SIZE, self )
 			room_matrix.set_element( i, j, new_room )
 			self.call_deferred("add_child", new_room );
 			new_room.set_position( Vector2i(i*ROOM_SIZE.x, j*ROOM_SIZE.y) );

@@ -1,17 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://cut53pqr86koo"]
+[gd_scene load_steps=13 format=3 uid="uid://cut53pqr86koo"]
 
-[ext_resource type="Script" path="res://overworld/field/field.gd" id="1_n2v8v"]
 [ext_resource type="Texture2D" uid="uid://claaq3m3x57i0" path="res://assets/textures/tilesets/dirtgrass_mauvetown.png" id="1_nkcvo"]
 [ext_resource type="Texture2D" uid="uid://dg30v1evln7gc" path="res://assets/textures/tilesets/dirt_elevated.png" id="2_4t0rn"]
 [ext_resource type="PackedScene" uid="uid://vpr3t7b05qgi" path="res://player/player.tscn" id="2_cxj2h"]
 [ext_resource type="PackedScene" uid="uid://cvajri3ppp8k" path="res://overworld/tree.tscn" id="3_psygd"]
 [ext_resource type="PackedScene" uid="uid://db2gcrrcc6uej" path="res://overworld/tall_grass.tscn" id="4_7hrqa"]
-[ext_resource type="PackedScene" uid="uid://b626e0bngfvjj" path="res://overworld/field/gamepieces/gamepiece.tscn" id="4_xe5tr"]
-[ext_resource type="PackedScene" uid="uid://cb845yxiqimel" path="res://player/player_shell.tscn" id="6_iaq0h"]
-[ext_resource type="Script" path="res://overworld/field/cursor/field_cursor.gd" id="6_w6vew"]
-[ext_resource type="Script" path="res://overworld/field/player_path_destination_marker.gd" id="7_5v0w1"]
-[ext_resource type="Script" path="res://overworld/field/gameboard/debug_map_boundaries.gd" id="7_vadgi"]
-[ext_resource type="Resource" uid="uid://citkoof5fapug" path="res://overworld/red_town_grid.tres" id="8_uk0b4"]
+[ext_resource type="PackedScene" uid="uid://gnfsgbmkjbu6" path="res://overworld/characters/player_descent3.tscn" id="4_ltx6t"]
 [ext_resource type="Texture2D" uid="uid://b3nqmhb1qe2d0" path="res://assets/textures/tilesets/tile_selection.png" id="10_dw3o8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_oy114"]
@@ -1161,13 +1155,8 @@ texture = ExtResource("10_dw3o8")
 [sub_resource type="TileSet" id="TileSet_2upmt"]
 sources/0 = SubResource("TileSetAtlasSource_nsigh")
 
-[node name="RedTown" type="Node2D" node_paths=PackedStringArray("focused_game_piece")]
+[node name="RedTown" type="Node2D"]
 position = Vector2(256, 256)
-script = ExtResource("1_n2v8v")
-gamepiece_mask = 2
-terrain_mask = 1
-focused_game_piece = NodePath("Objects/Y-Sort/PlayerGamepiece")
-is_active = true
 
 [node name="Terrain" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_d1g0t")
@@ -1188,25 +1177,12 @@ layer_1/tile_data = PackedInt32Array(-655367, 65537, 3, -589831, 262145, 3, -589
 position = Vector2(256, 256)
 tile_set = SubResource("TileSet_2upmt")
 format = 2
-script = ExtResource("6_w6vew")
-grid = ExtResource("8_uk0b4")
-
-[node name="PlayerPathDestinationMarker" type="Sprite2D" parent="Objects"]
-position = Vector2(256, 256)
-script = ExtResource("7_5v0w1")
-grid = ExtResource("8_uk0b4")
 
 [node name="Y-Sort" type="Node2D" parent="Objects"]
 y_sort_enabled = true
 position = Vector2(256, 256)
 
-[node name="PlayerGamepiece" parent="Objects/Y-Sort" instance=ExtResource("4_xe5tr")]
-grid = ExtResource("8_uk0b4")
-
-[node name="PlayerFacade" parent="Objects/Y-Sort/PlayerGamepiece" instance=ExtResource("6_iaq0h")]
-
-[node name="PlayerCameraTracker" type="RemoteTransform2D" parent="Objects/Y-Sort/PlayerGamepiece"]
-remote_path = NodePath("../../../../Camera2D")
+[node name="Player3" parent="Objects/Y-Sort" instance=ExtResource("4_ltx6t")]
 
 [node name="Player" parent="Objects/Y-Sort" instance=ExtResource("2_cxj2h")]
 visible = false
@@ -1219,7 +1195,3 @@ position = Vector2(144, -16)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2.5, 2.5)
-
-[node name="MapBoundaries" type="Node2D" parent="."]
-script = ExtResource("7_vadgi")
-grid = ExtResource("8_uk0b4")

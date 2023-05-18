@@ -88,14 +88,14 @@ func execute_move( move, user, target : Array ):
 func calculate_raw_damage( move, user, target ) -> float: 
 	var type_damage = type_matchup[ move.type1 ][ target.type1 ] * type_matchup[ move.type1 ][ target.type2 ] + ( type_matchup[ move.type2 ][ target.type1 ] + type_matchup[ move.type2 ][ target.type2 ] + 1 ) / 3;
 	
-	var stab_level = calculate_stab_level( move, user, target );
+	var stab_level = calculate_stab_level( move, user );
 	
 	return type_damage * stab_multiplier[stab_level] * move.base_power
 
 # Duplicate, please change/edit/replace
 func calculate_raw_special_damage( move, user, target ) -> float: 
 	var type_damage = calculate_type_effectiveness( move, target )
-	var stab_level = calculate_stab_level( move, user, target );
+	var stab_level = calculate_stab_level( move, user );
 	return type_damage * stab_multiplier[stab_level] * move.base_power
 
 
@@ -103,7 +103,7 @@ func calculate_raw_special_damage( move, user, target ) -> float:
 func calculate_type_effectiveness( move, target ) -> float:
 	return type_matchup[ move.type1 ][ target.type1 ] * type_matchup[ move.type1 ][ target.type2 ] + ( type_matchup[ move.type2 ][ target.type1 ] + type_matchup[ move.type2 ][ target.type2 ] + 1 ) / 3;
 
-func calculate_stab_level( move, user, target ) -> int:
+func calculate_stab_level( move, user ) -> int:
 	var stab_level = 0;
 	
 	if (move.type1 == user.type1):
