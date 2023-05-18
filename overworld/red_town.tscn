@@ -1,11 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://cut53pqr86koo"]
+[gd_scene load_steps=12 format=3 uid="uid://cut53pqr86koo"]
 
 [ext_resource type="Texture2D" uid="uid://claaq3m3x57i0" path="res://assets/textures/tilesets/dirtgrass_mauvetown.png" id="1_nkcvo"]
 [ext_resource type="Texture2D" uid="uid://dg30v1evln7gc" path="res://assets/textures/tilesets/dirt_elevated.png" id="2_4t0rn"]
-[ext_resource type="PackedScene" uid="uid://vpr3t7b05qgi" path="res://player/player.tscn" id="2_cxj2h"]
 [ext_resource type="PackedScene" uid="uid://cvajri3ppp8k" path="res://overworld/tree.tscn" id="3_psygd"]
 [ext_resource type="PackedScene" uid="uid://db2gcrrcc6uej" path="res://overworld/tall_grass.tscn" id="4_7hrqa"]
-[ext_resource type="PackedScene" uid="uid://gnfsgbmkjbu6" path="res://overworld/characters/player_descent3.tscn" id="4_ltx6t"]
+[ext_resource type="PackedScene" uid="uid://cmw62q4d0757d" path="res://overworld/characters/player_descent4.tscn" id="4_nfeob"]
 [ext_resource type="Texture2D" uid="uid://b3nqmhb1qe2d0" path="res://assets/textures/tilesets/tile_selection.png" id="10_dw3o8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_oy114"]
@@ -1182,10 +1181,8 @@ format = 2
 y_sort_enabled = true
 position = Vector2(256, 256)
 
-[node name="Player3" parent="Objects/Y-Sort" instance=ExtResource("4_ltx6t")]
-
-[node name="Player" parent="Objects/Y-Sort" instance=ExtResource("2_cxj2h")]
-visible = false
+[node name="Player4" parent="Objects/Y-Sort" instance=ExtResource("4_nfeob")]
+position = Vector2(32, 0)
 
 [node name="Tree" parent="Objects/Y-Sort" instance=ExtResource("3_psygd")]
 position = Vector2(96, 16)
