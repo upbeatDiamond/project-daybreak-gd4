@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cxo7qpniggd1g"]
 
-[ext_resource type="PackedScene" uid="uid://cut53pqr86koo" path="res://overworld/red_town.tscn" id="1_26lif"]
+[ext_resource type="PackedScene" uid="uid://bmwi0s8ty1dsj" path="res://overworld/red_town.tscn" id="1_26lif"]
 
 [node name="SceneManager" type="Node2D"]
 

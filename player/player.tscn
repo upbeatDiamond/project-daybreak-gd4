@@ -1,9 +1,9 @@
-[gd_scene load_steps=29 format=3 uid="uid://vpr3t7b05qgi"]
+[gd_scene load_steps=29 format=3 uid="uid://cl3465qr1u6mm"]
 
-[ext_resource type="Script" path="res://player/player.gd" id="1_4alr1"]
-[ext_resource type="Texture2D" uid="uid://13h6vtkjx4sb" path="res://player/player_base_move.png" id="2_rloa0"]
+[ext_resource type="Script" path="res://player.gd" id="1_jbbfp"]
+[ext_resource type="Texture2D" uid="uid://13h6vtkjx4sb" path="res://player/player_base_move.png" id="2_adynw"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_rea4m"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v1cr0"]
 size = Vector2(16, 16)
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bulbt"]
@@ -61,7 +61,7 @@ advance_mode = 2
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_npxpe"]
 advance_mode = 2
 
-[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_nioi2"]
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_wral1"]
 states/Idle/node = SubResource("AnimationNodeBlendSpace2D_k4c3o")
 states/Idle/position = Vector2(375.691, 55)
 states/Walk/node = SubResource("AnimationNodeBlendSpace2D_c6xtp")
@@ -69,14 +69,14 @@ states/Walk/position = Vector2(529.691, 72)
 transitions = ["Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_5o20c"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_hbwi7"), "Start", "Idle", SubResource("AnimationNodeStateMachineTransition_npxpe")]
 graph_offset = Vector2(56.6913, 0)
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_w4635"]
+[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_2e05x"]
 
 [sub_resource type="Animation" id="Animation_fpk54"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Body:frame")
+tracks/0/path = NodePath("GFX/Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -92,7 +92,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Body:frame")
+tracks/0/path = NodePath("GFX/Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = false
 tracks/0/keys = {
@@ -108,7 +108,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Body:frame")
+tracks/0/path = NodePath("GFX/Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = false
 tracks/0/keys = {
@@ -124,7 +124,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Body:frame")
+tracks/0/path = NodePath("GFX/Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = false
 tracks/0/keys = {
@@ -140,7 +140,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Body:frame")
+tracks/0/path = NodePath("GFX/Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = false
 tracks/0/keys = {
@@ -156,7 +156,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Body:frame")
+tracks/0/path = NodePath("GFX/Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = false
 tracks/0/keys = {
@@ -172,7 +172,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Body:frame")
+tracks/0/path = NodePath("GFX/Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = false
 tracks/0/keys = {
@@ -188,7 +188,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Body:frame")
+tracks/0/path = NodePath("GFX/Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = false
 tracks/0/keys = {
@@ -204,7 +204,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Body:frame")
+tracks/0/path = NodePath("GFX/Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = false
 tracks/0/keys = {
@@ -227,27 +227,41 @@ _data = {
 "walk_up": SubResource("Animation_t5jui")
 }
 
-[node name="Player" type="CharacterBody2D"]
-collision_layer = 2
-collision_mask = 7
-script = ExtResource("1_4alr1")
+[node name="Player" type="Area2D"]
+script = ExtResource("1_jbbfp")
 
-[node name="Body" type="Sprite2D" parent="."]
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_v1cr0")
+
+[node name="DoorRayCast2D" type="RayCast2D" parent="Collision"]
+target_position = Vector2(0, 8)
+collision_mask = 0
+
+[node name="BlockingRayCast2D" type="RayCast2D" parent="Collision"]
+target_position = Vector2(0, 8)
+collision_mask = 3
+
+[node name="LedgeRayCast2D" type="RayCast2D" parent="Collision"]
+target_position = Vector2(0, 8)
+collision_mask = 0
+
+[node name="GFX" type="Marker2D" parent="."]
+
+[node name="Sprite" type="Sprite2D" parent="GFX"]
 position = Vector2(8, 0)
-texture = ExtResource("2_rloa0")
+texture = ExtResource("2_adynw")
 hframes = 7
 vframes = 4
 frame = 7
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(8, 8)
-shape = SubResource("RectangleShape2D_rea4m")
+[node name="Shadow" type="Sprite2D" parent="GFX"]
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource("AnimationNodeStateMachine_nioi2")
+tree_root = SubResource("AnimationNodeStateMachine_wral1")
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource("AnimationNodeStateMachinePlayback_w4635")
+parameters/playback = SubResource("AnimationNodeStateMachinePlayback_2e05x")
 parameters/Idle/blend_position = Vector2(0, 1)
 parameters/Walk/blend_position = Vector2(0, 1)
 

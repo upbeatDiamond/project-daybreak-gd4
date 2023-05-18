@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="Grid" load_steps=2 format=3 uid="uid://citkoof5fapug"]
+[gd_resource type="Resource" script_class="Grid" load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://overworld/field/gameboard/grid.gd" id="1_1iibq"]
+[ext_resource type="Script" path="res://+DO_NOT_UPLOAD/scrapheap/field/gameboard/grid.gd" id="1_1iibq"]
 
 [resource]
 script = ExtResource("1_1iibq")

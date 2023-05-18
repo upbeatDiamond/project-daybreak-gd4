@@ -1,6 +1,6 @@
-[gd_scene load_steps=29 format=3 uid="uid://cb845yxiqimel"]
+[gd_scene load_steps=29 format=3]
 
-[ext_resource type="Script" path="res://overworld/field/gamepieces/animation/gamepiece_animation.gd" id="1_uv6h0"]
+[ext_resource type="Script" path="res://+DO_NOT_UPLOAD/scrapheap/field/gamepieces/animation/gamepiece_animation.gd" id="1_uv6h0"]
 [ext_resource type="Texture2D" uid="uid://13h6vtkjx4sb" path="res://player/player_base_move.png" id="2_or77u"]
 
 [sub_resource type="Animation" id="Animation_fpk54"]
