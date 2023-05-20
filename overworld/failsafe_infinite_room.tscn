@@ -1,6 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://b0d110enxge3c"]
+[gd_scene load_steps=3 format=3 uid="uid://b0d110enxge3c"]
 
 [ext_resource type="Script" path="res://overworld/failsafe_room.gd" id="1_dt7a0"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fv1nr"]
+
 [node name="Marker2D" type="Marker2D"]
 script = ExtResource("1_dt7a0")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_fv1nr")

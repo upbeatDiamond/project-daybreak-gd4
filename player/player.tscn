@@ -269,3 +269,6 @@ parameters/Walk/blend_position = Vector2(0, 1)
 libraries = {
 "": SubResource("AnimationLibrary_kp116")
 }
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2.5, 2.5)

@@ -1,6 +1,6 @@
 extends Marker2D
 
-var room_position:Vector2i
+#var room_position:Vector2i
 var room_size:Vector2i
 
 enum Flags{
@@ -25,13 +25,13 @@ enum Flags{
 var bitfield := 0
 var is_ready := false
 var _backrooms: TileMap
-var environment: TileMap 
+#var environment: TileMap 
 # Redundant? Maybe. Better code that works than code that saves that extra inch.
 # Although inches add up...
 
 func _ready():
 	while _backrooms == null:
-		_backrooms = environment
+		#_backrooms = environment
 		print("why is the floor missing? Try again!")
 	
 	if not Engine.is_editor_hint():
@@ -54,7 +54,7 @@ func _init( room_size, environment ):
 	GlobalBitManip.update_bitfield_flag( bitfield, Flags.WEST_WALL, randi_range(0,1) );
 	
 	self.room_size = room_size
-	self.environment = environment
+	self._backrooms = environment
 	
 	pass
 
@@ -64,9 +64,11 @@ func set_properties( flags:int, mask:int ):
 	pass
 
 func print_all_properties():
-	for flag in Flags.values():
-		print("Okay! Printing %d" % flag)
-		print_property( flag, GlobalBitManip.get_bitflag(bitfield, flag), true ) # flag==0
+	#for flag in Flags.values():
+	#	print("Okay! Printing %d" % flag)
+	#	print_property( flag, GlobalBitManip.get_bitflag(bitfield, flag), true ) # flag==0
+	
+	print_property( 0, GlobalBitManip.get_bitflag(bitfield, 0), true )
 	
 	pass
 
@@ -117,11 +119,16 @@ func print_property( flag:Flags, value, wipe:int ):
 	#print("Will I wipe? %d" % wipe)
 	if wipe>0:
 		#print("Of course! %d" % (room_size.x-1) )
-		for i in range(0, room_size.x-1):
+		var tile_zone = []
+		
+		for i in range(0, room_size.x):
 			#print("i = %i" % i);
-			for j in range(0, room_size.y-1):
-				# set_cells_terrain_connect ( int layer, Vector2i[] cells, int terrain_set, int terrain, bool ignore_empty_terrains=true )
-				_backrooms.set_cells_terrain_connect( 0, [Vector2i(i+position.x,j+position.y)], 1, 1, true )
-				print("Tile printed to %d, %d" % (i+position.x), (j+position.y));
+			for j in range(0, room_size.y):
+				
+				tile_zone.append( Vector2i(i+position.x,j+position.y) )
+				
+				#print("p: %d, %d" % [ (i+position.x), (j+position.y) ] ) ;
 		#print("Done wiping!")
+		# set_cells_terrain_connect ( int layer, Vector2i[] cells, int terrain_set, int terrain, bool ignore_empty_terrains=true )
+		_backrooms.set_cells_terrain_connect( 0, tile_zone, 1, 1, true )
 	pass

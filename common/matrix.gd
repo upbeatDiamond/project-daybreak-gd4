@@ -16,14 +16,13 @@ func _init(rows: int, cols: int):
 	self.data = Array()
 	
 	for i in range(rows):
-		var row = Array()
+		data.append([])
 		for j in range(cols):
-			row.append(0)
-			self.data.append(row)
+			data[i].append(0)
 
 # Set row values
 func set_row(row_index: int, values: Array):
-	data[row_index] = values
+	data[row_index - 1] = values
 
 
 
@@ -54,17 +53,17 @@ func row_sum() -> Array:
 # Set column values
 func set_col(col_index: int, values: Array):
 	for i in range(rows):
-		data[i][col_index] = values[i]
+		data[i][col_index - 1] = values[i]
 
 
 
 func get_element(row_index, col_index):
-	return data[row_index][col_index]
+	return data[row_index - 1][col_index - 1]
 
 
 
 func set_element(row_index, col_index, contents):
-	data[row_index][col_index] = contents;
+	data[row_index - 1][col_index - 1] = contents;
 
 
 

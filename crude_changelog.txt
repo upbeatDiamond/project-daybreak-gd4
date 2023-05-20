@@ -2,21 +2,21 @@ Welcome to crude changelog, the log that gets facts wrong about your favorite ch
 I'm jan Wiwijen (jan Opitaman), and today we'll be discussing an alpha version of an unnamed project.
 
 Codename: Project Daybreak
-
+Update: Prealpha "What's Goin Down"
 
 Notable additions:
 	+ Tree object and associated assets
 	+ Grass object and associated assets
-	+ Adopted code from https://github.com/food-please/godot4-open-rpg
-		* Will be phasing out Arkeve style movement code in favor of food-please style
+	+ Adopted minute amounts of code from https://github.com/food-please/godot4-open-rpg
+		* Will be phasing out Arkeve style movement code
 		* In testing and editing, some files may have been altered such that they signal as "corrupted". This is fine.
-		+ In case this adoption fails, a third 'player' class has been created to facilitate a merger and rewrite
+		+ Due to adoption failure, player.tscn has been replaced with a different MIT license code to be expanded upon.
 	+ Started blocking out the failsafe (used to trap errors) (itself causes so many errors)
-		+ By extension, added new tileset, shader, and sounds
+		+ By extension, added new tileset, shader, and sounds, although only the tileset is used
 
 
 Notable subtractions:
-	-
+	- Depends on when we're subtracting from.
 
 
 Notable changes:
@@ -25,7 +25,8 @@ Notable changes:
 	* Renamed 'effect' to 'moveeffect' in both filenames and database, to account for vfx, sfx, and effecting
 	* Renamed GlobalBitfieldManip to GlobalBitManip to roll off the tongue better, and expanded functionality
 	* Changed folder name 'Static' to 'Global'
-	* Due to adoption of Gamepiece, Grid, and associated objects, all RedTown objects were moved to positive coords.
+	* Due to insertion of Gamepiece, Grid, and associated objects, all RedTown objects were moved to positive coords.
+		* Due to removal of original Gamepiece & Grid code, its features will be implemented independently and gradually.
 
 
 Commentary:
@@ -39,3 +40,9 @@ Commentary:
 		> Improper credits documentation
 		> Outdated version of Godot
 		> Setting up is the funnest part once you know how to do it. Expanding and bugfixing on the other hand...?
+	
+	> Since I've yet to give this project a proper name, just a version name... what about something with "Animus"?
+		> Animus for soul, heart, emotion, etc from Latin
+		> Animus for 'animal'
+		> Animus for 'animated'
+		> Animus for 'animosity'

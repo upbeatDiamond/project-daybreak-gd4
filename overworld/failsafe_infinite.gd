@@ -31,35 +31,57 @@ func _ready():
 	# Step 1a: build the initial rooms
 	var new_room : Room
 	
-	for i in ROOM_BOUNDS.x:
-		for j in ROOM_BOUNDS.y:
-			new_room = Room.new( ROOM_SIZE, self )
-			room_matrix.set_element( i, j, new_room )
-			self.call_deferred("add_child", new_room );
-			new_room.set_position( Vector2i(i*ROOM_SIZE.x, j*ROOM_SIZE.y) );
+	var i : int
+	var j : int
+	
+	for q in (ROOM_BOUNDS.x * ROOM_BOUNDS.y):
+		
+		i = q / ROOM_BOUNDS.x + 1
+		j = q % ROOM_BOUNDS.x + 1
+		
+		new_room = Room.new( ROOM_SIZE, self )
+		new_room.set_position( Vector2i(i*ROOM_SIZE.x, j*ROOM_SIZE.y) );
+		room_matrix.set_element( i, j, new_room )
+		self.call_deferred("add_child", new_room );
 	
 	# Step 1b: connect the rooms where appropriate
-	for i in ROOM_BOUNDS.x:
-		for j in ROOM_BOUNDS.y:
-			room_matrix.get_element( i, j ).set_neighbor_of( room_matrix.get_element( (i+1)%ROOM_BOUNDS.x, j ) )
-			room_matrix.get_element( i, j ).set_neighbor_of( room_matrix.get_element( i, (j+1)%ROOM_BOUNDS.y ) )
+#	for q in (ROOM_BOUNDS.x * ROOM_BOUNDS.y):
+#
+#		i = q / ROOM_BOUNDS.x + 1
+#		j = q % ROOM_BOUNDS.x + 1
+#
+#		room_matrix.get_element( i, j ).set_neighbor_of( room_matrix.get_element( (i+1)%ROOM_BOUNDS.x, j ) )
+#		room_matrix.get_element( i, j ).set_neighbor_of( room_matrix.get_element( i, (j+1)%ROOM_BOUNDS.y ) )
 	
 	# Step 2: print out all rooms in quadrant IV
 	# Step 3: duplicate into quadrants I, II, III
-	for i in ROOM_BOUNDS.x:
-		for j in ROOM_BOUNDS.y:
-			new_room = room_matrix.get_element( i, j )
-			new_room.print_all_properties()
-			new_room.set_position(Vector2i( new_room.get_position().x - (ROOM_BOUNDS.x*ROOM_SIZE.x),new_room.get_position().y) )
-			new_room.print_all_properties()
-			new_room.set_position( Vector2i(new_room.get_position().x, new_room.get_position().y-(ROOM_BOUNDS.y*ROOM_SIZE.y)) )
-			new_room.print_all_properties()
-			#new_room.set_position(Vector2i( new_room.get_position().x + (ROOM_BOUNDS.x*ROOM_SIZE.x),new_room.get_position().y) )
-			#new_room.print_all_properties()
-			#new_room.set_position( Vector2i(new_room.get_position().x, new_room.get_position().y+(ROOM_BOUNDS.y*ROOM_SIZE.y)) )
-			# tagged out so center of map is more visible if the code was working, which it is not.
+	#var debug_counter_wowzers := 0
+	
+	for q in (ROOM_BOUNDS.x * ROOM_BOUNDS.y):
+	
+	#for i in ROOM_BOUNDS.x:
+		
+		i = q / ROOM_BOUNDS.x + 1
+		j = q % ROOM_BOUNDS.x + 1
+		
+		#for j in ROOM_BOUNDS.y:
+		new_room = room_matrix.get_element( i, j )
+		#print("%d, %d" % [new_room.position.x, new_room.position.y] )
+		new_room.print_all_properties()
+		new_room.position = Vector2i( new_room.get_position().x - (ROOM_BOUNDS.x*ROOM_SIZE.x),new_room.get_position().y)
+		#print("%d, %d" % [new_room.position.x, new_room.position.y] )
+		new_room.print_all_properties()
+		new_room.position = Vector2i(new_room.get_position().x, new_room.get_position().y-(ROOM_BOUNDS.y*ROOM_SIZE.y))
+		#print("%d, %d" % [new_room.position.x, new_room.position.y] )
+		new_room.print_all_properties()
+		new_room.position = Vector2i( new_room.get_position().x + (ROOM_BOUNDS.x*ROOM_SIZE.x),new_room.get_position().y)
+		#print("%d, %d" % [new_room.position.x, new_room.position.y] )
+		#new_room.print_all_properties()
+		#new_room.set_position( Vector2i(new_room.get_position().x, new_room.get_position().y+(ROOM_BOUNDS.y*ROOM_SIZE.y)) )
+		# tagged out so center of map is more visible if the code was working, which it is not.
 			
 	# Step 4: set up silent teleporation if player walks beyond ROOM_BOUNDS/2 in any direction
+	#print("%d rooms printed!" % debug_counter_wowzers)
 	is_even_more_ready = true;
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
