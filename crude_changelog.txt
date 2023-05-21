@@ -29,7 +29,19 @@ Notable changes:
 		* Due to removal of original Gamepiece & Grid code, its features will be implemented independently and gradually.
 
 
-Commentary:
+To do (in this or the next named update):
+	% Redo all the Arkeve tutorials, but with the new player base code
+	% Follow the Chris' Tutorials videos, mix with GDQuest for the battle scene
+	% Turn 'Player' into a generic character class that the player has their own copy of
+	% Fix and finish the failsafe map's generation code, otherwise it's not very safe
+		% Make the shader actually do something, and put it in a nicer folder
+	% Fix the ledge graphics
+		% Split rock and dirt tiles
+		% Make the edge of the ledge closer to the edge of the collision box
+	% When Godot 4.2 comes out, turn some Global classes into Static fields like they were meant to be
+
+
+General Commentary:
 	> Code that is reused often, or is otherwise bulky, should be moved to "global" classes.
 	> That way, I don't have to worry about whether the code is duplicating the same functions, enums, etc.
 	> Only issue then would be too many "global" (autoload) classes.

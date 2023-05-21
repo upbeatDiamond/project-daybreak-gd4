@@ -6,6 +6,9 @@ extends Node
 func _init():
 	randomize()
 
+func get_flag_bit(bitfield:int, flag_index:int):
+	return get_bitflag(bitfield, flag_index);
+
 func get_bitflag(bitfield:int, flag_index:int):
 	return compare_bitfield_flag(bitfield, flag_index);
 

@@ -1,7 +1,9 @@
 extends Marker2D
 
 #var room_position:Vector2i
-var room_size:Vector2i
+var room_size: Vector2i
+var room_size_half: Vector2i
+var room_size_third: Vector2i
 
 enum Flags{
 	NORTH_ACCESS,	# represents both "can access ..."/"can be accessed by ..."
@@ -43,10 +45,18 @@ func _ready():
 
 func _init( room_size, environment ):
 	
-	GlobalBitManip.update_bitfield_flag( bitfield, Flags.NORTH_ACCESS, randi_range(0,1) );
-	GlobalBitManip.update_bitfield_flag( bitfield, Flags.EAST_ACCESS, randi_range(0,1) );
-	GlobalBitManip.update_bitfield_flag( bitfield, Flags.SOUTH_ACCESS, randi_range(0,1) );
-	GlobalBitManip.update_bitfield_flag( bitfield, Flags.WEST_ACCESS, randi_range(0,1) );
+	var northways = randi_range(0,1) as bool
+	var eastways = randi_range(0,1) as bool
+	var southways = randi_range(0,1) as bool
+	var westways = randi_range(0,1) as bool
+	
+	eastways = eastways || !(northways && westways && southways)
+	#southways = southways || !(northways && westways && eastways)
+	
+	GlobalBitManip.update_bitfield_flag( bitfield, Flags.NORTH_ACCESS, northways );
+	GlobalBitManip.update_bitfield_flag( bitfield, Flags.EAST_ACCESS, eastways );
+	GlobalBitManip.update_bitfield_flag( bitfield, Flags.SOUTH_ACCESS, southways );
+	GlobalBitManip.update_bitfield_flag( bitfield, Flags.WEST_ACCESS, westways );
 	
 	GlobalBitManip.update_bitfield_flag( bitfield, Flags.NORTH_WALL, randi_range(0,1) );
 	GlobalBitManip.update_bitfield_flag( bitfield, Flags.EAST_WALL, randi_range(0,1) );
@@ -54,6 +64,8 @@ func _init( room_size, environment ):
 	GlobalBitManip.update_bitfield_flag( bitfield, Flags.WEST_WALL, randi_range(0,1) );
 	
 	self.room_size = room_size
+	self.room_size_half = (room_size + Vector2i.ONE)/2
+	self.room_size_third = (room_size + Vector2i.ONE)/3
 	self._backrooms = environment
 	
 	pass
@@ -64,11 +76,9 @@ func set_properties( flags:int, mask:int ):
 	pass
 
 func print_all_properties():
-	#for flag in Flags.values():
-	#	print("Okay! Printing %d" % flag)
-	#	print_property( flag, GlobalBitManip.get_bitflag(bitfield, flag), true ) # flag==0
-	
-	print_property( 0, GlobalBitManip.get_bitflag(bitfield, 0), true )
+	for flag in Flags.values():
+		print("Okay! Printing %d" % flag)
+		print_property( flag, GlobalBitManip.get_bitflag(bitfield, flag), true ) # flag==0
 	
 	pass
 
@@ -115,20 +125,36 @@ func set_neighbor_of( room ):
 
 
 # The one time I'm using a 'bool' type this month.
+# void set_cells_terrain_connect ( int layer, Vector2i[] cells, int terrain_set, int terrain, bool ignore_empty_terrains=true )
 func print_property( flag:Flags, value, wipe:int ):
 	#print("Will I wipe? %d" % wipe)
+	
+	# Replaces empty or garbage square with full carpet
 	if wipe>0:
-		#print("Of course! %d" % (room_size.x-1) )
 		var tile_zone = []
-		
 		for i in range(0, room_size.x):
-			#print("i = %i" % i);
 			for j in range(0, room_size.y):
-				
 				tile_zone.append( Vector2i(i+position.x,j+position.y) )
-				
-				#print("p: %d, %d" % [ (i+position.x), (j+position.y) ] ) ;
-		#print("Done wiping!")
-		# set_cells_terrain_connect ( int layer, Vector2i[] cells, int terrain_set, int terrain, bool ignore_empty_terrains=true )
 		_backrooms.set_cells_terrain_connect( 0, tile_zone, 1, 1, true )
+	
+	# Creates an incomplete north wall
+	if GlobalBitManip.get_flag_bit( bitfield, Flags.NORTH_WALL ):
+		var tile_zone = []
+		#for i in range(0, room_size.x):
+		for i in range(0, room_size.x):
+			if (i > room_size.x-room_size_third.x || i <= room_size_third.x):
+				tile_zone.append( Vector2i(position.y,i+position.x) )
+		_backrooms.set_cells_terrain_connect( 0, tile_zone, 1, 0, true )
+		pass
+	
+	# Creates a north door blockage
+	if !GlobalBitManip.get_flag_bit( bitfield, Flags.NORTH_ACCESS ):
+		var tile_zone = []
+		#for i in range(0, room_size.x):
+		for i in range(0, room_size.x):
+			if (i < room_size.x-room_size_third.x && i >= room_size_third.x):
+				tile_zone.append( Vector2i(position.y,i+position.x) )
+		_backrooms.set_cells_terrain_connect( 0, tile_zone, 1, 0, true )
+		pass
+	
 	pass
