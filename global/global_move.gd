@@ -1,5 +1,5 @@
 extends Node
-
+# Most of this stuff oughta be static methods.
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

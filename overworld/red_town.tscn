@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://bmwi0s8ty1dsj"]
+[gd_scene load_steps=13 format=3 uid="uid://bmwi0s8ty1dsj"]
 
 [ext_resource type="Texture2D" uid="uid://claaq3m3x57i0" path="res://assets/textures/tilesets/dirtgrass_mauvetown.png" id="1_nkcvo"]
 [ext_resource type="Texture2D" uid="uid://dg30v1evln7gc" path="res://assets/textures/tilesets/dirt_elevated.png" id="2_4t0rn"]
 [ext_resource type="PackedScene" uid="uid://cvajri3ppp8k" path="res://overworld/tree.tscn" id="3_psygd"]
 [ext_resource type="PackedScene" uid="uid://db2gcrrcc6uej" path="res://overworld/tall_grass.tscn" id="4_7hrqa"]
 [ext_resource type="PackedScene" uid="uid://cl3465qr1u6mm" path="res://player/player.tscn" id="4_nfeob"]
+[ext_resource type="PackedScene" uid="uid://crk1pu5pxjnen" path="res://common/daylight_cycle_filter.tscn" id="7_ktmuj"]
 [ext_resource type="Texture2D" uid="uid://b3nqmhb1qe2d0" path="res://assets/textures/tilesets/tile_selection.png" id="10_dw3o8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_oy114"]
@@ -1190,6 +1191,8 @@ position = Vector2(96, 16)
 
 [node name="TallGrass" parent="Objects/Y-Sort" instance=ExtResource("4_7hrqa")]
 position = Vector2(144, -16)
+
+[node name="CanvasModulate" parent="." instance=ExtResource("7_ktmuj")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 enabled = false
