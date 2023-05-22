@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://cxo7qpniggd1g"]
+[gd_scene load_steps=3 format=3 uid="uid://cxo7qpniggd1g"]
 
 [ext_resource type="PackedScene" uid="uid://bmwi0s8ty1dsj" path="res://overworld/red_town.tscn" id="1_26lif"]
+[ext_resource type="Script" path="res://common/scene_manager.gd" id="1_whyfs"]
 
 [node name="SceneManager" type="Node2D"]
+script = ExtResource("1_whyfs")
 
 [node name="CurrentScene" type="Node2D" parent="."]
 
