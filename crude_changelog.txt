@@ -7,16 +7,20 @@ Update: Prealpha "What's Goin Down"
 Notable additions:
 	+ Tree object and associated assets
 	+ Grass object and associated assets
-	+ Adopted minute amounts of code from https://github.com/food-please/godot4-open-rpg
+	+ Added/expanded basic "MauveTown" tileset
+	+ Adopted code from https://github.com/food-please/godot4-open-rpg
 		* Will be phasing out Arkeve style movement code
 		* In testing and editing, some files may have been altered such that they signal as "corrupted". This is fine.
-		+ Due to adoption failure, player.tscn has been replaced with a different MIT license code to be expanded upon.
+		+ Due to initial insertion failure, player.tscn now uses different MIT licensed code to be expanded upon.
 	+ Started blocking out the failsafe (used to trap errors) (itself causes so many errors)
 		+ By extension, added new tileset, shader, and sounds, although only the tileset is used
+	+ Added code and a filter for daylight cycle lighting
+	+ Added/fixed player collision against certain terrain types
+	+ Added some assets for those TCRF people, I guess
 
 
 Notable subtractions:
-	- Depends on when we're subtracting from.
+	- Depends on when we're subtracting from. Nothing much.
 
 
 Notable changes:
@@ -26,7 +30,8 @@ Notable changes:
 	* Renamed GlobalBitfieldManip to GlobalBitManip to roll off the tongue better, and expanded functionality
 	* Changed folder name 'Static' to 'Global'
 	* Due to insertion of Gamepiece, Grid, and associated objects, all RedTown objects were moved to positive coords.
-		* Due to removal of original Gamepiece & Grid code, its features will be implemented independently and gradually.
+		* Due to removal of original Gamepiece code, its features will be implemented independently and gradually.
+			* Grid code remains due to start of dripfeed into GenericGamepiece
 
 
 To do (in this or the next named update):

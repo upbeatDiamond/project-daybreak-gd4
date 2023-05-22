@@ -12,9 +12,6 @@ extends Node
 # But it should be.
 # That would be much more fun.
 
-# Code modified with help from https://www.youtube.com/watch?v=j_FMsL_ru1w
-
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -35,7 +32,7 @@ enum DayOfWeek
 }
 
 var day_length := 1000.0;
-
+var is_active = false;
 
 var current_time: float = 0.0
 var current_day: int = 1
@@ -44,11 +41,14 @@ var current_day: int = 1
 func _process(delta) -> void:
 	current_time += delta
 
-	if current_time >= day_length:
-		current_time = 0.0
-		current_day += 1
+	if is_active:
+		if current_time >= day_length:
+			current_time = 0.0
+			current_day += 1
+		
+		if current_day > DayOfWeek.size():
+			current_day = DayOfWeek.MONDAY
 
-	if current_day > DayOfWeek.size():
-		current_day = DayOfWeek.MONDAY
 
-
+func get_current_hour():
+	return 24 * current_time / day_length
