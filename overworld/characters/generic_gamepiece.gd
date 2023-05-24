@@ -11,10 +11,10 @@ signal gamepiece_entering_door_signal
 signal gamepiece_entered_door_signal
 
 
-@export var grid: Grid:
-	set(value):
-		grid = value
-		update_configuration_warnings()
+#@export var grid: Grid:
+#	set(value):
+#		grid = value
+#		update_configuration_warnings()
 
 
 var move_speed: float
@@ -171,93 +171,93 @@ func set_teleport(loci: Vector2, direction: Vector2):
 
 
 
-
-
-## Emitted when a gamepiece is about to finish travlling to its destination cell. The remaining
-## distance that the gamepiece could travel is based on how far the gamepiece has travelled this
-## frame. [br][br]
-## The signal is emitted prior to wrapping up the path and traveller, allowing other objects to
-## extend the move path, if necessary.
-signal arriving(remaining_distance: float)
-
-## Emitted when the gamepiece has finished travelling to its destination cell.
-signal arrived
-signal blocks_movement_changed
-signal cell_changed(old_cell: Vector2i)
-signal direction_changed(new_direction: Vector2)
-
-## Emitted when the gamepiece begins to travel towards a destination cell.
-signal travel_begun
-
-## The gamepiece's position is snapped to whichever cell it currently occupies. [br][br]
-## The gamepiece will move by steps, being placed at whichever cell it currently occupies. This is
-## useful for snapping it's collision shape to the grid, so that there is never ambiguity to which
-## space/cell is occupied in the physics engine. [br][br]
-## It is not desirable, however, for the graphical representation of the gamepiece (or the camera!)
-## to jump around the gameboard with the gamepiece. Rather, a follower will travel a movement path
-## to give the appearance of smooth movement. Other objects (such as sprites and animation) will
-## derive their position from this follower and, consequently, appear to move smoothly.
-var cell := Vector2i.ZERO: set = set_cell
-
-func set_cell(value: Vector2i) -> void:
-	if Engine.is_editor_hint():
-		return
-	
-	var old_cell: = cell
-	cell = value
-	
-	if not is_inside_tree():
-		await ready
-	
-	print("Set cell to ", cell)
-	
-	var old_position: = position
-	position = grid.cell_to_pixel(cell)
-	_follower.position = old_position
-	
-	cell_changed.emit(old_cell)
-	GlobalFieldEvents.gamepiece_cell_changed.emit(self, old_cell)
-
-# The following objects allow the gamepiece to appear to move smoothly around the gameboard.
-# Please note that the path is decoupled from the gamepiece's position (scale is set to match
-# the gamepiece in _ready(), however) in order to simplify path management. All path coordinates may 
-# be provided in game-world coordinates and will remain relative to the origin even as the 
-# gamepiece's position changes.
-@onready var _path: = $Decoupler/Path2D as Path2D
-@onready var _follower: = $Decoupler/Path2D/PathFollow2D as PathFollow2D
-
-## Calling travel_to_cell on a moving gamepiece will update it's position to that indicated by the
-## cell coordinates and add the cell to the movement path.
-func travel_to_cell(destination_cell: Vector2i) -> void:
-	# Note that updating the gamepiece's cell will snap it to its new grid position. This will
-	# be accounted for below when calculating the waypoint's pixel coordinates.
-	var old_position: = position
-	cell = destination_cell
-	
-	# If the gamepiece is not yet moving, we'll setup a new path.
-	if not _path.curve:
-		_path.curve = Curve2D.new()
-
-		# The path needs at least two points for the follower to work correctly, so a new path
-		# will travel from the gamepiece's old position.
-		_path.curve.add_point(old_position)
-		_follower.progress = 0
-		
-		set_physics_process(true)
-	
-	# The gamepiece serves as the waypoint's frame of reference.
-	_path.curve.add_point(grid.cell_to_pixel(destination_cell))
-	
-	travel_begun.emit()
-
-
-func _get_configuration_warnings() -> PackedStringArray:
-	var warnings: PackedStringArray = []
-	if not grid:
-		warnings.append("Gamepiece requires a Grid object to function!")
-	
-	return warnings
-
-
-
-# find_parent ( String pattern )
+#
+#
+#	## Emitted when a gamepiece is about to finish travlling to its destination cell. The remaining
+#	## distance that the gamepiece could travel is based on how far the gamepiece has travelled this
+#	## frame. [br][br]
+#	## The signal is emitted prior to wrapping up the path and traveller, allowing other objects to
+#	## extend the move path, if necessary.
+#	signal arriving(remaining_distance: float)
+#
+#	## Emitted when the gamepiece has finished travelling to its destination cell.
+#	signal arrived
+#	signal blocks_movement_changed
+#	signal cell_changed(old_cell: Vector2i)
+#	signal direction_changed(new_direction: Vector2)
+#
+#	## Emitted when the gamepiece begins to travel towards a destination cell.
+#	signal travel_begun
+#
+#	## The gamepiece's position is snapped to whichever cell it currently occupies. [br][br]
+#	## The gamepiece will move by steps, being placed at whichever cell it currently occupies. This is
+#	## useful for snapping it's collision shape to the grid, so that there is never ambiguity to which
+#	## space/cell is occupied in the physics engine. [br][br]
+#	## It is not desirable, however, for the graphical representation of the gamepiece (or the camera!)
+#	## to jump around the gameboard with the gamepiece. Rather, a follower will travel a movement path
+#	## to give the appearance of smooth movement. Other objects (such as sprites and animation) will
+#	## derive their position from this follower and, consequently, appear to move smoothly.
+#	var cell := Vector2i.ZERO: set = set_cell
+#
+#	func set_cell(value: Vector2i) -> void:
+#		if Engine.is_editor_hint():
+#			return
+#
+#		var old_cell: = cell
+#		cell = value
+#
+#		if not is_inside_tree():
+#			await ready
+#
+#		print("Set cell to ", cell)
+#
+#		var old_position: = position
+#		position = grid.cell_to_pixel(cell)
+#		_follower.position = old_position
+#
+#		cell_changed.emit(old_cell)
+#		GlobalFieldEvents.gamepiece_cell_changed.emit(self, old_cell)
+#
+#	# The following objects allow the gamepiece to appear to move smoothly around the gameboard.
+#	# Please note that the path is decoupled from the gamepiece's position (scale is set to match
+#	# the gamepiece in _ready(), however) in order to simplify path management. All path coordinates may 
+#	# be provided in game-world coordinates and will remain relative to the origin even as the 
+#	# gamepiece's position changes.
+#	@onready var _path: = $Decoupler/Path2D as Path2D
+#	@onready var _follower: = $Decoupler/Path2D/PathFollow2D as PathFollow2D
+#
+#	## Calling travel_to_cell on a moving gamepiece will update it's position to that indicated by the
+#	## cell coordinates and add the cell to the movement path.
+#	func travel_to_cell(destination_cell: Vector2i) -> void:
+#		# Note that updating the gamepiece's cell will snap it to its new grid position. This will
+#		# be accounted for below when calculating the waypoint's pixel coordinates.
+#		var old_position: = position
+#		cell = destination_cell
+#
+#		# If the gamepiece is not yet moving, we'll setup a new path.
+#		if not _path.curve:
+#			_path.curve = Curve2D.new()
+#
+#			# The path needs at least two points for the follower to work correctly, so a new path
+#			# will travel from the gamepiece's old position.
+#			_path.curve.add_point(old_position)
+#			_follower.progress = 0
+#
+#			set_physics_process(true)
+#
+#		# The gamepiece serves as the waypoint's frame of reference.
+#		_path.curve.add_point(grid.cell_to_pixel(destination_cell))
+#
+#		travel_begun.emit()
+#
+#
+#	func _get_configuration_warnings() -> PackedStringArray:
+#		var warnings: PackedStringArray = []
+#		if not grid:
+#			warnings.append("Gamepiece requires a Grid object to function!")
+#
+#		return warnings
+#
+#
+#
+#	# find_parent ( String pattern )

@@ -1,5 +1,6 @@
 extends Node
 # I called it Manip because Manip is fun to say. Short for Manipulation. Manip. Hehe.
+# This class is dedicated to the fetching and manipulation of small or specified numbers of bits
 
 # randomize() is called here because this class relates to bits, and that's what RNG is used for?
 # what other 'global' class would fit better?

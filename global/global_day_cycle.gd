@@ -1,16 +1,6 @@
 extends Node
+# This class is dedicated to the fetching and manipulation of in-game hours, daylight, and dates
 
-# Note to self: Merge with GlobalRuntime?
-
-# Note to other: like with the Matrix code, this code was started with ChatGPT.
-# However, what it gave was so pathetic that it barely deserves credit.
-# In case anyone is worried about copyright disputes, 
-# just say it's too much AI to be original to the dev team, 
-# but too modified to belong to OpenAI,
-# this by process of elimination (and not by waiver) it has to be public domain.
-# No, this is not how lawyering works.
-# But it should be.
-# That would be much more fun.
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -33,6 +23,7 @@ enum DayOfWeek
 
 var day_length := 1000.0;
 var is_active = false;
+var hours_per_day := 24
 
 var current_time: float = 0.0
 var current_day: int = 1
@@ -51,4 +42,4 @@ func _process(delta) -> void:
 
 
 func get_current_hour():
-	return 24 * current_time / day_length
+	return hours_per_day * current_time / day_length

@@ -1,5 +1,6 @@
 extends Node
 # Contains code relating to SQLite bindings
+# This class is dedicated to the fetching and manipulation of database contents
 
 #const BattleAI = preload("res://battle/monster_battle_ai.gd")
 

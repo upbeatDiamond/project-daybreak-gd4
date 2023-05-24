@@ -6,6 +6,8 @@ extends CanvasModulate
 # but the code is different.
 # Thank you bitbrain!!!
 
+# This is not part of the Global script, for multiple reasons. Do not merge.
+
 const DAYLIGHT := Color()
 const TWILIGHT := Color()
 const NIGHTLIGHT := Color()
@@ -28,7 +30,6 @@ func _process(delta):
 	current_hour = fmod((time / 10), 24 )
 	print("Current hour = %f, time = %f" % [current_hour, time])
 	
-	#self.color = TWILIGHT.lerp(DAYLIGHT, absf(sin(time)) ) # Update this line to use all the lights !!!!!!!!!!!!!
 	self.color = kelvin_to_color( get_daylight_temp( current_hour ) )
 	self.color = fix_daylight_value( current_hour, self.color )
 	pass
@@ -74,8 +75,6 @@ func get_daylight_temp( hour ) -> float:
 
 
 # Adapted from https://tannerhelland.com/2012/09/18/convert-temperature-rgb-algorithm-code.html
-# Note, to avoid rights issues, and to make code easier to read, consider removing the if color<0 checks.
-# Also note that a color going out of bounds might not be corrected by Godot. Maybe clamp it?
 
 func kelvin_to_color( temperature ) -> Color:
 
@@ -83,56 +82,24 @@ func kelvin_to_color( temperature ) -> Color:
 	temperature = (temperature / 100) as int
 	
 	# Calculate Red:
-	
 	if temperature <= 66:
 		color.r8 = 255
 	else:
-		#color.r8 = temperature - 60
 		color.r8 = clamp(329.698727446 * pow(temperature - 60, -0.1332047592), 0, 255)
-#		if color.r8 < 0:
-#			print("color.r8 = ", color.r8)
-#			color.r8 = 0
-#		if color.r8 > 255: 
-#			print("color.r8 = ", color.r8)
-#			color.r8 = 255
 
 	# Calculate Green:
-
 	if temperature <= 66:
-		#color.g8 = temperature
 		color.g8 = clamp(99.4708025861 * log(temperature) - 161.1195681661, 0, 255)
-#		if color.g8 < 0: 
-#			print("color.g8 = ", color.g8)
-#			color.g8 = 0
-#		if color.g8 > 255:
-#			print("color.g8 = ", color.g8) 
-#			color.g8 = 255
 	else:
-		#color.g8 = temperature - 60
 		color.g8 = clamp(288.1221695283 * pow(temperature - 60, -0.0755148492), 0, 255)
-#		if color.g8 < 0: 
-#			print("color.g8 = ", color.g8)
-#			color.g8 = 0
-#		if color.g8 > 255:
-#			print("color.g8 = ", color.g8)
-#			color.g8 = 255
 
 	# Calculate Blue:
-
 	if temperature >= 66:
 		color.b8 = 255
 	else:
-		
 		if temperature <= 19:
 			color.b8 = 0
 		else:
-			#color.b8 = temperature - 10
 			color.b8 = clamp(138.5177312231 * log(temperature - 10) - 305.0447927307, 0, 255)
-#			if color.b8 < 0: 
-#				print("color.b8 = ", color.b8)
-#				color.b8 = 0
-#			if color.b8 > 255: 
-#				print("color.b8 = ", color.b8)
-#				color.b8 = 255
 	
 	return color;

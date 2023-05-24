@@ -1,20 +1,20 @@
-[gd_scene load_steps=7 format=3 uid="uid://dploeuvc2gd6p"]
+[gd_scene load_steps=7 format=3 uid="uid://0ntbq04ld1ky"]
 
-[ext_resource type="Texture2D" uid="uid://b0sqrjx3rdsmi" path="res://assets/textures/menu/logo_placeholder.png" id="1_cd0h6"]
-[ext_resource type="Script" path="res://menu/title_menu.gd" id="1_piyin"]
-[ext_resource type="Texture2D" uid="uid://dkdh2ht7ovvl" path="res://assets/textures/menu/title_placeholder.png" id="2_243jk"]
-[ext_resource type="Texture2D" uid="uid://d3kv0l1wrshm0" path="res://assets/textures/menu/title_screen_panorama.png" id="2_j18ws"]
-[ext_resource type="Texture2D" uid="uid://no8hvc4vvh66" path="res://assets/textures/menu/strapline_daybreak.png" id="3_lwrdh"]
-[ext_resource type="Texture2D" uid="uid://1v5pu8023tay" path="res://assets/technical/spacer_1x4.png" id="5_v1od3"]
+[ext_resource type="Script" path="res://menu/options_menu.gd" id="1_0d1qd"]
+[ext_resource type="Texture2D" uid="uid://d3kv0l1wrshm0" path="res://assets/textures/menu/title_screen_panorama.png" id="2_qau6u"]
+[ext_resource type="Texture2D" uid="uid://b0sqrjx3rdsmi" path="res://assets/textures/menu/logo_placeholder.png" id="3_lbl1x"]
+[ext_resource type="Texture2D" uid="uid://dkdh2ht7ovvl" path="res://assets/textures/menu/title_placeholder.png" id="4_0ntxw"]
+[ext_resource type="Texture2D" uid="uid://no8hvc4vvh66" path="res://assets/textures/menu/strapline_daybreak.png" id="5_8p4su"]
+[ext_resource type="Texture2D" uid="uid://1v5pu8023tay" path="res://assets/technical/spacer_1x4.png" id="6_mpsjh"]
 
-[node name="TitleScreen" type="Control"]
+[node name="OptionsScreen" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_piyin")
+script = ExtResource("1_0d1qd")
 
 [node name="Panorama" type="TextureRect" parent="."]
 layout_mode = 1
@@ -23,9 +23,20 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_j18ws")
+texture = ExtResource("2_qau6u")
 expand_mode = 3
 stretch_mode = 5
+
+[node name="TabContainer" type="TabContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TabBar" type="TabBar" parent="TabContainer"]
+layout_mode = 2
 
 [node name="Menu" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -48,7 +59,7 @@ size_flags_horizontal = 8
 [node name="LogoIcon" type="TextureRect" parent="Menu/LogoAlign"]
 layout_mode = 2
 size_flags_horizontal = 4
-texture = ExtResource("1_cd0h6")
+texture = ExtResource("3_lbl1x")
 expand_mode = 3
 stretch_mode = 4
 
@@ -57,12 +68,12 @@ layout_mode = 2
 
 [node name="TitleIcon" type="TextureRect" parent="Menu/LogoAlign/VBoxContainer"]
 layout_mode = 2
-texture = ExtResource("2_243jk")
+texture = ExtResource("4_0ntxw")
 stretch_mode = 5
 
 [node name="Strapline" type="TextureRect" parent="Menu/LogoAlign/VBoxContainer"]
 layout_mode = 2
-texture = ExtResource("3_lwrdh")
+texture = ExtResource("5_8p4su")
 expand_mode = 5
 
 [node name="GridContainer" type="GridContainer" parent="Menu"]
@@ -76,7 +87,7 @@ size_flags_horizontal = 3
 [node name="ButtonSpacer" type="TextureRect" parent="Menu/GridContainer/Buttons"]
 layout_mode = 2
 size_flags_vertical = 3
-texture = ExtResource("5_v1od3")
+texture = ExtResource("6_mpsjh")
 expand_mode = 5
 
 [node name="Play" type="Button" parent="Menu/GridContainer/Buttons"]
