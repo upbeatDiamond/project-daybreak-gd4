@@ -27,7 +27,7 @@ texture = ExtResource("2_qau6u")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="TabContainer" type="TabContainer" parent="."]
+[node name="OptionTabs" type="TabContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -35,7 +35,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TabBar" type="TabBar" parent="TabContainer"]
+[node name="TabConfig" type="TabBar" parent="OptionTabs"]
 layout_mode = 2
 
 [node name="Menu" type="VBoxContainer" parent="."]

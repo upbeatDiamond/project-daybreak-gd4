@@ -4,7 +4,10 @@ extends Node
 var gameworld_input_stopped: bool	# Can the player move the characters/world?
 var gameworld_is_paused: bool		# Can the characters/world move around on their own?
 
-var scene_root_node
+var scene_root_node : Node
+
+@export var combat_screen : Node
+@export var scene_transition_player : Node
 
 @export var scene_root_path := ^"/root/SceneManager/CurrentScene" :
 	get:
@@ -32,3 +35,37 @@ func clean_up_descent( target_node : Node ):
 func clean_up_node_descent( target_node : Node ):
 	clean_up_descent(target_node)
 	target_node.queue_free()
+
+
+func freeze_scene(node, freeze):
+	var mark_for_freeze : Array = node.get_children()
+	var current_mark
+	
+	while mark_for_freeze.size() > 0:
+		current_mark = mark_for_freeze.pop_front()
+		mark_for_freeze.append_array( current_mark.get_children() )
+		freeze_node(current_mark, freeze)
+	pass
+
+func freeze_node(node, freeze):
+	node.set_process(!freeze)
+	node.set_physics_process(!freeze)
+	node.set_process_input(!freeze)
+	node.set_process_internal(!freeze)
+	node.set_process_unhandled_input(!freeze)
+	node.set_process_unhandled_key_input(!freeze)
+
+	pass
+
+func screen_transition( style := "fade" ):
+	scene_transition_player.play(style)
+	await scene_transition_player.animation_finished
+
+
+# Copied & modified from "JRPG Demo", do not use yet.
+func start_combat(combat_actors):
+	screen_transition()
+	scene_root_node.add_child(combat_screen)
+	combat_screen.show()
+	combat_screen.initialize(combat_actors)
+	$AnimationPlayer.play_backwards("fade")

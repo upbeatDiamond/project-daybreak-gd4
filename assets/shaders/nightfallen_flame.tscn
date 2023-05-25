@@ -1,0 +1,41 @@
+[gd_scene load_steps=8 format=3 uid="uid://djyepoatlmuvv"]
+
+[ext_resource type="Texture2D" uid="uid://b8gnix7l5ryyx" path="res://assets/shaders/particle_nobg_white.png" id="1_ji4vt"]
+[ext_resource type="Script" path="res://assets/shaders/nightfallen_flame.gd" id="2_xlfka"]
+
+[sub_resource type="Gradient" id="5"]
+offsets = PackedFloat32Array(0, 0.824561, 1)
+colors = PackedColorArray(0.609648, 0.0397587, 0.925293, 1, 0.115698, 0.0255814, 0.233887, 0.694118, 0.178653, 0.00624657, 0.319824, 0)
+
+[sub_resource type="GradientTexture1D" id="2"]
+gradient = SubResource("5")
+
+[sub_resource type="Curve" id="3"]
+_data = [Vector2(0.541237, 1), 0.0, 0.0930043, 0, 0, Vector2(1, 0.00340903), -1.05688, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="4"]
+curve = SubResource("3")
+
+[sub_resource type="ParticleProcessMaterial" id="1"]
+lifetime_randomness = 0.1
+emission_shape = 3
+emission_box_extents = Vector3(16, 16, 1)
+direction = Vector3(0, -1, 0)
+spread = 129.76
+flatness = 0.12
+gravity = Vector3(0, -400, 0)
+initial_velocity_max = 102.94
+scale_curve = SubResource("4")
+color = Color(0.596078, 0.282353, 0.854902, 1)
+color_ramp = SubResource("2")
+
+[node name="MainGlow" type="GPUParticles2D"]
+amount = 16
+process_material = SubResource("1")
+texture = ExtResource("1_ji4vt")
+lifetime = 0.5
+preprocess = 5.0
+speed_scale = 0.5
+randomness = 0.5
+script = ExtResource("2_xlfka")

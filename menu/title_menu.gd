@@ -9,7 +9,7 @@ extends Control
 		else:
 			play_scene = get_node(value)
 
-@export var options_menu = preload("res://overworld/red_town.tscn")
+@export var options_menu = preload("res://menu/options_menu.tscn")
 
 func _ready():
 	pass

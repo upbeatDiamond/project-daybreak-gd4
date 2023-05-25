@@ -1,9 +1,9 @@
 Welcome to crude changelog, the log that gets facts wrong about your favorite changes.
-I'm jan Wiwijen (jan Opitaman), and today we'll be discussing a pre-alpha version of an unnamed project.
+I'm jan Wiwijen (jan Opitaman), and today I'll be discussing a pre-alpha version of a Godot project.
 
 Codename: Project Daybreak
-Update: Prealpha "What's Goin Down"
-
+Update: Pre-alpha "What's Goin Down"
+TL;DR: Created a main menu, an overworld scene, daylight cycle, tilesets, and you walk/run around.
 
 
 
@@ -11,10 +11,11 @@ Notable additions:
 	+ Tree object and associated assets
 	+ Grass object and associated assets
 	+ Added/expanded basic "MauveTown" tileset
+	+ Adopted code from Arkeve's tutorials
 	+ Adopted code from https://github.com/food-please/godot4-open-rpg
-		* Will be phasing out Arkeve style movement code
-		* In testing and editing, some files may have been altered such that they signal as "corrupted". This is fine.
-		+ Due to initial insertion failure, player.tscn now uses different MIT licensed code to be expanded upon.
+		* Will be phasing out Arkeve style code where viable
+		* Some files may have been altered such that they signal as "corrupted". This is fine.
+		+ Due to insertion failure, player.tscn now uses different base code to expand on.
 	+ Started blocking out the failsafe (used to trap errors) (itself causes so many errors)
 		+ By extension, added new tileset, shader, and sounds, although only the tileset is used
 	+ Added code and a filter for daylight cycle lighting
@@ -24,6 +25,8 @@ Notable additions:
 		* CurrentScene node is now a basic Node to prevent Node2D/Control child node issues
 	+ Added a MIT template file, symbolically representing the repos copied from. 
 		% Need to replace that w/ the real licenses.
+	+ Added some shaders
+	+ Started work on an options menu and battle scene
 
 
 
@@ -37,24 +40,23 @@ Notable subtractions:
 Notable changes:
 	* Renamed aspects of MonsterBattleAI, and expanded upon it
 	* Extracted parts of GlobalMove's CalculateRawDamage and used those funcs in MonsterBattleAI
-	* Renamed 'effect' to 'moveeffect' in both filenames and database, to account for vfx, sfx, and effecting
-	* Renamed GlobalBitfieldManip to GlobalBitManip to roll off the tongue better, and expanded functionality
+	* Renamed 'effect' to 'moveeffect' to differentiate from vfx, sfx, and effectuation
+	* Renamed GlobalBitfieldManip to GlobalBitManip for ease of speech, then expanded functionality
 	* Changed folder name 'Static' to 'Global'
-	* Due to insertion of Gamepiece, Grid, and associated objects, all RedTown objects were moved to positive coords.
-		* Due to removal of original Gamepiece code, its features will be implemented independently and gradually.
+	* Due to insertion of Gamepiece, Grid, etc, all RedTown objects were moved to positive coords.
+		* Due to removal of Gamepiece code, it will be implemented gradually if at all.
+	* Made CrudeChangelog obey the appropriate margins
 
 
 
-
-To do (in this or the next named update):
+To do eventually:
 	% Redo all the Arkeve tutorials, but with the new player base code
 	% Follow the Chris' Tutorials videos, mix with GDQuest for the battle scene
-	% Turn 'Player' into a generic character class that the player has their own copy of
 	% Fix and finish the failsafe map's generation code, otherwise it's not very safe
 		% Make the shader actually do something, and put it in a nicer folder
 	% Fix the ledge graphics
-		% Split rock and dirt tiles
-		% Make the edge of the ledge closer to the edge of the collision box
+		% Split rock and dirt tiles visually
+		% Make the top edge closer match the collision box
 	% When Godot 4.1 happens, turn some Global classes into Static fields like they're meant to be
 
 
@@ -93,13 +95,14 @@ General Commentary:
 			> Permissive licenses include CC0, Unlicense, DWTFYW/WTFPL, and public domain
 			> Machine Learning model images should be traced and repainted, ... 
 				> ... or used as reference work, or for less important textures.
-				> Any ML generated image may be subject to licensing anyways, so avoid it.
+				> Some ML generated images are subject to restrictions anyways, so avoid using it.
+				> Art is highest priority for both consistent quality and the human aspect
 		
 		> For code:
 			> Permissive licenses include MIT, Unlicense, CC0, DWTFYW/WTFPL, and public domain
 			> Machine Learning code often needs expansion regardless. ...
 				> ... It should be used for boilerplate, not for unique code.  ...
-				> ... All ML code needs modification and subsequent expansion.
+				> ... All ML code needs modification, and subsequent expansion.
 			> If the tutorial has a repo, ensure a permissive license, or sufficiently generic code.
 		
 		> For text:
@@ -107,6 +110,8 @@ General Commentary:
 		
 		> For fonts:
 			> Permissive licenses include SIL Open Font license
+			> Machine Learning is not viable, do not use
 		
 		> For sound:
 			> Permissive licenses are same as for images.
+			> Machine Learning is not viable, do not use
