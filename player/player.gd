@@ -43,11 +43,11 @@ var next_taxicab_direction = 'n'
 var is_moving = false;
 var is_running = false
 var input_direction = Vector2(0,0);
-var facing_direction = Vector2(0,0);
-var initial_position = Vector2(0,0);	# At start of movement
-var resting_position = Vector2(0,0);	# At end of movement
-var proportion_to_next_tile = 0.0;
-
+var facing_direction = Vector2(0,0);	# Used for animation state tree
+var initial_position = Vector2(0,0);	# At start of total movement
+var resting_position = Vector2(0,0);	# At end of total movement, might be unused
+var proportion_to_next_tile = 0.0;		# Was "percent_moved_..." but it's not a percentage?
+										# ^ might be unused
 
 
 
@@ -55,7 +55,7 @@ var proportion_to_next_tile = 0.0;
 func _ready():
 	is_moving = false
 	$GFX/Sprite.visible = true
-	position = position.snapped(Vector2.ONE * TILE_SIZE)
+	position = position.snapped(Vector2.ONE * TILE_SIZE) + (Vector2.ONE*TILE_SIZE/2)
 	position += Vector2.ONE * TILE_SIZE/2
 	animation_tree.active = true
 	update_anim_tree()

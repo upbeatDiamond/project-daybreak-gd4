@@ -1,0 +1,45 @@
+[gd_scene load_steps=8 format=3 uid="uid://ifkeqn0wqsw0"]
+
+[ext_resource type="Texture2D" uid="uid://b8gnix7l5ryyx" path="res://assets/shaders/particle_nobg_white.png" id="1_ly736"]
+[ext_resource type="Script" path="res://assets/shaders/nightfallen_flame.gd" id="2_02dhp"]
+
+[sub_resource type="Gradient" id="5"]
+offsets = PackedFloat32Array(0, 0.824561, 1)
+colors = PackedColorArray(0.94, 1, 1, 1, 1, 0.896167, 0.11, 0.694118, 0.178653, 0.00624657, 0.319824, 0)
+
+[sub_resource type="GradientTexture1D" id="2"]
+gradient = SubResource("5")
+
+[sub_resource type="Curve" id="3"]
+_data = [Vector2(0.541237, 1), 0.0, 0.0930043, 0, 0, Vector2(1, 0.00340903), -1.05688, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="4"]
+curve = SubResource("3")
+
+[sub_resource type="ParticleProcessMaterial" id="1"]
+lifetime_randomness = 0.1
+emission_shape = 3
+emission_box_extents = Vector3(16, 16, 1)
+particle_flag_rotate_y = true
+direction = Vector3(0, -1, 0)
+spread = 164.17
+gravity = Vector3(0, -500, 0)
+initial_velocity_max = 44.12
+radial_accel_min = -47.06
+radial_accel_max = 47.06
+tangential_accel_min = -29.41
+tangential_accel_max = 32.35
+scale_curve = SubResource("4")
+color = Color(1, 0.976471, 0.929412, 1)
+color_ramp = SubResource("2")
+
+[node name="MainGlow" type="GPUParticles2D"]
+amount = 16
+process_material = SubResource("1")
+texture = ExtResource("1_ly736")
+lifetime = 0.5
+preprocess = 5.0
+speed_scale = 0.5
+randomness = 0.5
+script = ExtResource("2_02dhp")

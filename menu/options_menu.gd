@@ -13,3 +13,10 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+
+
+func _on_back_pressed():
+	GlobalRuntime.clean_up_descent( self )
+#	replace_by(  play_scene.instantiate()  )
+	queue_free()
+	pass # Replace with function body.

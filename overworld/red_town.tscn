@@ -1195,5 +1195,6 @@ position = Vector2(144, -16)
 [node name="CanvasModulate" parent="." instance=ExtResource("7_ktmuj")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(-8, -8)
 enabled = false
 zoom = Vector2(2.5, 2.5)

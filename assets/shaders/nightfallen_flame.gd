@@ -1,12 +1,27 @@
 extends GPUParticles2D
+# Why is this not working quite right?
 
-# setget should influence size of image and radius of scattering
-@export var cell_size := 16
+@export var cell_size := 16 :
+	get:
+		return cell_size
+	set(value):
+		cell_size = value
+		set_flame_dimensions( flame_bounds )
 
-@export var particle_count := 16
+@export var particle_count := 16 :
+	get:
+		return particle_count
+	set(value):
+		particle_count = value
+		amount = particle_count
 
-# setget should influence radius and shifting of scattering
-@export var flame_bounds := Vector2(1,1) 
+
+@export var flame_bounds := Vector2(1,1) :
+	get:
+		return flame_bounds
+	set(value):
+		flame_bounds = value
+		set_flame_dimensions( flame_bounds )
 
 func _ready():
 	set_flame_dimensions( flame_bounds )

@@ -45,7 +45,7 @@ var input_direction = Vector2(0,0);
 var facing_direction = Vector2(0,0);	# Used for animation state tree
 var initial_position = Vector2(0,0);	# At start of total movement
 var resting_position = Vector2(0,0);	# At end of total movement, might be unused
-var proportion_to_next_tile = 0.0;		# Was "percent_moved_..." but it's not a percentage?
+var proportion_moved = 0.0;		# Was "percent_moved_..." but it's not a percentage?
 										# ^ might be unused
 
 var collider_size = Vector2(TILE_SIZE, TILE_SIZE)
@@ -168,6 +168,8 @@ func set_teleport(loci: Vector2, direction: Vector2):
 	
 	GlobalRuntime.gameworld_input_stopped = false
 	$AnimationPlayer.play("Appear")
+
+
 
 
 

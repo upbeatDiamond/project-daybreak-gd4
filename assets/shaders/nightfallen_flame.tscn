@@ -5,7 +5,7 @@
 
 [sub_resource type="Gradient" id="5"]
 offsets = PackedFloat32Array(0, 0.824561, 1)
-colors = PackedColorArray(0.609648, 0.0397587, 0.925293, 1, 0.115698, 0.0255814, 0.233887, 0.694118, 0.178653, 0.00624657, 0.319824, 0)
+colors = PackedColorArray(1, 1, 0.976471, 1, 0.115698, 0.0255814, 0.233887, 0.694118, 0.178653, 0.00624657, 0.319824, 0)
 
 [sub_resource type="GradientTexture1D" id="2"]
 gradient = SubResource("5")
@@ -26,6 +26,7 @@ spread = 129.76
 flatness = 0.12
 gravity = Vector3(0, -400, 0)
 initial_velocity_max = 102.94
+radial_accel_max = 79.41
 scale_curve = SubResource("4")
 color = Color(0.596078, 0.282353, 0.854902, 1)
 color_ramp = SubResource("2")

@@ -23,9 +23,9 @@ func _on_play_pressed():
 
 
 func _on_options_pressed():
-	GlobalRuntime.clean_up_descent( self )
-	replace_by(  options_menu.instantiate()  )
-	queue_free()
+	#GlobalRuntime.clean_up_descent( self )
+	#replace_by(  options_menu.instantiate()  )
+	#queue_free()
 	pass # Replace with function body.
 
 
