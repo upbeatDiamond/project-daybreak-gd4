@@ -16,6 +16,9 @@ var scene_root_node : Node
 		scene_root_path = value
 		scene_root_node = get_node(value)
 
+func _ready():
+	scene_root_path = scene_root_path
+
 # Cleans up all children of a node, and their children, and their children, etc
 func clean_up_descent( target_node : Node ):
 	var mark_for_deletion : Array = target_node.get_children()
@@ -27,6 +30,7 @@ func clean_up_descent( target_node : Node ):
 	while mark_for_deletion.size() > 0:
 		current_mark = mark_for_deletion.pop_front()
 		mark_for_deletion.append_array( current_mark.get_children() )
+		if current_mark.has_method("clean_up"): current_mark.clean_up()
 		current_mark.queue_free()
 
 # Queues deletion of a node and all of its child nodes

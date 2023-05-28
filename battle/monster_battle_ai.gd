@@ -8,7 +8,7 @@ var options : Array
 var options_weights : Matrix
 
 # Determines overall goal, the win state.
-enum OBJECTIVE
+enum Objective
 {
 	FRIENDSHIP,
 	PHYSICAL_VICTORY,
@@ -33,7 +33,7 @@ enum Stance
 }
 
 # replace with a matrix when ready
-const BATTLE_STANCE_MULTIPLIERS = {
+const BattleStanceMultiplier = {
 		Stance.HEALER: [0,0],
 		
 		
@@ -75,7 +75,7 @@ enum ActionWeights {
 }
 
 # Battle role weights for selecting strategy mode
-const TARGET_PREF_WEIGHTS = {
+const TargetPreferenceWeights = {
 		TargetPriority.ATTACK_LOWEST_HEALTHPOINTS  : [],
 		TargetPriority.ATTACK_LOWEST_SPIRITPOINTS  : [],
 		TargetPriority.ATTACK_LOWEST_HEALTHPERCENT : [],

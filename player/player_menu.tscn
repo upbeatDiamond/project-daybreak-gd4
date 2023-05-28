@@ -1,0 +1,139 @@
+[gd_scene load_steps=4 format=3 uid="uid://cpjyc350pwf57"]
+
+[ext_resource type="Script" path="res://player/player_menu.gd" id="1_5rlhg"]
+[ext_resource type="Texture2D" uid="uid://dwvr10slisk7o" path="res://assets/textures/menu/gui_woodengem_frame.png" id="1_x08vi"]
+[ext_resource type="Texture2D" uid="uid://bryctcvhwj6rh" path="res://assets/textures/menu/selection_arrow.png" id="3_a8ymm"]
+
+[node name="Menu" type="CanvasLayer"]
+script = ExtResource("1_5rlhg")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.777778
+anchor_right = 1.0
+anchor_bottom = 0.790123
+offset_left = -256.0
+offset_bottom = 128.0
+grow_horizontal = 0
+texture = ExtResource("1_x08vi")
+region_rect = Rect2(7, 7, 79, 79)
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+metadata/_edit_use_anchors_ = true
+
+[node name="OptionList" type="VBoxContainer" parent="Control/NinePatchRect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.15625
+anchor_top = 0.05
+anchor_right = 0.890625
+anchor_bottom = 0.8875
+offset_right = 40.0
+offset_bottom = 40.0
+metadata/_edit_use_anchors_ = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+bbcode_enabled = true
+text = "[font_size=32]Journal[/font_size]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+bbcode_enabled = true
+text = "[font_size=32]Party[/font_size]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+bbcode_enabled = true
+text = "[font_size=32]Inventory[/font_size]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="RichTextLabel4" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+bbcode_enabled = true
+text = "[font_size=32](App)[/font_size]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="RichTextLabel5" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+bbcode_enabled = true
+text = "[font_size=32]Profile[/font_size]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="RichTextLabel7" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+bbcode_enabled = true
+text = "[font_size=32]Camp[/font_size]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="RichTextLabel8" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+bbcode_enabled = true
+text = "[font_size=32]Communications[/font_size]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="RichTextLabel9" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+bbcode_enabled = true
+text = "[font_size=32]Settings[/font_size]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="RichTextLabel10" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+bbcode_enabled = true
+text = "[font_size=32]Save[/font_size]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="RichTextLabel11" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+bbcode_enabled = true
+text = "[font_size=32]Exit[/font_size]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="SelectionArrow" type="Sprite2D" parent="Control/NinePatchRect"]
+position = Vector2(48, 56)
+scale = Vector2(1.54839, 1.71429)
+texture = ExtResource("3_a8ymm")

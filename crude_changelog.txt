@@ -27,7 +27,7 @@ Notable additions:
 		% Need to replace that w/ the real licenses.
 	+ Added some shaders
 	+ Started work on an options menu and battle scene
-
+	+ Added pause menu (only pauses the player object)
 
 
 
@@ -50,7 +50,7 @@ Notable changes:
 
 
 To do eventually:
-	% Redo all the Arkeve tutorials, but with the new player base code
+	% Redo all the Arkeve tutorials, but with substituted code
 	% Follow the Chris' Tutorials videos, mix with GDQuest for the battle scene
 	% Fix and finish the failsafe map's generation code, otherwise it's not very safe
 		% Make the shader actually do something, and put it in a nicer folder
@@ -58,8 +58,8 @@ To do eventually:
 		% Split rock and dirt tiles visually
 		% Make the top edge closer match the collision box
 	% When Godot 4.1 happens, turn some Global classes into Static fields like they're meant to be
-
-
+	% Change between overworld & battle via add_child() and remove_child() perhaps
+	% I have 2 options: I can mix NavServer, NavLink, and A*Grid, or I can make a new D*Server...
 
 
 General Commentary:
