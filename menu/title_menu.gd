@@ -1,6 +1,6 @@
 extends Control
 
-@export var play_scene = preload("res://overworld/red_town.tscn") :
+@export var play_scene = preload("res://overworld/port_town.tscn") :
 	get:
 		return play_scene
 	set( value ):

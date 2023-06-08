@@ -3,8 +3,8 @@ extends CanvasLayer
 @onready var select_arrow = $Control/NinePatchRect/SelectionArrow
 @onready var menu = $Control
 
-enum ScreenLoaded { NOTHING, PAUSE_MENU, PARTY_SCREEN }
-var screen_loaded = ScreenLoaded.NOTHING
+enum ScreenLoaded { CLOSED, PAUSE_MENU, PARTY_SCREEN }
+var screen_loaded = ScreenLoaded.CLOSED
 
 var selected_option: int = 0
 @export var option_count: int = 11
@@ -24,7 +24,7 @@ func update_select_arrow():
 
 func _unhandled_input(event):
 	match screen_loaded:
-		ScreenLoaded.NOTHING:
+		ScreenLoaded.CLOSED:
 			if event.is_action_pressed("menu"):
 				var player = GlobalRuntime.scene_root_node.get_children().back().find_child("Player")
 				if player == null: return
@@ -39,7 +39,7 @@ func _unhandled_input(event):
 				if player == null: return
 				player.set_physics_process(true)
 				menu.visible = false
-				screen_loaded = ScreenLoaded.NOTHING
+				screen_loaded = ScreenLoaded.CLOSED
 				
 			elif event.is_action_pressed("ui_down"):
 				selected_option = (selected_option + 1) % option_count

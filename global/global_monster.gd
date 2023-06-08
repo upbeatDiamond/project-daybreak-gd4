@@ -72,14 +72,7 @@ enum Sex
 	IS_OOGEN,
 	CAN_DEPOSIT_GAMETES,	# orthagonality check: if not a x-gen, it has a depositor.
 	CAN_RECIEVE_GAMETES,	# orthagonality check: if not x-gen but can recieve & deposit, then stores.
-	FORME_BYTE1_BIT1,		# Used for formes that are treated like genes
-	FORME_BYTE1_BIT2,
-	FORME_BYTE1_BIT3,
-	FORME_BYTE1_BIT4,
-	FORME_BYTE1_BIT5,
-	FORME_BYTE1_BIT6,
-	FORME_BYTE1_BIT7,
-	FORME_BYTE1_BIT8
+	# Gene byte has been removed
 }
 
 

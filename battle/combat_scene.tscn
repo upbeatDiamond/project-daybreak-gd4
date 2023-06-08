@@ -3,20 +3,22 @@
 [ext_resource type="Script" path="res://battle/combat_scene.gd" id="1_dwfo1"]
 [ext_resource type="Texture2D" uid="uid://bkt4yv7ec04t8" path="res://icon.svg" id="1_mtq2u"]
 
-[node name="Node2D" type="Node2D"]
+[node name="Combat" type="Node2D"]
 script = ExtResource("1_dwfo1")
 
-[node name="Icon" type="Sprite2D" parent="."]
+[node name="Combatants" type="Node" parent="."]
+
+[node name="Icon" type="Sprite2D" parent="Combatants"]
 position = Vector2(63.5, 63.5)
 scale = Vector2(0.286667, 0.286667)
 texture = ExtResource("1_mtq2u")
 
-[node name="Icon2" type="Sprite2D" parent="."]
-position = Vector2(63.5, 63.5)
+[node name="Icon2" type="Sprite2D" parent="Combatants"]
+position = Vector2(64, 256)
 scale = Vector2(0.286667, 0.286667)
 texture = ExtResource("1_mtq2u")
 
-[node name="Icon3" type="Sprite2D" parent="."]
-position = Vector2(63.5, 63.5)
+[node name="Icon3" type="Sprite2D" parent="Combatants"]
+position = Vector2(64, 448)
 scale = Vector2(0.286667, 0.286667)
 texture = ExtResource("1_mtq2u")

@@ -34,6 +34,10 @@ grow_vertical = 2
 [node name="TabConfig" type="TabBar" parent="OptionTabs"]
 layout_mode = 2
 
+[node name="TabConfig2" type="TabBar" parent="OptionTabs"]
+visible = false
+layout_mode = 2
+
 [node name="Back" type="Button" parent="."]
 layout_mode = 0
 offset_right = 8.0

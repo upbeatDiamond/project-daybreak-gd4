@@ -26,7 +26,7 @@ enum Stance
 	BRAWLER,	# Prefer fighting, maximize damage, fall back to stat changes
 	PESTER, 	# Prefer targetting special health, else normal health
 	MASSAGE,    # Prefer bringing down special defense, else special health
-	STALL,		# Stalling? I'm not stalling anything. I'm... stalling? Stalling? You think I'm... stalling.
+	STALL,		# Stalling? I'm not stalling anything. I'm... stalling? Stalling? You think I'm... stalling...
 	SNIPER,		# Prefer fighting, avoiding contact, fall back to defense
 	BEFRIEND,	# Prefer showing peace, care, empathy, else do special damage
 	TROJAN		# Pseudo-befriending

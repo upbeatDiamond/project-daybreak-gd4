@@ -30,8 +30,8 @@ func _process(delta):
 	current_hour = fmod((time / 10), 24 )
 	print("Current hour = %f, time = %f" % [current_hour, time])
 	
-	self.color = kelvin_to_color( get_daylight_temp( current_hour ) )
-	self.color = fix_daylight_value( current_hour, self.color )
+	#self.color = 
+	self.color = fix_daylight_value( current_hour, kelvin_to_color( get_daylight_temp(current_hour) ) )
 	pass
 
 
@@ -42,27 +42,31 @@ func fix_daylight_value( hour, color ):
 	var stretch = 3.3
 	var e = 2.71828
 	
-	var min_light = 0.1
+	var min_light = 0.25
 	
 	var exponent = - (pow((hour - shift)/stretch, 2) ) / 2
 	
 	color.v = clamp( min_light + 8 * pow(e,exponent), 0, 1)
+	
 	return color
 
 
 func get_daylight_temp( hour ) -> float:
 	
 	var is_night = false
+	var is_night_ammended = is_night
 	
 	var daylight_length = ( hour_sunrise - hour_sunset )
 	var daylight_center = ( hour_sunrise + hour_sunset )/2
-	var moonlight_length = day_length - daylight_length + 1
-	var moonlight_center = (24.0 + hour_sunrise + hour_sunset)/2
+	var moonlight_length = day_length - daylight_length + 1 # plus 1 so the curve always applies
+	var moonlight_center = abs( fmod(daylight_center - 12, 24) )
 	
 	var focalpoint_y = 1000
 	var focalpoint_x = daylight_center
 	var radius = daylight_length + 1
 	var scaling = 450
+	
+	var relative_hour : int
 	
 	if hour < hour_sunrise:
 		hour = hour + day_length
@@ -70,8 +74,15 @@ func get_daylight_temp( hour ) -> float:
 	
 	if is_night:
 		focalpoint_x = moonlight_center
-
-	return focalpoint_y + scaling * sqrt( pow(radius,2) - pow(hour - focalpoint_x,2) )
+		relative_hour = hour - hour_sunset
+		return focalpoint_y + 4500 * abs(sin(PI*relative_hour/moonlight_length))
+	else:
+		focalpoint_x = daylight_center
+		relative_hour = hour
+		return focalpoint_y + 4500 * abs(sin(PI*relative_hour/daylight_length))
+		
+	#return focalpoint_y + scaling * abs(sin(PI*relative_hour/relative_length))
+	#return focalpoint_y + scaling * sqrt( pow(radius,2) - pow(  min( hour - focalpoint_x, 24 - hour - focalpoint_x )  ,2) )
 
 
 # Adapted from https://tannerhelland.com/2012/09/18/convert-temperature-rgb-algorithm-code.html

@@ -1,5 +1,5 @@
 extends Node
-
+class_name Monster
 
 # Called when the node enters the scene tree for the first time.
 func _init():
@@ -99,7 +99,7 @@ func increase_health( healing ):
 func change_base_health( change ):
 	stats_base[ GlobalMonster.BattleStats.HEALTH ] += change;
 
-
+# Deprecated due to get_stat, but don't remove yet
 func get_spirit() -> int:
 	var spirit = stats_current[ GlobalMonster.BattleStats.SPIRIT ];
 	if (spirit == null):
@@ -110,7 +110,16 @@ func get_spirit() -> int:
 func set_spirit( spirit:int ):
 	stats_current[ GlobalMonster.BattleStats.HEALTH ] = spirit;
 
+# can turn this into a setget
+func get_stat( stat_type:GlobalMonster.BattleStats ):
+	var stat = stats_current[ stat_type ]
+	if (stat == null):
+		stat = 0
+	return stat 
 
+# can turn this into a setget
+func set_stat( stat_type:GlobalMonster.BattleStats, value:int ):
+	stats_current[ stat_type ] = value
 
 func save_data():
 	GlobalDatabaseManager.save_monster(self);
