@@ -10,8 +10,11 @@ TL;DR: idk yet
 Notable additions:
 	+ D* Lite algorithm code
 		+ Various unused code related to the above
-	+ Prototype "Port Town", and accompanying tiles
-
+	+ Prototype "Port Town", and accompanying tiles to practice town design & teleports
+	+ Prototype "Bridge Town", used to test pseudo-3D maps, à la MyHouse
+	+ Added more code to the combattants and combat scene
+		+ Added more graphics and GUI elements for the combat scene
+	+ Always more graphics and sounds that aren't used (yet)
 
 Notable subtractions:
 	- 
@@ -21,8 +24,8 @@ Notable subtractions:
 
 Notable changes:
 	* Changed daylight cycle to try to increase visibility at night
+	+ Added more functionality to the pause / "Player" menu, seen through the 'exit' button working
 	
-
 
 
 To do eventually:

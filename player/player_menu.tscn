@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cpjyc350pwf57"]
+[gd_scene load_steps=5 format=3 uid="uid://cpjyc350pwf57"]
 
 [ext_resource type="Script" path="res://player/player_menu.gd" id="1_5rlhg"]
 [ext_resource type="Texture2D" uid="uid://dwvr10slisk7o" path="res://assets/textures/menu/gui_woodengem_frame.png" id="1_x08vi"]
+[ext_resource type="Script" path="res://player/submenu_selection.gd" id="3_1w4mh"]
 [ext_resource type="Texture2D" uid="uid://bryctcvhwj6rh" path="res://assets/textures/menu/selection_arrow.png" id="3_a8ymm"]
 
 [node name="Menu" type="CanvasLayer"]
@@ -43,7 +44,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 metadata/_edit_use_anchors_ = true
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+[node name="LabelJournal" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -51,8 +52,9 @@ bbcode_enabled = true
 text = "[font_size=32]Journal[/font_size]"
 fit_content = true
 autowrap_mode = 0
+script = ExtResource("3_1w4mh")
 
-[node name="RichTextLabel2" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+[node name="LabelParty" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -60,8 +62,10 @@ bbcode_enabled = true
 text = "[font_size=32]Party[/font_size]"
 fit_content = true
 autowrap_mode = 0
+script = ExtResource("3_1w4mh")
+submenu_link = 2
 
-[node name="RichTextLabel3" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+[node name="LabelInventory" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -69,8 +73,10 @@ bbcode_enabled = true
 text = "[font_size=32]Inventory[/font_size]"
 fit_content = true
 autowrap_mode = 0
+script = ExtResource("3_1w4mh")
+submenu_link = 4
 
-[node name="RichTextLabel4" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+[node name="LabelApp" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -78,8 +84,10 @@ bbcode_enabled = true
 text = "[font_size=32](App)[/font_size]"
 fit_content = true
 autowrap_mode = 0
+script = ExtResource("3_1w4mh")
+submenu_link = 5
 
-[node name="RichTextLabel5" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+[node name="LabelProfile" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -87,8 +95,10 @@ bbcode_enabled = true
 text = "[font_size=32]Profile[/font_size]"
 fit_content = true
 autowrap_mode = 0
+script = ExtResource("3_1w4mh")
+submenu_link = 6
 
-[node name="RichTextLabel7" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+[node name="LabelCamp" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -96,8 +106,10 @@ bbcode_enabled = true
 text = "[font_size=32]Camp[/font_size]"
 fit_content = true
 autowrap_mode = 0
+script = ExtResource("3_1w4mh")
+submenu_link = 7
 
-[node name="RichTextLabel8" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+[node name="LabelComms" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -105,8 +117,10 @@ bbcode_enabled = true
 text = "[font_size=32]Communications[/font_size]"
 fit_content = true
 autowrap_mode = 0
+script = ExtResource("3_1w4mh")
+submenu_link = 8
 
-[node name="RichTextLabel9" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+[node name="LabelSettings" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -114,8 +128,10 @@ bbcode_enabled = true
 text = "[font_size=32]Settings[/font_size]"
 fit_content = true
 autowrap_mode = 0
+script = ExtResource("3_1w4mh")
+submenu_link = 9
 
-[node name="RichTextLabel10" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+[node name="LabelSave" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -123,8 +139,10 @@ bbcode_enabled = true
 text = "[font_size=32]Save[/font_size]"
 fit_content = true
 autowrap_mode = 0
+script = ExtResource("3_1w4mh")
+submenu_link = 10
 
-[node name="RichTextLabel11" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+[node name="LabelExit" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -132,6 +150,8 @@ bbcode_enabled = true
 text = "[font_size=32]Exit[/font_size]"
 fit_content = true
 autowrap_mode = 0
+script = ExtResource("3_1w4mh")
+submenu_link = 0
 
 [node name="SelectionArrow" type="Sprite2D" parent="Control/NinePatchRect"]
 position = Vector2(48, 56)

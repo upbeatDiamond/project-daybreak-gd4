@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://pgbl3tnfssgm"]
+[gd_scene load_steps=5 format=3 uid="uid://pgbl3tnfssgm"]
 
 [ext_resource type="Script" path="res://battle/combat_scene.gd" id="1_dwfo1"]
 [ext_resource type="Texture2D" uid="uid://bkt4yv7ec04t8" path="res://icon.svg" id="1_mtq2u"]
+[ext_resource type="Texture2D" uid="uid://lc848inj7kk1" path="res://assets/textures/gui/combat/BattleBar_Segment.png" id="3_rb4ag"]
+[ext_resource type="Texture2D" uid="uid://coadehh5hnn2u" path="res://assets/textures/gui/combat/BattleBar_Center.png" id="3_sc04p"]
 
 [node name="Combat" type="Node2D"]
 script = ExtResource("1_dwfo1")
@@ -22,3 +24,57 @@ texture = ExtResource("1_mtq2u")
 position = Vector2(64, 448)
 scale = Vector2(0.286667, 0.286667)
 texture = ExtResource("1_mtq2u")
+
+[node name="GUI" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="OptionLeftTop" type="TextureButton" parent="GUI"]
+layout_mode = 0
+offset_left = -16.0
+offset_top = 512.0
+offset_right = 255.0
+offset_bottom = 592.0
+texture_normal = ExtResource("3_rb4ag")
+flip_h = true
+
+[node name="OptionLeftBottom" type="TextureButton" parent="GUI"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 608.0
+offset_right = 303.0
+offset_bottom = 688.0
+texture_normal = ExtResource("3_rb4ag")
+flip_h = true
+
+[node name="OptionRightTop" type="TextureButton" parent="GUI"]
+layout_mode = 0
+offset_left = 512.0
+offset_top = 512.0
+offset_right = 783.0
+offset_bottom = 592.0
+texture_normal = ExtResource("3_rb4ag")
+
+[node name="OptionRightBottom" type="TextureButton" parent="GUI"]
+layout_mode = 0
+offset_left = 464.0
+offset_top = 608.0
+offset_right = 735.0
+offset_bottom = 688.0
+texture_normal = ExtResource("3_rb4ag")
+
+[node name="OptionMiddle" type="TextureButton" parent="GUI"]
+layout_mode = 0
+offset_left = 224.0
+offset_top = 512.0
+offset_right = 544.0
+offset_bottom = 688.0
+action_mode = 0
+texture_normal = ExtResource("3_sc04p")
+ignore_texture_size = true
+stretch_mode = 4

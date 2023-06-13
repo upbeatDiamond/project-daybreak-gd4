@@ -4,6 +4,7 @@ extends Node#2D
 # as well as a Godot Engine v3.5 JRPG demo
 
 var combatants : Array
+var teams : Array # 2D array
 var combatant_index := 0
 var active_combatant
 
@@ -15,7 +16,7 @@ func initialize(combat_combatants):
 		combatant = combatant.instantiate()
 		if combatant is Combatant:
 			$Combatants.add_combatant(combatant)
-			#combatant.get_node("StatBar").connect("dead", Callable(self, "_on_combatant_death").bind(combatant))
+			#combatant.get_node("HUD").connect("dead", Callable(self, "_on_combatant_death").bind(combatant))
 		else:
 			combatant.queue_free()
 	$UI.initialize()
@@ -35,7 +36,10 @@ func play_turn():
 # 1 round = all combatants get 1 turn
 func prepare_next_round():
 	
-	# Need to implement "compare_priority"
+	for combatant in combatants:
+		combatant.select_next_move()
+	# Need to have everyone select a new move on this line or above
+	# Need to revise "compare_priority" to account for queued moves
 	combatants.sort_custom( Callable(active_combatant, "compare_priority") )
 	pass
 

@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://4sbr5lqcldc5"]
+
+[ext_resource type="Texture2D" uid="uid://dw13bj20thnkx" path="res://assets/shaders/particle_nobg_grad.png" id="1_xgmcd"]
+[ext_resource type="Script" path="res://battle/ko_indicator.gd" id="2_3j11l"]
+
+[node name="TextureRect" type="TextureRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1104.0
+offset_bottom = -600.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_xgmcd")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("2_3j11l")
+
+[node name="CheckBox" type="CheckBox" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+disabled = true
