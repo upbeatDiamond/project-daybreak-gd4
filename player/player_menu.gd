@@ -23,7 +23,8 @@ enum ScreenLoaded
 	CAMP,
 	COMMUNICATIONS,
 	SETTINGS,
-	SAVE
+	SAVE,
+	QUIT_GAME,
 }
 
 var screen_name : Dictionary = {

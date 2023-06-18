@@ -1,7 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://dqdli4ttut51u"]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Shader" path="res://overworld/failsafe_display.gdshader" id="1_y267o"]
-[ext_resource type="Material" uid="uid://bobogu7e7wip0" path="res://+DO_NOT_UPLOAD/scrapheap/field/failsafe_infinite.tres" id="2_8ioxv"]
+[ext_resource type="Material" uid="uid://bobogu7e7wip0" path="res://+DO_NOT_UPLOAD/scrapheap/failsafe_infinite.tres" id="2_8ioxv"]
 [ext_resource type="Script" path="res://overworld/failsafe_infinite.gd" id="2_gvsch"]
 [ext_resource type="Texture2D" uid="uid://cet1ml6ou83nj" path="res://assets/textures/tilesets/failsafe_tileset.png" id="3_ih3pg"]
 [ext_resource type="PackedScene" uid="uid://cl3465qr1u6mm" path="res://player/player.tscn" id="3_xsgv2"]

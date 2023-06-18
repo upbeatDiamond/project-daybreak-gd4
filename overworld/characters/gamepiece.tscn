@@ -1,7 +1,8 @@
-[gd_scene load_steps=29 format=3 uid="uid://dfkxs2skxx5ru"]
+[gd_scene load_steps=30 format=3 uid="uid://dsk04vtyuk6hu"]
 
-[ext_resource type="Script" path="res://overworld/characters/generic_gamepiece.gd" id="1_6sn36"]
+[ext_resource type="Script" path="res://overworld/characters/gamepiece.gd" id="1_6sn36"]
 [ext_resource type="Texture2D" uid="uid://13h6vtkjx4sb" path="res://player/player_base_move.png" id="2_0lols"]
+[ext_resource type="PackedScene" uid="uid://brspmfwmrki6i" path="res://overworld/characters/gamepiece_player_controller.tscn" id="2_lq6km"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v1cr0"]
 size = Vector2(16, 16)
@@ -227,8 +228,10 @@ _data = {
 "walk_up": SubResource("Animation_t5jui")
 }
 
-[node name="Gamepiece" type="Area2D"]
+[node name="Gamepiece" type="Area2D" groups=["gamepiece"]]
 script = ExtResource("1_6sn36")
+
+[node name="Controller" parent="." instance=ExtResource("2_lq6km")]
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 position = Vector2(8, 8)

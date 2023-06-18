@@ -109,17 +109,6 @@ autowrap_mode = 0
 script = ExtResource("3_1w4mh")
 submenu_link = 7
 
-[node name="LabelComms" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-bbcode_enabled = true
-text = "[font_size=32]Communications[/font_size]"
-fit_content = true
-autowrap_mode = 0
-script = ExtResource("3_1w4mh")
-submenu_link = 8
-
 [node name="LabelSettings" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
 layout_mode = 2
 size_flags_horizontal = 0
@@ -147,11 +136,22 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 bbcode_enabled = true
-text = "[font_size=32]Exit[/font_size]"
+text = "[font_size=32]Close Menu[/font_size]"
 fit_content = true
 autowrap_mode = 0
 script = ExtResource("3_1w4mh")
 submenu_link = 0
+
+[node name="LabelQuit" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+bbcode_enabled = true
+text = "[font_size=32]Quit Game[/font_size]"
+fit_content = true
+autowrap_mode = 0
+script = ExtResource("3_1w4mh")
+submenu_link = 11
 
 [node name="SelectionArrow" type="Sprite2D" parent="Control/NinePatchRect"]
 position = Vector2(48, 56)
