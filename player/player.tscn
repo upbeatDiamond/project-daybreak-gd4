@@ -1,8 +1,8 @@
-[gd_scene load_steps=30 format=3 uid="uid://cl3465qr1u6mm"]
+[gd_scene load_steps=30 format=3 uid="uid://db8npf25b22jx"]
 
-[ext_resource type="Script" path="res://player/player.gd" id="1_bb8u2"]
-[ext_resource type="Texture2D" uid="uid://13h6vtkjx4sb" path="res://player/player_base_move.png" id="2_adynw"]
-[ext_resource type="Texture2D" uid="uid://d2ctmt1waxaf" path="res://assets/textures/player_shadow.png" id="3_5x52n"]
+[ext_resource type="Script" path="res://overworld/characters/gamepiece.gd" id="1_6lhpg"]
+[ext_resource type="Texture2D" uid="uid://13h6vtkjx4sb" path="res://player/player_base_move.png" id="3_28owb"]
+[ext_resource type="Script" path="res://overworld/characters/gamepiece_controller_player.gd" id="3_wmhfs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v1cr0"]
 size = Vector2(16, 16)
@@ -70,7 +70,7 @@ states/Walk/position = Vector2(529.691, 72)
 transitions = ["Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_5o20c"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_hbwi7"), "Start", "Idle", SubResource("AnimationNodeStateMachineTransition_npxpe")]
 graph_offset = Vector2(56.6913, 0)
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_2e05x"]
+[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_yrw0s"]
 
 [sub_resource type="Animation" id="Animation_fpk54"]
 length = 0.001
@@ -229,7 +229,10 @@ _data = {
 }
 
 [node name="Player" type="Area2D"]
-script = ExtResource("1_bb8u2")
+script = ExtResource("1_6lhpg")
+
+[node name="Controller" type="Node" parent="."]
+script = ExtResource("3_wmhfs")
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 position = Vector2(8, 8)
@@ -249,18 +252,16 @@ collision_mask = 0
 
 [node name="GFX" type="Marker2D" parent="."]
 
-[node name="Camera2D" type="Camera2D" parent="GFX"]
+[node name="Camera" type="Camera2D" parent="GFX"]
 zoom = Vector2(2.5, 2.5)
 position_smoothing_enabled = true
 
 [node name="Shadow" type="Sprite2D" parent="GFX"]
 visible = false
-position = Vector2(8, 4)
-texture = ExtResource("3_5x52n")
 
 [node name="Sprite" type="Sprite2D" parent="GFX"]
 position = Vector2(8, 0)
-texture = ExtResource("2_adynw")
+texture = ExtResource("3_28owb")
 hframes = 7
 vframes = 4
 frame = 7
@@ -268,8 +269,7 @@ frame = 7
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource("AnimationNodeStateMachine_wral1")
 anim_player = NodePath("../AnimationPlayer")
-active = true
-parameters/playback = SubResource("AnimationNodeStateMachinePlayback_2e05x")
+parameters/playback = SubResource("AnimationNodeStateMachinePlayback_yrw0s")
 parameters/Idle/blend_position = Vector2(0, 1)
 parameters/Walk/blend_position = Vector2(0, 1)
 

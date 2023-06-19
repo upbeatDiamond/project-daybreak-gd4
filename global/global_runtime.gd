@@ -9,6 +9,9 @@ var player_menu_enabled: bool		# Can the player open their menu?
 
 var scene_root_node : Node
 
+signal pause_gameworld
+signal unpause_gameworld
+
 @export var combat_screen : Node
 @export var scene_transition_player : Node
 
@@ -35,6 +38,19 @@ func clean_up_descent( target_node : Node ):
 		mark_for_deletion.append_array( current_mark.get_children() )
 		if current_mark.has_method("clean_up"): current_mark.clean_up()
 		current_mark.queue_free()
+
+func _input(event):
+	if event.is_action_pressed("game_pause"):
+		gamepieces_set_paused( !gameworld_is_paused )
+	pass
+
+func gamepieces_set_paused( value:bool ):
+	if value:
+		pause_gameworld.emit()
+		gameworld_is_paused = true
+	else:
+		unpause_gameworld.emit()
+		gameworld_is_paused = false
 
 # Queues deletion of a node and all of its child nodes
 # This is intended to slow down inevitable memory leakage

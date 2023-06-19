@@ -38,7 +38,8 @@ var screen_name : Dictionary = {
 	ScreenLoaded.CAMP 			: DEFAULT_SUBMENU_NAME,
 	ScreenLoaded.COMMUNICATIONS : DEFAULT_SUBMENU_NAME,
 	ScreenLoaded.SETTINGS 		: DEFAULT_SUBMENU_NAME,
-	ScreenLoaded.SAVE 			: DEFAULT_SUBMENU_NAME
+	ScreenLoaded.SAVE 			: DEFAULT_SUBMENU_NAME,
+	ScreenLoaded.QUIT_GAME 		: DEFAULT_SUBMENU_NAME
 }
 
 func get_screen_name( tag:ScreenLoaded ):
@@ -68,11 +69,14 @@ func _unhandled_input(event):
 			if event.is_action_pressed("menu"):
 				var player = GlobalRuntime.scene_root_node.get_children().back().find_child("Player")
 				if player == null: return
-				if GlobalRuntime.player_menu_enabled: return
-				if !player.is_moving:
-					player.set_physics_process(false)
-					menu.visible = true
-					screen_loaded = ScreenLoaded.PAUSE_MENU
+				#if GlobalRuntime.player_menu_enabled: return
+				
+				GlobalRuntime.gamepieces_set_paused(true);
+				
+				#if !player.is_moving:
+					#player.set_physics_process(false)
+				menu.visible = true
+				screen_loaded = ScreenLoaded.PAUSE_MENU
 			
 		ScreenLoaded.PARTY_SCREEN:
 			print("Feature Unfinished: Load Party Screen")
@@ -89,7 +93,8 @@ func _unhandled_input(event):
 			if event.is_action_pressed("menu") or event.is_action_pressed("ui_cancel") or screen_loaded == ScreenLoaded.CLOSED:
 				var player = GlobalRuntime.scene_root_node.get_children().back().find_child("Player")
 				if player == null: return
-				player.set_physics_process(true)
+				GlobalRuntime.gamepieces_set_paused(false)
+				#player.set_physics_process(true)
 				menu.visible = false
 				screen_loaded = ScreenLoaded.CLOSED
 				

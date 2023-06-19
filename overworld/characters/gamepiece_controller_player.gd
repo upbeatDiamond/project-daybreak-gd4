@@ -11,6 +11,8 @@ func _ready() -> void:
 	if not Engine.is_editor_hint():
 		#assert(gamepiece, "Gamepiece '%s' must be a child of a Gamepiece to function! Is '%s'" % [name, get_parent().get_class()] )
 		pass
+	
+	set_physics_process(true)
 
 
 func _get_configuration_warnings() -> PackedStringArray:
@@ -21,16 +23,17 @@ func _get_configuration_warnings() -> PackedStringArray:
 	return warnings
 
 func _process(delta):
-	if gamepiece != null:
-		set_physics_process(true);
-	print( "controller thinks gp = ", gamepiece )
+	#if gamepiece != null:
+	#	set_physics_process(true);
+	#print( "controller thinks gp = %d", gamepiece )
+	pass
 
 func _physics_process(delta):
-	if GlobalRuntime.gameworld_input_stopped:
+	if GlobalRuntime.gameworld_input_stopped || gamepiece.is_paused:
 		return
 	elif gamepiece.is_moving == false:
 		handle_movement_input()
-	print( "controller thinks moving = %d", gamepiece.is_moving )
+	#print( "controller thinks moving = %d", gamepiece.is_moving )
 
 
 func handle_movement_input():
@@ -42,7 +45,6 @@ func handle_movement_input():
 			pass
 	
 	gamepiece.facing_direction = input_direction;
-	#gamepiece.input_direction = input_direction;
 	
 	var is_running = Input.is_action_pressed("ui_fast")
 	if is_running:

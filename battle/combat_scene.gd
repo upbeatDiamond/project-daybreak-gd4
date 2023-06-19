@@ -24,6 +24,12 @@ func initialize(combat_combatants):
 #func initialize():
 	active_combatant = combatants[ combatant_index ]
 
+func play_round():
+	var i := 0;
+	while(i < combatants.size()):
+		play_turn()
+		i = i + 1;
+
 # 1 turn = 1 combatant or 1 tight cluster of combatants
 func play_turn():
 	#yield(active_character.play_turn(), "completed")

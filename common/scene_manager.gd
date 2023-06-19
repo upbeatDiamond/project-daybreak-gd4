@@ -24,7 +24,6 @@ func _process(delta):
 			ResourceLoader.THREAD_LOAD_LOADED:
 				scenes_ready[ scenes_waiting[i] ] = [ResourceLoader.load_threaded_get( scenes_waiting[i] ).instance(), TTL_RESET]
 				scenes_waiting[i].erase
-	
 	pass
 
 # Right now, just a collection of commented-out call templates

@@ -28,7 +28,7 @@ func _process(delta):
 	time = time + delta # Change this line to use the new Global !!!!!!!!!!!!!
 	
 	current_hour = fmod((time / 10), 24 )
-	print("Current hour = %f, time = %f" % [current_hour, time])
+	#print("Current hour = %f, time = %f, temp = %f" % [current_hour, time, get_daylight_temp(time) ])
 	
 	#self.color = 
 	self.color = fix_daylight_value( current_hour, kelvin_to_color( get_daylight_temp(current_hour) ) )
@@ -50,6 +50,31 @@ func fix_daylight_value( hour, color ):
 	
 	return color
 
+
+func get_daylight_temp2( hour ) -> float:
+	
+	var temp_max = 8000
+	var temp_min = 1500
+	
+	var daylight_length = ( hour_sunrise - hour_sunset )
+	var moonlight_length = day_length - daylight_length + 0.05 # plus a smidge in case of tiny gap
+	var light_length = daylight_length
+	
+	var is_night = false
+	
+	if hour > hour_sunset:
+		is_night = true
+	elif hour < hour_sunrise:
+		hour = hour + 24
+		is_night = true
+	
+	if is_night:
+		light_length = moonlight_length
+		pass
+	
+	return -( abs(temp_max-temp_min)/2 ) * cos((hour - hour_sunrise)*PI/light_length) + (temp_min+temp_max)/2
+	
+	pass
 
 func get_daylight_temp( hour ) -> float:
 	
@@ -97,13 +122,13 @@ func kelvin_to_color( temperature ) -> Color:
 		color.r8 = 255
 	else:
 		color.r8 = clamp(329.698727446 * pow(temperature - 60, -0.1332047592), 0, 255)
-
+	
 	# Calculate Green:
 	if temperature <= 66:
 		color.g8 = clamp(99.4708025861 * log(temperature) - 161.1195681661, 0, 255)
 	else:
 		color.g8 = clamp(288.1221695283 * pow(temperature - 60, -0.0755148492), 0, 255)
-
+	
 	# Calculate Blue:
 	if temperature >= 66:
 		color.b8 = 255

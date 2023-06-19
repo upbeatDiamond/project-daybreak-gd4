@@ -15,16 +15,23 @@ Notable additions:
 	+ Added more code to the combattants and combat scene
 		+ Added more graphics and GUI elements for the combat scene
 	+ Always more graphics and sounds that aren't used (yet)
+	+ Added GamepieceController (which is broken / doesn't work)
+
 
 Notable subtractions:
-	- 
+	- player.gd is being replaced with *_controller_player.gd
 
 
 
 
 Notable changes:
 	* Changed daylight cycle to try to increase visibility at night
-	+ Added more functionality to the pause / "Player" menu, seen through the 'exit' button working
+	+ Added more functionality to the Player Menu, seen through the 'exit' button working
+		+ Pausing can now happen while the player (or any gamepiece, I hope) is moving
+	* Put all new Player functionality into Gamepiece and then replaced Player with a Gamepiece
+		- Some old functionality might be broken...
+		* Tween is now tied to a variable that can be paused on a signal
+
 	
 
 

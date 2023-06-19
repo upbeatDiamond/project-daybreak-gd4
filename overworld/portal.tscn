@@ -3,11 +3,15 @@
 [ext_resource type="Script" path="res://overworld/portal.gd" id="1_y3akn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ewm0l"]
+size = Vector2(16, 16)
 
 [node name="Portal" type="Area2D" groups=["portals"]]
+collision_layer = 4
+collision_mask = 0
 script = ExtResource("1_y3akn")
 
 [node name="PortalCollision" type="CollisionShape2D" parent="."]
+position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_ewm0l")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

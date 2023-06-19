@@ -15,6 +15,7 @@ enum Bitfield
 	SOUTHEAST_BLOCKED,	# Can move 'down' and 'left', ignored for Manhatten mode
 	SOUTHWEST_BLOCKED,	# Can move 'down' and 'right', ignored for Manhatten mode
 	NORTHWEST_BLOCKED,	# Can move 'up' and 'right', ignored for Manhatten mode
+	# No, we're not checking bits for all 3x3x3-1 potential neighbors
 
 	# Non-standard (or oft ignored) access methods
 	SELF_BLOCKED,		# Does not determine passibility, but targetibility; can it be rested on?
@@ -27,8 +28,7 @@ enum Bitfield
 	RESERVED_1_5,
 	RESERVED_1_6,
 	
-	RESERVED_2_1,
-	# No, we're not checking bits for all 3x3x3-1 potential neighbors
+	OUTLINK_EXPECTED,	# Used if tile is intended to act as a door/portal/teleport
 }
 
 var k_m := 0 # I have no idea what k_m means.
