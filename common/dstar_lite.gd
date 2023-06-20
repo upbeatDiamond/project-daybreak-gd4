@@ -240,6 +240,15 @@ func load_next_cell():
 # subset of procedure Main
 # gets valid successors of 'cell', and returns min of [c(cell,succ) + g(succ)]
 func arg_min( cell:Vector2i ):
+	var successors = get_valid_successors(cell)
+	var rhs_candidates := []
+	
+	for succ in successors:
+		rhs_candidates.append( c(cell, succ) + g.get_key(cell) )
+		pass
+	#rhs[cell] = 
+	
+	#return rhs_candidates.sort_custom()
 	pass
 
 func compute_shortest_path():

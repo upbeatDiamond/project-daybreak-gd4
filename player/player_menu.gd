@@ -8,7 +8,7 @@ var screen_loaded = ScreenLoaded.CLOSED
 
 var selected_option: int = 0
 var option_count: int = 11
-const DEFAULT_SUBMENU_NAME := "OptionList"
+const DEFAULT_SUBMENU_NAME := "PausedList"
 var submenu_name := DEFAULT_SUBMENU_NAME
 
 enum ScreenLoaded 
@@ -60,6 +60,7 @@ func update_select_arrow():
 func update_submenu():
 	submenu_name = get_screen_name( screen_loaded )
 	option_count = get_parent().find_child(submenu_name).get_child_count()
+	selected_option = 0
 	
 	pass
 

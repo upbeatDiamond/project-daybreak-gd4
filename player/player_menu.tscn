@@ -33,7 +33,7 @@ patch_margin_right = 16
 patch_margin_bottom = 16
 metadata/_edit_use_anchors_ = true
 
-[node name="OptionList" type="VBoxContainer" parent="Control/NinePatchRect"]
+[node name="PausedList" type="VBoxContainer" parent="Control/NinePatchRect"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.15625
@@ -44,7 +44,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 metadata/_edit_use_anchors_ = true
 
-[node name="LabelJournal" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+[node name="LabelJournal" type="RichTextLabel" parent="Control/NinePatchRect/PausedList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -54,7 +54,7 @@ fit_content = true
 autowrap_mode = 0
 script = ExtResource("3_1w4mh")
 
-[node name="LabelParty" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+[node name="LabelParty" type="RichTextLabel" parent="Control/NinePatchRect/PausedList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -65,7 +65,7 @@ autowrap_mode = 0
 script = ExtResource("3_1w4mh")
 submenu_link = 2
 
-[node name="LabelInventory" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+[node name="LabelInventory" type="RichTextLabel" parent="Control/NinePatchRect/PausedList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -76,7 +76,7 @@ autowrap_mode = 0
 script = ExtResource("3_1w4mh")
 submenu_link = 4
 
-[node name="LabelApp" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+[node name="LabelApp" type="RichTextLabel" parent="Control/NinePatchRect/PausedList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -87,7 +87,7 @@ autowrap_mode = 0
 script = ExtResource("3_1w4mh")
 submenu_link = 5
 
-[node name="LabelProfile" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+[node name="LabelProfile" type="RichTextLabel" parent="Control/NinePatchRect/PausedList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -98,7 +98,7 @@ autowrap_mode = 0
 script = ExtResource("3_1w4mh")
 submenu_link = 6
 
-[node name="LabelCamp" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+[node name="LabelCamp" type="RichTextLabel" parent="Control/NinePatchRect/PausedList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -109,7 +109,7 @@ autowrap_mode = 0
 script = ExtResource("3_1w4mh")
 submenu_link = 7
 
-[node name="LabelSettings" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+[node name="LabelSettings" type="RichTextLabel" parent="Control/NinePatchRect/PausedList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -120,7 +120,7 @@ autowrap_mode = 0
 script = ExtResource("3_1w4mh")
 submenu_link = 9
 
-[node name="LabelSave" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+[node name="LabelSave" type="RichTextLabel" parent="Control/NinePatchRect/PausedList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -131,7 +131,7 @@ autowrap_mode = 0
 script = ExtResource("3_1w4mh")
 submenu_link = 10
 
-[node name="LabelExit" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+[node name="LabelExit" type="RichTextLabel" parent="Control/NinePatchRect/PausedList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -142,7 +142,7 @@ autowrap_mode = 0
 script = ExtResource("3_1w4mh")
 submenu_link = 0
 
-[node name="LabelQuit" type="RichTextLabel" parent="Control/NinePatchRect/OptionList"]
+[node name="LabelQuit" type="RichTextLabel" parent="Control/NinePatchRect/PausedList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0

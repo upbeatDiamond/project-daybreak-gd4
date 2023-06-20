@@ -19,7 +19,8 @@ Notable additions:
 
 
 Notable subtractions:
-	- player.gd is being replaced with *_controller_player.gd
+	- Multiple tcrf-worthy scripts I did not develop, or have otherwise replaced
+		- player[#].gd's are being replaced with *_controller_player.gd
 
 
 

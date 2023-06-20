@@ -8,7 +8,11 @@ var db : SQLite = null
 
 const verbosity_level : int = SQLite.VERBOSE
 
-var db_name := "res://database/database"
+var db_name_patch := "res://database/patchdata"
+var db_name_user_active := "user://database/save_active"
+var db_name_user_stable := "user://database/save_stable"
+var db_name_user_backup := "user://database/save_backup"
+var json_name_user_pidgeonhole := "user://database/pidgeonhole"
 
 var table_name_monster := "person"
 var table_name_player := "person"
@@ -30,7 +34,7 @@ func exists_monster( monster ) -> bool:
 	var row_array = ["name"]
 	
 	db = SQLite.new()
-	db.path = db_name
+	db.path = db_name_user_active
 	db.open_db()
 	
 	var query_result = db.select_rows( table_name_monster, str("umid = ", monster.umid), row_array );
@@ -102,17 +106,14 @@ func set_monster_summary( monster, summary:Dictionary ):
 
 
 # To be called by GlobalMonsterSpawner
-func create_monster( monster ):
-	
+func store_monster( monster ):
 	
 	var row_dict : Dictionary = get_monster_summary( monster );
 	
 	db = SQLite.new()
-	db.path = db_name
+	db.path = db_name_user_active
 	
 	db.open_db()
-	
-	#var query_condition = str("umid = ", monster.umid)
 	
 	var row_array = [row_dict]
 	
@@ -127,7 +128,7 @@ func save_monster( monster ):
 	if( exists_monster( monster ) ):
 		update_monster( monster )
 	else:
-		create_monster( monster )
+		store_monster( monster )
 
 
 # Contains code to save monster character to database
@@ -136,7 +137,7 @@ func update_monster( monster ):
 	var row_dict : Dictionary = get_monster_summary( monster ); 
 	
 	db = SQLite.new()
-	db.path = db_name
+	db.path = db_name_user_active
 	db.open_db()
 	
 	var query_condition = str("umid = ", monster.umid)
@@ -148,15 +149,15 @@ func update_monster( monster ):
 	pass
 
 
-func save_city():
+func save_map_data():
 	pass
-	
-func save_player():
+
+func save_player_data():
 	pass
-	
-func save_world():
+
+func save_global_data():
 	pass
-	
+
 func load_monster( monster ):
 	
 	var selected_columns : Array = ["current_health", "current_spirit", 
@@ -172,20 +173,75 @@ func load_monster( monster ):
 	var summary_dict : Dictionary = Dictionary();
 	
 	db = SQLite.new()
-	db.path = db_name
+	db.path = db_name_user_active
 	db.open_db()
 	
 	var fetched:Array = db.select_rows( table_name_monster, str("umid = ", monster.umid), selected_columns )
 	
 	set_monster_summary( monster, fetched[-1] );
 	
-	pass
+	db.close_db()
 	
-func load_player():
 	pass
+
+
+func load_player_data():
+	pass
+
+func load_map_data():
+	# with parameter of map index, use active player save to load which gamepieces to place where
+	pass
+
+func load_global_data():
+	pass
+
+
+func fetch_save_to_active():
+	var db_stage = SQLite.new(); db_stage.path = db_name_user_active; db_stage.open_db()
+	var db_commit = SQLite.new(); db_commit.path = db_name_user_stable; db_commit.open_db()
+	var db_backup = SQLite.new(); db_backup.path = db_name_user_backup; db_backup.open_db()
 	
-func load_world():
+	var success
+	
+	
+	
+	success = db_commit.export_to_json( json_name_user_pidgeonhole )
+	if success:
+		success = db_stage.import_from_json( json_name_user_pidgeonhole )
+	else:# success:
+		success = db_backup.export_to_json( json_name_user_pidgeonhole )
+		if success:
+			success = db_stage.import_from_json( json_name_user_pidgeonhole )
+			return
+		print("Your journal latch seems stuck... We'll just have to see what you remember!")
+	
+	db_stage.close_db()
+	db_commit.close_db()
+	db_backup.close_db()
+
+
+
+func commit_save_from_active():
+	var db_stage = SQLite.new(); db_stage.path = db_name_user_active; db_stage.open_db()
+	var db_commit = SQLite.new(); db_commit.path = db_name_user_stable; db_commit.open_db()
+	var db_backup = SQLite.new(); db_backup.path = db_name_user_backup; db_backup.open_db()
+	
+	var success
+	
+	success = db_commit.export_to_json( json_name_user_pidgeonhole )
+	if success:
+		success = db_backup.import_from_json( json_name_user_pidgeonhole )
+	
+	success = db_stage.export_to_json( json_name_user_pidgeonhole )
+	if success:
+		success = db_commit.import_from_json( json_name_user_pidgeonhole )
+	
+	db_stage.close_db()
+	db_commit.close_db()
+	db_backup.close_db()
+	
 	pass
+
 
 # I call this a 'struct' because I like the C langauge.
 func load_move_effectiveness_struct(move_id):

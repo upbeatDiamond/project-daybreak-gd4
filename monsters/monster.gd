@@ -18,13 +18,13 @@ func _process(delta):
 # Used for proper saving/loading/reloading
 var umid = -1
 
-@export var level = -1
+@export var level := -1
 	# Used to track what moves should be accessible at this point, and is used in same places as stat increases and Evo checks
 
-@export var exp = -1
+@export var exp := -1
 	# Used to track experience points, which reset upon levelling up
 
-var species = -1
+var species := -1
 	# Either reference ID for species base info, or storage of summary 
 
 var ability = ""
