@@ -55,3 +55,6 @@ func handle_movement_input():
 	if input_direction != Vector2.ZERO:
 		gamepiece.move( input_direction )
 		gamepiece.update_anim_tree()
+	
+	if Input.is_action_pressed("debug_summon"):
+		pass

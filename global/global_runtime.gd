@@ -7,7 +7,7 @@ var gameworld_input_stopped: bool	# Can the player move the characters/world?
 var gameworld_is_paused: bool		# Can the characters/world move around on their own?
 var player_menu_enabled: bool		# Can the player open their menu?
 
-var scene_root_node : Node
+@onready var scene_root_node : Node = get_node(scene_root_path)
 
 signal pause_gameworld
 signal unpause_gameworld
@@ -23,7 +23,8 @@ signal unpause_gameworld
 		scene_root_node = get_node(value)
 
 func _ready():
-	scene_root_path = scene_root_path
+	#scene_root_node = get_node(scene_root_path)
+	pass
 
 # Cleans up all children of a node, and their children, and their children, etc
 func clean_up_descent( target_node : Node ):

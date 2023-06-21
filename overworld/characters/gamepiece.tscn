@@ -240,7 +240,7 @@ shape = SubResource("RectangleShape2D_v1cr0")
 
 [node name="DoorRayCast2D" type="RayCast2D" parent="Collision"]
 target_position = Vector2(0, 8)
-collision_mask = 0
+collision_mask = 4
 
 [node name="BlockingRayCast2D" type="RayCast2D" parent="Collision"]
 target_position = Vector2(0, 8)

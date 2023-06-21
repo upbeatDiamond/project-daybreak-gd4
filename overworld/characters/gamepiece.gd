@@ -27,7 +27,7 @@ var move_speed:float
 @export var run_speed = 12.0
 
 #const TILE_SIZE = 16
-var tile_offset = Vector2.ONE * (GlobalRuntime.DEFAULT_TILE_SIZE + 1)/2
+var tile_offset = Vector2.ONE * (  (GlobalRuntime.DEFAULT_TILE_SIZE + 1)/2 as int )
 
 const LandingDustEffect = preload("res://overworld/landing_dust_effect.tscn")
 
@@ -48,6 +48,7 @@ var is_moving = false;	# true if walking, running, jumping, etc
 var is_running = false;	# set to true to use run speed instead of walk speed
 var facing_direction = Vector2(0,0);	# Used for animation state tree
 
+@export var target_position := Vector2(0,0)
 
 #var agent_id : int
 
@@ -108,6 +109,9 @@ func update_rays( direction ):
 
 
 func move( direction ):
+	if direction is Vector2i:
+		direction = Vector2( direction.x, direction.y )
+	
 	update_rays(direction)
 	if !block_ray.is_colliding() || door_ray.is_colliding():
 		
@@ -121,7 +125,6 @@ func move( direction ):
 		is_moving = true
 		await move_tween.finished
 		is_moving = false
-	#resync_position()
 
 
 

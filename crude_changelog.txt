@@ -15,7 +15,7 @@ Notable additions:
 	+ Added more code to the combattants and combat scene
 		+ Added more graphics and GUI elements for the combat scene
 	+ Always more graphics and sounds that aren't used (yet)
-	+ Added GamepieceController (which is broken / doesn't work)
+	+ Added GamepieceController for player (mostly works) and 'mob' (mostly doesn't)
 
 
 Notable subtractions:

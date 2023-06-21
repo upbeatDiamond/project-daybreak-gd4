@@ -8,11 +8,11 @@ const INTEGER_INF = pow(2,30)
 var storage := []
 var is_sorted := true
 
-func reset():
-	storage = []
-	# is_sorted doesn't matter when only 1 member big, right?
+#func reset():
+#	storage = []
+#	# is_sorted doesn't matter when only 1 member big, right?
 
-func insert(element, key):
+func insert(element:Vector2i, key):
 	# change to also replace node using update()
 	var index_check = has(element)
 	if index_check == -1:
@@ -24,7 +24,7 @@ func insert(element, key):
 
 
 
-func has(element) -> int:
+func has(element:Vector2i) -> int:
 	var i := 0
 	while(i < storage.size()):
 		if storage[i].element == element:
@@ -55,7 +55,7 @@ func update(element, key, index=-1):
 	is_sorted = false
 	pass
 
-func remove(element):
+func remove(element:Vector2i):
 	var i := 0
 	while(i < storage.size()):
 		if storage[i].element == element:
@@ -70,6 +70,8 @@ func top():
 	return get_top().element
 
 func top_key():
+	if storage.size() < 1:
+		return INTEGER_INF
 	return get_top().key
 
 func get_top():
@@ -89,7 +91,7 @@ func size():
 class DStarStorageNode:
 
 	var key : int
-	var element
+	var element : Vector2i
 	
 	func _init(key_, element_):
 		self.key = key_

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cav2a770bdoip"]
+[gd_scene load_steps=21 format=3 uid="uid://cav2a770bdoip"]
 
 [ext_resource type="Texture2D" uid="uid://claaq3m3x57i0" path="res://assets/textures/tilesets/dirtgrass_mauvetown.png" id="1_x7vyt"]
 [ext_resource type="Texture2D" uid="uid://dg30v1evln7gc" path="res://assets/textures/tilesets/dirt_elevated.png" id="2_giq7l"]
@@ -6,8 +6,11 @@
 [ext_resource type="Texture2D" uid="uid://b3nqmhb1qe2d0" path="res://assets/textures/tilesets/tile_selection.png" id="3_xfeds"]
 [ext_resource type="PackedScene" uid="uid://db8npf25b22jx" path="res://player/player.tscn" id="4_0nnja"]
 [ext_resource type="PackedScene" uid="uid://cvajri3ppp8k" path="res://overworld/tree.tscn" id="5_4xp7d"]
+[ext_resource type="PackedScene" uid="uid://dsk04vtyuk6hu" path="res://overworld/characters/gamepiece.tscn" id="5_f2riu"]
 [ext_resource type="PackedScene" uid="uid://bj5p1ucet76ip" path="res://overworld/buildings/house.tscn" id="5_j066b"]
+[ext_resource type="Script" path="res://overworld/characters/gamepiece_controller_mob.gd" id="6_18rsw"]
 [ext_resource type="PackedScene" uid="uid://db2gcrrcc6uej" path="res://overworld/tall_grass.tscn" id="6_j60n6"]
+[ext_resource type="Texture2D" uid="uid://d0mqye23yxhkx" path="res://assets/textures/npc_test.png" id="6_pp57m"]
 [ext_resource type="PackedScene" uid="uid://crk1pu5pxjnen" path="res://common/daylight_cycle_filter.tscn" id="7_u0sa6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_oy114"]
@@ -1419,6 +1422,8 @@ texture = ExtResource("3_xfeds")
 [sub_resource type="TileSet" id="TileSet_2upmt"]
 sources/0 = SubResource("TileSetAtlasSource_nsigh")
 
+[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_au8cd"]
+
 [node name="PortTown" type="Node2D"]
 position = Vector2(256, 256)
 
@@ -1437,6 +1442,7 @@ layer_1/z_index = -1
 layer_1/tile_data = PackedInt32Array()
 
 [node name="AstarTracer" type="Area2D" parent="Board"]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Board/AstarTracer"]
 position = Vector2(-248, -248)
@@ -1454,9 +1460,21 @@ format = 2
 y_sort_enabled = true
 position = Vector2(256, 256)
 
+[node name="Gamepiece" parent="Objects/Y-Sort" instance=ExtResource("5_f2riu")]
+position = Vector2(-64, -64)
+
+[node name="Controller" parent="Objects/Y-Sort/Gamepiece" index="0"]
+script = ExtResource("6_18rsw")
+
+[node name="Sprite" parent="Objects/Y-Sort/Gamepiece/GFX" index="2"]
+texture = ExtResource("6_pp57m")
+
+[node name="AnimationTree" parent="Objects/Y-Sort/Gamepiece" index="3"]
+parameters/playback = SubResource("AnimationNodeStateMachinePlayback_au8cd")
+
 [node name="StaticBody2D" parent="Objects/Y-Sort" instance=ExtResource("5_j066b")]
 
-[node name="Player" parent="Objects/Y-Sort" instance=ExtResource("4_0nnja")]
+[node name="Player" parent="Objects/Y-Sort" groups=["gamepiece"] instance=ExtResource("4_0nnja")]
 position = Vector2(-80, -32)
 
 [node name="Tree" parent="Objects/Y-Sort" instance=ExtResource("5_4xp7d")]
@@ -1466,3 +1484,6 @@ position = Vector2(96, 16)
 position = Vector2(144, -16)
 
 [node name="DaylightFilter" parent="." instance=ExtResource("7_u0sa6")]
+visible = false
+
+[editable path="Objects/Y-Sort/Gamepiece"]
