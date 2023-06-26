@@ -29,7 +29,7 @@ func _get_configuration_warnings() -> PackedStringArray:
 
 func _physics_process(delta):
 	
-	print( str("I think my gamepiece is at ", gamepiece.position, " or ", gamepiece.collision.position) )
+	print( str("I think my collision is offset from ", gamepiece.position ," by ", gamepiece.collision.position, " and gfx by ", gamepiece.gfx.position) )
 	
 	if GlobalRuntime.gameworld_input_stopped || gamepiece.is_paused:
 		return
@@ -50,8 +50,9 @@ func assign_target_position( target:Vector2 ):
 func handle_movement_input():
 	#var input_direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	var next_target = dstar_agent.pop_next_cell()
-	var input_direction = Vector2(gamepiece.position.x / GlobalRuntime.DEFAULT_TILE_SIZE - next_target.x, gamepiece.position.y / GlobalRuntime.DEFAULT_TILE_SIZE - next_target.y) #.clamp( Vector2(-1,-1), Vector2(1,1) )
-	
+	var current_cell = Vector2(gamepiece.position.x / GlobalRuntime.DEFAULT_TILE_SIZE, gamepiece.position.y / GlobalRuntime.DEFAULT_TILE_SIZE)
+	var input_direction = Vector2(next_target.x - current_cell.x, next_target.y - current_cell.y)
+	input_direction = input_direction.clamp( Vector2(-1,-1), Vector2(1,1) )
 	#if input_direction != gamepiece.facing_direction:
 	#	if (input_direction.x != 0) && (input_direction.y != 0) && (input_direction != Vector2.ZERO):
 	#		input_direction = gamepiece.facing_direction;
@@ -60,12 +61,13 @@ func handle_movement_input():
 	gamepiece.facing_direction = input_direction;
 	
 	#var is_running = Input.is_action_pressed("ui_fast")
-	#var is_running = false
-	#if is_running:
-	#	gamepiece.move_speed = gamepiece.run_speed
-	#else:
-	#	gamepiece.move_speed = gamepiece.walk_speed
+	var is_running = false
+	if is_running:
+		gamepiece.move_speed = gamepiece.run_speed
+	else:
+		gamepiece.move_speed = gamepiece.walk_speed
 	
 	if input_direction != Vector2.ZERO:
-		gamepiece.move( input_direction )
+		gamepiece.queue_move( input_direction )
 		gamepiece.update_anim_tree()
+		

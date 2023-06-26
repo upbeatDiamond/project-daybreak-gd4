@@ -45,6 +45,6 @@ func _on_quit_pressed():
 
 func _on_credits_pressed():
 	if scene_enabled:
-		GlobalRuntime.scene_root_node.add_child( credits_menu.instantiate() )
+		GlobalRuntime.activity_root_node.add_child( credits_menu.instantiate() )
 		scene_enabled = false
 	pass # Replace with function body.

@@ -7,7 +7,7 @@ var gameworld_input_stopped: bool	# Can the player move the characters/world?
 var gameworld_is_paused: bool		# Can the characters/world move around on their own?
 var player_menu_enabled: bool		# Can the player open their menu?
 
-@onready var scene_root_node : Node = get_node(scene_root_path)
+
 
 signal pause_gameworld
 signal unpause_gameworld
@@ -15,12 +15,26 @@ signal unpause_gameworld
 @export var combat_screen : Node
 @export var scene_transition_player : Node
 
-@export var scene_root_path := ^"/root/SceneManager/CurrentScene" :
+@onready var scene_manager := get_node(^"/root/SceneManager")
+
+@export var overworld_root_path := ^"/root/SceneManager/InterfaceWorld" :
 	get:
-		return scene_root_path
+		return overworld_root_path
 	set(value):
-		scene_root_path = value
-		scene_root_node = get_node(value)
+		overworld_root_path = value
+		overworld_root_node = get_node(value)
+
+@onready var overworld_root_node : Node = get_node(overworld_root_path)
+
+@export var activity_root_path := ^"/root/SceneManager/InterfaceActivityWrapper/InterfaceActivity" :
+	get:
+		return activity_root_path
+	set(value):
+		activity_root_path = value
+		activity_root_node = get_node(value)
+
+@onready var activity_root_node : Node = get_node(activity_root_path)
+
 
 func _ready():
 	#scene_root_node = get_node(scene_root_path)
@@ -85,11 +99,22 @@ func screen_transition( style := "fade" ):
 	scene_transition_player.play(style)
 	await scene_transition_player.animation_finished
 
+# It feels like a Runtime access thing...
+# But it relies on the Scene Manager's structure and knowledge...
+# So why not host the function call and pass it over?
+func switch_to_interface( interface:SceneManager.InterfaceOptions ):
+	scene_manager.switch_to_interface( interface )
+	pass
+
 
 # Copied & modified from "JRPG Demo", do not use yet.
 func start_combat(combat_actors):
-	screen_transition()
-	scene_root_node.add_child(combat_screen)
+	#screen_transition()
+	activity_root_node.add_child(combat_screen)
 	combat_screen.show()
+	scene_manager.switch_to_interface( SceneManager.InterfaceOptions.ACTIVITY )
 	combat_screen.initialize(combat_actors)
 	$AnimationPlayer.play_backwards("fade")
+
+func complete_combat():
+	pass

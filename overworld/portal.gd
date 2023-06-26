@@ -34,3 +34,7 @@ func _on_area_entered(area):
 	if area is Gamepiece or area.is_in_group("gamepiece"):
 		area.set_teleport(target_position, target_facing)
 	pass # Replace with function body.
+
+
+func run_event( area ):
+	_on_area_entered(area)

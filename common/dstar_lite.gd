@@ -29,6 +29,7 @@ enum Bitfield
 	RESERVED_1_5,
 	RESERVED_1_6,
 	
+	# Metametadata - Ya ya hayiyiyi-ya! You have much yet to learn.
 	OUTLINK_EXPECTED,	# Used if tile is intended to act as a door/portal/teleport
 }
 
@@ -60,7 +61,7 @@ func _init( board:TileMap, collision_mask:int ):
 	
 	#collider.init()
 	collider.monitorable = false
-	collider.monitoring = false
+	collider.monitoring = true
 	
 	set_collision_mask( collision_mask )
 	

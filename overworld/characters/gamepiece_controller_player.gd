@@ -31,7 +31,7 @@ func _process(delta):
 func _physics_process(delta):
 	if GlobalRuntime.gameworld_input_stopped || gamepiece.is_paused:
 		return
-	elif gamepiece.is_moving == false:
+	elif gamepiece.move_queue.size() <= 1 && gamepiece.is_moving == false: #:
 		handle_movement_input()
 	#print( "controller thinks moving = %d", gamepiece.is_moving )
 
@@ -53,8 +53,15 @@ func handle_movement_input():
 		gamepiece.move_speed = gamepiece.walk_speed
 	
 	if input_direction != Vector2.ZERO:
-		gamepiece.move( input_direction )
+		gamepiece.queue_move( input_direction )
 		gamepiece.update_anim_tree()
 	
 	if Input.is_action_pressed("debug_summon"):
 		pass
+
+
+func handle_map_change( map:String ):
+	
+	GlobalRuntime.overworld_root_node
+	
+	pass

@@ -1,12 +1,25 @@
 extends Node2D
+class_name SceneManager 
 
 # Structure is "FilePath" : [ packed scene, Time to live ]
 var scenes_ready : Dictionary
 var scenes_waiting : Array
 
+
+@onready var activity_interface_wrapper = $InterfaceActivityWrapper
+@onready var activity_interface = $InterfaceActivityWrapper/InterfaceActivity
+@onready var world_interface = $InterfaceWorld
+
 # Keep the -1, it's a mnemonic.
 # The number preceding the '-1' is the number of levels you can access before an item expires.
 const TTL_RESET := 4 - 1
+
+enum InterfaceOptions
+{
+	WORLD, # For the Overworld
+	ACTIVITY # For more complex menus, as well as games
+}
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -39,17 +52,47 @@ func idkwhatthisisyet_man_ijustwanna_like_uhhh_loadsevenlevelsatthesametime():
 	
 	pass
 
+func switch_to_interface( interface:InterfaceOptions ):
+	match interface:
+		InterfaceOptions.ACTIVITY:
+			world_interface.process_mode = Node.PROCESS_MODE_DISABLED
+			activity_interface_wrapper.process_mode = Node.PROCESS_MODE_INHERIT
+			activity_interface_wrapper.scale = Vector2(1,1)
+			activity_interface_wrapper.position = Vector2(0,0)
+			activity_interface_wrapper.visible = true
+			pass
+		_: # Default:
+			world_interface.process_mode = Node.PROCESS_MODE_INHERIT
+			activity_interface_wrapper.process_mode = Node.PROCESS_MODE_DISABLED
+			activity_interface_wrapper.scale = Vector2(0.001,0.001)
+			activity_interface_wrapper.position = Vector2(-2048,-2048)
+			activity_interface_wrapper.visible = false
+			pass
+	pass
+
+
+func change_map( map:String ):
+	if scenes_ready.has(map):
+		for child in world_interface.get_children():
+			if child is LevelMap:
+				child.pack_up()
+			GlobalRuntime.clean_up_node_descent( child )
+		
+		add_child( scenes_ready[map].instantiate() )
+	pass
+
 
 func update_preload_portals( ttl_decrement : int = 1 ):
 	var portals = get_tree().get_nodes_in_group("portals")
 	
 	# Whatever resources are not yet available, queue loading
 	for portal in portals:
-		if !scenes_ready.has(portal):
-			ResourceLoader.load_threaded_request(portal)
-			scenes_waiting.append(portal)
+		if !scenes_ready.has(portal.map):
+			if portal.map.length() > 0:
+				ResourceLoader.load_threaded_request(portal.map)
+				scenes_waiting.append(portal.map)
 		else:
-			scenes_ready[portal][1] = 3;
+			scenes_ready[portal.map][1] = TTL_RESET;
 		pass
 	
 	# Whatever resources have not been updated, decrement their TTL

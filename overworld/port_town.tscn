@@ -1,5 +1,6 @@
 [gd_scene load_steps=21 format=3 uid="uid://cav2a770bdoip"]
 
+[ext_resource type="Script" path="res://overworld/level_map.gd" id="1_eav60"]
 [ext_resource type="Texture2D" uid="uid://claaq3m3x57i0" path="res://assets/textures/tilesets/dirtgrass_mauvetown.png" id="1_x7vyt"]
 [ext_resource type="Texture2D" uid="uid://dg30v1evln7gc" path="res://assets/textures/tilesets/dirt_elevated.png" id="2_giq7l"]
 [ext_resource type="Texture2D" uid="uid://digw7uhccv28w" path="res://assets/textures/tilesets/streets.png" id="3_q61kk"]
@@ -8,7 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://cvajri3ppp8k" path="res://overworld/tree.tscn" id="5_4xp7d"]
 [ext_resource type="PackedScene" uid="uid://dsk04vtyuk6hu" path="res://overworld/characters/gamepiece.tscn" id="5_f2riu"]
 [ext_resource type="PackedScene" uid="uid://bj5p1ucet76ip" path="res://overworld/buildings/house.tscn" id="5_j066b"]
-[ext_resource type="Script" path="res://overworld/characters/gamepiece_controller_mob.gd" id="6_18rsw"]
 [ext_resource type="PackedScene" uid="uid://db2gcrrcc6uej" path="res://overworld/tall_grass.tscn" id="6_j60n6"]
 [ext_resource type="Texture2D" uid="uid://d0mqye23yxhkx" path="res://assets/textures/npc_test.png" id="6_pp57m"]
 [ext_resource type="PackedScene" uid="uid://crk1pu5pxjnen" path="res://common/daylight_cycle_filter.tscn" id="7_u0sa6"]
@@ -1426,6 +1426,8 @@ sources/0 = SubResource("TileSetAtlasSource_nsigh")
 
 [node name="PortTown" type="Node2D"]
 position = Vector2(256, 256)
+script = ExtResource("1_eav60")
+map_index = 3
 
 [node name="Board" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_d1g0t")
@@ -1461,10 +1463,7 @@ y_sort_enabled = true
 position = Vector2(256, 256)
 
 [node name="Gamepiece" parent="Objects/Y-Sort" instance=ExtResource("5_f2riu")]
-position = Vector2(-64, -64)
-
-[node name="Controller" parent="Objects/Y-Sort/Gamepiece" index="0"]
-script = ExtResource("6_18rsw")
+position = Vector2(32, 128)
 
 [node name="Sprite" parent="Objects/Y-Sort/Gamepiece/GFX" index="2"]
 texture = ExtResource("6_pp57m")
@@ -1472,7 +1471,7 @@ texture = ExtResource("6_pp57m")
 [node name="AnimationTree" parent="Objects/Y-Sort/Gamepiece" index="3"]
 parameters/playback = SubResource("AnimationNodeStateMachinePlayback_au8cd")
 
-[node name="StaticBody2D" parent="Objects/Y-Sort" instance=ExtResource("5_j066b")]
+[node name="Museum" parent="Objects/Y-Sort" instance=ExtResource("5_j066b")]
 
 [node name="Player" parent="Objects/Y-Sort" groups=["gamepiece"] instance=ExtResource("4_0nnja")]
 position = Vector2(-80, -32)
@@ -1487,3 +1486,4 @@ position = Vector2(144, -16)
 visible = false
 
 [editable path="Objects/Y-Sort/Gamepiece"]
+[editable path="Objects/Y-Sort/Museum"]

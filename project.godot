@@ -26,6 +26,7 @@ GlobalMonsterSpawner="*res://global/global_monster_spawner.gd"
 GlobalMove="*res://global/global_move.gd"
 GlobalBitManip="*res://global/global_bit_manip.gd"
 GlobalRuntime="*res://global/global_runtime.gd"
+GlobalGamepieceTransfer="*res://global/global_gamepiece_transfer.gd"
 
 [display]
 

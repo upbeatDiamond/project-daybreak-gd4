@@ -7,9 +7,13 @@
 [node name="SceneManager" type="Node2D"]
 script = ExtResource("1_whyfs")
 
-[node name="CurrentScene" type="Node" parent="."]
+[node name="InterfaceWorld" type="Node" parent="."]
 
-[node name="TitleScreen" parent="CurrentScene" instance=ExtResource("2_6kute")]
+[node name="TitleScreen" parent="InterfaceWorld" instance=ExtResource("2_6kute")]
+
+[node name="InterfaceActivityWrapper" type="Node2D" parent="."]
+
+[node name="InterfaceActivity" type="Node" parent="InterfaceActivityWrapper"]
 
 [node name="Menu" parent="." instance=ExtResource("3_atd50")]
 

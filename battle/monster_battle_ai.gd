@@ -1,7 +1,7 @@
 extends Node
 
 const Matrix = preload("res://common/matrix.gd")
-const Monster = preload("res://monsters/monster.gd")
+#const Monster = preload("res://monsters/monster.gd")
 
 var monster : Monster
 var options : Array

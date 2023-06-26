@@ -42,7 +42,7 @@ enum BooleanFlags
 	IS_FLINCHABLE,		# Is there a chance for hesitation upon seeing royalty?
 	IS_SOUND_BASED,		# Is sound the carrier of, or basis for, the intended effect?
 	IS_MOUTH_BASED,		# Would a muzzle prevent the intended effect?
-	IS_POWDER_BASED,	# Is a fine dust the basis for, the intended effect?
+	IS_POWDER_BASED,	# Is a fine dust the basis for the intended effect?
 	IS_PUNCH_BASED,		# Are fists the carrier of, or basis for, the intended effect?
 	IS_BITE_BASED,		# Are teeth the carrier of, or basis for, the intended effect?
 	IS_AURA_BASED,		# Does it come from the soul's energy or fighting force?

@@ -54,7 +54,7 @@ func _ready():
 
 
 func update_select_arrow():
-	#	select_arrow.rect_position.y = [default y] + (selected_option % 6) * [distance between options]
+	#	select_arrow.rect_position.y = [default y] + (selected_option % 6) * [distance between options = richtext height + vbox separation]
 	select_arrow.position.y = 56 + posmod(selected_option, option_count) * 49
 
 func update_submenu():
@@ -68,7 +68,7 @@ func _unhandled_input(event):
 	match screen_loaded:
 		ScreenLoaded.CLOSED:
 			if event.is_action_pressed("menu"):
-				var player = GlobalRuntime.scene_root_node.get_children().back().find_child("Player")
+				var player = GlobalRuntime.overworld_root_node.get_children().back().find_child("Player")
 				if player == null: return
 				#if GlobalRuntime.player_menu_enabled: return
 				
@@ -92,7 +92,7 @@ func _unhandled_input(event):
 				update_submenu()
 			
 			if event.is_action_pressed("menu") or event.is_action_pressed("ui_cancel") or screen_loaded == ScreenLoaded.CLOSED:
-				var player = GlobalRuntime.scene_root_node.get_children().back().find_child("Player")
+				var player = GlobalRuntime.overworld_root_node.get_children().back().find_child("Player")
 				if player == null: return
 				GlobalRuntime.gamepieces_set_paused(false)
 				#player.set_physics_process(true)
