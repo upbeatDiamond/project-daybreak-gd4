@@ -90,7 +90,7 @@ func _ready():
 	GlobalRuntime.pause_gameworld.connect( _on_gameworld_pause )
 	GlobalRuntime.unpause_gameworld.connect( _on_gameworld_unpause )
 
-func _process(delta):
+func _process(_delta):
 	#print("gp = %s" % self.get_class())
 	if move_queue.size() > 0 && is_moving == false:
 		move(move_queue.pop_front())
@@ -134,7 +134,7 @@ func move( direction ):
 	
 	if !block_ray.is_colliding():
 		
-		var old_position = collision.position # 
+		#var old_position = collision.position # 
 		var new_position = snap_to_grid( collision.position + direction * GlobalRuntime.DEFAULT_TILE_SIZE )
 		
 		collision.position = new_position
@@ -211,6 +211,7 @@ func set_teleport(loci: Vector2i, direction: Vector2i, map:=""):
 	
 	loci = snap_to_grid( loci )
 	move_to_target( loci )
+	facing_direction = Vector2( direction.x, direction.y )
 	
 	print("teleport to gx %d, gy %d, x %d , y %d" % [global_position.x, global_position.y, loci.x, loci.y])
 	#visible = true

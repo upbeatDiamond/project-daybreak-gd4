@@ -22,13 +22,13 @@ func _get_configuration_warnings() -> PackedStringArray:
 	
 	return warnings
 
-func _process(delta):
+func _process(_delta):
 	#if gamepiece != null:
 	#	set_physics_process(true);
 	#print( "controller thinks gp = %d", gamepiece )
 	pass
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if GlobalRuntime.gameworld_input_stopped || gamepiece.is_paused:
 		return
 	elif gamepiece.move_queue.size() <= 1 && gamepiece.is_moving == false: #:
@@ -62,6 +62,7 @@ func handle_movement_input():
 
 func handle_map_change( map:String ):
 	
-	GlobalRuntime.overworld_root_node
+	#GlobalGamepieceTransfer.submit_gamepiece( )
+	GlobalRuntime.scene_manager.change_map(map)
 	
 	pass

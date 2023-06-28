@@ -46,7 +46,7 @@ func clean_up_descent( target_node : Node ):
 	var current_mark
 	
 	if target_node.get_parent() != null:
-		target_node.reparent(null)
+		target_node.get_parent().remove_child( target_node )
 	
 	while mark_for_deletion.size() > 0:
 		current_mark = mark_for_deletion.pop_front()
@@ -72,6 +72,8 @@ func gamepieces_set_paused( value:bool ):
 # Maybe the arrays mess this up, but it also helps clean up scene transitions sometimes
 func clean_up_node_descent( target_node : Node ):
 	clean_up_descent(target_node)
+	#if target_node.get_parent() != null:
+	#	target_node.get_parent().remove_child(target_node)
 	target_node.queue_free()
 
 

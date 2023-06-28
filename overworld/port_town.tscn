@@ -1465,13 +1465,17 @@ position = Vector2(256, 256)
 [node name="Gamepiece" parent="Objects/Y-Sort" instance=ExtResource("5_f2riu")]
 position = Vector2(32, 128)
 
-[node name="Sprite" parent="Objects/Y-Sort/Gamepiece/GFX" index="2"]
+[node name="Sprite" parent="Objects/Y-Sort/Gamepiece/GFX" index="1"]
 texture = ExtResource("6_pp57m")
 
 [node name="AnimationTree" parent="Objects/Y-Sort/Gamepiece" index="3"]
 parameters/playback = SubResource("AnimationNodeStateMachinePlayback_au8cd")
 
 [node name="Museum" parent="Objects/Y-Sort" instance=ExtResource("5_j066b")]
+
+[node name="Portal" parent="Objects/Y-Sort/Museum" index="2"]
+map = "res://overworld/buildings/port_town_museum.tscn"
+target_facing = Vector2i(1, 1)
 
 [node name="Player" parent="Objects/Y-Sort" groups=["gamepiece"] instance=ExtResource("4_0nnja")]
 position = Vector2(-80, -32)

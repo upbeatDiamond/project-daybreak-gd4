@@ -5,7 +5,7 @@ class_name LevelMap
 @export var unique_id := -1
 
 # linked to the gamepiece transfer class
-@export var map_index : GlobalGamepieceTransfer.MapIndex = -1
+@export var map_index := ( -1 as GlobalGamepieceTransfer.MapIndex )
 
 
 # Called when the node enters the scene tree for the first time.
@@ -15,9 +15,13 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
 func populate_with_gamepieces():
 	GlobalGamepieceTransfer.eject_gamepieces_for_map( map_index )
+	pass
+
+func pack_up():
+	#GlobalGamepieceTransfer.submit_gamepiece()
 	pass

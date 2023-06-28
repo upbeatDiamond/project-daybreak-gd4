@@ -27,16 +27,19 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	
 	var i := 0
 	while i < scenes_waiting.size():
 		match ResourceLoader.load_threaded_get_status( scenes_waiting[i] ):
 			ResourceLoader.THREAD_LOAD_INVALID_RESOURCE, ResourceLoader.THREAD_LOAD_FAILED:
-				scenes_waiting[i].erase
+				scenes_waiting.remove_at(i)
+				pass
 			ResourceLoader.THREAD_LOAD_LOADED:
-				scenes_ready[ scenes_waiting[i] ] = [ResourceLoader.load_threaded_get( scenes_waiting[i] ).instance(), TTL_RESET]
-				scenes_waiting[i].erase
+				scenes_ready[ scenes_waiting[i] ] = [ResourceLoader.load_threaded_get( scenes_waiting[i] ).instantiate(), TTL_RESET]
+				scenes_waiting.remove_at(i)
+				pass
+		
 	pass
 
 # Right now, just a collection of commented-out call templates
@@ -72,14 +75,39 @@ func switch_to_interface( interface:InterfaceOptions ):
 
 
 func change_map( map:String ):
+	
+	var old_children = world_interface.get_children()
+	
+	var next_map;
+	
 	if scenes_ready.has(map):
-		for child in world_interface.get_children():
-			if child is LevelMap:
-				child.pack_up()
-			GlobalRuntime.clean_up_node_descent( child )
-		
-		add_child( scenes_ready[map].instantiate() )
+		next_map = scenes_ready[map][0]
+		scenes_ready.erase( map )
+	else:
+		next_map = load( map ).new()
+	
+	#if scenes_ready.has(map):
+	for child in world_interface.get_children():
+		if child is LevelMap:
+			child.pack_up()
+		GlobalRuntime.clean_up_node_descent( child )
+	
+	
+	
+	world_interface.add_child( next_map ) #.instantiate()
+	
 	pass
+
+
+
+func append_preload_map( map:String ):
+	if !scenes_ready.has(map):
+		if map.length() > 0:
+			ResourceLoader.load_threaded_request(map)
+			scenes_waiting.append(map)
+	else:
+		scenes_ready[map][1] = TTL_RESET;
+
 
 
 func update_preload_portals( ttl_decrement : int = 1 ):
@@ -101,7 +129,7 @@ func update_preload_portals( ttl_decrement : int = 1 ):
 		
 		# If their TTL is expired, remove from the list
 		if scenes_ready[rs][1] < 0:
-			GlobalRuntime.clean_up_descent( scenes_ready[rs][0] )
+			GlobalRuntime.clean_up_node_descent( scenes_ready[rs][0] )
 			scenes_ready.erase(rs)
 	
 	pass

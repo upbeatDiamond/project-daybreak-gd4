@@ -26,13 +26,13 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
 
 func _on_area_entered(area):
 	if area is Gamepiece or area.is_in_group("gamepiece"):
-		area.set_teleport(target_position, target_facing)
+		area.set_teleport(target_position, target_facing, map)
 	pass # Replace with function body.
 
 

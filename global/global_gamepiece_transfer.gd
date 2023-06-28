@@ -25,10 +25,14 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
 func submit_gamepiece( piece:Gamepiece, target_map_index:MapIndex, target_map_coordinates:Vector2i, origin_map_index:=MapIndex.INVALID_INDEX ):
+	if gamepieces_by_map.size() < target_map_index:
+		gamepieces_by_map.resize( target_map_index + 1 )
+	
+	
 	pass
 
 #func retrieve_gamepiece( gp_id:int ) -> Gamepiece:
@@ -40,4 +44,4 @@ func eject_gamepieces_for_map( target_map_index:int ): #-> Array[Gamepiece]:
 		return []
 	else:
 		return gamepieces_by_map[ target_map_index ]
-	pass
+	#pass

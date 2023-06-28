@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cn33l6hu3y4ck"]
 
 [ext_resource type="Script" path="res://overworld/props/gametoken.gd" id="1_5l56n"]
-[ext_resource type="Texture2D" uid="uid://13h6vtkjx4sb" path="res://player/player_base_move.png" id="2_hi1pr"]
+[ext_resource type="Texture2D" uid="uid://cr17q6mvvkai1" path="res://assets/textures/items/blue_jewel.png" id="2_lsxlu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v1cr0"]
 size = Vector2(16, 16)
@@ -23,8 +23,5 @@ shape = SubResource("RectangleShape2D_v1cr0")
 visible = false
 
 [node name="Sprite" type="Sprite2D" parent="GFX"]
-position = Vector2(8, 0)
-texture = ExtResource("2_hi1pr")
-hframes = 7
-vframes = 4
-frame = 7
+position = Vector2(8, 8)
+texture = ExtResource("2_lsxlu")

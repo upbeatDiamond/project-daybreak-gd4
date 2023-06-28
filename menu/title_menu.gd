@@ -4,6 +4,8 @@ extends Control
 # tracks whether buttons can do things, and might be used for sound logic later
 var scene_enabled = true
 
+var play_scene_path = "res://overworld/port_town.tscn"
+
 @export var play_scene = preload("res://overworld/port_town.tscn") :
 	get:
 		return play_scene
@@ -17,13 +19,17 @@ var scene_enabled = true
 @export var credits_menu = preload("res://menu/options_menu.tscn")
 
 func _ready():
+	
+	GlobalRuntime.scene_manager.append_preload_map( play_scene_path )
+	
 	pass
 
 
 func _on_play_pressed():
 	if scene_enabled:
 		GlobalRuntime.clean_up_descent( self )
-		replace_by(  play_scene.instantiate()  )
+		#replace_by(  play_scene.instantiate()  )
+		GlobalRuntime.scene_manager.change_map( play_scene_path )
 		queue_free()
 	pass # Replace with function body.
 

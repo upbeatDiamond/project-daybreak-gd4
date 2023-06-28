@@ -7,14 +7,15 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
-func _init( base_power:int, accuracy, primary_effect:MoveEffect, flag_bitfield:int, effects:Array, effect_accuracies:Array, type1, type2, priority=0, cost=0):
+func _init( base_power:int, accuracy, primary_effect:MoveEffect, _flag_bitfield:int, effects:Array, effect_accuracies:Array, type1, type2, priority_tier=0, cost=0):
 	self.base_power = base_power
+	self.flag_bitfield = _flag_bitfield
 	self.primary_moveeffect = primary_effect
 	self.primary_moveeffect_accuracy = effect_accuracies.pop_front()
-	self.priority_tier = priority
+	self.priority_tier = priority_tier
 	self.type_one = type1
 	self.type_two = type2
 	self.energy_cost = cost

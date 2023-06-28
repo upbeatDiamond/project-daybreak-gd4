@@ -1,9 +1,18 @@
 Welcome to crude changelog, the log that gets facts wrong about your favorite changes.
 I'm jan Wiwijen (jan Opitaman), and today I'll be discussing a pre-alpha version of a Godot project.
 
+Now you may be wondering why it seems like pre-alphas are completely contained within a month, 
+with no bleed-over, when Wikipedia suggests a pre-alpha is about stability of a feature.
+
+Because it entertains me.
+
+I'll probably merge July/August into one release so I give myself more time to fix stuff.
+
+
+
 Codename: Project Daybreak
-Update: Pre-alpha 3
-TL;DR: idk yet
+Update: Pre-alpha 3 "There’s a Robot in My Head"
+TL;DR: Made NPCs and the Player basically the same thing, and gave them some space to play in
 
 
 
@@ -15,15 +24,16 @@ Notable additions:
 	+ Added more code to the combatants and combat scene (still not usable)
 		+ Added more graphics and GUI elements for the combat scene
 	+ Always more graphics and sounds that aren't used (yet)
-	+ Added GamepieceController for player (mostly works) and 'mob' (mostly doesn't)
-	+ Added Portal to teleport gamepieces within, or across, maps
-	+ Added Gametoken to represent items and HM props
+	+ Added GamepieceController for player (mostly works) and 'mob' (mostly doesn't, b/c D* stuff)
+	+ Added Portal to teleport gamepieces within, or across, level maps
+		+ Worked on system to load and unload maps, to allow more seamless cross-level travel 
+			+ Added LevelMap script to handle maps being loaded and unloaded
+	+ Added Gametoken to represent items and HM props (with minimal code yet)
 
 
 Notable subtractions:
 	- Multiple scripts I did not develop, or have otherwise replaced
 		- player[#].gd's are being replaced with gamepiece_controller_player.gd
-
 
 
 
@@ -39,16 +49,15 @@ Notable changes:
 
 
 To do eventually:
-	% Redo all the Arkeve tutorials, but with substituted code
+	% Replace the remaining Arkeve tutorial code after prototyping his party screen system
 	% Follow the Chris' Tutorials videos, mix with GDQuest for the battle scene
 	% Fix and finish the failsafe map's generation code, otherwise it's not very safe
 		% Make the shader actually do something, and put it in a nicer folder
 	% Fix the ledge graphics
 		% Split rock and dirt tiles visually
 		% Make the top edge closer match the collision box
-	% When Godot 4.1 happens, turn some Global classes into Static fields like they're meant to be
-	% Change between overworld & battle via add_child() and remove_child() perhaps
-	% I have 2 options: I can mix NavServer, NavLink, and A*Grid, or I can make a new D*Server...
+	% Move the TitleScreen to the ActivityInterface
+	% Fix or replace the D* pathfinding
 
 
 General Commentary:

@@ -7,11 +7,11 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
 # Checks database for monster. If not found, create a new one.
 # MAKE SURE TO STORE IVs AND EVs IN THE DATABASE BEFORE HANDING BACK THE MONSTER IF THESE ARE NOT STORED WITHIN THE MONSTER
-func spawn_monster( seed: int, spawn_weights: Dictionary ) -> Object:
+func spawn_monster( rng_seed: int, spawn_weights: Dictionary ) -> Object:
 	return null
-	pass
+	#pass

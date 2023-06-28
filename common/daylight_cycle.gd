@@ -36,7 +36,7 @@ func _process(delta):
 
 
 
-func fix_daylight_value( hour, color ):
+func fix_daylight_value( hour, colour ):
 	
 	var shift = 12
 	var stretch = 3.3
@@ -46,9 +46,9 @@ func fix_daylight_value( hour, color ):
 	
 	var exponent = - (pow((hour - shift)/stretch, 2) ) / 2
 	
-	color.v = clamp( min_light + 8 * pow(e,exponent), 0, 1)
+	colour.v = clamp( min_light + 8 * pow(e,exponent), 0, 1)
 	
-	return color
+	return colour
 
 
 func get_daylight_temp2( hour ) -> float:
@@ -73,23 +73,22 @@ func get_daylight_temp2( hour ) -> float:
 		pass
 	
 	return -( abs(temp_max-temp_min)/2 ) * cos((hour - hour_sunrise)*PI/light_length) + (temp_min+temp_max)/2
-	
-	pass
+
 
 func get_daylight_temp( hour ) -> float:
 	
 	var is_night = false
-	var is_night_ammended = is_night
+	#var is_night_ammended = is_night
 	
 	var daylight_length = ( hour_sunrise - hour_sunset )
-	var daylight_center = ( hour_sunrise + hour_sunset )/2
+	#var daylight_center = ( hour_sunrise + hour_sunset )/2
 	var moonlight_length = day_length - daylight_length + 1 # plus 1 so the curve always applies
-	var moonlight_center = abs( fmod(daylight_center - 12, 24) )
+	#var moonlight_center = abs( fmod(daylight_center - 12, 24) )
 	
 	var focalpoint_y = 1000
-	var focalpoint_x = daylight_center
-	var radius = daylight_length + 1
-	var scaling = 450
+	#var focalpoint_x = daylight_center
+	#var radius = daylight_length + 1
+	#var scaling = 450
 	
 	var relative_hour : int
 	
@@ -98,11 +97,11 @@ func get_daylight_temp( hour ) -> float:
 		is_night = true
 	
 	if is_night:
-		focalpoint_x = moonlight_center
+		#focalpoint_x = moonlight_center
 		relative_hour = hour - hour_sunset
 		return focalpoint_y + 4500 * abs(sin(PI*relative_hour/moonlight_length))
 	else:
-		focalpoint_x = daylight_center
+		#focalpoint_x = daylight_center
 		relative_hour = hour
 		return focalpoint_y + 4500 * abs(sin(PI*relative_hour/daylight_length))
 		
@@ -114,28 +113,28 @@ func get_daylight_temp( hour ) -> float:
 
 func kelvin_to_color( temperature ) -> Color:
 
-	var color = Color()
+	var colour = Color()
 	temperature = (temperature / 100) as int
 	
 	# Calculate Red:
 	if temperature <= 66:
-		color.r8 = 255
+		colour.r8 = 255
 	else:
-		color.r8 = clamp(329.698727446 * pow(temperature - 60, -0.1332047592), 0, 255)
+		colour.r8 = clamp(329.698727446 * pow(temperature - 60, -0.1332047592), 0, 255)
 	
 	# Calculate Green:
 	if temperature <= 66:
-		color.g8 = clamp(99.4708025861 * log(temperature) - 161.1195681661, 0, 255)
+		colour.g8 = clamp(99.4708025861 * log(temperature) - 161.1195681661, 0, 255)
 	else:
-		color.g8 = clamp(288.1221695283 * pow(temperature - 60, -0.0755148492), 0, 255)
+		colour.g8 = clamp(288.1221695283 * pow(temperature - 60, -0.0755148492), 0, 255)
 	
 	# Calculate Blue:
 	if temperature >= 66:
-		color.b8 = 255
+		colour.b8 = 255
 	else:
 		if temperature <= 19:
-			color.b8 = 0
+			colour.b8 = 0
 		else:
-			color.b8 = clamp(138.5177312231 * log(temperature - 10) - 305.0447927307, 0, 255)
+			colour.b8 = clamp(138.5177312231 * log(temperature - 10) - 305.0447927307, 0, 255)
 	
-	return color;
+	return colour;

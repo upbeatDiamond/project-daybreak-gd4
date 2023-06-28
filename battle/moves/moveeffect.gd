@@ -11,7 +11,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
 enum BooleanFlags
@@ -19,5 +19,5 @@ enum BooleanFlags
 }
 
 # traits structure: {}
-func calculate_effect( user, targets : Array, traits : Dictionary, current_effects : Dictionary ):
+func _calculate_effect( user, targets : Array, traits : Dictionary, current_effects : Dictionary ):
 	pass
