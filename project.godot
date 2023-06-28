@@ -24,7 +24,9 @@ GlobalDatabaseManager="*res://global/global_database_manager.gd"
 GlobalMonster="*res://global/global_monster.gd"
 GlobalMonsterSpawner="*res://global/global_monster_spawner.gd"
 GlobalMove="*res://global/global_move.gd"
-GlobalBitfieldManip="*res://global/global_bit_manip.gd"
+GlobalBitManip="*res://global/global_bit_manip.gd"
+GlobalRuntime="*res://global/global_runtime.gd"
+GlobalGamepieceTransfer="*res://global/global_gamepiece_transfer.gd"
 
 [display]
 
@@ -64,6 +66,40 @@ ui_down={
 , Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":83,"key_label":0,"unicode":115,"echo":false,"script":null)
 ]
 }
+ui_fast={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194325,"key_label":0,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":1,"pressure":0.0,"pressed":false,"script":null)
+]
+}
+menu={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194306,"key_label":0,"unicode":0,"echo":false,"script":null)
+]
+}
+game_pause={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194305,"key_label":0,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":6,"pressure":0.0,"pressed":false,"script":null)
+]
+}
+debug_summon={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":80,"key_label":0,"unicode":112,"echo":false,"script":null)
+]
+}
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://database/pr_XTOKIPONA.po")
+locale/translations_pot_files=PackedStringArray("res://player/player_menu.tscn")
+locale/test="pr_XTOKIPONA"
+
+[layer_names]
+
+2d_physics/layer_1="Terrain"
+2d_physics/layer_2="Characters"
+2d_physics/layer_3="Events"
 
 [rendering]
 

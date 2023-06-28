@@ -1,5 +1,9 @@
 extends Node
+class_name MoveEffect
 
+
+var type_primary
+var type_secondary
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -7,7 +11,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
 enum BooleanFlags
@@ -15,5 +19,5 @@ enum BooleanFlags
 }
 
 # traits structure: {}
-func execute_effect( user, targets : Array, traits : Dictionary ):
+func _calculate_effect( user, targets : Array, traits : Dictionary, current_effects : Dictionary ):
 	pass

@@ -1,0 +1,12 @@
+[p align=center][font_size=7][b]Direct Contributors[/b][/font_size][/p]
+[p align=center][font_size=3][b]Anyone who developed something [i]for[/i] this project[/b][/font_size][/p]
+
+[p align=center][font_size=6][b]Code[/b][/font_size][/p]
+[p align=center][font_size=6][b]Graphics[/b][/font_size][/p]
+
+[p align=center][font_size=7][b]Indirect Contributors[/b][/font_size][/p]
+[p align=center][font_size=3][b]Anyone who developed something else [i]in[/i] this project[/b][/font_size][/p]
+
+[p align=center][font_size=6][b]Graphics[/b][/font_size][/p]
+[p align=center][font_size=6][b]Inspirations[/b][/font_size][/p]
+[p align=center][font_size=5]some guy, I guess[/font_size][/p]

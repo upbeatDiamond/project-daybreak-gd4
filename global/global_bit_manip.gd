@@ -1,10 +1,14 @@
 extends Node
 # I called it Manip because Manip is fun to say. Short for Manipulation. Manip. Hehe.
+# This class is dedicated to the fetching and manipulation of small or specified numbers of bits
 
 # randomize() is called here because this class relates to bits, and that's what RNG is used for?
 # what other 'global' class would fit better?
 func _init():
 	randomize()
+
+func get_flag_bit(bitfield:int, flag_index:int):
+	return get_bitflag(bitfield, flag_index);
 
 func get_bitflag(bitfield:int, flag_index:int):
 	return compare_bitfield_flag(bitfield, flag_index);

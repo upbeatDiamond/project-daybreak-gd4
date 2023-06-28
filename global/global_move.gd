@@ -1,5 +1,5 @@
 extends Node
-
+# Most of this stuff oughta be static methods.
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -7,7 +7,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
 
@@ -42,7 +42,7 @@ enum BooleanFlags
 	IS_FLINCHABLE,		# Is there a chance for hesitation upon seeing royalty?
 	IS_SOUND_BASED,		# Is sound the carrier of, or basis for, the intended effect?
 	IS_MOUTH_BASED,		# Would a muzzle prevent the intended effect?
-	IS_POWDER_BASED,	# Is a fine dust the basis for, the intended effect?
+	IS_POWDER_BASED,	# Is a fine dust the basis for the intended effect?
 	IS_PUNCH_BASED,		# Are fists the carrier of, or basis for, the intended effect?
 	IS_BITE_BASED,		# Are teeth the carrier of, or basis for, the intended effect?
 	IS_AURA_BASED,		# Does it come from the soul's energy or fighting force?
@@ -67,6 +67,8 @@ var secondary_moveeffect_template = {
 	"accuracy_dependence" = false	# true = only executes if primary effect executes
 }
 
+# base_power, accuracy, primary_effect, flag_bitfield, effects, effect_accuracies, type1, type2, priority, cost
+var default_move = Move.new(100, 100, null, 0, [], [], 0, 0)
 
 
 
@@ -88,14 +90,14 @@ func execute_move( move, user, target : Array ):
 func calculate_raw_damage( move, user, target ) -> float: 
 	var type_damage = type_matchup[ move.type1 ][ target.type1 ] * type_matchup[ move.type1 ][ target.type2 ] + ( type_matchup[ move.type2 ][ target.type1 ] + type_matchup[ move.type2 ][ target.type2 ] + 1 ) / 3;
 	
-	var stab_level = calculate_stab_level( move, user, target );
+	var stab_level = calculate_stab_level( move, user );
 	
 	return type_damage * stab_multiplier[stab_level] * move.base_power
 
 # Duplicate, please change/edit/replace
 func calculate_raw_special_damage( move, user, target ) -> float: 
 	var type_damage = calculate_type_effectiveness( move, target )
-	var stab_level = calculate_stab_level( move, user, target );
+	var stab_level = calculate_stab_level( move, user );
 	return type_damage * stab_multiplier[stab_level] * move.base_power
 
 
@@ -103,7 +105,7 @@ func calculate_raw_special_damage( move, user, target ) -> float:
 func calculate_type_effectiveness( move, target ) -> float:
 	return type_matchup[ move.type1 ][ target.type1 ] * type_matchup[ move.type1 ][ target.type2 ] + ( type_matchup[ move.type2 ][ target.type1 ] + type_matchup[ move.type2 ][ target.type2 ] + 1 ) / 3;
 
-func calculate_stab_level( move, user, target ) -> int:
+func calculate_stab_level( move, user ) -> int:
 	var stab_level = 0;
 	
 	if (move.type1 == user.type1):

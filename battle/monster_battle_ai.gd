@@ -1,14 +1,14 @@
 extends Node
 
 const Matrix = preload("res://common/matrix.gd")
-const Monster = preload("res://monsters/monster.gd")
+#const Monster = preload("res://monsters/monster.gd")
 
 var monster : Monster
 var options : Array
 var options_weights : Matrix
 
 # Determines overall goal, the win state.
-enum OBJECTIVE
+enum Objective
 {
 	FRIENDSHIP,
 	PHYSICAL_VICTORY,
@@ -26,14 +26,14 @@ enum Stance
 	BRAWLER,	# Prefer fighting, maximize damage, fall back to stat changes
 	PESTER, 	# Prefer targetting special health, else normal health
 	MASSAGE,    # Prefer bringing down special defense, else special health
-	STALL,		# Stalling? I'm not stalling anything. I'm... stalling? Stalling? You think I'm... stalling.
+	STALL,		# Stalling? I'm not stalling anything. I'm... stalling? Stalling? You think I'm... stalling...
 	SNIPER,		# Prefer fighting, avoiding contact, fall back to defense
 	BEFRIEND,	# Prefer showing peace, care, empathy, else do special damage
 	TROJAN		# Pseudo-befriending
 }
 
 # replace with a matrix when ready
-const BATTLE_STANCE_MULTIPLIERS = {
+const BattleStanceMultiplier = {
 		Stance.HEALER: [0,0],
 		
 		
@@ -75,7 +75,7 @@ enum ActionWeights {
 }
 
 # Battle role weights for selecting strategy mode
-const TARGET_PREF_WEIGHTS = {
+const TargetPreferenceWeights = {
 		TargetPriority.ATTACK_LOWEST_HEALTHPOINTS  : [],
 		TargetPriority.ATTACK_LOWEST_SPIRITPOINTS  : [],
 		TargetPriority.ATTACK_LOWEST_HEALTHPERCENT : [],

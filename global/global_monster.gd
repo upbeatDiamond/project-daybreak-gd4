@@ -1,5 +1,5 @@
 extends Node
-
+# Most of this stuff oughta be static methods.
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -7,7 +7,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
 
@@ -68,9 +68,11 @@ enum BooleanFlags
 # Might be implemented as integer that gets bitshifted and modulo'd
 enum Sex
 {
-	IS_SPERMATOGEN,		# Kids, ask your biology teacher about this. And maybe etymology...
-	IS_OOGEN
-	
+	IS_SPERMATOGEN,			# Kids, ask your biology teacher about this. And maybe etymology...
+	IS_OOGEN,
+	CAN_DEPOSIT_GAMETES,	# orthagonality check: if not a x-gen, it has a depositor.
+	CAN_RECIEVE_GAMETES,	# orthagonality check: if not x-gen but can recieve & deposit, then stores.
+	# Gene byte has been removed
 }
 
 
