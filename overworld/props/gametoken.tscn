@@ -8,7 +8,7 @@ size = Vector2(16, 16)
 
 [node name="Gametoken" type="Area2D" groups=["gamepiece"]]
 y_sort_enabled = true
-collision_layer = 2
+collision_layer = 4
 script = ExtResource("1_5l56n")
 
 [node name="Controller" type="Node" parent="."]
@@ -18,9 +18,6 @@ position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_v1cr0")
 
 [node name="GFX" type="Marker2D" parent="."]
-
-[node name="Shadow" type="Sprite2D" parent="GFX"]
-visible = false
 
 [node name="Sprite" type="Sprite2D" parent="GFX"]
 position = Vector2(8, 8)

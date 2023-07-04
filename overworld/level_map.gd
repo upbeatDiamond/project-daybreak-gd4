@@ -11,6 +11,9 @@ class_name LevelMap
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	GlobalRuntime.scene_manager.update_preload_portals()
+	var gamepieces = GlobalGamepieceTransfer.eject_gamepieces_for_map(map_index)
+	for piece in gamepieces:
+		add_child(piece)
 	pass # Replace with function body.
 
 
@@ -23,5 +26,14 @@ func populate_with_gamepieces():
 	pass
 
 func pack_up():
-	#GlobalGamepieceTransfer.submit_gamepiece()
+	var childs = get_children()
+	
+	# Tagged out to avoid massive duplication of the test NPC. Now only clones the Player.
+#	# Recursively find and pack up gamepieces, assuming that no gamepieces have gamepieces as children
+#	for child in childs:
+#		if child is Gamepiece:
+#			GlobalGamepieceTransfer.submit_gamepiece( child, map_index, child.global_position, map_index )
+#		else:
+#			childs.append_array( child.get_children() )
+	
 	pass

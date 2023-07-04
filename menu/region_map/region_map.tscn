@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://cjgevt7icqp7c"]
+
+[ext_resource type="Script" path="res://menu/region_map/region_map.gd" id="1_aq6t6"]
+
+[sub_resource type="Curve" id="Curve_qd3wo"]
+
+[node name="RegionMap" type="Node2D"]
+script = ExtResource("1_aq6t6")
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(48, 32, 0, 0, 0, 0)
+width_curve = SubResource("Curve_qd3wo")

@@ -62,7 +62,17 @@ func handle_movement_input():
 
 func handle_map_change( map:String ):
 	
-	#GlobalGamepieceTransfer.submit_gamepiece( )
+	#animation_tree.set("parameters/Idle/blend_position", direction)
+	#animation_tree.set("parameters/Walk/blend_position", direction)
+	
+	#animation_state.travel("Idle")
+	
+	GlobalGamepieceTransfer.submit_gamepiece( gamepiece, GlobalRuntime.scene_manager.get_map_index(map) )
 	GlobalRuntime.scene_manager.change_map(map)
+	
+	#visible = true
+	
+	#GlobalRuntime.gameworld_input_stopped = false
+	#$AnimationPlayer.play("Appear")
 	
 	pass

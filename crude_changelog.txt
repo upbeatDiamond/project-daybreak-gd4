@@ -1,51 +1,28 @@
 Welcome to crude changelog, the log that gets facts wrong about your favorite changes.
 I'm jan Wiwijen (jan Opitaman), and today I'll be discussing a pre-alpha version of a Godot project.
 
-Now you may be wondering why it seems like pre-alphas are completely contained within a month, 
-with no bleed-over, when Wikipedia suggests a pre-alpha is about stability of a feature.
-
-Because it entertains me.
-
-I'll probably merge July/August into one release so I give myself more time to fix stuff.
+I'm merging July/August into one release so I can give myself more time to fix stuff.
 
 
 
 Codename: Project Daybreak
-Update: Pre-alpha 3 "There’s a Robot in My Head"
-TL;DR: Made NPCs and the Player basically the same thing, and gave them some space to play in
+Update: Pre-alpha 4
+TL;DR: 
 
 
 
 Notable additions:
-	+ D* Lite algorithm code
-		+ Various unused code related to the above
-	+ Prototype "Port Town", and accompanying tiles to practice town design & teleports
-	+ Prototype "Bridge Town", used to test pseudo-3D maps, à la MyHouse
-	+ Added more code to the combatants and combat scene (still not usable)
-		+ Added more graphics and GUI elements for the combat scene
-	+ Always more graphics and sounds that aren't used (yet)
-	+ Added GamepieceController for player (mostly works) and 'mob' (mostly doesn't, b/c D* stuff)
-	+ Added Portal to teleport gamepieces within, or across, level maps
-		+ Worked on system to load and unload maps, to allow more seamless cross-level travel 
-			+ Added LevelMap script to handle maps being loaded and unloaded
-	+ Added Gametoken to represent items and HM props (with minimal code yet)
+	+ Added part of code for transfering gamepieces to proper map based on map indexes
+
 
 
 Notable subtractions:
-	- Multiple scripts I did not develop, or have otherwise replaced
-		- player[#].gd's are being replaced with gamepiece_controller_player.gd
+
 
 
 
 Notable changes:
-	* Changed daylight cycle to try to increase visibility at night
-	+ Added more functionality to the Player Menu, seen through the 'exit' button working
-		+ Pausing can now happen while the player (or any gamepiece, I hope) is moving
-	* Put all new Player functionality into Gamepiece and then replaced Player with a Gamepiece
-		- Some old functionality might be broken...
-		* Tween is now tied to a variable that can be paused on a signal
-		+ Gamepieces now have a movement queue, which is intended for cutscenes and ice physics
-	* Split CurrentScene into InterfaceWorld and InterfaceActivity(+Wrapper) for easier transitions
+
 
 
 To do eventually:
@@ -58,6 +35,7 @@ To do eventually:
 		% Make the top edge closer match the collision box
 	% Move the TitleScreen to the ActivityInterface
 	% Fix or replace the D* pathfinding
+	% If a level has an Objects and Y-Sort, put Gamepieces there, else make the level have them.
 
 
 General Commentary:

@@ -77,8 +77,10 @@ func _on_gameworld_unpause():
 	#print("I can run? I CAN FIGHT!")
 	pass
 
+
 func snap_to_grid( pos ) -> Vector2:
 	return Vector2(pos.x - tile_offset.x, pos.y - tile_offset.y).snapped(Vector2.ONE * GlobalRuntime.DEFAULT_TILE_SIZE) + tile_offset
+
 
 func _ready():
 	is_moving = false
@@ -90,18 +92,12 @@ func _ready():
 	GlobalRuntime.pause_gameworld.connect( _on_gameworld_pause )
 	GlobalRuntime.unpause_gameworld.connect( _on_gameworld_unpause )
 
+
 func _process(_delta):
-	#print("gp = %s" % self.get_class())
 	if move_queue.size() > 0 && is_moving == false:
 		move(move_queue.pop_front())
+	
 	pass
-
-#func _physics_process(delta):
-	#if GlobalRuntime.gameworld_input_stopped:
-	#	return
-	#elif is_moving == false:
-	#	handle_movement_input()
-#	pass
 
 
 
@@ -112,9 +108,6 @@ func update_rays( direction ):
 	
 	event_ray.target_position = direction * GlobalRuntime.DEFAULT_TILE_SIZE
 	event_ray.force_raycast_update()
-	
-	#if event_ray.is_colliding():
-	#	print("Hewwo doow!")
 	
 	pass
 
@@ -134,26 +127,23 @@ func move( direction ):
 	
 	if !block_ray.is_colliding():
 		
-		#var old_position = collision.position # 
 		var new_position = snap_to_grid( collision.position + direction * GlobalRuntime.DEFAULT_TILE_SIZE )
+		
+		if is_inside_tree():
+			move_tween = create_tween()
+			if move_tween != null:
+				move_tween.tween_property(gfx, "position",
+					new_position - tile_offset, 1/move_speed ).set_trans(Tween.TRANS_LINEAR)
+				is_moving = true
+				await move_tween.finished
 		
 		collision.position = new_position
 		
-		# If there's an event here OR it's a valid space, move the collider forward.
-		# If it's not a valid space, run the events and then move the collider back.
-		#if block_ray_colliding
-		
-		
-		move_tween = create_tween()
-		move_tween.tween_property(gfx, "position",
-			new_position - tile_offset, 1/move_speed ).set_trans(Tween.TRANS_LINEAR)
-		is_moving = true
-		await move_tween.finished
 		resync_position()
 		is_moving = false
 
 
-
+# Not the same as move, used for in-map teleportation.
 func move_to_target( target:Vector2i ):
 	var new_position = snap_to_grid( target )
 	
@@ -201,10 +191,6 @@ func set_spawn(loci: Vector2, direction: Vector2):
 
 func set_teleport(loci: Vector2i, direction: Vector2i, map:=""):
 	is_moving = false
-	#animation_tree.set("parameters/Idle/blend_position", direction)
-	#animation_tree.set("parameters/Walk/blend_position", direction)
-	
-	#animation_state.travel("Idle")
 	
 	if map.length() > 0:
 		controller.handle_map_change( map )
@@ -214,7 +200,3 @@ func set_teleport(loci: Vector2i, direction: Vector2i, map:=""):
 	facing_direction = Vector2( direction.x, direction.y )
 	
 	print("teleport to gx %d, gy %d, x %d , y %d" % [global_position.x, global_position.y, loci.x, loci.y])
-	#visible = true
-	
-	#GlobalRuntime.gameworld_input_stopped = false
-	#$AnimationPlayer.play("Appear")

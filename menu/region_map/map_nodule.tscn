@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://coct8t87j4qiv"]
+
+[ext_resource type="Texture2D" uid="uid://dpn26n03wfmv0" path="res://assets/textures/gui/map/location_icon.png" id="1_h7wey"]
+[ext_resource type="Script" path="res://menu/region_map/map_nodule.gd" id="2_kticy"]
+
+[node name="Icon" type="Sprite2D"]
+position = Vector2(24, 24)
+scale = Vector2(1.11628, 1.17073)
+texture = ExtResource("1_h7wey")
+script = ExtResource("2_kticy")
