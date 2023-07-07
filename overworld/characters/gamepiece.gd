@@ -49,11 +49,30 @@ var jumping_over_ledge: bool = false
 
 var is_paused = false;	# true if cannot act
 var is_moving = false;	# true if walking, running, jumping, etc
-var is_running = false;	# set to true to use run speed instead of walk speed
+#var is_running = false;	# set to true to use run speed instead of walk speed
 var facing_direction = Vector2(0,0);	# Used for animation state tree
+
+var traversal_mode = TraversalMode.STANDING
+
+enum TraversalMode
+{
+	STANDING, 	# 🧍‍♀️ 
+	WALKING, 	# 🚶‍♀️ 
+	RUNNING, 	# 🏃‍♂️ 
+	TRUDGING, 	# 
+	SLIDING, 	# 🧊 
+	SPINNING, 	# 🔄
+	SWIMMING, 	# 🏊‍♂️ 
+	DIVING, 	# 🤿
+	BICYCLING, 	# 🚲 
+}
 
 @export var target_position := Vector2(0,0)
 var move_queue := []
+
+# Why wasn't this in the Gamepiece by Prealpha 3?
+# Oh yeah, because I kept rewriting this class.
+var monster : Monster
 
 #var agent_id : int
 
@@ -113,6 +132,7 @@ func update_rays( direction ):
 
 
 func move( direction ):
+	
 	if direction is Vector2i:
 		direction = Vector2( direction.x, direction.y )
 	
@@ -120,7 +140,6 @@ func move( direction ):
 	
 	if event_ray.is_colliding():
 			var colliding_with = event_ray.get_collider()
-			#print( colliding_with )
 			if colliding_with.is_in_group("portals"):
 				colliding_with.run_event( self )
 			pass
@@ -129,6 +148,21 @@ func move( direction ):
 		
 		var new_position = snap_to_grid( collision.position + direction * GlobalRuntime.DEFAULT_TILE_SIZE )
 		
+		# Before this match is run, try looking for materials that change the character's...
+		# ... speed or animation, and change the traversal mode to match.
+		
+		match traversal_mode:
+			TraversalMode.WALKING:
+				move_speed = walk_speed
+				pass
+			TraversalMode.RUNNING:
+				move_speed = run_speed
+				pass
+			_:
+				move_speed = walk_speed
+				pass
+		
+		# Sometimes the gamepiece is picked up as the move() is called, so make sure we can get a tween
 		if is_inside_tree():
 			move_tween = create_tween()
 			if move_tween != null:
@@ -141,6 +175,7 @@ func move( direction ):
 		
 		resync_position()
 		is_moving = false
+		traversal_mode = TraversalMode.STANDING
 
 
 # Not the same as move, used for in-map teleportation.
@@ -196,7 +231,7 @@ func set_teleport(loci: Vector2i, direction: Vector2i, map:=""):
 		controller.handle_map_change( map )
 	
 	loci = snap_to_grid( loci )
-	move_to_target( loci )
+	move_to_target( loci ) # This line might be redundant.
 	facing_direction = Vector2( direction.x, direction.y )
 	
 	print("teleport to gx %d, gy %d, x %d , y %d" % [global_position.x, global_position.y, loci.x, loci.y])

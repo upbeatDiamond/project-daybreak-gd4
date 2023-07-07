@@ -1,11 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://b703ovg63tcc7"]
+[gd_scene load_steps=15 format=3 uid="uid://b6i8pv7cqw42h"]
 
 [ext_resource type="Script" path="res://overworld/level_map.gd" id="1_0mht8"]
 [ext_resource type="Texture2D" uid="uid://claaq3m3x57i0" path="res://assets/textures/tilesets/dirtgrass_mauvetown.png" id="2_m3qp0"]
 [ext_resource type="Texture2D" uid="uid://dg30v1evln7gc" path="res://assets/textures/tilesets/dirt_elevated.png" id="3_igigx"]
 [ext_resource type="Texture2D" uid="uid://digw7uhccv28w" path="res://assets/textures/tilesets/streets.png" id="4_ybwa4"]
 [ext_resource type="Texture2D" uid="uid://b3nqmhb1qe2d0" path="res://assets/textures/tilesets/tile_selection.png" id="5_f0rik"]
-[ext_resource type="PackedScene" uid="uid://d20luma5xck6t" path="res://overworld/portal.tscn" id="5_mld06"]
+[ext_resource type="PackedScene" path="res://overworld/props/portal.tscn" id="5_mld06"]
 [ext_resource type="PackedScene" uid="uid://crk1pu5pxjnen" path="res://common/daylight_cycle_filter.tscn" id="12_w7e0n"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_oy114"]

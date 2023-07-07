@@ -2,20 +2,34 @@ extends Node
 # Contains code relating to SQLite bindings
 # This class is dedicated to the fetching and manipulation of database contents
 
+# We're going to need a lot of refactoring to account for changes in not only gameplay plans ...
+# ... but also data being split across multiple tables.
+
+
 #const BattleAI = preload("res://battle/monster_battle_ai.gd")
 
 var db : SQLite = null
 
 const verbosity_level : int = SQLite.VERBOSE
 
+# Used for balance patches and backwards compatibility with future monster additions
 var db_name_patch := "res://database/patchdata"
+
+# 3 Databases intended to be used for save file security.
+# Active updates as you play, but some players might not want to autosave.
 var db_name_user_active := "user://database/save_active"
+# Stable is created when the player manually hits the 'save' button
 var db_name_user_stable := "user://database/save_stable"
+# Backup is intended to avoid any corruption errors, but so far doesn't do much.
 var db_name_user_backup := "user://database/save_backup"
+# And this file acts as intermediary between all of the 3 user save files.
 var json_name_user_pidgeonhole := "user://database/pidgeonhole"
 
-var table_name_monster := "person"
-var table_name_player := "person"
+
+var table_name_monster := "monster"
+var table_name_user_monster := "monster"
+var table_name_user_gamepiece := "gamepiece"
+#var table_name_player := "person"
 #var table_name_relationship := "character"
 
 
@@ -45,64 +59,83 @@ func exists_monster( monster ) -> bool:
 		return true
 	
 	return false
-	
-	#pass
 
-func get_monster_summary( monster ) -> Dictionary:
+
+func get_monster_summary( monster:Monster ) -> Dictionary:
 	var summary : Dictionary = Dictionary()
 	
-	summary["current_health"] = monster.stats_current[GlobalMonster.BattleStats.HEALTH]
-	summary["current_spirit"] = monster.stats_current[GlobalMonster.BattleStats.SPIRIT]
-	summary["current_attack"] = monster.stats_current[GlobalMonster.BattleStats.ATTACK]
-	summary["current_defense"] = monster.stats_current[GlobalMonster.BattleStats.DEFENSE]
-	summary["current_speed"] = monster.stats_current[GlobalMonster.BattleStats.SPEED]
-	summary["current_evasion"] = monster.stats_current[GlobalMonster.BattleStats.EVASION]
+	summary["status_effects"]	= []
+	summary["franchise_ID"]		= 0
+	summary["species_ID"]		= monster.species
+	summary["variant_ID"]		= 0
+	summary["UMID"]				= monster.umid
+	summary["current_health"] 	= monster.stats_current[GlobalMonster.BattleStats.HEALTH]
+	summary["current_spirit"] 	= monster.stats_current[GlobalMonster.BattleStats.SPIRIT]
+	summary["current_attack"] 	= monster.stats_current[GlobalMonster.BattleStats.ATTACK]
+	summary["current_defense"] 	= monster.stats_current[GlobalMonster.BattleStats.DEFENSE]
+	summary["current_speed"] 	= monster.stats_current[GlobalMonster.BattleStats.SPEED]
+	summary["current_evasion"] 	= monster.stats_current[GlobalMonster.BattleStats.EVASION]
 	summary["current_intimidate"] = monster.stats_current[GlobalMonster.BattleStats.INTIMIDATION]
-	summary["current_resolve"] = monster.stats_current[GlobalMonster.BattleStats.RESOLVE]
-	summary["current_mana"] = monster.stats_current[GlobalMonster.BattleStats.MANA]
-	summary["max_health"] = monster.stats_base[GlobalMonster.BattleStats.HEALTH]
-	summary["max_spirit"] = monster.stats_base[GlobalMonster.BattleStats.SPIRIT]
-	summary["max_attack"] = monster.stats_base[GlobalMonster.BattleStats.ATTACK]
-	summary["max_defense"] = monster.stats_base[GlobalMonster.BattleStats.DEFENSE]
-	summary["max_speed"] = monster.stats_base[GlobalMonster.BattleStats.SPEED]
-	summary["max_evasion"] = monster.stats_base[GlobalMonster.BattleStats.EVASION]
-	summary["max_intimidate"] = monster.stats_base[GlobalMonster.BattleStats.INTIMIDATION]
-	summary["max_resolve"] = monster.stats_base[GlobalMonster.BattleStats.RESOLVE]
-	summary["max_mana"] = monster.stats_base[GlobalMonster.BattleStats.MANA]
-	summary["ability"] = monster.ability
-	summary["exp"] = monster.exp 
-	summary["level"] = monster.level 
-	summary["name"] = monster.birth_name 
-	summary["item_held"] = monster.item_held 
+	summary["current_resolve"] 	= monster.stats_current[GlobalMonster.BattleStats.RESOLVE]
+	summary["current_mana"] 	= monster.stats_current[GlobalMonster.BattleStats.MANA]
+	summary["max_health"] 		= monster.stats_base[GlobalMonster.BattleStats.HEALTH]
+	summary["max_spirit"] 		= monster.stats_base[GlobalMonster.BattleStats.SPIRIT]
+	summary["max_attack"] 		= monster.stats_base[GlobalMonster.BattleStats.ATTACK]
+	summary["max_defense"] 		= monster.stats_base[GlobalMonster.BattleStats.DEFENSE]
+	summary["max_speed"] 		= monster.stats_base[GlobalMonster.BattleStats.SPEED]
+	summary["max_evasion"] 		= monster.stats_base[GlobalMonster.BattleStats.EVASION]
+	summary["max_intimidate"] 	= monster.stats_base[GlobalMonster.BattleStats.INTIMIDATION]
+	summary["max_resolve"]		= monster.stats_base[GlobalMonster.BattleStats.RESOLVE]
+	summary["max_mana"] 		= monster.stats_base[GlobalMonster.BattleStats.MANA]
+	summary["ability"] 			= monster.ability
+	summary["exp"] 				= monster.exp 
+	summary["level"] 			= monster.level 
+	summary["name"] 			= monster.birth_name 
+	summary["funds"] 			= monster.funds 
 	
 	return summary;
 
-func set_monster_summary( monster, summary:Dictionary ):
-	#var summary : Dictionary = Dictionary()
-	
-	monster.stats_current[GlobalMonster.BattleStats.HEALTH] = summary["current_health"]
-	monster.stats_current[GlobalMonster.BattleStats.SPIRIT] = summary["current_spirit"]
-	monster.stats_current[GlobalMonster.BattleStats.ATTACK] = summary["current_attack"]
-	monster.stats_current[GlobalMonster.BattleStats.DEFENSE] = summary["current_defense"]
-	monster.stats_current[GlobalMonster.BattleStats.SPEED] = summary["current_speed"]
-	monster.stats_current[GlobalMonster.BattleStats.EVASION] = summary["current_evasion"]
+func set_monster_summary( monster:Monster, summary:Dictionary ):
+	monster.stats_current[GlobalMonster.BattleStats.HEALTH] 	= summary["current_health"]
+	monster.stats_current[GlobalMonster.BattleStats.SPIRIT] 	= summary["current_spirit"]
+	monster.stats_current[GlobalMonster.BattleStats.ATTACK] 	= summary["current_attack"]
+	monster.stats_current[GlobalMonster.BattleStats.DEFENSE] 	= summary["current_defense"]
+	monster.stats_current[GlobalMonster.BattleStats.SPEED] 		= summary["current_speed"]
+	monster.stats_current[GlobalMonster.BattleStats.EVASION] 	= summary["current_evasion"]
 	monster.stats_current[GlobalMonster.BattleStats.INTIMIDATION] = summary["current_intimidate"]
-	monster.stats_current[GlobalMonster.BattleStats.RESOLVE] = summary["current_resolve"]
-	monster.stats_current[GlobalMonster.BattleStats.MANA] = summary["current_mana"]
-	monster.stats_base[GlobalMonster.BattleStats.HEALTH] = summary["max_health"]
-	monster.stats_base[GlobalMonster.BattleStats.SPIRIT] = summary["max_spirit"]
-	monster.stats_base[GlobalMonster.BattleStats.ATTACK] = summary["max_attack"]
-	monster.stats_base[GlobalMonster.BattleStats.DEFENSE] = summary["max_defense"]
-	monster.stats_base[GlobalMonster.BattleStats.SPEED] = summary["max_speed"]
-	monster.stats_base[GlobalMonster.BattleStats.EVASION] = summary["max_evasion"]
-	monster.stats_base[GlobalMonster.BattleStats.INTIMIDATION] = summary["max_intimidate"]
-	monster.stats_base[GlobalMonster.BattleStats.RESOLVE] = summary["max_resolve"]
-	monster.stats_base[GlobalMonster.BattleStats.MANA] = summary["max_mana"]
-	monster.ability = summary["ability"]
-	monster.exp = summary["exp"]
-	monster.level = summary["level"]
-	monster.birth_name = summary["name"]
-	monster.item_held = summary["item_held"]
+	monster.stats_current[GlobalMonster.BattleStats.RESOLVE] 	= summary["current_resolve"]
+	monster.stats_current[GlobalMonster.BattleStats.MANA] 		= summary["current_mana"]
+	monster.stats_base[GlobalMonster.BattleStats.HEALTH] 		= summary["max_health"]
+	monster.stats_base[GlobalMonster.BattleStats.SPIRIT] 		= summary["max_spirit"]
+	monster.stats_base[GlobalMonster.BattleStats.ATTACK] 		= summary["max_attack"]
+	monster.stats_base[GlobalMonster.BattleStats.DEFENSE] 		= summary["max_defense"]
+	monster.stats_base[GlobalMonster.BattleStats.SPEED] 		= summary["max_speed"]
+	monster.stats_base[GlobalMonster.BattleStats.EVASION] 		= summary["max_evasion"]
+	monster.stats_base[GlobalMonster.BattleStats.INTIMIDATION] 	= summary["max_intimidate"]
+	monster.stats_base[GlobalMonster.BattleStats.RESOLVE] 		= summary["max_resolve"]
+	monster.stats_base[GlobalMonster.BattleStats.MANA] 			= summary["max_mana"]
+	monster.ability 	= summary["ability"]
+	monster.exp 		= summary["exp"]
+	monster.level 		= summary["level"]
+	monster.birth_name 	= summary["name"]
+	monster.funds 		= summary["funds"] 
+	#summary["status_effects"]	= []
+	#summary["franchise_ID"]		= 0
+	monster.species 	= summary["species_ID"]
+	#summary["variant_ID"]		= 0
+	monster.umid 		= summary["UMID"]
+
+
+
+func get_gamepiece_summary():
+	pass
+
+
+
+func set_gamepiece_summary( gamepiece:Gamepiece, summary:Dictionary ):
+	gamepiece.facing_direction = summary["current_direction"]
+	pass
+
 
 
 # To be called by GlobalMonsterSpawner
@@ -149,15 +182,7 @@ func update_monster( monster ):
 	pass
 
 
-func save_map_data():
-	pass
-
-func save_player_data():
-	pass
-
-func save_global_data():
-	pass
-
+# Need to update the selected columns here.
 func load_monster( monster ):
 	
 	var selected_columns : Array = ["current_health", "current_spirit", 
@@ -185,12 +210,68 @@ func load_monster( monster ):
 	pass
 
 
+
+func save_gamepiece():
+	pass
+
+
+
+func load_gamepiece():
+	pass
+
+
+func load_gamepieces_for_map( map_id ) -> Array:
+	
+	var selected_columns : Array = ["umid", "current_position", 
+									"current_direction", "current_action"];
+	
+	var summary_dict : Dictionary = Dictionary();
+	
+	db = SQLite.new()
+	db.path = db_name_user_active
+	db.open_db()
+	
+	var fetched : Array = db.select_rows( table_name_user_gamepiece, str("current_map = ", map_id), selected_columns )
+	var gamepiece_array = Array[Gamepiece]
+	var gamepiece
+	
+	# For each table row, use it to build a gamepiece
+	for piece_summary in fetched:
+		gamepiece = Gamepiece.new()
+		set_gamepiece_summary( gamepiece, piece_summary );
+		gamepiece_array.append( gamepiece )
+	
+	db.close_db()
+	
+	return gamepiece_array
+	
+	pass
+
+
+func save_player_data():
+	pass
+
+
+
 func load_player_data():
 	pass
 
-func load_map_data():
-	# with parameter of map index, use active player save to load which gamepieces to place where
+
+# Saves the gametoken & graph connection data
+func save_map_data():
 	pass
+
+
+# Retrieves the gametoken & graph connection data
+func load_map_data():
+	pass
+
+
+
+func save_global_data():
+	pass
+
+
 
 func load_global_data():
 	pass
@@ -202,8 +283,6 @@ func fetch_save_to_active():
 	var db_backup = SQLite.new(); db_backup.path = db_name_user_backup; db_backup.open_db()
 	
 	var success
-	
-	
 	
 	success = db_commit.export_to_json( json_name_user_pidgeonhole )
 	if success:

@@ -1,11 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://b2qn2nbq84eup"]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="Texture2D" uid="uid://claaq3m3x57i0" path="res://assets/textures/tilesets/dirtgrass_mauvetown.png" id="1_qqx2q"]
 [ext_resource type="Texture2D" uid="uid://dg30v1evln7gc" path="res://assets/textures/tilesets/dirt_elevated.png" id="2_0vyde"]
 [ext_resource type="Texture2D" uid="uid://b3nqmhb1qe2d0" path="res://assets/textures/tilesets/tile_selection.png" id="3_tt5xu"]
-[ext_resource type="PackedScene" uid="uid://cl3465qr1u6mm" path="res://player/player.tscn" id="4_1fjk7"]
-[ext_resource type="PackedScene" uid="uid://cvajri3ppp8k" path="res://overworld/tree.tscn" id="5_caauc"]
-[ext_resource type="PackedScene" uid="uid://db2gcrrcc6uej" path="res://overworld/tall_grass.tscn" id="6_clpxa"]
+[ext_resource type="PackedScene" uid="uid://db8npf25b22jx" path="res://player/player.tscn" id="4_1fjk7"]
+[ext_resource type="PackedScene" uid="uid://cvajri3ppp8k" path="res://overworld/props/tree.tscn" id="5_caauc"]
+[ext_resource type="PackedScene" uid="uid://db2gcrrcc6uej" path="res://overworld/props/tall_grass.tscn" id="6_clpxa"]
 [ext_resource type="PackedScene" uid="uid://crk1pu5pxjnen" path="res://common/daylight_cycle_filter.tscn" id="7_n8cm0"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_oy114"]

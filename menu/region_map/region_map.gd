@@ -11,3 +11,8 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+
+
+func link_nodules( from:MapNodule, to:MapNodule ):
+	from.establish_outlink( to )
+	pass

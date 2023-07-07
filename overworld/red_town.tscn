@@ -1,11 +1,13 @@
-[gd_scene load_steps=14 format=3 uid="uid://bmwi0s8ty1dsj"]
+[gd_scene load_steps=16 format=3 uid="uid://bkc6734uqagjw"]
 
 [ext_resource type="Texture2D" uid="uid://claaq3m3x57i0" path="res://assets/textures/tilesets/dirtgrass_mauvetown.png" id="1_nkcvo"]
+[ext_resource type="Script" path="res://overworld/level_map.gd" id="1_r8duk"]
 [ext_resource type="Texture2D" uid="uid://dg30v1evln7gc" path="res://assets/textures/tilesets/dirt_elevated.png" id="2_4t0rn"]
-[ext_resource type="PackedScene" uid="uid://cvajri3ppp8k" path="res://overworld/tree.tscn" id="3_psygd"]
-[ext_resource type="PackedScene" uid="uid://db2gcrrcc6uej" path="res://overworld/tall_grass.tscn" id="4_7hrqa"]
-[ext_resource type="PackedScene" uid="uid://cl3465qr1u6mm" path="res://player/player.tscn" id="4_nfeob"]
+[ext_resource type="PackedScene" uid="uid://cvajri3ppp8k" path="res://overworld/props/tree.tscn" id="3_psygd"]
+[ext_resource type="PackedScene" uid="uid://db2gcrrcc6uej" path="res://overworld/props/tall_grass.tscn" id="4_7hrqa"]
+[ext_resource type="PackedScene" uid="uid://db8npf25b22jx" path="res://player/player.tscn" id="4_nfeob"]
 [ext_resource type="PackedScene" uid="uid://crk1pu5pxjnen" path="res://common/daylight_cycle_filter.tscn" id="7_ktmuj"]
+[ext_resource type="PackedScene" path="res://overworld/props/portal.tscn" id="9_onv2a"]
 [ext_resource type="Texture2D" uid="uid://b3nqmhb1qe2d0" path="res://assets/textures/tilesets/tile_selection.png" id="10_dw3o8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_oy114"]
@@ -1165,6 +1167,8 @@ sources/0 = SubResource("TileSetAtlasSource_nsigh")
 
 [node name="RedTown" type="Node2D"]
 position = Vector2(256, 256)
+script = ExtResource("1_r8duk")
+map_index = 0
 
 [node name="Board" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_d1g0t")
@@ -1213,3 +1217,9 @@ visible = false
 position = Vector2(-8, -8)
 enabled = false
 zoom = Vector2(2.5, 2.5)
+
+[node name="Portal" parent="." instance=ExtResource("9_onv2a")]
+position = Vector2(-80, 112)
+scale = Vector2(4, 4)
+map = "res://overworld/route_home_to_red.tscn"
+target_position = Vector2i(384, 112)

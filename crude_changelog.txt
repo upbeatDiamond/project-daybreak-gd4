@@ -13,6 +13,16 @@ TL;DR:
 
 Notable additions:
 	+ Added part of code for transfering gamepieces to proper map based on map indexes
+	+ Added or otherwise developed maps: 
+		+ "Hometown"
+			+ Drew new house sprite suffixed "2x3"
+		+ "Port Town Museum"
+		* "Red Town"
+		+ "Route Home->Red"
+	+ Gamepieces use TraversalMode where is_running might have been used
+		* Gamepiece Controllers shouldn't control speed, but contexts for different speeds
+	+ GamepieceWalker (tentative name) for Gamepieces not in current scene but otherwise active
+	+ Expanded GlobalDatabase in anticipation for upcoming feature tests
 
 
 
@@ -22,7 +32,8 @@ Notable subtractions:
 
 
 Notable changes:
-
+	* Moved Tree, Tall Grass, and Portal to the overworld/props folder
+	* Gamepieces now manifest in the Y-Sort node subtree, rather than just wherever
 
 
 To do eventually:
@@ -35,7 +46,9 @@ To do eventually:
 		% Make the top edge closer match the collision box
 	% Move the TitleScreen to the ActivityInterface
 	% Fix or replace the D* pathfinding
-	% If a level has an Objects and Y-Sort, put Gamepieces there, else make the level have them.
+	% Ensure level has an Objects and Y-Sort, then put Gamepieces there.
+	% Saving and Loading
+		% If the level lacks the player, put them there. Else, don't.
 
 
 General Commentary:

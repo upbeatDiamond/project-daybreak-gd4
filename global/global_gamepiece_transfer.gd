@@ -10,11 +10,17 @@ enum MapIndex
 	TOWN_MAUVE,
 	TOWN_SCRATCH,
 	TOWN_PORT,
+	TOWN_HOME,
 	
 	# There can be up to 255 values between Invalid and Windmill
 	
 	TOWN_PORT_WINDMILL = 256,
 	TOWN_PORT_MUSEUM,
+	
+	
+	# There can be up to 2048 values between Invalid and Route Home->Red
+	
+	ROUTE_HOME_TO_RED = 2048,
 	
 
 	# From this point forward is enums that are extremely likely to change value.

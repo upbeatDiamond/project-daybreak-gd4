@@ -3,16 +3,16 @@ extends Node
 var gamepiece : Gamepiece
 
 func _ready() -> void:
-	set_physics_process(false)
+	#set_physics_process(false)
 	update_configuration_warnings()
 	
 	gamepiece = self.get_parent() as Gamepiece
 	
 	if not Engine.is_editor_hint():
-		#assert(gamepiece, "Gamepiece '%s' must be a child of a Gamepiece to function! Is '%s'" % [name, get_parent().get_class()] )
+		assert(gamepiece, "Gamepiece '%s' must be a child of a Gamepiece to function! Is '%s'" % [name, get_parent().get_class()] )
 		pass
 	
-	set_physics_process(true)
+	#set_physics_process(true)
 
 
 func _get_configuration_warnings() -> PackedStringArray:
@@ -22,11 +22,11 @@ func _get_configuration_warnings() -> PackedStringArray:
 	
 	return warnings
 
-func _process(_delta):
+#func _process(_delta):
 	#if gamepiece != null:
 	#	set_physics_process(true);
 	#print( "controller thinks gp = %d", gamepiece )
-	pass
+#	pass
 
 func _physics_process(_delta):
 	if GlobalRuntime.gameworld_input_stopped || gamepiece.is_paused:
@@ -48,9 +48,9 @@ func handle_movement_input():
 	
 	var is_running = Input.is_action_pressed("ui_fast")
 	if is_running:
-		gamepiece.move_speed = gamepiece.run_speed
+		gamepiece.traversal_mode = gamepiece.TraversalMode.RUNNING
 	else:
-		gamepiece.move_speed = gamepiece.walk_speed
+		gamepiece.traversal_mode = gamepiece.TraversalMode.WALKING
 	
 	if input_direction != Vector2.ZERO:
 		gamepiece.queue_move( input_direction )

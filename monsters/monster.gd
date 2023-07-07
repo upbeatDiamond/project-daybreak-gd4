@@ -33,7 +33,9 @@ var ability = ""
 var birth_name := ""
 @export var nickname := ""
 
-var item_held = ""
+# The currency level of this monster.
+# It should be an int, but floats might be accepted just in case.
+var funds = 0
 
 var met_at_level = -1
 
@@ -58,6 +60,7 @@ var status_conditions = {}
 
 # The state the stats should be reset to upon healing
 # Might be split into IVs, AV/EVs, and Species Strengths
+# Called 'max' in the database, in comparison to HP
 var stats_base = [];
 
 
@@ -68,8 +71,8 @@ var stats_current = [];
 # might contain analogue to Memories
 var relationships = {}
 
-# Stores one's special interests
-var quirks = {}
+# Stores one's current endeavors
+var activity_heap = {}
 
 
 

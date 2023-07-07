@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://d20luma5xck6t"]
+[gd_scene load_steps=3 format=3]
 
-[ext_resource type="Script" path="res://overworld/portal.gd" id="1_y3akn"]
+[ext_resource type="Script" path="res://overworld/props/portal.gd" id="1_y3akn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ewm0l"]
 size = Vector2(16, 16)
