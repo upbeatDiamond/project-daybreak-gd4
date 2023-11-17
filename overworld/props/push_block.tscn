@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://mr16k2apn43v"]
+
+[ext_resource type="Script" path="res://overworld/props/push_block.gd" id="1_nlv8u"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s2mqy"]
+size = Vector2(16, 16)
+
+[node name="PushBlock" type="Area2D"]
+script = ExtResource("1_nlv8u")
+
+[node name="PushCollider" type="CollisionShape2D" parent="."]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_s2mqy")
+
+[node name="PushRay" type="RayCast2D" parent="."]
+position = Vector2(8, 8)
+target_position = Vector2(16, 0)

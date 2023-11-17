@@ -220,7 +220,7 @@ func load_gamepiece():
 	pass
 
 
-func load_gamepieces_for_map( map_id ) -> Array:
+func load_gamepieces_for_map( map_id ) -> Array[Gamepiece]:
 	
 	var selected_columns : Array = ["umid", "current_position", 
 									"current_direction", "current_action"];
@@ -232,7 +232,7 @@ func load_gamepieces_for_map( map_id ) -> Array:
 	db.open_db()
 	
 	var fetched : Array = db.select_rows( table_name_user_gamepiece, str("current_map = ", map_id), selected_columns )
-	var gamepiece_array = Array[Gamepiece]
+	var gamepiece_array : Array[Gamepiece]
 	var gamepiece
 	
 	# For each table row, use it to build a gamepiece

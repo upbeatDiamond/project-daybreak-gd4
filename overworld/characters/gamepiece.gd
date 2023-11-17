@@ -37,7 +37,6 @@ const LandingDustEffect = preload("res://overworld/landing_dust_effect.tscn")
 @onready var animation_tree = $AnimationTree
 @onready var animation_state = animation_tree["parameters/playback"]
 @onready var block_ray = $Collision/BlockingRayCast2D
-@onready var ledge_ray = $Collision/LedgeRayCast2D
 @onready var event_ray = $Collision/EventRayCast2D
 @onready var gfx = $GFX
 @onready var shadow = $GFX/Shadow
@@ -45,11 +44,9 @@ const LandingDustEffect = preload("res://overworld/landing_dust_effect.tscn")
 @onready var controller = $Controller
 @onready var move_tween : Tween
 
-var jumping_over_ledge: bool = false
-
 var is_paused = false;	# true if cannot act
 var is_moving = false;	# true if walking, running, jumping, etc
-#var is_running = false;	# set to true to use run speed instead of walk speed
+var position_is_known = true;	# false if the gamepiece needs a new position calculated.
 var facing_direction = Vector2(0,0);	# Used for animation state tree
 
 var traversal_mode = TraversalMode.STANDING
@@ -67,8 +64,11 @@ enum TraversalMode
 	BICYCLING, 	# 🚲 
 }
 
+@export var target_map := 0
 @export var target_position := Vector2(0,0)
 var move_queue := []
+# The movement queue should be updated to account for the ability to turn, ...
+# ... and to switch traversal modes.
 
 # Why wasn't this in the Gamepiece by Prealpha 3?
 # Oh yeah, because I kept rewriting this class.
@@ -89,13 +89,14 @@ func _on_gameworld_pause():
 	#print("Stop! GlobalRuntime.")
 	pass
 
+
 func _on_gameworld_unpause():
 	if move_tween != null:
 		move_tween.play()
 	is_paused = false
 	#print("I can run? I CAN FIGHT!")
 	pass
-
+	
 
 func snap_to_grid( pos ) -> Vector2:
 	return Vector2(pos.x - tile_offset.x, pos.y - tile_offset.y).snapped(Vector2.ONE * GlobalRuntime.DEFAULT_TILE_SIZE) + tile_offset
@@ -117,7 +118,6 @@ func _process(_delta):
 		move(move_queue.pop_front())
 	
 	pass
-
 
 
 func update_rays( direction ):
@@ -186,16 +186,13 @@ func move_to_target( target:Vector2i ):
 	resync_position()
 
 
-
 func entered_door():
 	emit_signal("gamepiece_entered_door_signal")
-
 
 
 func queue_move( direction:Vector2 ):
 	move_queue.append( direction )
 	pass
-
 
 
 func resync_position():
@@ -218,10 +215,8 @@ func update_anim_tree():
 		animation_state.travel("Idle")
 
 
-
 func set_spawn(loci: Vector2, direction: Vector2):
 	set_teleport(loci, direction)
-
 
 
 func set_teleport(loci: Vector2i, direction: Vector2i, map:=""):
@@ -235,3 +230,72 @@ func set_teleport(loci: Vector2i, direction: Vector2i, map:=""):
 	facing_direction = Vector2( direction.x, direction.y )
 	
 	print("teleport to gx %d, gy %d, x %d , y %d" % [global_position.x, global_position.y, loci.x, loci.y])
+
+
+static func gamepiece_from_walker( walker:GamepieceWalker ) -> Gamepiece:
+#	var new_gamepiece = Gamepiece.new()
+#	new_gamepiece.collision_layer = 1		# Not a big fan of this line. Try tying it to something.
+#	new_gamepiece.name = "Gamepiece"
+#
+#	var new_controller = Node.new()
+#	new_controller.set_script( walker.controller )
+#	new_gamepiece.add_child( new_controller )
+#	new_controller.name = "Controller"
+#
+#	var new_collision = CollisionShape2D.new()
+#	new_collision.shape = RectangleShape2D.new()
+#	new_collision.shape.size = Vector2( GlobalRuntime.DEFAULT_TILE_SIZE, GlobalRuntime.DEFAULT_TILE_SIZE )
+#	new_gamepiece.add_child( new_collision )
+#	new_collision.name = "Collision"
+#	new_collision.position = Vector2( 8, 8 )
+#	var new_event_ray = RayCast2D.new()
+#	new_event_ray.collision_mask = 4		# Not a big fan of this line. Try tying it to something.
+#	new_collision.add_child(new_event_ray)
+#	new_event_ray.name = "EventRayCast2D"
+#	var new_block_ray = RayCast2D.new()
+#	new_block_ray.collision_mask = 3		# Not a big fan of this line. Try tying it to something.
+#	new_collision.add_child(new_block_ray)
+#	new_block_ray.name = "LedgeRayCast2D"
+#
+#	var new_gfx = Marker2D.new()
+#	new_gamepiece.add_child( new_gfx )
+#	new_gfx.name = "GFX"
+#	var new_shadow = Sprite2D.new()
+#	new_gfx.add_child( new_shadow )
+#	new_shadow.name = "Shadow"
+#	var new_sprite = Sprite2D.new()
+#	new_gfx.add_child( new_sprite )
+#	new_sprite.name = "Sprite"
+#	new_sprite.texture = load("res://player/player_base_move.png")
+#	new_sprite.hframes = 7
+#	new_sprite.vframes = 4
+#	new_sprite.position = Vector2(8,0)
+
+	# Should I remove the above yet? Maybe not. It could be nice to recycle. Maybe put it on the scrapheap.
+	
+	var model_gamepiece = load("res://overworld/characters/gamepiece.tscn") as PackedScene
+	var new_gamepiece = model_gamepiece.instantiate() as Gamepiece
+	new_gamepiece.monster = walker.monster
+	new_gamepiece.find_child("Controller").set_script( walker.controller )
+	if walker.current_position_is_known:
+		new_gamepiece.position = walker.current_position
+	else:
+		# Replace this else statement with position estimation code
+		new_gamepiece.position = walker.current_position
+	
+	
+	return new_gamepiece
+	
+	pass
+
+static func walker_from_gamepiece( gamepiece:Gamepiece ) -> GamepieceWalker:
+	
+	var walker = GamepieceWalker.new( gamepiece.monster,
+										gamepiece.controller.get_script(),
+										gamepiece.get_current_map_id(),
+										gamepiece.target_map,
+										gamepiece.target_position )
+	
+	return walker
+	
+	pass

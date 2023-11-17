@@ -11,17 +11,19 @@ class_name LevelMap
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	GlobalRuntime.scene_manager.update_preload_portals()
-	var gamepieces = GlobalGamepieceTransfer.eject_gamepieces_for_map(map_index)
-	
-	var y_sort : Node = null
-	
+	populate_with_gamepieces()
+	pass
+
+
+
+func place_gamepieces( gamepieces:Array ):
 	# If the Objects node doesn't exist, make it.
 	if get_node_or_null( ^"Objects" ) == null:
 		var object_folder = Node.new()
 		object_folder.name = "Objects"
 		add_child( object_folder )
-	else:
-		y_sort = get_node_or_null( ^"Objects/Y-Sort" )
+	
+	var y_sort : Node  = get_node_or_null( ^"Objects/Y-Sort" )
 	
 	# If the Y-Sort node doesn't exist, make it.
 	if y_sort == null:
@@ -36,21 +38,31 @@ func _ready():
 	pass
 
 
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	pass
 
+
+
 func populate_with_gamepieces():
 	var gamepieces = GlobalGamepieceTransfer.eject_gamepieces_for_map(map_index)
-	for piece in gamepieces:
-		add_child(piece)
+	#for piece in gamepieces:
+	#	add_child(piece)
+	
+	place_gamepieces( gamepieces )
 	pass
+
+
 
 func pack_up():
 	var childs = get_children()
 	
 	# Tagged out to avoid massive duplication of the test NPC. Now only clones the Player.
 #	# Recursively find and pack up gamepieces, assuming that no gamepieces have gamepieces as children
+
+#	# Please replace this with a signal.
+
 #	for child in childs:
 #		if child is Gamepiece:
 #			GlobalGamepieceTransfer.submit_gamepiece( child, map_index, child.global_position, map_index )

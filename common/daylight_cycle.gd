@@ -72,7 +72,7 @@ func get_daylight_temp2( hour ) -> float:
 		light_length = moonlight_length
 		pass
 	
-	return -( abs(temp_max-temp_min)/2 ) * cos((hour - hour_sunrise)*PI/light_length) + (temp_min+temp_max)/2
+	return -( abs(temp_max-temp_min)/2.0 ) * cos((hour - hour_sunrise)*PI/light_length) + (temp_min+temp_max)/2.0
 
 
 func get_daylight_temp( hour ) -> float:

@@ -21,7 +21,7 @@ enum DayOfWeek
 	SUNDAY
 }
 
-var day_length := 1000.0;
+var day_length := 1200.0;
 var is_active = false;
 var hours_per_day := 24
 
@@ -31,7 +31,7 @@ var current_day: int = 1
 # Look honey, the one (1) LLM/ML generated function! I heard it needed to get fixed afterwords!
 func _process(delta) -> void:
 	current_time += delta
-
+	
 	if is_active:
 		if current_time >= day_length:
 			current_time = 0.0
@@ -39,7 +39,6 @@ func _process(delta) -> void:
 		
 		if current_day > DayOfWeek.size():
 			current_day = DayOfWeek.MONDAY
-
 
 func get_current_hour():
 	return hours_per_day * current_time / day_length

@@ -78,11 +78,11 @@ var default_move = Move.new(100, 100, null, 0, [], [], 0, 0)
 # This system may be replaced in a future version.
 var stab_multiplier = [1, 1.25, 1.5, 1.5, 1.5, 2, 2.25]
 
-func load_move_from_database( move_reference ):
+func load_move_from_database( _move_reference ):
 	pass
 	# Calls database, links effect shorthand/index to effect objects and passes to the manager.
 
-func execute_move( move, user, target : Array ):
+func execute_move( _move, _user, _target : Array ):
 	pass
 	# Intakes user, array of targets, effects, tags and flags. Calculates changes via effect code, synthesizes and cleans results, then applies changes to the combatants.
 
