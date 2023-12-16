@@ -32,4 +32,3 @@ func set_stat( stat_type:GlobalMonster.BattleStats, value:int ):
 
 func get_stat( stat_type:GlobalMonster.BattleStats ):
 	return stat_changes[stat_type]
-	pass

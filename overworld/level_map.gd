@@ -3,20 +3,23 @@ class_name LevelMap
 
 # Has to be -1 or a unique positive number
 @export var unique_id := -1
+const Y_SORT_FOLDER_NAME:="Y-Sort"
 
 # linked to the gamepiece transfer class
 @export var map_index := ( -1 as GlobalGamepieceTransfer.MapIndex ) 
-
+var current_gamepieces:=[Gamepiece]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	GlobalRuntime.scene_manager.update_preload_portals()
-	populate_with_gamepieces()
+	if GlobalRuntime.scene_manager != null:
+		GlobalRuntime.scene_manager.update_preload_portals()
+		establish_ysort()
+		rehouse_gamepieces()
+		populate_with_gamepieces()
 	pass
 
 
-
-func place_gamepieces( gamepieces:Array ):
+func establish_ysort():
 	# If the Objects node doesn't exist, make it.
 	if get_node_or_null( ^"Objects" ) == null:
 		var object_folder = Node.new()
@@ -24,23 +27,49 @@ func place_gamepieces( gamepieces:Array ):
 		add_child( object_folder )
 	
 	var y_sort : Node  = get_node_or_null( ^"Objects/Y-Sort" )
-	
 	# If the Y-Sort node doesn't exist, make it.
 	if y_sort == null:
 		var ysort_folder = Node.new()
-		ysort_folder.name = "Y-Sort"
+		ysort_folder.name = Y_SORT_FOLDER_NAME
 		get_node_or_null( ^"Objects" ).add_child( ysort_folder )
+
+
+func rehouse_gamepieces():
+	var children = get_children()
+	for child in children:
+		if not(child is Gamepiece):
+			children.append_array( child.get_children() )
+		else:
+			# please please don't make another node called 'Y-Sort', please.
+			child.reparent( find_child(Y_SORT_FOLDER_NAME, true) )
+			current_gamepieces.append(child)
+	pass
+
+
+func place_gamepieces( gamepieces:Array ):
+	establish_ysort()
+	var ysort = get_node_or_null( ^"Objects/Y-Sort" )
+	var is_dirty = false
 	
 	# Now that the Y-Sort is almost guaranteed to exist, put any characters in there.
 	# BUT JUST IN CASE, keep using the "get_node_or_null" and keep track of the null errors.
 	for piece in gamepieces:
-		get_node_or_null( ^"Objects/Y-Sort" ).add_child(piece)
+		is_dirty = false
+		for old_piece in current_gamepieces:
+			if (old_piece is Gamepiece) and (piece is Gamepiece) and (piece.monster is Monster)\
+			and piece.monster.equals( old_piece.monster ):
+				is_dirty = true
+				(old_piece as Node).get_parent().remove_child(old_piece)
+				GlobalRuntime.clean_up_node_descent( old_piece )
+		
+		ysort.add_child(piece)
 	pass
 
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	#print(get_anchor_container())
 	pass
 
 
@@ -53,7 +82,9 @@ func populate_with_gamepieces():
 	place_gamepieces( gamepieces )
 	pass
 
-
+func get_anchor_container():
+	
+	return $Anchors
 
 func pack_up():
 	var childs = get_children()

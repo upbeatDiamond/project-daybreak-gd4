@@ -62,15 +62,9 @@ func switch_to_interface( interface:InterfaceOptions ):
 	pass
 
 func get_map_index( map:String ):
-	
 	return scenes_ready[map][0].map_index
-	
-	pass
 
-func change_map( map:String ):
-	
-	var old_children = world_interface.get_children()
-	
+func change_map_from_path( map:String ):
 	var next_map;
 	
 	if scenes_ready.has(map):
@@ -78,18 +72,27 @@ func change_map( map:String ):
 		next_map = scenes_ready[map][0]
 		scenes_ready.erase( map )
 	else:
-		next_map = load( map ).new()
+		next_map = load( map )#.new()
 	
-	for child in world_interface.get_children():
+	change_map( next_map )
+	pass
+
+func change_map( map_template ):
+	var old_children = world_interface.get_children()
+	var next_map
+	
+	if map_template is PackedScene:
+		next_map = map_template.instantiate()
+	else:
+		next_map = map_template#.new()
+		
+	for child in old_children:
 		if child is LevelMap:
 			child.pack_up()
 		GlobalRuntime.clean_up_node_descent( child )
 	
 	world_interface.add_child( next_map ) #.instantiate()
-	
 	pass
-
-
 
 func append_preload_map( map:String ):
 	if !scenes_ready.has(map):
@@ -99,7 +102,15 @@ func append_preload_map( map:String ):
 	else:
 		scenes_ready[map][1] = TTL_RESET;
 
-
+func get_overworld_root():
+	var children = $InterfaceWorld.get_children()
+	
+	# Because I am lazy and prefer crashing from memleaks than crashing from null pointers.
+	if children == null or children.size() < 1:
+		$InterfaceWorld.add_child( Node2D.new() )
+	
+	return $InterfaceWorld.get_children().back()
+	pass
 
 func update_preload_portals( ttl_decrement : int = 1 ):
 	var portals = get_tree().get_nodes_in_group("portals")

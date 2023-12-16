@@ -244,8 +244,6 @@ func load_gamepieces_for_map( map_id ) -> Array[Gamepiece]:
 	db.close_db()
 	
 	return gamepiece_array
-	
-	pass
 
 
 func save_player_data():

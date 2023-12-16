@@ -1,26 +1,22 @@
 Welcome to crude changelog, the log that gets facts wrong about your favorite changes.
 I'm jan Wiwijen (jan Opitaman), and today I'll be discussing a pre-alpha version of a Godot project.
 
-I'm merging July/August into one release so I can give myself more time to fix stuff.
-I managed to work on a lot of lore and mechanical elements, but I have minimal code to prove it.
+Late 2023 - Early 2024
 
 
 Codename: Project Daybreak
-Update: Pre-alpha 4
-TL;DR: 
-
+Update: Pre-alpha 5, "The Longest Time"
+TL;DR: I found some new tutorials to follow to show I'm an independent thinker.
 
 
 Noteworthy additions:
-	+ Added part of code for transfering gamepieces to proper map+portal based on map+portal index
 	+ Added or otherwise developed maps: 
-		+ "Hometown"
-			+ Drew new house sprite suffixed "2x3"
+		+ "Hometown Home"
 		+ "Port Town Museum"
-		* "Red Town"
-		+ "Route Home->Red"
-	+ Gamepieces use TraversalMode where is_running might have been used
-		* Gamepiece Controllers shouldn't control speed, but contexts for different speeds
+	+ SceneManager has been tweaked to make use of Godot 4.2's PackedScene preview in editor
+		+ Scenes can now be loaded/switched to from a string, a packed scene, or a node treelet
+	+ Added Warp Anchors, not to be confused with T* "anchor/waypoints" or the lore's "warp slates"
+		
 	+ GamepieceWalker (tentative name) for Gamepieces not in current scene but otherwise active
 	+ Expanded GlobalDatabase in anticipation for upcoming feature tests
 	+ Added PushBlock in anticipation for puzzles
@@ -28,15 +24,12 @@ Noteworthy additions:
 	+ Added more images, as always
 
 
-
 Noteworthy subtractions:
-	- Removed LedgeRayCast2D from the Gamepiece scene, because ledges should be events anyways
-
-
+	- Removed ability for player to clone self by leaving the room they spawned in, then returning.
+		- Needs testing: Likely removed ability to have many gamepieces without setting UMIDs
 
 Noteworthy changes:
-	* Moved Tree, Tall Grass, and Portal to the overworld/props folder
-	* Gamepieces now manifest in the Y-Sort node subtree, rather than just wherever
+	* Gamepiece cameras should now reset smoothing upon switching maps, improving immersion.
 
 
 To do eventually:
@@ -48,10 +41,8 @@ To do eventually:
 		% Split rock and dirt tiles visually
 		% Make the top edge closer match the collision box
 	% Move the TitleScreen to the ActivityInterface
-	% Fix or replace the D* pathfinding
-	% Ensure level has an Objects and Y-Sort, then put Gamepieces there.
+	% Replace the broken traces of D* with a new proposed "Track*"/TrackStar algorithm
 	% Saving and Loading
-		% If the level lacks the player, put them there. Else, don't.
 		% When a levelmap is chunk-loaded, place it onto the scene tree before using to avoid errs.
 	% What if I make battles and dialogue Character collisions, and cutscenes as an Event collision?
 
@@ -69,3 +60,9 @@ General Commentary:
 		> Setting up is the best part once you know how. Expanding & bugfixing though...?
 		
 	> No sources should be less permissive than an MIT license. Everything in here should be free.
+	> All assets not made for this project need proper credit (CC-BY-4.0, SIL), or to be PD/CC-0.
+		> FilmCow's sound pack license is on or past the limit of restrictiveness. Avoid for now.
+	
+	> We're skipping the proper drop of the previous pre-alpha, as a lot of development...
+... went into lore, concepts, and other repos. And downloading assets. So much scrolling.
+... and also I don't want to.

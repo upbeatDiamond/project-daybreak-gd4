@@ -68,7 +68,7 @@ func handle_map_change( map:String ):
 	#animation_state.travel("Idle")
 	
 	GlobalGamepieceTransfer.submit_gamepiece( gamepiece, GlobalRuntime.scene_manager.get_map_index(map) )
-	GlobalRuntime.scene_manager.change_map(map)
+	GlobalRuntime.scene_manager.change_map_from_path(map)
 	
 	#visible = true
 	

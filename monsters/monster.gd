@@ -17,11 +17,12 @@ func _process(delta):
 
 # Used for proper saving/loading/reloading
 var umid = -1
+var world_of_origin = -1
 
 @export var level := -1
 	# Used to track what moves should be accessible at this point, and is used in same places as stat increases and Evo checks
 
-@export var exp := -1
+@export var experience := -1
 	# Used to track experience points, which reset upon levelling up
 
 var species := -1
@@ -82,14 +83,14 @@ func get_current_stat():
 
 # get current health level
 func get_health() -> int:
-	var health = stats_current[ GlobalMonster.BattleStats.HEALTH ];
-	if (health == null):
-		health = 0
-	return health
+	var _health = stats_current[ GlobalMonster.BattleStats.HEALTH ];
+	if (_health == null):
+		_health = 0
+	return _health
 
 # can turn this into a setget
-func set_health( health:int ):
-	stats_current[ GlobalMonster.BattleStats.HEALTH ] = health;
+func set_health( _health:int ):
+	stats_current[ GlobalMonster.BattleStats.HEALTH ] = _health;
 
 # Separated for future damage animations, or abilities
 func reduce_health( damage ):
@@ -104,14 +105,14 @@ func change_base_health( change ):
 
 # Deprecated due to get_stat, but don't remove yet
 func get_spirit() -> int:
-	var spirit = stats_current[ GlobalMonster.BattleStats.SPIRIT ];
-	if (spirit == null):
-		spirit = 0
-	return spirit
+	var _spirit = stats_current[ GlobalMonster.BattleStats.SPIRIT ];
+	if (_spirit == null):
+		_spirit = 0
+	return _spirit
 
 # can turn this into a setget
-func set_spirit( spirit:int ):
-	stats_current[ GlobalMonster.BattleStats.HEALTH ] = spirit;
+func set_spirit( _spirit:int ):
+	stats_current[ GlobalMonster.BattleStats.HEALTH ] = _spirit;
 
 # can turn this into a setget
 func get_stat( stat_type:GlobalMonster.BattleStats ):
@@ -137,6 +138,14 @@ func get_active_moves():
 
 func _to_string():
 	return str(name, "(", umid, ") is a ", species, " with moves ", moves_learned, " and stats ", stats_base, " -> ", stats_current)
+
+func equals(other_mon:Monster) -> bool:
+	if other_mon == null:
+		return false
+	if other_mon.umid == umid && (other_mon.world_of_origin == world_of_origin \
+	|| world_of_origin < 0 || other_mon.world_of_origin < 0):
+		return true
+	return false
 
 #func saveAndReload:
 	# Call saveData and loadData sequentially, possibly setting everything to zero in between

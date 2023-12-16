@@ -10,7 +10,9 @@ var play_scene_path = "res://overworld/red_town.tscn"
 	get:
 		return play_scene
 	set( value ):
-		if value.contains("res://"):
+		if value is PackedScene:
+			play_scene = value
+		elif value is String and value.contains("res://"):
 			play_scene = load(value)
 		else:
 			play_scene = get_node(value)
@@ -29,7 +31,10 @@ func _on_play_pressed():
 	if scene_enabled:
 		GlobalRuntime.clean_up_descent( self )
 		#replace_by(  play_scene.instantiate()  )
-		GlobalRuntime.scene_manager.change_map( play_scene_path )
+		if play_scene == null:
+			GlobalRuntime.scene_manager.change_map_from_path( play_scene_path )
+		else:
+			GlobalRuntime.scene_manager.change_map( play_scene )
 		queue_free()
 	pass # Replace with function body.
 

@@ -81,8 +81,8 @@ enum BytefieldStatusCondition
 
 
 
-func _init(monster, _name):
-	self.monster = monster
+func _init(_monster, _name):
+	self.monster = _monster
 	$HUD/Name.set_text( _name )
 	pass
 
@@ -91,8 +91,8 @@ func _ready():
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+#func _process(delta):
+	#pass
 
 func set_active(value):
 	active = value

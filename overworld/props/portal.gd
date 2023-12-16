@@ -20,8 +20,9 @@ class_name Portal
 
 # By default, use 0 or -1 if "blank", and always use position and facing as backup
 @export var linked_portal_id : int
-@export var target_position : Vector2i
-@export var target_facing : Vector2i
+@export var target_anchor_name : String
+@export var target_position : Vector2i	# Fallback value, avoid using
+@export var target_facing : Vector2i	# Fallback value, avoid using
 
 # an id for linking; make sure target_facing can be multiplied by -1 without invalid positioning
 @export var portal_id : int
@@ -39,7 +40,7 @@ func _process(_delta):
 
 func _on_area_entered(area):
 	if area is Gamepiece or area.is_in_group("gamepiece"):
-		area.set_teleport(target_position, target_facing, map)
+		area.set_teleport(target_position, target_facing, map, target_anchor_name)
 	pass # Replace with function body.
 
 
