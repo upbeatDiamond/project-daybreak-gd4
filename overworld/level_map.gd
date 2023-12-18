@@ -9,6 +9,8 @@ const Y_SORT_FOLDER_NAME:="Y-Sort"
 @export var map_index := ( -1 as GlobalGamepieceTransfer.MapIndex ) 
 var current_gamepieces:=[Gamepiece]
 
+var debug_please_remove:=[1,3,2]
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if GlobalRuntime.scene_manager != null:
@@ -16,6 +18,7 @@ func _ready():
 		establish_ysort()
 		rehouse_gamepieces()
 		populate_with_gamepieces()
+	print(debug_please_remove[1], get("debug_please_remove[1]"))
 	pass
 
 
@@ -42,6 +45,7 @@ func rehouse_gamepieces():
 		else:
 			# please please don't make another node called 'Y-Sort', please.
 			child.reparent( find_child(Y_SORT_FOLDER_NAME, true) )
+			(child as Gamepiece).current_map = map_index
 			current_gamepieces.append(child)
 	pass
 
@@ -54,6 +58,7 @@ func place_gamepieces( gamepieces:Array ):
 	# Now that the Y-Sort is almost guaranteed to exist, put any characters in there.
 	# BUT JUST IN CASE, keep using the "get_node_or_null" and keep track of the null errors.
 	for piece in gamepieces:
+		piece.current_map = map_index
 		is_dirty = false
 		for old_piece in current_gamepieces:
 			if (old_piece is Gamepiece) and (piece is Gamepiece) and (piece.monster is Monster)\
@@ -83,8 +88,8 @@ func populate_with_gamepieces():
 	pass
 
 func get_anchor_container():
-	
-	return $Anchors
+	var anchor_container = find_child("Anchors", false)
+	return anchor_container
 
 func pack_up():
 	var childs = get_children()

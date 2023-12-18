@@ -13,6 +13,15 @@ var is_paused = false;	# true if cannot act
 var is_moving = false;	# true if walking, running, jumping, etc
 
 @export var monster : Monster
+@export var umid := -1:
+	set(_umid):
+		umid = _umid
+		if monster != null:
+			monster.umid = _umid
+	get:
+		if monster != null:
+			return monster.umid
+		return umid
 
 @export var target_map : GlobalGamepieceTransfer.MapIndex
 @export var target_position : Vector2

@@ -32,6 +32,52 @@ var table_name_user_gamepiece := "gamepiece"
 #var table_name_player := "person"
 #var table_name_relationship := "character"
 
+# Enums with Table = Key, Property = Value
+# Table_col : [ obj property name, fallback ]
+# ALT- tblcol : [ [obj property name, property index/modifier], fallback ]
+# Any property name that includes brackets should be split off and parsed.
+var tkpv_monster = {
+	"status_effects": 	 { "fallback": "" },
+	"franchise_ID": 	 { "fallback": 0 },
+	"species_ID": 		 { "property": "species", "fallback": -1 },
+	"variant_ID": 		 { "fallback": 0 },
+	"UMID": 			 { "property": "umid", "fallback": -1 }, #stats_growth
+	"current_health": 	 { "property": "stats_current", "index":GlobalMonster.BattleStats.HEALTH, "fallback": -1 },
+	"current_spirit": 	 { "property": "stats_current", "index":GlobalMonster.BattleStats.SPIRIT, "fallback": -1 },
+	"current_attack": 	 { "property": "stats_current", "index":GlobalMonster.BattleStats.ATTACK, "fallback": -1 },
+	"current_defense": 	 { "property": "stats_current", "index":GlobalMonster.BattleStats.DEFENSE, "fallback": -1 },
+	"current_speed": 	 { "property": "stats_current", "index":GlobalMonster.BattleStats.SPEED, "fallback": -1 },
+	"current_evasion": 	 { "property": "stats_current", "index":GlobalMonster.BattleStats.EVASION, "fallback": -1 },
+	"current_intimidate":{ "property": "stats_current", "index":GlobalMonster.BattleStats.INTIMIDATION, "fallback": -1 },
+	"current_resolve": 	 { "property": "stats_current", "index":GlobalMonster.BattleStats.RESOLVE, "fallback": -1 },
+	"current_mana": 	 { "property": "stats_current", "index":GlobalMonster.BattleStats.MANA, "fallback": -1 },
+	"max_health": 		 { "property": "stats_current", "index":GlobalMonster.BattleStats.HEALTH, "fallback": -1 },
+	"max_spirit": 		 { "property": "stats_current", "index":GlobalMonster.BattleStats.SPIRIT, "fallback": -1 },
+	"max_attack": 		 { "property": "stats_current", "index":GlobalMonster.BattleStats.ATTACK, "fallback": -1 },
+	"max_defense": 		 { "property": "stats_current", "index":GlobalMonster.BattleStats.DEFENSE, "fallback": -1 },
+	"max_speed": 		 { "property": "stats_current", "index":GlobalMonster.BattleStats.SPEED, "fallback": -1 },
+	"max_evasion": 		 { "property": "stats_current", "index":GlobalMonster.BattleStats.EVASION, "fallback": -1 },
+	"max_intimidate": 	 { "property": "stats_current", "index":GlobalMonster.BattleStats.INTIMIDATION, "fallback": -1 },
+	"max_resolve": 		 { "property": "stats_current", "index":GlobalMonster.BattleStats.RESOLVE, "fallback": -1 },
+	"max_mana": 		 { "property": "stats_current", "index":GlobalMonster.BattleStats.MANA, "fallback": -1 },
+	"ability": 			 { "property": "ability", "fallback":  0},
+	"exp": 				 { "property": "experience", "fallback":  0},
+	"level": 			 { "property": "level", "fallback":  1},
+	"name": 			 { "property": "birth_name", "fallback":  "John Smith"},
+}
+
+var tkpv_gamepiece = {
+	"gpid": 	 {"property": "unique_id", "fallback":  -1},
+	"umid": 	 {"property": "umid", "fallback":  -1},
+	"move_queue": 	 {"property": "move_queue", "fallback":  []},
+	"position_known": 	 { "property": "position_is_known", "fallback":  false},
+	"target_position": {"property": "target_position", "fallback":Vector2(0,0) },
+	"traversal_mode": {"property": "traversal_mode", "fallback": Gamepiece.TraversalMode.STANDING },
+	"target_map":	{"property": "target_map", "fallback": -1 },
+	"current_map":	{"property": "current_map", "fallback": -1 },
+	"current_position": {"property": "current_position", "fallback": Vector2i(0,0)},
+}
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -137,6 +183,117 @@ func set_gamepiece_summary( gamepiece:Gamepiece, summary:Dictionary ):
 	pass
 
 
+func game_to_database(thing:Object, tablekey_propval:Dictionary, target_db_path:String, target_table_name:String ):
+	
+	var row_dict : Dictionary
+	var current_propval
+	
+	# For each item in the dictionary, copy over its values, but simplified/realized.
+	for key in tablekey_propval.keys():
+		# If the result is an array, it's likely a value pair.
+		# While storing an array is bad practice, it needs an exit path.
+		if tablekey_propval[key] is Dictionary: #{ ? : [ ?* ] }
+			
+			if tablekey_propval[key].has( "property" ):
+				row_dict[key] = thing.get( tablekey_propval[key]["property"] )
+				if (row_dict[key] is Array or row_dict[key] is Dictionary) and tablekey_propval[key].has( "index" ):
+					row_dict[key] = row_dict[ tablekey_propval[key]["index"] ]
+					
+					# if the reassignment failed, revert.
+					# it might be better to make a new variable for this instead?
+					if row_dict[key] == null:
+						row_dict[key] = thing.get( tablekey_propval[key]["property"] )
+			else:
+				row_dict[key] = null
+			
+			if row_dict[key] == null:
+				if tablekey_propval[key].has( "fallback" ):
+					row_dict[key] = tablekey_propval[key]["fallback"]
+			
+			#if (tablekey_propval[key] as Array).size() >= 2: #{ ? : [ ?, ?* ] }
+				#
+				## We assume that the array is a pair of {property_name, fallback}
+				#current_propval = tablekey_propval[key].front()
+				#
+				## If that's true, good.
+				#if thing.get( str(current_propval) ) != null:
+					#row_dict[key] = thing.get( current_propval )
+				## But if the array pair includes a nested array pair? That's an array probably.
+				#elif current_propval is Array and current_propval.size() >= 2:
+					#row_dict[key] = thing.get( current_propval.front() )
+					#if row_dict[key] != null:
+						#row_dict[key] = row_dict[key][ current_propval[1] ]
+				#else:
+					#row_dict[key] = null
+				#
+				## If we had no luck parsing the values, we can just use the presumed fallback
+				#if row_dict[key] == null:
+					#row_dict[key] = (tablekey_propval[key] as Array).back()
+					#pass
+				#
+			#else:  # [ ? ] or []
+				#current_propval = (tablekey_propval[key] as Array).duplicate()
+				#current_propval.append(null)
+				#row_dict[key] = current_propval.back()
+				#pass
+		else:  # ?
+			row_dict[key] = tablekey_propval[key]
+	
+	# Any non-atomic types should be converted into a byte array
+	for key in row_dict.keys():
+		row_dict[key] = db_wrap(row_dict[key])
+		pass
+	
+	db = SQLite.new()
+	db.path = target_db_path
+	db.open_db()
+	var row_array = [row_dict]
+	db.insert_rows( target_table_name, row_array )
+	db.close_db()
+	
+	pass
+
+
+func database_to_game(thing:Object, tablekey_propval:Dictionary, target_db_path:String, target_table_name:String, query_conditions:String ):
+	
+	var row_dict : Dictionary
+	var current_propval
+	
+	var selected_columns : Array = tablekey_propval.keys()
+	
+	db = SQLite.new()
+	db.path = db_name_user_active
+	db.open_db()
+	
+	var fetched:Array = db.select_rows( target_table_name, query_conditions, selected_columns )
+	
+	# For each item in the dictionary, copy over its values, but simplified/realized.
+	for key in selected_columns:
+		# If the result is an array, it's likely a value pair.
+		# While storing an array is bad practice, it needs an exit path.
+		if tablekey_propval[key] is Dictionary: #{ ? : [ ?* ] }
+			
+			if tablekey_propval[key].has( "property" ):
+				row_dict[key] = thing.get( tablekey_propval[key]["property"] )
+				if (row_dict[key] is Array or row_dict[key] is Dictionary) and tablekey_propval[key].has( "index" ):
+					row_dict[key] = row_dict[ tablekey_propval[key]["index"] ]
+					
+					# if the reassignment failed, revert.
+					# it might be better to make a new variable for this instead?
+					if row_dict[key] == null:
+						row_dict[key] = thing.get( tablekey_propval[key]["property"] )
+						# thing.set(property <-- fetched[key])
+						thing.set(tablekey_propval[key]["property"], db_unwrap(fetched.front()[ selected_columns.find(key) ]) )
+					else:
+						# thing.set(property[index] <-- fetched[key])
+						thing.set(tablekey_propval[key]["property"] [tablekey_propval[key]["index"]], db_unwrap(fetched.front()[ selected_columns.find(key) ]))
+				else:
+					# thing.set(property <-- fetched[key])
+					thing.set(tablekey_propval[key]["property"], db_unwrap(fetched.front()[ selected_columns.find(key) ]))
+	
+	db.close_db()
+	
+	pass
 
 # To be called by GlobalMonsterSpawner
 func store_monster( monster ):
@@ -211,12 +368,19 @@ func load_monster( monster ):
 
 
 
-func save_gamepiece():
+func save_gamepiece( gamepiece:Gamepiece ):
+	#game_to_database( gamepiece )
 	pass
 
 
 
-func load_gamepiece():
+func load_gamepiece( umid:int ):
+	
+	var gamepiece = Gamepiece.new()
+	database_to_game(gamepiece, tkpv_gamepiece, db_name_user_active, "gamepiece", str(" UMID = ", umid ) )
+	database_to_game(gamepiece.monster, tkpv_monster, db_name_user_active, "monster", str(" UMID = ", umid ) )
+	
+	
 	pass
 
 
@@ -319,6 +483,21 @@ func commit_save_from_active():
 	
 	pass
 
+func db_wrap(thing):
+	match typeof(thing):
+		TYPE_BOOL, TYPE_INT:
+			return thing
+		TYPE_STRING, TYPE_STRING_NAME:
+			return str(thing)
+		_:
+			return var_to_bytes(thing)
+	pass
+
+func db_unwrap(thing):
+	if typeof(thing) == TYPE_PACKED_BYTE_ARRAY:
+		return bytes_to_var(thing)
+	return thing
+	pass
 
 # I call this a 'struct' because I like the C langauge.
 func load_move_effectiveness_struct(move_id):

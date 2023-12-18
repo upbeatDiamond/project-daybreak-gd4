@@ -15,8 +15,11 @@ Noteworthy additions:
 		+ "Port Town Museum"
 	+ SceneManager has been tweaked to make use of Godot 4.2's PackedScene preview in editor
 		+ Scenes can now be loaded/switched to from a string, a packed scene, or a node treelet
-	+ Added Warp Anchors, not to be confused with T* "anchor/waypoints" or the lore's "warp slates"
-		
+	+ Added Warp Anchors, not to be confused with Track* "anchors/waypoints" or lore "warp slates"
+	+ Rewrote the UMID generation code
+		> needs testing to ensure uniqueness and proper bit manipulation.
+	+ Added new Dictionary to the GlobalDatabase to be used for reading/writing table data.
+	
 	+ GamepieceWalker (tentative name) for Gamepieces not in current scene but otherwise active
 	+ Expanded GlobalDatabase in anticipation for upcoming feature tests
 	+ Added PushBlock in anticipation for puzzles
@@ -27,6 +30,7 @@ Noteworthy additions:
 Noteworthy subtractions:
 	- Removed ability for player to clone self by leaving the room they spawned in, then returning.
 		- Needs testing: Likely removed ability to have many gamepieces without setting UMIDs
+
 
 Noteworthy changes:
 	* Gamepiece cameras should now reset smoothing upon switching maps, improving immersion.
@@ -41,7 +45,7 @@ To do eventually:
 		% Split rock and dirt tiles visually
 		% Make the top edge closer match the collision box
 	% Move the TitleScreen to the ActivityInterface
-	% Replace the broken traces of D* with a new proposed "Track*"/TrackStar algorithm
+	% Replace the broken traces of D* with a new proposed "TrackStar" algorithm
 	% Saving and Loading
 		% When a levelmap is chunk-loaded, place it onto the scene tree before using to avoid errs.
 	% What if I make battles and dialogue Character collisions, and cutscenes as an Event collision?

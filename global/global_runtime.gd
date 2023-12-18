@@ -45,13 +45,16 @@ func clean_up_descent( target_node : Node ):
 	var mark_for_deletion : Array = target_node.get_children()
 	var current_mark
 	
-	if target_node.get_parent() != null:
-		target_node.get_parent().remove_child( target_node )
-	
 	while mark_for_deletion.size() > 0:
 		current_mark = mark_for_deletion.pop_front()
 		mark_for_deletion.append_array( current_mark.get_children() )
-		if current_mark.has_method("clean_up"): current_mark.clean_up()
+		
+		if target_node.get_parent() != null: 
+			target_node.get_parent().remove_child( target_node )
+			
+		if current_mark.has_method("clean_up"): 
+			current_mark.clean_up()
+			
 		current_mark.queue_free()
 
 func _input(event):
@@ -70,14 +73,17 @@ func gamepieces_set_paused( value:bool ):
 # Queues deletion of a node and all of its child nodes
 # This is intended to slow down inevitable memory leakage
 # Maybe the arrays mess this up, but it also helps clean up scene transitions sometimes
+# Might be redudant? Depends on how Godot implements queue_free
 func clean_up_node_descent( target_node : Node ):
+	if target_node.has_method("clean_up"):
+		target_node.clean_up()
 	clean_up_descent(target_node)
 	#if target_node.get_parent() != null:
 	#	target_node.get_parent().remove_child(target_node)
 	target_node.queue_free()
 
 
-func freeze_scene(node, freeze):
+func freeze_scene(node:Node, freeze:bool):
 	var mark_for_freeze : Array = node.get_children()
 	var current_mark
 	
@@ -87,7 +93,7 @@ func freeze_scene(node, freeze):
 		freeze_node(current_mark, freeze)
 	pass
 
-func freeze_node(node, freeze):
+func freeze_node(node:Node, freeze:bool):
 	node.set_process(!freeze)
 	node.set_physics_process(!freeze)
 	node.set_process_input(!freeze)
@@ -117,6 +123,31 @@ func start_combat(combat_actors):
 	scene_manager.switch_to_interface( SceneManager.InterfaceOptions.ACTIVITY )
 	combat_screen.initialize(combat_actors)
 	$AnimationPlayer.play_backwards("fade")
+
+# Unfinished, ironically not safe.
+#func get_safely(object:Object, property_name:StringName):
+	#var property_pieces = property_name.strip_edges().split("[")
+	#var property_index
+	#
+	## no property? Return null.
+	#if property_pieces.size() < 0:
+		#return null
+	## array? No problem buddy.
+	#elif property_pieces.size() > 1:
+		#property_index = (property_pieces[1] as String).trim_suffix(']')
+	#
+	#var property = object.get(property_pieces[0])
+	#if property_index != '':
+		#if property is Array:
+			#property = str(0, property_index).to_int()
+		#elif property is Dictionary:
+			#if property.has[property_index]:
+				#property = property[property_index]
+			#else:
+				#var property_index_split = property_index.split('.')
+				#get_node(property_index_split[0])
+		#(property_pieces as Array).pop_front()
+	#return property
 
 func complete_combat():
 	pass

@@ -14,6 +14,15 @@ signal gamepiece_entered_door_signal
 # 0-255 = reserved for players, in case of future multiplayer version
 # not to be confused with UMID, which reserves 1-512 for important characters
 @export var unique_id := -1
+@export var umid := -1:
+	set(_umid):
+		umid = _umid
+		if monster != null:
+			monster.umid = _umid
+	get:
+		if monster != null:
+			return monster.umid
+		return umid
 
 var move_speed:float
 @export var walk_speed = 5.0
@@ -53,6 +62,14 @@ enum TraversalMode
 	DIVING, 	# 🤿
 	BICYCLING, 	# 🚲 
 }
+
+@export var current_map := -1
+@export var current_position := Vector2i(0,0):
+	set( pos ): 
+		move_to_target(pos)
+		current_position = self.global_position 
+	get:
+		return self.global_position 
 
 @export var target_map := 0
 @export var target_position := Vector2(0,0)
@@ -108,6 +125,7 @@ func set_umid(new_umid:int):
 func _process(_delta):
 	if move_queue.size() > 0 && is_moving == false:
 		move(move_queue.pop_front())
+	
 	pass
 
 
@@ -219,7 +237,13 @@ func set_teleport(loci: Vector2i, direction: Vector2i, map:="", anchor_name:="")
 	if map.length() > 0:
 		controller.handle_map_change( map )
 	
-	var anchor = GlobalRuntime.scene_manager.get_overworld_root().get_anchor_container().get_anchor_by_name(anchor_name)
+	var map_root = GlobalRuntime.scene_manager.get_overworld_root()
+	var anchor_container
+	var anchor
+	if map_root != null:
+		anchor_container = map_root.get_anchor_container()
+	if anchor_container != null:
+		anchor = anchor_container.get_anchor_by_name(anchor_name)
 	if anchor != null:
 		loci = self.position + (anchor.global_position - self.global_position)
 		direction = anchor.facing_direction

@@ -63,7 +63,7 @@ var status_conditions = {}
 # Might be split into IVs, AV/EVs, and Species Strengths
 # Called 'max' in the database, in comparison to HP
 var stats_base = [];
-
+var stats_growth = [];
 
 # The stats to be used during battles, stored in array format due to lack of need outside of battle
 var stats_current = []; 
@@ -112,7 +112,7 @@ func get_spirit() -> int:
 
 # can turn this into a setget
 func set_spirit( _spirit:int ):
-	stats_current[ GlobalMonster.BattleStats.HEALTH ] = _spirit;
+	stats_current[ GlobalMonster.BattleStats.SPIRIT ] = _spirit;
 
 # can turn this into a setget
 func get_stat( stat_type:GlobalMonster.BattleStats ):
