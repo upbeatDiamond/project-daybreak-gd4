@@ -1,5 +1,5 @@
 extends RefCounted
-class_name MoveResultSummary
+class_name TechniqueResultSummary
 # Used because dictionaries are unreliable for debugging, as far as I am aware. "AFAIAA"?
 
 var stat_changes : Array

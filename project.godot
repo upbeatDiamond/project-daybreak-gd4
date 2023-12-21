@@ -20,10 +20,10 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-GlobalDatabaseManager="*res://global/global_database_manager.gd"
+GlobalDatabase="*res://global/global_database_manager.gd"
 GlobalMonster="*res://global/global_monster.gd"
 GlobalMonsterSpawner="*res://global/global_monster_spawner.gd"
-GlobalMove="*res://global/global_move.gd"
+GlobalTechnique="*res://global/global_technique.gd"
 GlobalBitManip="*res://global/global_bit_manip.gd"
 GlobalRuntime="*res://global/global_runtime.gd"
 GlobalGamepieceTransfer="*res://global/global_gamepiece_transfer.gd"

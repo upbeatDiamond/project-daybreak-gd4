@@ -10,11 +10,11 @@ var active = false: set = set_active
 
 # Why not use a class? Because running out of unique class names is a concern.
 var previous_move = {
-	"move" : GlobalMove.default_move,
+	"move" : GlobalTechnique.default_move,
 	"targets" : [],
 }
 var queued_move = {
-	"move" : GlobalMove.default_move,
+	"move" : GlobalTechnique.default_move,
 	"targets" : [],
 }
 

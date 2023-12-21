@@ -10,6 +10,7 @@ var umid_buffer_index = 0	# The current place in the awway to take from
 var umid_buffer_size = 0	# The estimated amount of UMIDs remaining in the buffer
 var umid_printed:=false
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	umid_buffer.resize( UMID_BUFFER_MAX )
@@ -52,13 +53,18 @@ func fill_umid_buffer():
 		umid_buffer_size = min( umid_buffer_size+1, UMID_BUFFER_MAX )	# increment size, limit
 	pass
 
-# I feel like this code was already written somewhere... but I think I can do it better now.
+## TODO: incorporate the location a monster is found in into the UMID, so long as complexity is not lost.
+# Universal/Unique Monster Identification (Document)
 func generate_umid() -> int:
+	
+	# UMID: pronounced like "ju-em ai-dii" / "You am, I Dee"
+	# umid: pronounced like UMID or like "humid" but with no 'h'. Same exact meaning.
+	# No IPA here because it messes up the character spacing in the Godot editor
+	
 	# using Twitter, Discord, and Sony as a basis...
 	# ...knowing that Discord and Sony used Twitter as a basis...
 	# We start with the sign bit, and the time.
 	# We'll approximate Sony's way for this part, tracking more time but with less precision.
-	
 	
 	# Assume a 64 bit integer
 	var export_umid:= 0;
@@ -88,5 +94,16 @@ func generate_umid() -> int:
 	
 	umid_counter = (umid_counter + 1) % 0b1000_0000_0000
 	export_umid = export_umid + umid_counter
+	
+	# practically impossible to achieve. You need some real TAS to get this.
+	# maybe if the game runs for many years, and overlaps with the incrementor?
+	if export_umid < 512:
+		print( str(export_umid, " is not a valid ID, recalculating...") )
+		return generate_umid()
+	
+	# if UMID does not yet exist, return that it can be used
+	# if UMID does exist, keep poking around at new values until an unused UMID is found
+	# spare IDs may be stored to avoid loading times when new monsters are generated
+	export_umid = GlobalDatabase.validate_umid( export_umid )
 	
 	return export_umid

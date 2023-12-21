@@ -2,6 +2,8 @@ extends Node
 # This class is dedicated to the fetching and manipulation of game features
 
 const DEFAULT_TILE_SIZE := 16
+const DEFAULT_TILE_OFFSET := Vector2.ONE * floor(  (GlobalRuntime.DEFAULT_TILE_SIZE + 1)/2 )
+const DEFAULT_TILE_OFFSET_INT := Vector2i( DEFAULT_TILE_OFFSET.x, DEFAULT_TILE_OFFSET.y )
 
 var gameworld_input_stopped: bool	# Can the player move the characters/world?
 var gameworld_is_paused: bool		# Can the characters/world move around on their own?
@@ -107,6 +109,24 @@ func screen_transition( style := "fade" ):
 	scene_transition_player.play(style)
 	await scene_transition_player.animation_finished
 
+func snap_to_grid( pos ) -> Vector2:
+	return snap_to_grid_center_f( pos )
+
+func snap_to_grid_center_f( pos ) -> Vector2:
+	return snap_to_grid_corner_f( pos ) + DEFAULT_TILE_OFFSET
+
+func snap_to_grid_center_i( pos ) -> Vector2i:
+	return snap_to_grid_corner_i( pos ) + DEFAULT_TILE_OFFSET_INT
+	
+func snap_to_grid_corner_f( pos ) -> Vector2:
+	pos = Vector2(pos.x - DEFAULT_TILE_OFFSET.x, pos.y - DEFAULT_TILE_OFFSET.y)
+	return pos.snapped(Vector2.ONE * GlobalRuntime.DEFAULT_TILE_SIZE)
+
+func snap_to_grid_corner_i( pos ) -> Vector2i:
+	pos = Vector2i(pos.x - DEFAULT_TILE_OFFSET.x, pos.y - DEFAULT_TILE_OFFSET.y)
+	pos = pos.snapped(Vector2i.ONE * GlobalRuntime.DEFAULT_TILE_SIZE) #+ DEFAULT_TILE_OFFSET_INT
+	return pos
+
 # It feels like a Runtime access thing...
 # But it relies on the Scene Manager's structure and knowledge...
 # So why not host the function call and pass it over?
@@ -124,30 +144,6 @@ func start_combat(combat_actors):
 	combat_screen.initialize(combat_actors)
 	$AnimationPlayer.play_backwards("fade")
 
-# Unfinished, ironically not safe.
-#func get_safely(object:Object, property_name:StringName):
-	#var property_pieces = property_name.strip_edges().split("[")
-	#var property_index
-	#
-	## no property? Return null.
-	#if property_pieces.size() < 0:
-		#return null
-	## array? No problem buddy.
-	#elif property_pieces.size() > 1:
-		#property_index = (property_pieces[1] as String).trim_suffix(']')
-	#
-	#var property = object.get(property_pieces[0])
-	#if property_index != '':
-		#if property is Array:
-			#property = str(0, property_index).to_int()
-		#elif property is Dictionary:
-			#if property.has[property_index]:
-				#property = property[property_index]
-			#else:
-				#var property_index_split = property_index.split('.')
-				#get_node(property_index_split[0])
-		#(property_pieces as Array).pop_front()
-	#return property
 
 func complete_combat():
 	pass

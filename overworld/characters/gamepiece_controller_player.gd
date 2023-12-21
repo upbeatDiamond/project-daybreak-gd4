@@ -1,6 +1,8 @@
 extends Node
 
 var gamepiece : Gamepiece
+var INPUT_COOLDOWN_DEFAULT:float = 6.5;
+var input_cooldown := 0.0
 
 func _ready() -> void:
 	#set_physics_process(false)
@@ -31,48 +33,47 @@ func _get_configuration_warnings() -> PackedStringArray:
 func _physics_process(_delta):
 	if GlobalRuntime.gameworld_input_stopped || gamepiece.is_paused:
 		return
-	elif gamepiece.move_queue.size() <= 1 && gamepiece.is_moving == false: #:
+	elif gamepiece.move_queue.size() <= 1 && gamepiece.is_moving == false && input_cooldown <= 0: #:
 		handle_movement_input()
+	
+	if input_cooldown > 0:
+		input_cooldown -= _delta
 	#print( "controller thinks moving = %d", gamepiece.is_moving )
 
 
 func handle_movement_input():
 	var input_direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	
+	# This section deals with some diagonal inputs cotextually
 	if input_direction != gamepiece.facing_direction:
-		if (input_direction.x != 0) && (input_direction.y != 0) && (input_direction != Vector2.ZERO):
+		if (input_direction.x != 0) && (input_direction.y != 0):
 			input_direction = gamepiece.facing_direction;
 			pass
+	
+	var movement := Movement.new( input_direction )
 	
 	gamepiece.facing_direction = input_direction;
 	
 	var is_running = Input.is_action_pressed("ui_fast")
 	if is_running:
-		gamepiece.traversal_mode = gamepiece.TraversalMode.RUNNING
+		movement.method = gamepiece.TraversalMode.RUNNING
+	elif Vector2i(gamepiece.facing_direction.x, gamepiece.facing_direction.y) != movement.to_facing_vector2i():
+		movement.method = gamepiece.TraversalMode.STANDING
+		input_cooldown = INPUT_COOLDOWN_DEFAULT
 	else:
-		gamepiece.traversal_mode = gamepiece.TraversalMode.WALKING
+		movement.method = gamepiece.TraversalMode.WALKING
 	
 	if input_direction != Vector2.ZERO:
-		gamepiece.queue_move( input_direction )
+		gamepiece.queue_movement( movement )
 		gamepiece.update_anim_tree()
 	
-	if Input.is_action_pressed("debug_summon"):
-		pass
+	#if Input.is_action_pressed("debug_summon"):
+	#	pass
 
 
 func handle_map_change( map:String ):
 	
-	#animation_tree.set("parameters/Idle/blend_position", direction)
-	#animation_tree.set("parameters/Walk/blend_position", direction)
-	
-	#animation_state.travel("Idle")
-	
 	GlobalGamepieceTransfer.submit_gamepiece( gamepiece, GlobalRuntime.scene_manager.get_map_index(map) )
 	GlobalRuntime.scene_manager.change_map_from_path(map)
-	
-	#visible = true
-	
-	#GlobalRuntime.gameworld_input_stopped = false
-	#$AnimationPlayer.play("Appear")
 	
 	pass

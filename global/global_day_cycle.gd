@@ -21,9 +21,15 @@ enum DayOfWeek
 	SUNDAY
 }
 
+# While 24 hours is not necessary, some systems work off that assumption, so...
+# ...we need to either commit to defining it here...
+# ...or keep it as a constant both in terms of runtime and development.
 var day_length := 1200.0;
-var is_active = false;
-var hours_per_day := 24
+const hours_per_day := 24
+
+var is_active := true		# Is this system being used at all?
+var is_date_locked := true	# Used for in-game date checking
+var is_hour_locked := true	# Used for clocks and daylight progression
 
 var current_time: float = 0.0
 var current_day: int = 1
@@ -42,3 +48,9 @@ func _process(delta) -> void:
 
 func get_current_hour():
 	return hours_per_day * current_time / day_length
+
+
+func get_current_day():
+	if is_date_locked:
+		return locked_day
+	return current_day

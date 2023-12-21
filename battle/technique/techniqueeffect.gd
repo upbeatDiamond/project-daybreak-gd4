@@ -1,5 +1,5 @@
 extends Node
-class_name MoveEffect
+class_name TechniqueEffect
 
 
 var type_primary
@@ -19,5 +19,5 @@ enum BooleanFlags
 }
 
 # traits structure: {}
-func _calculate_effect( user, targets : Array, traits : Dictionary, current_effects : MoveResultSummary ):
+func _calculate_effect( user, targets : Array, traits : Dictionary, current_effects : TechniqueResultSummary ):
 	pass

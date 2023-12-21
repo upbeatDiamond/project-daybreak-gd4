@@ -5,7 +5,7 @@ class_name Monster
 func _init():
 	p_factor_base.resize( GlobalMonster.PersonalityFactor.size() );
 	p_factor_offset.resize( GlobalMonster.PersonalityFactor.size() );
-	moves_active.resize( GlobalMonster.max_battle_moves );
+	techniques_active.resize( GlobalMonster.max_battle_techniques );
 	stats_base.resize( GlobalMonster.BattleStats.size() );
 	stats_current.resize( GlobalMonster.BattleStats.size() );
 	pass # Replace with function body.
@@ -53,8 +53,8 @@ var p_factor_base = PackedByteArray();
 var p_factor_offset = PackedByteArray();
 
 # The moves currently accessible
-var moves_learned = {}
-var moves_active = []; 
+var techniques_learned = {}
+var techniques_active = []; 
 
 var status_conditions = {}
 
@@ -126,18 +126,19 @@ func set_stat( stat_type:GlobalMonster.BattleStats, value:int ):
 	stats_current[ stat_type ] = value
 
 func save_data():
-	GlobalDatabaseManager.save_monster(self);
+	GlobalDatabase.save_monster(self);
 	# Write this monster to disk, or to a database, by sending the results of packData to global/singleton
 
 func load_data():
-	GlobalDatabaseManager.load_monster(self);
+	GlobalDatabase.load_monster(self);
 	# Read this monster from disk, or a database, by feeding the results of global/singleton into unpackData
 
-func get_active_moves():
-	return moves_active;
+func get_active_techniques():
+	return techniques_active;
 
 func _to_string():
-	return str(name, "(", umid, ") is a ", species, " with moves ", moves_learned, " and stats ", stats_base, " -> ", stats_current)
+	return str(name, "(", umid, ") is a ", species, " with techniques ", techniques_learned, \
+	" and stats ", stats_base, " -> ", stats_current)
 
 func equals(other_mon:Monster) -> bool:
 	if other_mon == null:

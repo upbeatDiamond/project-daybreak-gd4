@@ -91,7 +91,7 @@ target_map_coordinates:=Vector2i(0,0), origin_map_index:=MapIndex.INVALID_INDEX 
 # When playing multiplayer, or even singleplayer, and an NPC/Guest changes to your map?
 # Detect that happened and warp them into your current map.
 # Else, make sure they're saved in the relevant database.
-func warp_gamepiece_to_map(  ):
+func warp_gamepiece_to_map( map_index:MapIndex ):
 	pass
 
 func eject_gamepieces_for_map( target_map_index:int ): #-> Array[Gamepiece]:

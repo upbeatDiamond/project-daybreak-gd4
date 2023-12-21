@@ -1,4 +1,5 @@
 extends Node
+
 # Contains code relating to SQLite bindings
 # This class is dedicated to the fetching and manipulation of database contents
 
@@ -67,15 +68,15 @@ var tkpv_monster = {
 }
 
 var tkpv_gamepiece = {
-	"gpid": 	 {"property": "unique_id", "fallback":  -1},
-	"umid": 	 {"property": "umid", "fallback":  -1},
-	"move_queue": 	 {"property": "move_queue", "fallback":  []},
-	"position_known": 	 { "property": "position_is_known", "fallback":  false},
-	"target_position": {"property": "target_position", "fallback":Vector2(0,0) },
-	"traversal_mode": {"property": "traversal_mode", "fallback": Gamepiece.TraversalMode.STANDING },
-	"target_map":	{"property": "target_map", "fallback": -1 },
-	"current_map":	{"property": "current_map", "fallback": -1 },
-	"current_position": {"property": "current_position", "fallback": Vector2i(0,0)},
+	"gpid": 	 		{"property": "unique_id", 			"fallback": -1},
+	"umid": 	 		{"property": "umid", 				"fallback": -1},
+	"move_queue": 	 	{"property": "move_queue", 			"fallback": []},
+	"position_known": 	{"property": "position_is_known", 	"fallback": false},
+	"target_position": 	{"property": "target_position", 	"fallback": Vector2(0,0) },
+	"traversal_mode": 	{"property": "traversal_mode", 		"fallback": Gamepiece.TraversalMode.STANDING },
+	"target_map":		{"property": "target_map", 			"fallback": -1 },
+	"current_map":		{"property": "current_map", 		"fallback": -1 },
+	"current_position":	{"property": "current_position", 	"fallback": Vector2i(0,0)},
 }
 
 
@@ -498,6 +499,20 @@ func db_unwrap(thing):
 		return bytes_to_var(thing)
 	return thing
 	pass
+
+func validate_umid( umid:int=0 ) -> int:
+	
+	# if UMID is taken, increment to the first untaken value
+	# if all taken values are used, start from the start?
+	# maybe use a binary tree type search?
+	# else:
+	# SELECT MIN(id + 1) AS next_id
+	# FROM my_table
+	# WHERE (id + 1) >= {{umid}} AND (id + 1) NOT IN (SELECT id FROM my_table)
+	#
+	
+	return umid
+
 
 # I call this a 'struct' because I like the C langauge.
 func load_move_effectiveness_struct(move_id):

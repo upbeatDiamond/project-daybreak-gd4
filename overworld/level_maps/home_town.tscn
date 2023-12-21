@@ -1,11 +1,12 @@
-[gd_scene load_steps=16 format=3 uid="uid://dwxfahlei5r4d"]
+[gd_scene load_steps=17 format=3 uid="uid://dwxfahlei5r4d"]
 
-[ext_resource type="Script" path="res://overworld/level_map.gd" id="1_651ra"]
+[ext_resource type="Script" path="res://overworld/level_maps/level_map.gd" id="1_651ra"]
 [ext_resource type="Texture2D" uid="uid://claaq3m3x57i0" path="res://assets/textures/tilesets/dirtgrass_mauvetown.png" id="2_vmvh0"]
 [ext_resource type="Texture2D" uid="uid://dg30v1evln7gc" path="res://assets/textures/tilesets/dirt_elevated.png" id="3_7ufgg"]
 [ext_resource type="Texture2D" uid="uid://digw7uhccv28w" path="res://assets/textures/tilesets/streets.png" id="4_inq7j"]
 [ext_resource type="PackedScene" uid="uid://cvajri3ppp8k" path="res://overworld/props/tree.tscn" id="5_5ugyj"]
-[ext_resource type="PackedScene" path="res://overworld/props/portal.tscn" id="5_j4sa5"]
+[ext_resource type="PackedScene" uid="uid://mr16k2apn43v" path="res://overworld/props/push_block.tscn" id="5_byyr8"]
+[ext_resource type="PackedScene" uid="uid://dup7lwhlludsr" path="res://overworld/props/portal.tscn" id="5_j4sa5"]
 [ext_resource type="PackedScene" uid="uid://bx61t5b2ntp6r" path="res://overworld/buildings/house_2x3.tscn" id="6_owl0c"]
 [ext_resource type="PackedScene" uid="uid://crk1pu5pxjnen" path="res://common/daylight_cycle_filter.tscn" id="7_qfdiq"]
 [ext_resource type="Script" path="res://overworld/props/warp_anchor.gd" id="9_77nyv"]
@@ -1435,11 +1436,23 @@ shape = SubResource("RectangleShape2D_5g8ot")
 
 [node name="Objects" type="Node" parent="."]
 
+[node name="PushBlock" parent="Objects" instance=ExtResource("5_byyr8")]
+position = Vector2(80, 304)
+
 [node name="NorthPortal" parent="Objects" instance=ExtResource("5_j4sa5")]
 position = Vector2(208, -32)
 scale = Vector2(4, 4)
-map = "res://overworld/route_home_to_red.tscn"
+map = "res://overworld/level_maps/route_home_to_red.tscn"
 linked_portal_id = 1
+target_position = Vector2i(80, 640)
+target_facing = Vector2i(0, -1)
+portal_id = 1
+
+[node name="HomePortal" parent="Objects" instance=ExtResource("5_j4sa5")]
+position = Vector2(32, 272)
+map = "res://overworld/level_maps/home_town_home.tscn"
+linked_portal_id = 1
+target_anchor_name = "MainEntrance"
 target_position = Vector2i(80, 640)
 target_facing = Vector2i(0, -1)
 portal_id = 1
@@ -1683,15 +1696,6 @@ position = Vector2(336, 32)
 
 [node name="Tree36" parent="Objects/Y-Sort" instance=ExtResource("5_5ugyj")]
 position = Vector2(464, 128)
-
-[node name="HomePortal" parent="Objects" instance=ExtResource("5_j4sa5")]
-position = Vector2(32, 272)
-map = "res://overworld/home_town_home.tscn"
-linked_portal_id = 1
-target_anchor_name = "MainEntrance"
-target_position = Vector2i(80, 640)
-target_facing = Vector2i(0, -1)
-portal_id = 1
 
 [node name="DaylightFilter" parent="." instance=ExtResource("7_qfdiq")]
 visible = false

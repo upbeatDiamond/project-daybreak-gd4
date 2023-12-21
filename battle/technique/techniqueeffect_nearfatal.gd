@@ -1,8 +1,8 @@
-extends "res://battle/moves/moveeffect.gd"
+extends TechniqueEffect
 # If I called this a 'swipe', that'd be false.
 
 
-func calculate_effect( user, targets : Array, traits : Dictionary, current_effects : MoveResultSummary ):
+func calculate_effect( user, targets : Array, traits : Dictionary, current_effects : TechniqueResultSummary ):
 	
 	for target in targets:
 		var raw_damage = GlobalMove.calculate_raw_damage( traits["types"], user, target );

@@ -15,15 +15,24 @@ Noteworthy additions:
 		+ "Port Town Museum"
 	+ SceneManager has been tweaked to make use of Godot 4.2's PackedScene preview in editor
 		+ Scenes can now be loaded/switched to from a string, a packed scene, or a node treelet
-	+ Added Warp Anchors, not to be confused with Track* "anchors/waypoints" or lore "warp slates"
-	+ Rewrote the UMID generation code
+	+ Added Warp Anchors, not to be confused with TrackStar's "waypoints" or lore "warp slates"
+	+ Re-wrote the UMID generation code (older version was in a different repo)
 		> needs testing to ensure uniqueness and proper bit manipulation.
 	+ Added new Dictionary to the GlobalDatabase to be used for reading/writing table data.
+	+ Added new Movement class to store gamepiece movement instructions
+		+ Renamed Move to Technique in an effort to disambiguate.
+	+ "Fixed" AnimationTree/Player issues by replacing the state tree with more code
+		+ Fixed issue where walking animation wouldn't play
+		+ Fixed issue where stopping walking would make the character face the screen
+		+ Added crude running animation
+	+ Ported over some new code from side-project Daybreak-Director
 	
 	+ GamepieceWalker (tentative name) for Gamepieces not in current scene but otherwise active
 	+ Expanded GlobalDatabase in anticipation for upcoming feature tests
-	+ Added PushBlock in anticipation for puzzles
+	+ Added PushBlock in anticipation for puzzles (pre-Alpha 4)
+		+ Fixed PushBlock's movement code in an only slightly hacky way (pre-Alpha 5)
 	+ Added more license text
+	
 	+ Added more images, as always
 
 
@@ -34,6 +43,7 @@ Noteworthy subtractions:
 
 Noteworthy changes:
 	* Gamepiece cameras should now reset smoothing upon switching maps, improving immersion.
+	* Yet again changed file structure
 
 
 To do eventually:

@@ -1,11 +1,11 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://dup7lwhlludsr"]
 
 [ext_resource type="Script" path="res://overworld/props/portal.gd" id="1_y3akn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ewm0l"]
 size = Vector2(16, 16)
 
-[node name="Portal" type="Area2D" groups=["portals"]]
+[node name="Portal" type="Area2D" groups=["event_exterior", "event_interior", "portals"]]
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("1_y3akn")

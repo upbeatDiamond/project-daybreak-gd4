@@ -34,10 +34,10 @@ enum TargetFlags
 
 enum BooleanFlags
 {
-	MAKES_CONTACT,		# Would this move cause the combattants to touch eachother?
+	MAKES_CONTACT,		# Would this technique cause the combattants to touch eachother?
 	IS_PROTECTABLE,		# Would making a shield stop the effects?
 	IS_REFLECTABLE,		# Can it be parried via visual reflection or a bat swing?
-	IS_SNATCHABLE,		# Is it a status move that can be interruped and used by another?
+	IS_SNATCHABLE,		# Is it a status technique that can be interruped and used by another?
 	IS_REPLICABLE,		# Can it be performed by anyone with the right spirit?
 	IS_FLINCHABLE,		# Is there a chance for hesitation upon seeing royalty?
 	IS_SOUND_BASED,		# Is sound the carrier of, or basis for, the intended effect?
@@ -46,19 +46,19 @@ enum BooleanFlags
 	IS_PUNCH_BASED,		# Are fists the carrier of, or basis for, the intended effect?
 	IS_BITE_BASED,		# Are teeth the carrier of, or basis for, the intended effect?
 	IS_AURA_BASED,		# Does it come from the soul's energy or fighting force?
-	IS_EXPLOSION_BASED,	# Is this move itself an explosion or cause the user to explode?
+	IS_EXPLOSION_BASED,	# Is this technique itself an explosion or cause the user to explode?
 	IS_DANCE_BASED,		# Is dancing the carrier of, or basis for, the intended effect?
-	IS_PROJECTILE_BASED,	# Would being bulletproof make this move useless?
+	IS_PROJECTILE_BASED,	# Would being bulletproof make this technique useless?
 	IS_SLICE_BASED,		# Is a cutting edge the basis for the intended effect?
 }
 
 # 2 tier key-value pairing: attacker, defender, multiplier
 var type_matchup = {}
 
-var moves_loaded = {}
+var techniques_loaded = {}
 
-var secondary_moveeffect_template = {
-	"moveeffect" = null,
+var secondary_techniqueeffect_template = {
+	"techniqueeffect" = null,
 	"type_one" = null,
 	"type_two" = null,
 	"accuracy" = 0,
@@ -68,7 +68,7 @@ var secondary_moveeffect_template = {
 }
 
 # base_power, accuracy, primary_effect, flag_bitfield, effects, effect_accuracies, type1, type2, priority, cost
-var default_move = Move.new(100, 100, null, 0, [], [], 0, 0)
+var default_move = Technique.new(100, 100, null, 0, [], [], 0, 0)
 
 
 
@@ -78,41 +78,41 @@ var default_move = Move.new(100, 100, null, 0, [], [], 0, 0)
 # This system may be replaced in a future version.
 var stab_multiplier = [1, 1.25, 1.5, 1.5, 1.5, 2, 2.25]
 
-func load_move_from_database( _move_reference ):
+func load_technique_from_database( _move_reference ):
 	pass
 	# Calls database, links effect shorthand/index to effect objects and passes to the manager.
 
-func execute_move( _move, _user, _target : Array ):
+func execute_technique( _move, _user, _target : Array ):
 	pass
 	# Intakes user, array of targets, effects, tags and flags. Calculates changes via effect code, synthesizes and cleans results, then applies changes to the combatants.
 
 # Not raw as in 'completely unedited', but as in 'before Effects are applied'.
-func calculate_raw_damage( move, user, target ) -> float: 
-	var type_damage = type_matchup[ move.type1 ][ target.type1 ] * type_matchup[ move.type1 ][ target.type2 ] + ( type_matchup[ move.type2 ][ target.type1 ] + type_matchup[ move.type2 ][ target.type2 ] + 1 ) / 3;
+func calculate_raw_damage( technique, user, target ) -> float: 
+	var type_damage = type_matchup[ technique.type1 ][ target.type1 ] * type_matchup[ technique.type1 ][ target.type2 ] + ( type_matchup[ technique.type2 ][ target.type1 ] + type_matchup[ technique.type2 ][ target.type2 ] + 1 ) / 3;
 	
-	var stab_level = calculate_stab_level( move, user );
+	var stab_level = calculate_stab_level( technique, user );
 	
-	return type_damage * stab_multiplier[stab_level] * move.base_power
+	return type_damage * stab_multiplier[stab_level] * technique.base_power
 
 # Duplicate, please change/edit/replace
-func calculate_raw_special_damage( move, user, target ) -> float: 
-	var type_damage = calculate_type_effectiveness( move, target )
-	var stab_level = calculate_stab_level( move, user );
-	return type_damage * stab_multiplier[stab_level] * move.base_power
+func calculate_raw_special_damage( technique, user, target ) -> float: 
+	var type_damage = calculate_type_effectiveness( technique, target )
+	var stab_level = calculate_stab_level( technique, user );
+	return type_damage * stab_multiplier[stab_level] * technique.base_power
 
 
+func calculate_type_effectiveness( action, target ) -> float:
+	return type_matchup[action.type1][target.type1] * type_matchup[action.type1][target.type2] \
+	+ ( type_matchup[action.type2][target.type1] + type_matchup[action.type2][target.type2] + 1)/3;
 
-func calculate_type_effectiveness( move, target ) -> float:
-	return type_matchup[ move.type1 ][ target.type1 ] * type_matchup[ move.type1 ][ target.type2 ] + ( type_matchup[ move.type2 ][ target.type1 ] + type_matchup[ move.type2 ][ target.type2 ] + 1 ) / 3;
-
-func calculate_stab_level( move, user ) -> int:
+func calculate_stab_level( technique, user ) -> int:
 	var stab_level = 0;
 	
-	if (move.type1 == user.type1):
+	if (technique.type1 == user.type1):
 		stab_level += 3
-	if (move.type2 == user.type1 || move.type1 == user.type2):
+	if (technique.type2 == user.type1 || technique.type1 == user.type2):
 		stab_level += 2
-	if (move.type2 == user.type2):
+	if (technique.type2 == user.type2):
 		stab_level += 1
 	
 	return stab_level

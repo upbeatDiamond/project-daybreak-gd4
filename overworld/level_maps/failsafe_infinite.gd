@@ -8,7 +8,7 @@ extends TileMap
 # Regardless, you're not getting out without knowing how you got in here.
 
 const Matrix = preload("res://common/matrix.gd")
-const Room = preload("res://overworld/failsafe_room.gd")
+const Room = preload("res://overworld/level_maps/failsafe_room.gd")
 
 var room_matrix : Matrix
 const ROOM_BOUNDS = Vector2i ( 16, 16 )

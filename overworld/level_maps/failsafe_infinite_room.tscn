@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b0d110enxge3c"]
 
-[ext_resource type="Script" path="res://overworld/failsafe_room.gd" id="1_dt7a0"]
+[ext_resource type="Script" path="res://overworld/level_maps/failsafe_room.gd" id="1_dt7a0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fv1nr"]
 
