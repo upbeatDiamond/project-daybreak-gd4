@@ -26,24 +26,34 @@ Noteworthy additions:
 		+ Fixed issue where stopping walking would make the character face the screen
 		+ Added crude running animation
 	+ Ported over some new code from side-project Daybreak-Director
+	+ Added/reimplemented screen transition effect (very sloppy)
+	+ Added PushBlock in anticipation for puzzles (pre-Alpha 4)
+		+ Fixed PushBlock's movement code in an only slightly hacky way (pre-Alpha 5)
+	+ Added code to save all gamepieces to database (proving the new database system kinda works)
+		+ Need to update to Godot 4.3 to make it work properly, since I'm relying on global groups
+	+ Added more images, as always
 	
 	+ GamepieceWalker (tentative name) for Gamepieces not in current scene but otherwise active
 	+ Expanded GlobalDatabase in anticipation for upcoming feature tests
-	+ Added PushBlock in anticipation for puzzles (pre-Alpha 4)
-		+ Fixed PushBlock's movement code in an only slightly hacky way (pre-Alpha 5)
 	+ Added more license text
 	
-	+ Added more images, as always
+
 
 
 Noteworthy subtractions:
 	- Removed ability for player to clone self by leaving the room they spawned in, then returning.
 		- Needs testing: Likely removed ability to have many gamepieces without setting UMIDs
+	- Gutted some old GlobalDatabase code to try to save space / increase consistancy
 
 
 Noteworthy changes:
 	* Gamepiece cameras should now reset smoothing upon switching maps, improving immersion.
+	* Set collision to once again move before the gamepiece graphics
+		* If the collision moves first, it looks wrong while debugging.
+		* If the collision moves last, it literally is wrong.
 	* Yet again changed file structure
+	* Changed teleport code to more easily allow for room/map transitions to be treated the same
+	* Changed PlayerMenu to no longer rely on _unhandled_input(delta)
 
 
 To do eventually:

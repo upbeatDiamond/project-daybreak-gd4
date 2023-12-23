@@ -32,7 +32,9 @@ var is_date_locked := true	# Used for in-game date checking
 var is_hour_locked := true	# Used for clocks and daylight progression
 
 var current_time: float = 0.0
+var locked_time:= current_time
 var current_day: int = 1
+var locked_day:= current_day
 
 # Look honey, the one (1) LLM/ML generated function! I heard it needed to get fixed afterwords!
 func _process(delta) -> void:
@@ -46,11 +48,43 @@ func _process(delta) -> void:
 		if current_day > DayOfWeek.size():
 			current_day = DayOfWeek.MONDAY
 
-func get_current_hour():
-	return hours_per_day * current_time / day_length
-
-
 func get_current_day():
 	if is_date_locked:
 		return locked_day
 	return current_day
+
+func get_current_hour():
+	if is_hour_locked:
+		return hours_per_day * locked_time / day_length
+	return hours_per_day * current_time / day_length
+
+func set_current_time( new_time:float ):
+	if is_hour_locked:
+		locked_time = new_time
+	current_time = new_time
+	pass
+
+# Assumes a 24 hour system, in that the number of hours is vague
+func set_current_hour( new_time:float ):
+	set_current_time( fposmod( new_time, hours_per_day ) * day_length / hours_per_day )
+	pass
+
+func lock_hour():
+	locked_time = current_time
+	is_hour_locked = true
+	pass
+
+func lock_day():
+	locked_day = current_day
+	is_date_locked = true
+	pass
+
+func unlock_hour():
+	current_time = locked_time
+	is_hour_locked = false
+	pass
+
+func unlock_day():
+	current_day = locked_day 
+	is_date_locked = false
+	pass

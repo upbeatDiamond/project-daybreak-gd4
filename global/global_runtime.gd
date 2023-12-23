@@ -2,17 +2,18 @@ extends Node
 # This class is dedicated to the fetching and manipulation of game features
 
 const DEFAULT_TILE_SIZE := 16
-const DEFAULT_TILE_OFFSET := Vector2.ONE * floor(  (GlobalRuntime.DEFAULT_TILE_SIZE + 1)/2 )
-const DEFAULT_TILE_OFFSET_INT := Vector2i( DEFAULT_TILE_OFFSET.x, DEFAULT_TILE_OFFSET.y )
+const DEFAULT_TILE_OFFSET := Vector2.ONE * floor(  (GlobalRuntime.DEFAULT_TILE_SIZE + 1)/2.0 )
+const DEFAULT_TILE_OFFSET_INT := Vector2i( DEFAULT_TILE_OFFSET )
 
 var gameworld_input_stopped: bool	# Can the player move the characters/world?
 var gameworld_is_paused: bool		# Can the characters/world move around on their own?
 var player_menu_enabled: bool		# Can the player open their menu?
-
+var multiplayer_enabled: bool
 
 
 signal pause_gameworld
 signal unpause_gameworld
+signal save_data
 
 @export var combat_screen : Node
 @export var scene_transition_player : Node
@@ -65,7 +66,11 @@ func _input(event):
 	pass
 
 func gamepieces_set_paused( value:bool ):
-	if value:
+	if value and multiplayer_enabled:
+		## TODO: If online multiplayer, don't pause the whole world, just this session's player.
+		pause_gameworld.emit()
+		#gameworld_is_paused
+	elif value:
 		pause_gameworld.emit()
 		gameworld_is_paused = true
 	else:
@@ -104,6 +109,24 @@ func freeze_node(node:Node, freeze:bool):
 	node.set_process_unhandled_key_input(!freeze)
 
 	pass
+
+func save_game_data():
+	#for gp in scene_manager.get_tree().get_nodes_in_group("gamepiece"):
+	#	await GlobalDatabase.save_gamepiece( gp as Gamepiece )
+	save_data.emit()
+	
+	print("saved!");
+	pass
+
+func multiply_string( _text:String, count:int, _separator:="" ) -> String:
+	var ret = ""
+	if count > 0:
+		ret = _text
+		count -= 1
+		while count > 0:
+			ret = str(ret, _separator, _text)
+			count -= 1
+	return ret
 
 func screen_transition( style := "fade" ):
 	scene_transition_player.play(style)

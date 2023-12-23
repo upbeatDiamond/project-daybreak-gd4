@@ -22,6 +22,7 @@ var play_scene_path = "res://overworld/level_maps/red_town.tscn"
 
 func _ready():
 	
+	#GlobalDatabase.load_last_map()
 	GlobalRuntime.scene_manager.append_preload_map( play_scene_path )
 	
 	pass

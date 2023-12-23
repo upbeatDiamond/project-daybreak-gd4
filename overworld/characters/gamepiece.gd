@@ -44,7 +44,7 @@ const LandingDustEffect = preload("res://overworld/landing_dust_effect.tscn")
 @onready var move_tween : Tween
 @onready var my_camera = (self.find_child("Camera", true) as Camera2D)
 
-var is_paused = false;	# true if cannot act
+var is_paused = false;	# true if cannot act, should not be set by the gamepiece or controller
 var is_moving = false;	# true if walking, running, jumping, etc
 var was_moving = false;	# true if animation for an 'is_moving' action would still be playing
 var position_is_known = true;	# false if the gamepiece needs a new position calculated.
@@ -83,6 +83,8 @@ var monster : Monster
 # The 'soul' of the gamepiece.
 # The gamepiece is but a vehicle to the spirit (that which stores name, stats, species, etc)
 
+func _init():
+	GlobalRuntime.save_data.connect( save_gamepiece )
 
 func _ready():
 	is_moving = false
@@ -99,13 +101,14 @@ func _ready():
 
 
 func _process(_delta):
-	if move_queue.size() > 0 && is_moving == false:
-		move( (move_queue.pop_front() as Movement) )
-	elif is_moving == true:
-		was_moving = true
-	elif was_moving == true: # implied: is_moving is false
-		#traversal_mode = TraversalMode.STANDING
-		update_anim_tree()
+	if not is_paused:
+		if move_queue.size() > 0 && is_moving == false:
+			move( (move_queue.pop_front() as Movement) )
+		elif is_moving == true:
+			was_moving = true
+		elif was_moving == true: # implied: is_moving is false
+			#traversal_mode = TraversalMode.STANDING
+			update_anim_tree()
 	pass
 
 
@@ -118,7 +121,7 @@ func _on_gameworld_pause():
 
 
 func _on_gameworld_unpause():
-	if move_tween != null:
+	if move_tween != null && move_tween.is_valid():
 		move_tween.play()
 	is_paused = false
 	#print("I can run? I CAN FIGHT!")
@@ -183,6 +186,9 @@ func move( direction ):
 				pass
 		update_anim_tree()
 		
+		
+		collision.position = new_position
+		
 		# Sometimes the gamepiece is picked up as the move() is called, so make sure we can get a tween
 		if is_inside_tree():
 			move_tween = create_tween()
@@ -192,11 +198,9 @@ func move( direction ):
 				is_moving = true
 				await move_tween.finished
 		
-		collision.position = new_position
-		
 		resync_position()
-		is_moving = false
-		traversal_mode = TraversalMode.STANDING
+	is_moving = false
+	traversal_mode = TraversalMode.STANDING
 	
 	for overlap in get_overlapping_areas():
 		if overlap.is_in_group("event_interior") and overlap.has_method("run_event"):
@@ -254,11 +258,11 @@ func teleport_to_anchor(map:String, anchor:String):
 	pass
 
 
-func set_teleport(loci: Vector2i, direction: Vector2i, map:="", anchor_name:=""):
+func set_teleport(loci: Vector2i, direction: Vector2i, map:="", anchor_name:="", silent:=false):
 	is_moving = false
 	
-	if map.length() > 0:
-		controller.handle_map_change( map )
+	var pause_prior: bool 
+	pause_prior = await controller.handle_map_change( map, silent )
 	
 	var map_root = GlobalRuntime.scene_manager.get_overworld_root()
 	var anchor_container
@@ -280,7 +284,13 @@ func set_teleport(loci: Vector2i, direction: Vector2i, map:="", anchor_name:="")
 	print("teleport: gx %d, gy %d, x %d, y %d"%[global_position.x,global_position.y,loci.x,loci.y])
 	
 	my_camera.reset_smoothing()
+	
+	controller.finalize_map_change( pause_prior, silent )
+	
 
+func save_gamepiece():
+	GlobalDatabase.save_gamepiece(self)
+	pass
 
 static func gamepiece_from_walker( walker:GamepieceWalker ) -> Gamepiece:
 	var model_gamepiece = load("res://overworld/characters/gamepiece.tscn") as PackedScene

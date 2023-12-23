@@ -72,7 +72,8 @@ func generate_umid() -> int:
 	var unix_time = Time.get_unix_time_from_datetime_dict(Time.get_datetime_dict_from_system())
 	unix_time = unix_time * 1000
 	var milliseconds = Time.get_ticks_msec() % 1000
-	unix_time = (unix_time + milliseconds) / 10
+	@warning_ignore("integer_division")
+	unix_time = int(unix_time + milliseconds) / 10 
 	
 	export_umid = unix_time << (64-40) # bits in an integer - (1 + timestamp length)
 	

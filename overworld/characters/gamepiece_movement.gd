@@ -40,19 +40,16 @@ func to_facing_vector2i() -> Vector2i:
 	vector_export.y = int(direction == Direction.EAST) - int(direction == Direction.WEST)
 	
 	return vector_export
-	pass
 
 func to_facing_vector2f() -> Vector2:
 	var vec = to_facing_vector2i()
 	return Vector2( vec.x, vec.y )
-	pass
 
 func to_cell_vector2i() -> Vector2i:
 	if method == Gamepiece.TraversalMode.STANDING:
 		return Vector2i(0,0)
 
 	return to_facing_vector2i()
-	pass
 
 func to_cell_vector2f() -> Vector2:
 	var vec = to_cell_vector2i()

@@ -76,9 +76,13 @@ var tkpv_gamepiece = {
 	"traversal_mode": 	{"property": "traversal_mode", 		"fallback": Gamepiece.TraversalMode.STANDING },
 	"target_map":		{"property": "target_map", 			"fallback": -1 },
 	"current_map":		{"property": "current_map", 		"fallback": -1 },
-	"current_position":	{"property": "current_position", 	"fallback": Vector2i(0,0)},
+	"current_position":	{"property": "global_position", 	"fallback": Vector2i(0,0)},
 }
 
+var tkpv_level_map = {
+	"map_id": {"property":"unique_id", "fallback":-1},
+	"map_path": {"property":"scene_file_path", "fallback":""},
+}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -107,149 +111,76 @@ func exists_monster( monster ) -> bool:
 	
 	return false
 
+## concept code:
+#var pre_bind = GlobalRuntime.multiply_string(" ? ", cols.size, "," )
+#var bind = vals
+#var query_template = str( "INSERT OR REPLACE INTO ", table_name, " ( " )
+#for col in cols:
+	#query_template = str(query_template, " ", col, ", ")
+#query_template = str(query_template,   " ) values ( ",  pre_bind,  " )" )
+#query_with_bindings( query_template, bind );
 
-func get_monster_summary( monster:Monster ) -> Dictionary:
-	var summary : Dictionary = Dictionary()
+func game_to_database(thing:Object, tablekey_propval:Dictionary, target_db_path:String, target_table_name:String, query_conditions:String  ):
 	
-	summary["status_effects"]	= []
-	summary["franchise_ID"]		= 0
-	summary["species_ID"]		= monster.species
-	summary["variant_ID"]		= 0
-	summary["UMID"]				= monster.umid
-	summary["current_health"] 	= monster.stats_current[GlobalMonster.BattleStats.HEALTH]
-	summary["current_spirit"] 	= monster.stats_current[GlobalMonster.BattleStats.SPIRIT]
-	summary["current_attack"] 	= monster.stats_current[GlobalMonster.BattleStats.ATTACK]
-	summary["current_defense"] 	= monster.stats_current[GlobalMonster.BattleStats.DEFENSE]
-	summary["current_speed"] 	= monster.stats_current[GlobalMonster.BattleStats.SPEED]
-	summary["current_evasion"] 	= monster.stats_current[GlobalMonster.BattleStats.EVASION]
-	summary["current_intimidate"] = monster.stats_current[GlobalMonster.BattleStats.INTIMIDATION]
-	summary["current_resolve"] 	= monster.stats_current[GlobalMonster.BattleStats.RESOLVE]
-	summary["current_mana"] 	= monster.stats_current[GlobalMonster.BattleStats.MANA]
-	summary["max_health"] 		= monster.stats_base[GlobalMonster.BattleStats.HEALTH]
-	summary["max_spirit"] 		= monster.stats_base[GlobalMonster.BattleStats.SPIRIT]
-	summary["max_attack"] 		= monster.stats_base[GlobalMonster.BattleStats.ATTACK]
-	summary["max_defense"] 		= monster.stats_base[GlobalMonster.BattleStats.DEFENSE]
-	summary["max_speed"] 		= monster.stats_base[GlobalMonster.BattleStats.SPEED]
-	summary["max_evasion"] 		= monster.stats_base[GlobalMonster.BattleStats.EVASION]
-	summary["max_intimidate"] 	= monster.stats_base[GlobalMonster.BattleStats.INTIMIDATION]
-	summary["max_resolve"]		= monster.stats_base[GlobalMonster.BattleStats.RESOLVE]
-	summary["max_mana"] 		= monster.stats_base[GlobalMonster.BattleStats.MANA]
-	summary["ability"] 			= monster.ability
-	summary["exp"] 				= monster.exp 
-	summary["level"] 			= monster.level 
-	summary["name"] 			= monster.birth_name 
-	summary["funds"] 			= monster.funds 
-	
-	return summary;
-
-func set_monster_summary( monster:Monster, summary:Dictionary ):
-	monster.stats_current[GlobalMonster.BattleStats.HEALTH] 	= summary["current_health"]
-	monster.stats_current[GlobalMonster.BattleStats.SPIRIT] 	= summary["current_spirit"]
-	monster.stats_current[GlobalMonster.BattleStats.ATTACK] 	= summary["current_attack"]
-	monster.stats_current[GlobalMonster.BattleStats.DEFENSE] 	= summary["current_defense"]
-	monster.stats_current[GlobalMonster.BattleStats.SPEED] 		= summary["current_speed"]
-	monster.stats_current[GlobalMonster.BattleStats.EVASION] 	= summary["current_evasion"]
-	monster.stats_current[GlobalMonster.BattleStats.INTIMIDATION] = summary["current_intimidate"]
-	monster.stats_current[GlobalMonster.BattleStats.RESOLVE] 	= summary["current_resolve"]
-	monster.stats_current[GlobalMonster.BattleStats.MANA] 		= summary["current_mana"]
-	monster.stats_base[GlobalMonster.BattleStats.HEALTH] 		= summary["max_health"]
-	monster.stats_base[GlobalMonster.BattleStats.SPIRIT] 		= summary["max_spirit"]
-	monster.stats_base[GlobalMonster.BattleStats.ATTACK] 		= summary["max_attack"]
-	monster.stats_base[GlobalMonster.BattleStats.DEFENSE] 		= summary["max_defense"]
-	monster.stats_base[GlobalMonster.BattleStats.SPEED] 		= summary["max_speed"]
-	monster.stats_base[GlobalMonster.BattleStats.EVASION] 		= summary["max_evasion"]
-	monster.stats_base[GlobalMonster.BattleStats.INTIMIDATION] 	= summary["max_intimidate"]
-	monster.stats_base[GlobalMonster.BattleStats.RESOLVE] 		= summary["max_resolve"]
-	monster.stats_base[GlobalMonster.BattleStats.MANA] 			= summary["max_mana"]
-	monster.ability 	= summary["ability"]
-	monster.exp 		= summary["exp"]
-	monster.level 		= summary["level"]
-	monster.birth_name 	= summary["name"]
-	monster.funds 		= summary["funds"] 
-	#summary["status_effects"]	= []
-	#summary["franchise_ID"]		= 0
-	monster.species 	= summary["species_ID"]
-	#summary["variant_ID"]		= 0
-	monster.umid 		= summary["UMID"]
-
-
-
-func get_gamepiece_summary():
-	pass
-
-
-
-func set_gamepiece_summary( gamepiece:Gamepiece, summary:Dictionary ):
-	gamepiece.facing_direction = summary["current_direction"]
-	pass
-
-
-func game_to_database(thing:Object, tablekey_propval:Dictionary, target_db_path:String, target_table_name:String ):
-	
-	var row_dict : Dictionary
-	var current_propval
+	var row_dict : Dictionary = {}
+	#var current_propval
+	var cols = tablekey_propval.keys()
+	var vals = cols.duplicate()
 	
 	# For each item in the dictionary, copy over its values, but simplified/realized.
-	for key in tablekey_propval.keys():
+	for key in cols:
 		# If the result is an array, it's likely a value pair.
 		# While storing an array is bad practice, it needs an exit path.
 		if tablekey_propval[key] is Dictionary: #{ ? : [ ?* ] }
 			
-			if tablekey_propval[key].has( "property" ):
+			if tablekey_propval[key].has( "property" ) and thing != null:
 				row_dict[key] = thing.get( tablekey_propval[key]["property"] )
 				if (row_dict[key] is Array or row_dict[key] is Dictionary) and tablekey_propval[key].has( "index" ):
-					row_dict[key] = row_dict[ tablekey_propval[key]["index"] ]
+					row_dict[key] = thing.get(tablekey_propval[key]["property"])[ tablekey_propval[key]["index"] ]
+					#print( thing, thing.get(tablekey_propval[key]["property"]) )
+					#print(row_dict[key], " y'know?")
 					
-					# if the reassignment failed, revert.
-					# it might be better to make a new variable for this instead?
-					if row_dict[key] == null:
-						row_dict[key] = thing.get( tablekey_propval[key]["property"] )
+					## if the reassignment failed, revert.
+					## it might be better to make a new variable for this instead?
+					#if row_dict[key] == null:
+						#row_dict[key] = thing.get( tablekey_propval[key]["property"] )
 			else:
 				row_dict[key] = null
 			
 			if row_dict[key] == null:
 				if tablekey_propval[key].has( "fallback" ):
 					row_dict[key] = tablekey_propval[key]["fallback"]
-			
-			#if (tablekey_propval[key] as Array).size() >= 2: #{ ? : [ ?, ?* ] }
-				#
-				## We assume that the array is a pair of {property_name, fallback}
-				#current_propval = tablekey_propval[key].front()
-				#
-				## If that's true, good.
-				#if thing.get( str(current_propval) ) != null:
-					#row_dict[key] = thing.get( current_propval )
-				## But if the array pair includes a nested array pair? That's an array probably.
-				#elif current_propval is Array and current_propval.size() >= 2:
-					#row_dict[key] = thing.get( current_propval.front() )
-					#if row_dict[key] != null:
-						#row_dict[key] = row_dict[key][ current_propval[1] ]
-				#else:
-					#row_dict[key] = null
-				#
-				## If we had no luck parsing the values, we can just use the presumed fallback
-				#if row_dict[key] == null:
-					#row_dict[key] = (tablekey_propval[key] as Array).back()
-					#pass
-				#
-			#else:  # [ ? ] or []
-				#current_propval = (tablekey_propval[key] as Array).duplicate()
-				#current_propval.append(null)
-				#row_dict[key] = current_propval.back()
-				#pass
 		else:  # ?
 			row_dict[key] = tablekey_propval[key]
+		
+		vals[ cols.find(key) ] = row_dict[key]
 	
 	# Any non-atomic types should be converted into a byte array
-	for key in row_dict.keys():
-		row_dict[key] = db_wrap(row_dict[key])
+	var i:int = vals.size() - 1
+	while i > 0:
+		vals[i] = db_wrap(vals[i])
+		i -= 1;
 		pass
 	
 	db = SQLite.new()
 	db.path = target_db_path
 	db.open_db()
-	var row_array = [row_dict]
-	db.insert_rows( target_table_name, row_array )
+	#var row_array = [row_dict]
+	#var success = db.insert_rows( target_table_name, row_array )
+	#if !success:
+	#	db.update_rows( target_table_name, query_conditions, row_dict )
+	
+	#print("nbind")
+	var pre_bind = GlobalRuntime.multiply_string(" ? ", cols.size(), "," )
+	#var bind = vals
+	#print("bind")
+	var query_template = str( "INSERT OR REPLACE INTO ", target_table_name, " ( " )
+	for col in cols:
+		query_template = str(query_template, " ", col, ", ")
+	query_template = str(query_template.rstrip(', '),   " ) values ( ",  pre_bind,  " )" )
+	print(query_template)
+	var _success = db.query_with_bindings( query_template, vals );
+	
 	db.close_db()
 	
 	pass
@@ -257,13 +188,13 @@ func game_to_database(thing:Object, tablekey_propval:Dictionary, target_db_path:
 
 func database_to_game(thing:Object, tablekey_propval:Dictionary, target_db_path:String, target_table_name:String, query_conditions:String ):
 	
-	var row_dict : Dictionary
+	var row_dict : Dictionary = {}
 	var current_propval
 	
 	var selected_columns : Array = tablekey_propval.keys()
 	
 	db = SQLite.new()
-	db.path = db_name_user_active
+	db.path = target_db_path#db_name_user_active
 	db.open_db()
 	
 	var fetched:Array = db.select_rows( target_table_name, query_conditions, selected_columns )
@@ -298,21 +229,8 @@ func database_to_game(thing:Object, tablekey_propval:Dictionary, target_db_path:
 
 # To be called by GlobalMonsterSpawner
 func store_monster( monster ):
-	
-	var row_dict : Dictionary = get_monster_summary( monster );
-	
-	db = SQLite.new()
-	db.path = db_name_user_active
-	
-	db.open_db()
-	
-	var row_array = [row_dict]
-	
-	db.insert_rows( table_name_monster, row_array )
-	
-	db.close_db()
-	
-	pass
+	game_to_database( monster, tkpv_monster, db_name_user_active, table_name_monster, \
+	str("UMID = ", monster.umid) )
 
 
 func save_monster( monster ):
@@ -324,20 +242,8 @@ func save_monster( monster ):
 
 # Contains code to save monster character to database
 func update_monster( monster ):
-	
-	var row_dict : Dictionary = get_monster_summary( monster ); 
-	
-	db = SQLite.new()
-	db.path = db_name_user_active
-	db.open_db()
-	
-	var query_condition = str("umid = ", monster.umid)
-	
-	db.update_rows( table_name_monster, query_condition, row_dict )
-	
-	db.close_db()
-	
-	pass
+	database_to_game( monster, tkpv_monster, db_name_user_active, table_name_monster, \
+	str("UMID = ", monster.umid) )
 
 
 # Need to update the selected columns here.
@@ -361,8 +267,6 @@ func load_monster( monster ):
 	
 	var fetched:Array = db.select_rows( table_name_monster, str("umid = ", monster.umid), selected_columns )
 	
-	set_monster_summary( monster, fetched[-1] );
-	
 	db.close_db()
 	
 	pass
@@ -370,19 +274,22 @@ func load_monster( monster ):
 
 
 func save_gamepiece( gamepiece:Gamepiece ):
-	#game_to_database( gamepiece )
+	var umid = gamepiece.umid
+	
+	game_to_database(gamepiece, tkpv_gamepiece, db_name_user_active, "gamepiece", str(" UMID = ", umid )  )
+	game_to_database(gamepiece.monster, tkpv_monster, db_name_user_active, "monster", str(" UMID = ", umid )  )
+	
 	pass
 
 
 
-func load_gamepiece( umid:int ):
+func load_gamepiece( umid:int ) -> Gamepiece:
 	
 	var gamepiece = Gamepiece.new()
 	database_to_game(gamepiece, tkpv_gamepiece, db_name_user_active, "gamepiece", str(" UMID = ", umid ) )
 	database_to_game(gamepiece.monster, tkpv_monster, db_name_user_active, "monster", str(" UMID = ", umid ) )
 	
-	
-	pass
+	return gamepiece
 
 
 func load_gamepieces_for_map( map_id ) -> Array[Gamepiece]:
@@ -397,13 +304,13 @@ func load_gamepieces_for_map( map_id ) -> Array[Gamepiece]:
 	db.open_db()
 	
 	var fetched : Array = db.select_rows( table_name_user_gamepiece, str("current_map = ", map_id), selected_columns )
-	var gamepiece_array : Array[Gamepiece]
+	var gamepiece_array : Array[Gamepiece] = []
 	var gamepiece
 	
 	# For each table row, use it to build a gamepiece
 	for piece_summary in fetched:
-		gamepiece = Gamepiece.new()
-		set_gamepiece_summary( gamepiece, piece_summary );
+		gamepiece = load_gamepiece( piece_summary["umid"] )
+		#set_gamepiece_summary( gamepiece, piece_summary );
 		gamepiece_array.append( gamepiece )
 	
 	db.close_db()
@@ -429,7 +336,16 @@ func save_map_data():
 func load_map_data():
 	pass
 
+# Saves which file path correlates to the level map index
+func save_level_map( map:LevelMap ):
+	game_to_database(map, tkpv_level_map, db_name_user_active, "level_map", str("map_id = ", map.map_index) )
+	pass
 
+
+
+#func load_level_map( map:LevelMap ):
+#	game_to_database(map, tkpv_level_map, db_name_user_active, "level_map", str("map_id = ", map.map_index) )
+#	pass
 
 func save_global_data():
 	pass
@@ -490,15 +406,12 @@ func db_wrap(thing):
 			return thing
 		TYPE_STRING, TYPE_STRING_NAME:
 			return str(thing)
-		_:
-			return var_to_bytes(thing)
-	pass
+	return var_to_bytes(thing)
 
 func db_unwrap(thing):
 	if typeof(thing) == TYPE_PACKED_BYTE_ARRAY:
 		return bytes_to_var(thing)
 	return thing
-	pass
 
 func validate_umid( umid:int=0 ) -> int:
 	
@@ -515,6 +428,6 @@ func validate_umid( umid:int=0 ) -> int:
 
 
 # I call this a 'struct' because I like the C langauge.
-func load_move_effectiveness_struct(move_id):
-	print( sqrt(-1)/0 ); # Because I don't know how throwing and catching works in GD 4
-	pass
+#func load_move_effectiveness_struct(move_id):
+#	print( sqrt(-1)/0 ); # Because I don't know how throwing and catching works in GD 4
+#	pass

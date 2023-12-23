@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bkc6734uqagjw"]
+[gd_scene load_steps=19 format=3 uid="uid://bkc6734uqagjw"]
 
 [ext_resource type="Script" path="res://overworld/level_maps/level_map.gd" id="1_jpfmq"]
 [ext_resource type="Texture2D" uid="uid://claaq3m3x57i0" path="res://assets/textures/tilesets/dirtgrass_mauvetown.png" id="2_p1ydg"]
@@ -9,7 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://cvajri3ppp8k" path="res://overworld/props/tree.tscn" id="7_0lbjb"]
 [ext_resource type="PackedScene" uid="uid://db2gcrrcc6uej" path="res://overworld/props/tall_grass.tscn" id="8_toojf"]
 [ext_resource type="PackedScene" uid="uid://crk1pu5pxjnen" path="res://common/daylight_cycle_filter.tscn" id="9_nwmxn"]
-[ext_resource type="PackedScene" path="res://overworld/props/portal.tscn" id="10_herdd"]
+[ext_resource type="PackedScene" uid="uid://dup7lwhlludsr" path="res://overworld/props/portal.tscn" id="10_herdd"]
+[ext_resource type="Script" path="res://overworld/warp_anchor_container.gd" id="11_06385"]
+[ext_resource type="Script" path="res://overworld/props/warp_anchor.gd" id="12_qgo77"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_oy114"]
 texture = ExtResource("2_p1ydg")
@@ -1463,6 +1465,7 @@ layer_1/tile_data = PackedInt32Array()
 [node name="Objects" type="Node" parent="."]
 
 [node name="PlayerCursor" type="TileMap" parent="Objects"]
+visible = false
 position = Vector2(256, 256)
 tile_set = SubResource("TileSet_2upmt")
 format = 2
@@ -1472,6 +1475,7 @@ y_sort_enabled = true
 position = Vector2(256, 256)
 
 [node name="Player" parent="Objects/Y-Sort" instance=ExtResource("6_7tyub")]
+visible = false
 position = Vector2(-80, -32)
 
 [node name="Tree" parent="Objects/Y-Sort" instance=ExtResource("7_0lbjb")]
@@ -1489,10 +1493,19 @@ enabled = false
 zoom = Vector2(2.5, 2.5)
 
 [node name="Portal" parent="." instance=ExtResource("10_herdd")]
-position = Vector2(-80, 112)
+position = Vector2(-80, 128)
 scale = Vector2(4, 4)
 map = "res://overworld/level_maps/route_home_to_red.tscn"
-linked_portal_id = 2
 target_position = Vector2i(640, -96)
 target_facing = Vector2i(0, 1)
 portal_id = 1
+
+[node name="Anchors" type="Node" parent="."]
+script = ExtResource("11_06385")
+
+[node name="WarpTownHome" type="Marker2D" parent="Anchors"]
+position = Vector2(200, 368)
+gizmo_extents = 16.0
+script = ExtResource("12_qgo77")
+anchor_name = "ToRouteHome"
+facing_direction = Vector2i(0, -1)

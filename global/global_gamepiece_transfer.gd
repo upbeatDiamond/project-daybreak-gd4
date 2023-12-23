@@ -71,17 +71,21 @@ func _process(_delta):
 func submit_gamepiece( piece:Gamepiece, target_map_index:MapIndex, \
 target_map_coordinates:=Vector2i(0,0), origin_map_index:=MapIndex.INVALID_INDEX ):
 	
+	piece.target_position = target_map_coordinates
+	
 	if gamepieces_by_map.size() < target_map_index:
 		gamepieces_by_map.resize( target_map_index + 1 )
 	
-	if gamepieces_by_map[target_map_index] == null:
-		gamepieces_by_map[target_map_index] = []
-	
-	gamepieces_by_map[target_map_index].append( piece )
-	
-	if piece.get_parent() != null:
-		piece.get_parent().remove_child( piece )
-	
+	if target_map_index >= 0:
+		
+		if gamepieces_by_map[target_map_index] == null:
+			gamepieces_by_map[target_map_index] = []
+		
+		gamepieces_by_map[target_map_index].append( piece )
+		
+		if piece.get_parent() != null:
+			piece.get_parent().remove_child( piece )
+		
 	pass
 
 #func retrieve_gamepiece( gp_id:int ) -> Gamepiece:

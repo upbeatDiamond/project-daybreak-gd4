@@ -6,11 +6,6 @@ class_name PlayerMenu
 
 var screen_loaded = ScreenLoaded.CLOSED
 
-var selected_option: int = 0
-var option_count: int = 11
-const DEFAULT_SUBMENU_NAME := "PausedList"
-var submenu_name := DEFAULT_SUBMENU_NAME
-
 enum ScreenLoaded 
 { 
 	CLOSED, 
@@ -42,6 +37,14 @@ var screen_name : Dictionary = {
 	ScreenLoaded.QUIT_GAME 		: DEFAULT_SUBMENU_NAME
 }
 
+var selected_option: int = 0
+var option_count: int = 11
+const DEFAULT_SUBMENU_NAME := "PausedList"
+var submenu_name := DEFAULT_SUBMENU_NAME
+const INPUT_COOLDOWN_DEFAULT := 0.1
+var input_cooldown := INPUT_COOLDOWN_DEFAULT
+
+
 func get_screen_name( tag:ScreenLoaded ):
 	return screen_name[ tag ]
 
@@ -52,6 +55,9 @@ func _ready():
 	
 	update_select_arrow()
 
+#func _process(_delta):
+#	if Input.is_action_pressed("menu"):
+#		handle_input( InputMap.action_get_events("menu")[0] )
 
 func update_select_arrow():
 	#	select_arrow.rect_position.y = [default y] + (selected_option % 6) * [distance between options = richtext height + vbox separation]
@@ -64,12 +70,24 @@ func update_submenu():
 	
 	pass
 
-func _unhandled_input(event):
+func _process(delta):
+	if input_cooldown <= 0:
+		input_cooldown = INPUT_COOLDOWN_DEFAULT
+		handle_input(Input)
+	else:
+		input_cooldown -= delta
+
+#func _unhandled_input(event):
+#	handle_input(event)
+
+func handle_input(event):
+	#event = 
+	#print(event)
 	match screen_loaded:
 		ScreenLoaded.CLOSED:
-			if event.is_action_pressed("menu"):
-				var player = GlobalRuntime.overworld_root_node.get_children().back().find_child("Player")
-				if player == null: return
+			if event.is_action_pressed("menu", true):
+				#var player = GlobalRuntime.overworld_root_node.get_children().back().find_child("Player")
+				#if player == null: return
 				#if GlobalRuntime.player_menu_enabled: return
 				
 				GlobalRuntime.gamepieces_set_paused(true);
@@ -78,11 +96,22 @@ func _unhandled_input(event):
 					#player.set_physics_process(false)
 				menu.visible = true
 				screen_loaded = ScreenLoaded.PAUSE_MENU
-			
+			else:
+				input_cooldown = 0
 		ScreenLoaded.PARTY_SCREEN:
 			print("Feature Unfinished: Load Party Screen")
+			input_cooldown = 0
 			pass
 		
+		ScreenLoaded.SAVE:
+			print("Feature Unfinished: Save")
+			GlobalRuntime.save_game_data()
+			screen_loaded = ScreenLoaded.PAUSE_MENU
+			input_cooldown = 0
+			selected_option = (ScreenLoaded.SAVE) % option_count
+			print(selected_option, " ", option_count)
+			update_select_arrow()
+			pass
 		
 		_: #ScreenLoaded.PAUSE_MENU:
 			
@@ -91,9 +120,10 @@ func _unhandled_input(event):
 				screen_loaded = next_submenu.submenu_link
 				update_submenu()
 			
-			if event.is_action_pressed("menu") or event.is_action_pressed("ui_cancel") or screen_loaded == ScreenLoaded.CLOSED:
-				var player = GlobalRuntime.overworld_root_node.get_children().back().find_child("Player")
-				if player == null: return
+			if event.is_action_pressed("menu", true) or \
+			event.is_action_pressed("ui_cancel") or screen_loaded == ScreenLoaded.CLOSED:
+				#var player = GlobalRuntime.overworld_root_node.get_children().back().find_child("Player")
+				#if player == null: return
 				GlobalRuntime.gamepieces_set_paused(false)
 				#player.set_physics_process(true)
 				menu.visible = false
@@ -106,4 +136,6 @@ func _unhandled_input(event):
 			elif event.is_action_pressed("ui_up"):
 				selected_option = (selected_option - 1) % option_count
 				update_select_arrow()
-			
+				
+			else:
+				input_cooldown = 0

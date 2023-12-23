@@ -53,17 +53,17 @@ func rehouse_gamepieces():
 func place_gamepieces( gamepieces:Array ):
 	establish_ysort()
 	var ysort = get_node_or_null( ^"Objects/Y-Sort" )
-	var is_dirty = false
+	#var is_dirty:bool
 	
 	# Now that the Y-Sort is almost guaranteed to exist, put any characters in there.
 	# BUT JUST IN CASE, keep using the "get_node_or_null" and keep track of the null errors.
 	for piece in gamepieces:
 		piece.current_map = map_index
-		is_dirty = false
+		#is_dirty = false
 		for old_piece in current_gamepieces:
 			if (old_piece is Gamepiece) and (piece is Gamepiece) and (piece.monster is Monster)\
 			and piece.monster.equals( old_piece.monster ):
-				is_dirty = true
+				#is_dirty = true
 				(old_piece as Node).get_parent().remove_child(old_piece)
 				GlobalRuntime.clean_up_node_descent( old_piece )
 		
@@ -92,13 +92,13 @@ func get_anchor_container():
 	return anchor_container
 
 func pack_up():
-	var childs = get_children()
+	#var childs = get_children()
 	
-	# Tagged out to avoid massive duplication of the test NPC. Now only clones the Player.
-#	# Recursively find and pack up gamepieces, assuming that no gamepieces have gamepieces as children
-
-#	# Please replace this with a signal.
-
+	## Tagged out to avoid massive duplication of the test NPC. Now only clones the Player.
+	## Recursively find and pack up gamepieces, assuming that no gamepieces have gamepieces as children
+	
+	## Please replace this with a signal.
+	
 #	for child in childs:
 #		if child is Gamepiece:
 #			GlobalGamepieceTransfer.submit_gamepiece( child, map_index, child.global_position, map_index )

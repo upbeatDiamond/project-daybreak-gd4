@@ -14,11 +14,10 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	cooling_down = false
-	pass
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	cooling_down = false
 
 func run_event( gamepiece:Gamepiece ):
@@ -35,14 +34,14 @@ func run_event( gamepiece:Gamepiece ):
 		block_ray.target_position = block_ray.position+(direction*GlobalRuntime.DEFAULT_TILE_SIZE)
 		block_ray.force_raycast_update()
 		
-		print("event caught! on... PushBlock!")
+		#print("event caught! on... PushBlock!")
 		
 		var move_tween
 		
 		# If valid, move there
 		if !block_ray.is_colliding():
 			
-			print(str( "block ray not colliding!", direction) )
+			#print(str( "block ray not colliding!", direction) )
 			
 			var new_position = collision.global_position+(direction*GlobalRuntime.DEFAULT_TILE_SIZE)
 			new_position = GlobalRuntime.snap_to_grid_center_f( new_position )
@@ -57,8 +56,8 @@ func run_event( gamepiece:Gamepiece ):
 						1/move_speed ).set_trans(Tween.TRANS_LINEAR)
 					await move_tween.finished
 			
-			print(str( new_position, " ~ pushing to" ) )
-			#
+			#print(str( new_position, " ~ pushing to" ) )
+			
 			resync_position()
 		
 		gamepiece.is_paused = pidgeonhole_gp_lock 
