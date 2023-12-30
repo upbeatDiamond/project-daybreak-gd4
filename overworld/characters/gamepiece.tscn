@@ -1,7 +1,7 @@
 [gd_scene load_steps=26 format=3 uid="uid://dsk04vtyuk6hu"]
 
 [ext_resource type="Script" path="res://overworld/characters/gamepiece.gd" id="1_6sn36"]
-[ext_resource type="Texture2D" uid="uid://13h6vtkjx4sb" path="res://player/player_base_move.png" id="2_0lols"]
+[ext_resource type="Texture2D" uid="uid://13h6vtkjx4sb" path="res://assets/textures/monsters/overworld/human_base_c3.png" id="2_0lols"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v1cr0"]
 size = Vector2(16, 16)

@@ -1195,361 +1195,361 @@ y_sort_enabled = true
 [node name="TallGrass2" parent="Objects/Y-Sort" instance=ExtResource("7_n5ydw")]
 position = Vector2(152, 160)
 
-[node name="Tree" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(32, 672)
-
-[node name="Tree2" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(32, 704)
-
-[node name="Tree3" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(160, 672)
-
-[node name="Tree4" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(160, 704)
-
-[node name="Tree5" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(160, 640)
-
 [node name="TallGrass" parent="Objects/Y-Sort" instance=ExtResource("7_n5ydw")]
 position = Vector2(152, 144)
 
-[node name="Tree6" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(192, 672)
+[node name="House" parent="Objects/Y-Sort" instance=ExtResource("10_m3vie")]
+position = Vector2(80, -128)
 
-[node name="Tree7" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(128, 768)
-
-[node name="Tree8" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(192, 640)
-
-[node name="Tree9" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(192, 576)
-
-[node name="Tree10" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(192, 608)
-
-[node name="Tree11" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(192, 544)
-
-[node name="Tree12" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(64, 768)
-
-[node name="Tree13" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(160, 736)
-
-[node name="Tree14" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(96, 768)
-
-[node name="Tree15" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(224, 576)
-
-[node name="Tree16" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(0, -64)
-
-[node name="Tree17" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(224, 544)
-
-[node name="Tree18" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(0, 32)
-
-[node name="Tree19" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(32, 736)
-
-[node name="Tree20" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(32, 768)
-
-[node name="Tree21" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(0, 488)
-
-[node name="Tree22" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(160, 768)
-
-[node name="Tree23" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(256, 544)
-
-[node name="Tree24" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(256, 480)
-
-[node name="Tree25" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(256, 512)
-
-[node name="Tree26" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(256, 448)
-
-[node name="Tree27" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(256, 384)
-
-[node name="Tree28" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(256, 416)
-
-[node name="Tree29" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(256, 352)
-
-[node name="Tree30" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(0, 64)
-
-[node name="Tree31" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(32, 520)
-
-[node name="Tree32" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(0, 96)
-
-[node name="Tree33" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(0, 160)
-
-[node name="Tree34" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(0, 128)
-
-[node name="Tree35" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(0, 192)
-
-[node name="Tree36" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(0, 256)
-
-[node name="Tree37" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(0, 224)
-
-[node name="Tree38" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(0, 288)
-
-[node name="Tree39" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(320, 352)
-
-[node name="Tree40" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(352, 320)
-
-[node name="Tree41" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(288, 352)
-
-[node name="Tree42" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(352, 256)
-
-[node name="Tree43" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(352, 288)
-
-[node name="Tree44" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(352, 224)
-
-[node name="Tree45" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(352, 160)
-
-[node name="Tree90" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(352, -32)
-
-[node name="Tree46" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(352, 192)
-
-[node name="Tree47" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(384, 160)
-
-[node name="Tree48" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(320, 320)
-
-[node name="Tree49" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(416, 160)
-
-[node name="Tree50" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(448, 160)
-
-[node name="Tree51" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(480, 160)
-
-[node name="Tree52" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(480, 128)
-
-[node name="Tree53" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(544, 96)
-
-[node name="Tree54" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(480, 96)
-
-[node name="Tree55" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(512, 96)
-
-[node name="Tree56" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(576, 96)
-
-[node name="Tree57" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(32, 576)
-
-[node name="Tree58" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(576, 64)
-
-[node name="Tree59" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(544, -96)
-
-[node name="Tree60" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(608, -96)
-
-[node name="Tree61" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(32, 544)
-
-[node name="Tree62" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(32, 608)
-
-[node name="Tree63" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(608, 64)
-
-[node name="Tree64" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(640, 32)
-
-[node name="Tree65" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(608, 32)
-
-[node name="Tree66" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(512, -96)
-
-[node name="Tree67" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(608, -160)
-
-[node name="Tree68" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(608, -192)
-
-[node name="Tree69" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(0, -160)
-
-[node name="Tree70" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(192, -128)
-
-[node name="Tree71" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(192, -160)
-
-[node name="Tree72" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(160, -160)
-
-[node name="Tree73" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(192, -96)
-
-[node name="Tree74" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(672, 32)
-
-[node name="Tree75" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(704, 32)
-
-[node name="Tree76" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(704, 0)
-
-[node name="Tree77" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(736, 0)
-
-[node name="Tree78" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(736, -32)
-
-[node name="Tree79" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(64, -160)
-
-[node name="Tree80" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(768, -32)
-
-[node name="Tree81" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(32, -160)
-
-[node name="Tree82" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(768, -64)
-
-[node name="Tree83" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(32, -128)
-
-[node name="Tree84" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(768, -96)
-
-[node name="Tree85" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(128, -128)
-
-[node name="Tree86" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(768, -128)
-
-[node name="Tree87" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(160, -128)
-
-[node name="Tree88" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(768, -160)
-
-[node name="Tree89" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(96, -160)
-
-[node name="Tree91" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(384, -32)
-
-[node name="Tree92" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(416, -32)
-
-[node name="Tree93" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(416, -64)
-
-[node name="Tree94" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(448, -96)
-
-[node name="Tree95" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(480, -96)
-
-[node name="Tree96" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(576, -96)
-
-[node name="Tree97" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(608, -128)
-
-[node name="Tree98" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(0, -128)
-
-[node name="Tree99" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(128, -160)
-
-[node name="Tree100" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(160, -32)
-
-[node name="Tree101" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(192, -64)
-
-[node name="Tree102" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(0, -32)
-
-[node name="Tree103" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+[node name="Tree" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
 position = Vector2(32, 640)
 
-[node name="Tree104" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+[node name="Tree2" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(32, 672)
+
+[node name="Tree3" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(160, 640)
+
+[node name="Tree4" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(160, 672)
+
+[node name="Tree5" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(160, 608)
+
+[node name="Tree6" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(192, 640)
+
+[node name="Tree7" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(128, 736)
+
+[node name="Tree8" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(192, 608)
+
+[node name="Tree9" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(192, 544)
+
+[node name="Tree10" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(192, 576)
+
+[node name="Tree11" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(192, 512)
+
+[node name="Tree12" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(64, 736)
+
+[node name="Tree13" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(160, 704)
+
+[node name="Tree14" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(96, 736)
+
+[node name="Tree15" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(224, 544)
+
+[node name="Tree16" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
 position = Vector2(0, -96)
 
-[node name="Tree105" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+[node name="Tree17" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(224, 512)
 
-[node name="Tree106" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(0, 352)
+[node name="Tree18" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
 
-[node name="Tree107" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(448, -64)
+[node name="Tree19" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(32, 704)
 
-[node name="Tree108" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(320, -32)
+[node name="Tree20" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(32, 736)
 
-[node name="Tree109" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(288, -32)
+[node name="Tree21" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(0, 456)
 
-[node name="Tree110" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(256, -32)
+[node name="Tree22" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(160, 736)
 
-[node name="Tree111" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(192, -32)
+[node name="Tree23" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(256, 512)
 
-[node name="Tree112" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(224, -32)
+[node name="Tree24" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(256, 448)
 
-[node name="Tree113" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(0, 416)
+[node name="Tree25" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(256, 480)
 
-[node name="Tree114" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+[node name="Tree26" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(256, 416)
+
+[node name="Tree27" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(256, 352)
+
+[node name="Tree28" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(256, 384)
+
+[node name="Tree29" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(256, 320)
+
+[node name="Tree30" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(0, 32)
+
+[node name="Tree31" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
 position = Vector2(32, 488)
 
-[node name="Tree115" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(0, 448)
+[node name="Tree32" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(0, 64)
 
-[node name="Tree116" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+[node name="Tree33" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(0, 128)
+
+[node name="Tree34" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(0, 96)
+
+[node name="Tree35" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(0, 160)
+
+[node name="Tree36" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(0, 224)
+
+[node name="Tree37" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(0, 192)
+
+[node name="Tree38" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(0, 256)
+
+[node name="Tree39" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(320, 320)
+
+[node name="Tree40" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(352, 288)
+
+[node name="Tree41" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(288, 320)
+
+[node name="Tree42" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(352, 224)
+
+[node name="Tree43" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(352, 256)
+
+[node name="Tree44" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(352, 192)
+
+[node name="Tree45" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(352, 128)
+
+[node name="Tree90" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(352, -64)
+
+[node name="Tree46" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(352, 160)
+
+[node name="Tree47" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(384, 128)
+
+[node name="Tree48" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(320, 288)
+
+[node name="Tree49" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(416, 128)
+
+[node name="Tree50" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(448, 128)
+
+[node name="Tree51" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(480, 128)
+
+[node name="Tree52" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(480, 96)
+
+[node name="Tree53" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(544, 64)
+
+[node name="Tree54" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(480, 64)
+
+[node name="Tree55" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(512, 64)
+
+[node name="Tree56" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(576, 64)
+
+[node name="Tree57" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(32, 544)
+
+[node name="Tree58" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(576, 32)
+
+[node name="Tree59" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(544, -128)
+
+[node name="Tree60" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(608, -128)
+
+[node name="Tree61" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(32, 512)
+
+[node name="Tree62" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(32, 576)
+
+[node name="Tree63" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(608, 32)
+
+[node name="Tree64" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(640, 0)
+
+[node name="Tree65" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(608, 0)
+
+[node name="Tree66" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(512, -128)
+
+[node name="Tree67" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(608, -192)
+
+[node name="Tree68" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(608, -224)
+
+[node name="Tree69" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(0, -192)
+
+[node name="Tree70" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(192, -160)
+
+[node name="Tree71" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(192, -192)
+
+[node name="Tree72" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(160, -192)
+
+[node name="Tree73" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(192, -128)
+
+[node name="Tree74" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(672, 0)
+
+[node name="Tree75" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(704, 0)
+
+[node name="Tree76" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(704, -32)
+
+[node name="Tree77" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(736, -32)
+
+[node name="Tree78" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(736, -64)
+
+[node name="Tree79" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(64, -192)
+
+[node name="Tree80" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(768, -64)
+
+[node name="Tree81" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(32, -192)
+
+[node name="Tree82" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(768, -96)
+
+[node name="Tree83" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(32, -160)
+
+[node name="Tree84" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(768, -128)
+
+[node name="Tree85" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(128, -160)
+
+[node name="Tree86" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(768, -160)
+
+[node name="Tree87" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(160, -160)
+
+[node name="Tree88" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(768, -192)
+
+[node name="Tree89" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(96, -192)
+
+[node name="Tree91" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(384, -64)
+
+[node name="Tree92" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(416, -64)
+
+[node name="Tree93" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(416, -96)
+
+[node name="Tree94" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(448, -128)
+
+[node name="Tree95" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(480, -128)
+
+[node name="Tree96" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(576, -128)
+
+[node name="Tree97" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(608, -160)
+
+[node name="Tree98" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(0, -160)
+
+[node name="Tree99" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(128, -192)
+
+[node name="Tree100" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(160, -64)
+
+[node name="Tree101" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(192, -96)
+
+[node name="Tree102" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(0, -64)
+
+[node name="Tree103" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(32, 608)
+
+[node name="Tree104" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(0, -128)
+
+[node name="Tree105" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(0, -32)
+
+[node name="Tree106" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
 position = Vector2(0, 320)
 
-[node name="House" parent="Objects/Y-Sort" instance=ExtResource("10_m3vie")]
-position = Vector2(80, -96)
+[node name="Tree107" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(448, -96)
+
+[node name="Tree108" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(320, -64)
+
+[node name="Tree109" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(288, -64)
+
+[node name="Tree110" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(256, -64)
+
+[node name="Tree111" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(192, -64)
+
+[node name="Tree112" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(224, -64)
+
+[node name="Tree113" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(0, 384)
+
+[node name="Tree114" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(32, 456)
+
+[node name="Tree115" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(0, 416)
+
+[node name="Tree116" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
+position = Vector2(0, 288)
 
 [node name="Tree117" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(0, 384)
+position = Vector2(0, 352)
 
 [node name="TallGrass3" parent="Objects/Y-Sort" instance=ExtResource("7_n5ydw")]
 position = Vector2(168, 144)

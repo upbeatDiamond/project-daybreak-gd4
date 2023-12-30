@@ -28,7 +28,7 @@ func _process(_delta):
 # MAKE SURE TO STORE IVs AND EVs IN THE DATABASE BEFORE HANDING BACK THE MONSTER IF THESE...
 # ... ARE NOT STORED WITHIN THE MONSTER
 
-func spawn_monster( rng_seed: int, spawn_weights: Dictionary ) -> Object:
+func spawn_monster( _rng_seed:int, _spawn_weights:Dictionary ) -> Object:
 	return null
 	#pass
 

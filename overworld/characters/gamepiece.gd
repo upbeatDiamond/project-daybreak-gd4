@@ -13,7 +13,7 @@ signal gamepiece_entered_door_signal
 # 0 = player 1
 # 0-255 = reserved for players, in case of future multiplayer version
 # not to be confused with UMID, which reserves 1-512 for important characters
-@export var unique_id := -1
+@export var unique_id := -1	# may be removed unless useful for screenplays
 @export var umid := -1:
 	set(_umid):
 		umid = _umid
@@ -29,14 +29,12 @@ var move_speed:float
 @export var jump_speed = 5.0
 @export var run_speed = 12.0
 
-#var tile_offset = Vector2.ONE * floor(  (GlobalRuntime.DEFAULT_TILE_SIZE + 1)/2 )
-
 const LandingDustEffect = preload("res://overworld/landing_dust_effect.tscn")
 
 @onready var animation_tree = $AnimationTree
 @onready var animation_state = animation_tree["parameters/playback"]
-@onready var block_ray = $Collision/BlockingRayCast2D
-@onready var event_ray = $Collision/EventRayCast2D
+@onready var block_ray : RayCast2D = $Collision/BlockingRayCast2D
+@onready var event_ray : RayCast2D = $Collision/EventRayCast2D
 @onready var gfx = $GFX
 @onready var shadow = $GFX/Shadow
 @onready var collision = $Collision
@@ -65,7 +63,7 @@ enum TraversalMode
 	BICYCLING, 	# 🚲 
 }
 
-@export var current_map := -1
+@export var current_map := -1	# depricated, please ask the local map for its ID
 @export var current_position := Vector2i(0,0):
 	set( pos ): 
 		move_to_target(pos)
@@ -83,8 +81,14 @@ var monster : Monster
 # The 'soul' of the gamepiece.
 # The gamepiece is but a vehicle to the spirit (that which stores name, stats, species, etc)
 
+
+signal gamepiece_moved( direction:Vector2, global_endpoint:Vector2, mode:TraversalMode )
+signal gamepiece_moving( direction:Vector2, global_endpoint:Vector2, mode:TraversalMode )
+
 func _init():
 	GlobalRuntime.save_data.connect( save_gamepiece )
+	monster = Monster.new()
+	monster.umid = umid
 
 func _ready():
 	is_moving = false
@@ -138,7 +142,7 @@ func set_umid(new_umid:int):
 	monster.umid = new_umid
 
 
-func update_rays( direction ):
+func update_rays( direction : Vector2 ):
 	
 	block_ray.target_position = direction * GlobalRuntime.DEFAULT_TILE_SIZE
 	block_ray.force_raycast_update()

@@ -42,7 +42,7 @@ var tkpv_monster = {
 	"franchise_ID": 	 { "fallback": 0 },
 	"species_ID": 		 { "property": "species", "fallback": -1 },
 	"variant_ID": 		 { "fallback": 0 },
-	"UMID": 			 { "property": "umid", "fallback": -1 }, #stats_growth
+	"umid": 			 { "property": "umid", "fallback": -1 }, #stats_growth
 	"current_health": 	 { "property": "stats_current", "index":GlobalMonster.BattleStats.HEALTH, "fallback": -1 },
 	"current_spirit": 	 { "property": "stats_current", "index":GlobalMonster.BattleStats.SPIRIT, "fallback": -1 },
 	"current_attack": 	 { "property": "stats_current", "index":GlobalMonster.BattleStats.ATTACK, "fallback": -1 },
@@ -80,7 +80,7 @@ var tkpv_gamepiece = {
 }
 
 var tkpv_level_map = {
-	"map_id": {"property":"unique_id", "fallback":-1},
+	"map_id": {"property":"map_index", "fallback":-1},
 	"map_path": {"property":"scene_file_path", "fallback":""},
 }
 
@@ -120,7 +120,8 @@ func exists_monster( monster ) -> bool:
 #query_template = str(query_template,   " ) values ( ",  pre_bind,  " )" )
 #query_with_bindings( query_template, bind );
 
-func game_to_database(thing:Object, tablekey_propval:Dictionary, target_db_path:String, target_table_name:String, query_conditions:String  ):
+func game_to_database(thing:Object, tablekey_propval:Dictionary, target_db_path:String, \
+target_table_name:String, _query_conditions:String=""  ):
 	
 	var row_dict : Dictionary = {}
 	#var current_propval
@@ -189,7 +190,7 @@ func game_to_database(thing:Object, tablekey_propval:Dictionary, target_db_path:
 func database_to_game(thing:Object, tablekey_propval:Dictionary, target_db_path:String, target_table_name:String, query_conditions:String ):
 	
 	var row_dict : Dictionary = {}
-	var current_propval
+	#var current_propval
 	
 	var selected_columns : Array = tablekey_propval.keys()
 	
@@ -208,20 +209,20 @@ func database_to_game(thing:Object, tablekey_propval:Dictionary, target_db_path:
 			if tablekey_propval[key].has( "property" ):
 				row_dict[key] = thing.get( tablekey_propval[key]["property"] )
 				if (row_dict[key] is Array or row_dict[key] is Dictionary) and tablekey_propval[key].has( "index" ):
-					row_dict[key] = row_dict[ tablekey_propval[key]["index"] ]
+					row_dict[key] = row_dict.get( tablekey_propval[key]["index"] )
 					
 					# if the reassignment failed, revert.
 					# it might be better to make a new variable for this instead?
 					if row_dict[key] == null:
 						row_dict[key] = thing.get( tablekey_propval[key]["property"] )
 						# thing.set(property <-- fetched[key])
-						thing.set(tablekey_propval[key]["property"], db_unwrap(fetched.front()[ selected_columns.find(key) ]) )
+						thing.set(tablekey_propval[key]["property"], db_unwrap(fetched.front()[ key ]) ) # selected_columns.find(key)
 					else:
 						# thing.set(property[index] <-- fetched[key])
 						thing.set(tablekey_propval[key]["property"] [tablekey_propval[key]["index"]], db_unwrap(fetched.front()[ selected_columns.find(key) ]))
 				else:
 					# thing.set(property <-- fetched[key])
-					thing.set(tablekey_propval[key]["property"], db_unwrap(fetched.front()[ selected_columns.find(key) ]))
+					thing.set(tablekey_propval[key]["property"], db_unwrap(fetched.front()[ key ])) # selected_columns.find(key)
 	
 	db.close_db()
 	
@@ -246,30 +247,30 @@ func update_monster( monster ):
 	str("UMID = ", monster.umid) )
 
 
-# Need to update the selected columns here.
-func load_monster( monster ):
-	
-	var selected_columns : Array = ["current_health", "current_spirit", 
-									"current_attack", "current_defense", 
-									"current_speed", "current_evasion", 
-									"current_intimidate", "current_resolve", 
-									"current_mana", "max_health", "max_spirit", 
-									"max_attack", "max_defense", "max_speed", 
-									"max_evasion", "max_intimidate", "max_resolve", 
-									"max_mana", "ability", "exp", "level", 
-									"name", "item_held"];
-	
-	var summary_dict : Dictionary = Dictionary();
-	
-	db = SQLite.new()
-	db.path = db_name_user_active
-	db.open_db()
-	
-	var fetched:Array = db.select_rows( table_name_monster, str("umid = ", monster.umid), selected_columns )
-	
-	db.close_db()
-	
-	pass
+## Need to update the selected columns here.
+#func load_monster( monster ):
+	#
+	#var selected_columns : Array = ["current_health", "current_spirit", 
+									#"current_attack", "current_defense", 
+									#"current_speed", "current_evasion", 
+									#"current_intimidate", "current_resolve", 
+									#"current_mana", "max_health", "max_spirit", 
+									#"max_attack", "max_defense", "max_speed", 
+									#"max_evasion", "max_intimidate", "max_resolve", 
+									#"max_mana", "ability", "exp", "level", 
+									#"name", "item_held"];
+	#
+	#var summary_dict : Dictionary = Dictionary();
+	#
+	#db = SQLite.new()
+	#db.path = db_name_user_active
+	#db.open_db()
+	#
+	#var fetched:Array = db.select_rows( table_name_monster, str("umid = ", monster.umid), selected_columns )
+	#
+	#db.close_db()
+	#
+	#pass
 
 
 
@@ -286,6 +287,7 @@ func save_gamepiece( gamepiece:Gamepiece ):
 func load_gamepiece( umid:int ) -> Gamepiece:
 	
 	var gamepiece = Gamepiece.new()
+	gamepiece.monster = Monster.new()
 	database_to_game(gamepiece, tkpv_gamepiece, db_name_user_active, "gamepiece", str(" UMID = ", umid ) )
 	database_to_game(gamepiece.monster, tkpv_monster, db_name_user_active, "monster", str(" UMID = ", umid ) )
 	
@@ -297,7 +299,7 @@ func load_gamepieces_for_map( map_id ) -> Array[Gamepiece]:
 	var selected_columns : Array = ["umid", "current_position", 
 									"current_direction", "current_action"];
 	
-	var summary_dict : Dictionary = Dictionary();
+	#var summary_dict : Dictionary = Dictionary();
 	
 	db = SQLite.new()
 	db.path = db_name_user_active
@@ -328,12 +330,18 @@ func load_player_data():
 
 
 # Saves the gametoken & graph connection data
-func save_map_data():
+func save_map_link_data():
 	pass
 
 
 # Retrieves the gametoken & graph connection data
-func load_map_data():
+func load_map_link_data():
+	pass
+
+func load_level_map( map:int ):
+	var dummy_map := LevelMap.new()
+	dummy_map.map_index = map
+	return database_to_game(dummy_map, tkpv_level_map, db_name_user_active, "level_map", str("map_id = ", map) )
 	pass
 
 # Saves which file path correlates to the level map index
@@ -341,7 +349,28 @@ func save_level_map( map:LevelMap ):
 	game_to_database(map, tkpv_level_map, db_name_user_active, "level_map", str("map_id = ", map.map_index) )
 	pass
 
+func can_recover_last_state() -> bool:
+	var gp_player = load_gamepiece( 0 )
+	if gp_player == null:
+		return false
+	var map_player = load_level_map( gp_player.target_map )
+	if map_player == null:
+		return false
+	gp_player.umid = -1
+	gp_player.queue_free()
+	map_player.queue_free()
+	return true
+	pass
 
+func recover_last_state() -> String:
+	var gp_player = load_gamepiece( 0 )
+	if gp_player == null:
+		return ""
+	var map_player = load_level_map( gp_player.current_map )
+	if map_player == null:
+		return ""
+	return map_player.scene_file_path
+	pass
 
 #func load_level_map( map:LevelMap ):
 #	game_to_database(map, tkpv_level_map, db_name_user_active, "level_map", str("map_id = ", map.map_index) )
@@ -379,7 +408,7 @@ func fetch_save_to_active():
 
 
 
-func commit_save_from_active():
+func commit_save_from_active() -> bool:
 	var db_stage = SQLite.new(); db_stage.path = db_name_user_active; db_stage.open_db()
 	var db_commit = SQLite.new(); db_commit.path = db_name_user_stable; db_commit.open_db()
 	var db_backup = SQLite.new(); db_backup.path = db_name_user_backup; db_backup.open_db()
@@ -398,7 +427,7 @@ func commit_save_from_active():
 	db_commit.close_db()
 	db_backup.close_db()
 	
-	pass
+	return success
 
 func db_wrap(thing):
 	match typeof(thing):

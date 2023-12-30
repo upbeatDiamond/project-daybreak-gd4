@@ -1,7 +1,7 @@
 [gd_scene load_steps=36 format=3 uid="uid://db8npf25b22jx"]
 
 [ext_resource type="Script" path="res://overworld/characters/gamepiece.gd" id="1_6lhpg"]
-[ext_resource type="Texture2D" uid="uid://13h6vtkjx4sb" path="res://player/player_base_move.png" id="3_28owb"]
+[ext_resource type="Texture2D" uid="uid://bd37e47ywhomq" path="res://assets/textures/monsters/overworld/human_base_c2.png" id="3_lrqsi"]
 [ext_resource type="Script" path="res://overworld/characters/gamepiece_controller_player.gd" id="3_wmhfs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v1cr0"]
@@ -324,6 +324,8 @@ graph_offset = Vector2(56.6913, 0)
 [node name="Player" type="Area2D"]
 collision_layer = 2
 script = ExtResource("1_6lhpg")
+unique_id = 0
+umid = 0
 
 [node name="Controller" type="Node" parent="."]
 script = ExtResource("3_wmhfs")
@@ -355,7 +357,7 @@ visible = false
 
 [node name="Sprite" type="Sprite2D" parent="GFX"]
 position = Vector2(8, 0)
-texture = ExtResource("3_28owb")
+texture = ExtResource("3_lrqsi")
 hframes = 7
 vframes = 4
 frame = 7

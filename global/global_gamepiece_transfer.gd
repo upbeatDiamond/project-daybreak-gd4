@@ -69,7 +69,7 @@ func _process(_delta):
 
 # Gamepieces should be made much smaller before storing, but there's only the player now, so eh.
 func submit_gamepiece( piece:Gamepiece, target_map_index:MapIndex, \
-target_map_coordinates:=Vector2i(0,0), origin_map_index:=MapIndex.INVALID_INDEX ):
+target_map_coordinates:=Vector2i(0,0), _origin_map_index:=MapIndex.INVALID_INDEX ):
 	
 	piece.target_position = target_map_coordinates
 	
@@ -95,7 +95,7 @@ target_map_coordinates:=Vector2i(0,0), origin_map_index:=MapIndex.INVALID_INDEX 
 # When playing multiplayer, or even singleplayer, and an NPC/Guest changes to your map?
 # Detect that happened and warp them into your current map.
 # Else, make sure they're saved in the relevant database.
-func warp_gamepiece_to_map( map_index:MapIndex ):
+func warp_gamepiece_to_map( _map_index:MapIndex ):
 	pass
 
 func eject_gamepieces_for_map( target_map_index:int ): #-> Array[Gamepiece]:

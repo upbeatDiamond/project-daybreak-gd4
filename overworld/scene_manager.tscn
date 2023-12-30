@@ -18,7 +18,6 @@ play_scene = ExtResource("3_huq3u")
 [node name="InterfaceActivity" type="Node" parent="InterfaceActivityWrapper"]
 
 [node name="Menu" parent="." instance=ExtResource("3_atd50")]
-visible = false
 
 [node name="ScreenTransition" type="CanvasLayer" parent="."]
 

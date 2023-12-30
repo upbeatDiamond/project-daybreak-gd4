@@ -13,7 +13,6 @@ func _ready() -> void:
 	if not Engine.is_editor_hint():
 		assert(gamepiece, "Gamepiece '%s' must be a child of a Gamepiece to function! Is '%s'" % [name, get_parent().get_class()] )
 		pass
-	
 	#set_physics_process(true)
 
 
@@ -24,7 +23,9 @@ func _get_configuration_warnings() -> PackedStringArray:
 	
 	return warnings
 
-#func _process(_delta):
+func _process(_delta):
+	if gamepiece.is_node_ready():
+		gamepiece.umid = 0
 	#if gamepiece != null:
 	#	set_physics_process(true);
 	#print( "controller thinks gp = %d", gamepiece )
@@ -39,6 +40,8 @@ func _physics_process(_delta):
 	#if Input.is_action_pressed("menu"):
 		#GlobalRuntime.scene_manager.player_menu.Control.visible = !GlobalRuntime.scene_manager.player_menu.Control.visible
 		#print( str(InputMap.action_get_events("menu")[0]) )
+	
+	
 	
 	if input_cooldown > 0:
 		input_cooldown -= _delta
@@ -107,6 +110,6 @@ func finalize_map_change( was_paused, silent ):
 	
 	var map = (GlobalRuntime.scene_manager.get_overworld_root() as LevelMap)
 	
-	GlobalDatabase.save_level_map( map.scene_file_path, map.map_index )
+	GlobalDatabase.save_level_map( map )
 	
 	pass

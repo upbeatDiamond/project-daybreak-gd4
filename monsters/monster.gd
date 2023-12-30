@@ -11,32 +11,32 @@ func _init():
 	pass # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 # Used for proper saving/loading/reloading
 var umid = -1
 var world_of_origin = -1
 
+	# Used to track what moves should be accessible at this point, ...
+	# ... and is used in same places as stat increases and Evo checks
 @export var level := -1
-	# Used to track what moves should be accessible at this point, and is used in same places as stat increases and Evo checks
 
-@export var experience := -1
 	# Used to track experience points, which reset upon levelling up
+@export var experience := -1
 
-var species := -1
+
 	# Either reference ID for species base info, or storage of summary 
+var species := -1
 
-var ability = ""
 	# Either reference ID for ability info, or storage of object
+var ability = ""
+
 
 var birth_name := ""
 @export var nickname := ""
 
 # The currency level of this monster.
 # It should be an int, but floats might be accepted just in case.
-var funds = 0
+#var funds = 0
+var keycard = 0
 
 var met_at_level = -1
 
@@ -65,7 +65,8 @@ var status_conditions = {}
 var stats_base = [];
 var stats_growth = [];
 
-# The stats to be used during battles, stored in array format due to lack of need outside of battle
+# The stats to be used during battles, ...
+# ... stored in array format due to lack of need outside of battle
 var stats_current = []; 
 
 # Maps other UMIDs and players onto relationship value arrays
@@ -125,20 +126,23 @@ func get_stat( stat_type:GlobalMonster.BattleStats ):
 func set_stat( stat_type:GlobalMonster.BattleStats, value:int ):
 	stats_current[ stat_type ] = value
 
+# Write this monster to disk, or to a database, ...
+# ... by sending the results of packData to global/singleton
 func save_data():
 	GlobalDatabase.save_monster(self);
-	# Write this monster to disk, or to a database, by sending the results of packData to global/singleton
 
+# Read this monster from disk, or a database, ...
+# ... by feeding the results of global/singleton into unpackData
 func load_data():
 	GlobalDatabase.load_monster(self);
-	# Read this monster from disk, or a database, by feeding the results of global/singleton into unpackData
+
 
 func get_active_techniques():
 	return techniques_active;
 
 func _to_string():
-	return str(name, "(", umid, ") is a ", species, " with techniques ", techniques_learned, \
-	" and stats ", stats_base, " -> ", stats_current)
+	return str(name, "(", umid, ") is a ", species, " with techniques ", \
+	techniques_learned, " and stats ", stats_base, " -> ", stats_current)
 
 func equals(other_mon:Monster) -> bool:
 	if other_mon == null:
@@ -149,11 +153,5 @@ func equals(other_mon:Monster) -> bool:
 	return false
 
 #func saveAndReload:
-	# Call saveData and loadData sequentially, possibly setting everything to zero in between
-
-#func unpackData:
-	# From a Dict, using the global monster singleton for array size guides, store Dict's values into the proper Variables
-
-#func pack_data() -> Dictionary:
-
-	# Store variable values into a dictionary and return (reference to) resulting structure
+	# Call saveData and loadData sequentially, ... 
+	# ... possibly setting everything to zero in between

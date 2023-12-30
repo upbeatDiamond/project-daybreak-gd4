@@ -22,7 +22,10 @@ var play_scene_path = "res://overworld/level_maps/red_town.tscn"
 
 func _ready():
 	
-	#GlobalDatabase.load_last_map()
+	
+	#if GlobalDatabase.can_recover_last_state():
+	#	pass
+	#else:
 	GlobalRuntime.scene_manager.append_preload_map( play_scene_path )
 	
 	pass
@@ -30,25 +33,30 @@ func _ready():
 
 func _on_play_pressed():
 	if scene_enabled:
+		
+		if GlobalDatabase.can_recover_last_state():
+			print( "can recover, I think!" )
+		else:
+			print( "cannot recover..." )
+		
 		GlobalRuntime.clean_up_descent( self )
-		#replace_by(  play_scene.instantiate()  )
 		if play_scene == null:
 			GlobalRuntime.scene_manager.change_map_from_path( play_scene_path )
 		else:
 			GlobalRuntime.scene_manager.change_map( play_scene )
 		queue_free()
-	pass # Replace with function body.
+	pass
 
 
 func _on_options_pressed():
 	#GlobalRuntime.clean_up_descent( self )
 	#replace_by(  options_menu.instantiate()  )
 	#queue_free()
-	pass # Replace with function body.
+	pass
 
 
 func _on_connection_pressed():
-	pass # Replace with function body.
+	pass
 
 
 func _on_quit_pressed():
@@ -59,4 +67,3 @@ func _on_credits_pressed():
 	if scene_enabled:
 		GlobalRuntime.activity_root_node.add_child( credits_menu.instantiate() )
 		scene_enabled = false
-	pass # Replace with function body.

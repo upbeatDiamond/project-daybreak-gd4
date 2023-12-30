@@ -23,7 +23,7 @@ _effects:Array, effect_accuracies:Array, type1, type2, _priority_tier=0, cost=0)
 	self.energy_cost = cost
 	pass
 
-func calculate_effect( user, targets : Array, traits : Dictionary ):
+func calculate_effect( _user, _targets:Array, _traits:Dictionary ):
 	pass
 # Only uses functions to expose fields. The Move's functionality is split between its Global and its Effects
 # Stores name, types, effects, and flags

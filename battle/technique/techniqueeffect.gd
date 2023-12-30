@@ -19,5 +19,6 @@ enum BooleanFlags
 }
 
 # traits structure: {}
-func _calculate_effect( user, targets : Array, traits : Dictionary, current_effects : TechniqueResultSummary ):
+func _calculate_effect( _user, _targets:Array, _traits:Dictionary, \
+_current_effects:TechniqueResultSummary ):
 	pass

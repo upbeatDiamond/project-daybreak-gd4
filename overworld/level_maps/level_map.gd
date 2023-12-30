@@ -2,7 +2,7 @@ extends Node2D
 class_name LevelMap
 
 # Has to be -1 or a unique positive number
-@export var unique_id := -1
+@export var unique_id := -1			# not currently used, but do not remove yet
 const Y_SORT_FOLDER_NAME:="Y-Sort"
 
 # linked to the gamepiece transfer class
@@ -92,17 +92,19 @@ func get_anchor_container():
 	return anchor_container
 
 func pack_up():
-	#var childs = get_children()
+	var childs = get_children()
 	
-	## Tagged out to avoid massive duplication of the test NPC. Now only clones the Player.
-	## Recursively find and pack up gamepieces, assuming that no gamepieces have gamepieces as children
+	# Tagged out to avoid massive duplication of the test NPC. Now only clones the Player.
+	# Recursively find & pack up gamepieces, assuming no gamepieces have gamepiece children
 	
-	## Please replace this with a signal.
+	# Please replace this with a signal.
 	
-#	for child in childs:
-#		if child is Gamepiece:
-#			GlobalGamepieceTransfer.submit_gamepiece( child, map_index, child.global_position, map_index )
-#		else:
-#			childs.append_array( child.get_children() )
+	# EDIT TO ABOVE COMMENTS: Untagged out to see what happens. Doesn't break yet but... eh....????
+	
+	for child in childs:
+		if child is Gamepiece:
+			GlobalGamepieceTransfer.submit_gamepiece(child, map_index, child.global_position, map_index)
+		else:
+			childs.append_array( child.get_children() )
 	
 	pass

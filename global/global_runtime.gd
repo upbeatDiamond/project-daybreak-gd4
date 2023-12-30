@@ -157,6 +157,8 @@ func switch_to_interface( interface:SceneManager.InterfaceOptions ):
 	scene_manager.switch_to_interface( interface )
 	pass
 
+func is_player_menu_enabled():
+	return player_menu_enabled;
 
 # Copied & modified from "JRPG Demo", do not use yet.
 func start_combat(combat_actors):

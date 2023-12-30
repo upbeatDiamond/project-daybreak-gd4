@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://13h6vtkjx4sb"
-path="res://.godot/imported/player_base_move.png-3db0cab61afcb822ac6943663eab7b1b.ctex"
+uid="uid://c31wsgxwovdqm"
+path="res://.godot/imported/tree_big_layering.png-0d1cb24541f2c45f3fcd3697d09204c2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://player/player_base_move.png"
-dest_files=["res://.godot/imported/player_base_move.png-3db0cab61afcb822ac6943663eab7b1b.ctex"]
+source_file="res://assets/textures/tree_big_layering.png"
+dest_files=["res://.godot/imported/tree_big_layering.png-0d1cb24541f2c45f3fcd3697d09204c2.ctex"]
 
 [params]
 
