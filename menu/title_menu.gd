@@ -14,6 +14,8 @@ var play_scene_path = "res://overworld/level_maps/red_town.tscn"
 			play_scene = value
 		elif value is String and value.contains("res://"):
 			play_scene = load(value)
+		elif value == null:
+			play_scene = null
 		else:
 			play_scene = get_node(value)
 
@@ -34,16 +36,18 @@ func _ready():
 func _on_play_pressed():
 	if scene_enabled:
 		
+		GlobalRuntime.clean_up_descent( self )
+		
 		if GlobalDatabase.can_recover_last_state():
 			print( "can recover, I think!" )
+			GlobalDatabase.recover_last_state()
 		else:
 			print( "cannot recover..." )
 		
-		GlobalRuntime.clean_up_descent( self )
-		if play_scene == null:
-			GlobalRuntime.scene_manager.change_map_from_path( play_scene_path )
-		else:
-			GlobalRuntime.scene_manager.change_map( play_scene )
+			if play_scene == null:
+				GlobalRuntime.scene_manager.change_map_from_path( play_scene_path )
+			else:
+				GlobalRuntime.scene_manager.change_map( play_scene )
 		queue_free()
 	pass
 

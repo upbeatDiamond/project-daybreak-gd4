@@ -12,8 +12,8 @@ func _init():
 
 
 # Used for proper saving/loading/reloading
-var umid = -1
-var world_of_origin = -1
+@export var umid = -1
+@export var world_of_origin = -1
 
 	# Used to track what moves should be accessible at this point, ...
 	# ... and is used in same places as stat increases and Evo checks

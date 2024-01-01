@@ -1500,6 +1500,8 @@ position = Vector2(-176, -160)
 
 [node name="Player" parent="Objects/Y-Sort" instance=ExtResource("5_17bh2")]
 position = Vector2(-80, -64)
+unique_id = 0
+umid = 0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 visible = false

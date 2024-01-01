@@ -19,6 +19,7 @@ func _ready():
 		rehouse_gamepieces()
 		populate_with_gamepieces()
 	print(debug_please_remove[1], get("debug_please_remove[1]"))
+	print("Hoi! It's me! A Level Map!!!!")
 	pass
 
 
@@ -61,13 +62,20 @@ func place_gamepieces( gamepieces:Array ):
 		piece.current_map = map_index
 		#is_dirty = false
 		for old_piece in current_gamepieces:
-			if (old_piece is Gamepiece) and (piece is Gamepiece) and (piece.monster is Monster)\
+			if (old_piece is Gamepiece) and (piece is Gamepiece) and (piece.monster != null)\
 			and piece.monster.equals( old_piece.monster ):
 				#is_dirty = true
-				(old_piece as Node).get_parent().remove_child(old_piece)
-				GlobalRuntime.clean_up_node_descent( old_piece )
+				if old_piece != null:
+					(old_piece as Node).get_parent().remove_child(old_piece)
+					GlobalRuntime.clean_up_node_descent( old_piece )
+					current_gamepieces.remove_at( current_gamepieces.find(old_piece) )
+		
+		current_gamepieces.append(piece)
 		
 		ysort.add_child(piece)
+		
+		piece.global_position = piece.current_position
+		print("placing gamepiece at co-ord ~ ", piece.global_position, piece.current_position)
 	pass
 
 

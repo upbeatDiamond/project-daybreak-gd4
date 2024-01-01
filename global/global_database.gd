@@ -199,6 +199,8 @@ func database_to_game(thing:Object, tablekey_propval:Dictionary, target_db_path:
 	db.open_db()
 	
 	var fetched:Array = db.select_rows( target_table_name, query_conditions, selected_columns )
+	if fetched.size() == 0:
+		return null
 	
 	# For each item in the dictionary, copy over its values, but simplified/realized.
 	for key in selected_columns:
@@ -219,14 +221,14 @@ func database_to_game(thing:Object, tablekey_propval:Dictionary, target_db_path:
 						thing.set(tablekey_propval[key]["property"], db_unwrap(fetched.front()[ key ]) ) # selected_columns.find(key)
 					else:
 						# thing.set(property[index] <-- fetched[key])
-						thing.set(tablekey_propval[key]["property"] [tablekey_propval[key]["index"]], db_unwrap(fetched.front()[ selected_columns.find(key) ]))
+						thing.set(tablekey_propval[key]["property"] [tablekey_propval[key]["index"]], db_unwrap(fetched.front()[ key ]))
 				else:
 					# thing.set(property <-- fetched[key])
 					thing.set(tablekey_propval[key]["property"], db_unwrap(fetched.front()[ key ])) # selected_columns.find(key)
 	
 	db.close_db()
 	
-	pass
+	return thing
 
 # To be called by GlobalMonsterSpawner
 func store_monster( monster ):
@@ -340,15 +342,20 @@ func load_map_link_data():
 
 func load_level_map( map:int ):
 	var dummy_map := LevelMap.new()
-	dummy_map.map_index = map
+	dummy_map.map_index = (map as GlobalGamepieceTransfer.MapIndex)
 	return database_to_game(dummy_map, tkpv_level_map, db_name_user_active, "level_map", str("map_id = ", map) )
-	pass
+
 
 # Saves which file path correlates to the level map index
 func save_level_map( map:LevelMap ):
 	game_to_database(map, tkpv_level_map, db_name_user_active, "level_map", str("map_id = ", map.map_index) )
 	pass
 
+
+# Predicts the ability to recover the previous state based on:
+# 1: Does the player exist? (code may change to account for non-zero UMID)
+# 2: Does the player exist in a valid map?
+# 3: Does the valid map have a known file path?
 func can_recover_last_state() -> bool:
 	var gp_player = load_gamepiece( 0 )
 	if gp_player == null:
@@ -360,25 +367,53 @@ func can_recover_last_state() -> bool:
 	gp_player.queue_free()
 	map_player.queue_free()
 	return true
-	pass
 
+
+# Loads the player, and the last map the player was known to be in, and returns the map path
+# In the future, may also update the in-game clock settings and trickle down save data
 func recover_last_state() -> String:
-	var gp_player = load_gamepiece( 0 )
-	if gp_player == null:
+	var gp_read : Gamepiece = load_gamepiece( 0 )
+	if gp_read == null:
 		return ""
-	var map_player = load_level_map( gp_player.current_map )
+	#GlobalGamepieceTransfer.submit_gamepiece( gp_player, gp_player.current_map, gp_player.current_position )
+	var map_player = load_level_map( gp_read.current_map )
 	if map_player == null:
 		return ""
+	
+	
+		#GlobalRuntime.clean_up_descent( self )
+	
+	#var check : int = -1
+	GlobalRuntime.scene_manager.append_preload_map( map_player.scene_file_path )
+	while !GlobalRuntime.scene_manager.map_is_ready( map_player.scene_file_path ):
+		await get_tree().process_frame
+		await get_tree().process_frame
+	GlobalRuntime.scene_manager.change_map_from_path( map_player.scene_file_path )
+	
+	var overworld = GlobalRuntime.scene_manager.get_overworld_root() as LevelMap
+	var gp_model := load("res://player/player.tscn")
+	var gp_player : Gamepiece = gp_model.instantiate()
+	gp_player.transfer_data_from_gp(gp_read)
+	
+	#GlobalGamepieceTransfer.reform_gamepiece_treelet( gp_player )
+	overworld.place_gamepieces( [gp_player] )
+	gp_player.visible = true
+	gp_player.global_position = gp_player.current_position
+	gp_player.add_to_group("gamepiece")
+	gp_player.unique_id = 0
+	for child in gp_player.get_children():
+		if child is Node2D:
+			child.visible = true
 	return map_player.scene_file_path
-	pass
+
 
 #func load_level_map( map:LevelMap ):
 #	game_to_database(map, tkpv_level_map, db_name_user_active, "level_map", str("map_id = ", map.map_index) )
 #	pass
 
+
 func save_global_data():
 	pass
-
 
 
 func load_global_data():

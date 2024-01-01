@@ -6,6 +6,9 @@ var input_cooldown := 0.0
 
 func _ready() -> void:
 	#set_physics_process(false)
+	if gamepiece == null:
+		gamepiece = get_parent()
+	print("GPC: I think I'm at ", gamepiece.current_position, "")
 	update_configuration_warnings()
 	
 	gamepiece = self.get_parent() as Gamepiece
@@ -47,6 +50,9 @@ func _physics_process(_delta):
 		input_cooldown -= _delta
 	#print( "controller thinks moving = %d", gamepiece.is_moving )
 
+func sanity_check():
+	print( "Virtual sanity ~ ", scene_file_path )
+	pass
 
 func handle_movement_input():
 	if !gamepiece.is_paused:
@@ -74,6 +80,7 @@ func handle_movement_input():
 		if input_direction != Vector2.ZERO:
 			gamepiece.queue_movement( movement )
 			gamepiece.update_anim_tree()
+			print("GPC: I think I'm at ", gamepiece.current_position, "")
 		
 		#if Input.is_action_pressed("debug_summon"):
 		#	pass

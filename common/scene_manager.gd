@@ -4,7 +4,7 @@ class_name SceneManager
 # Structure is "FilePath" : [ packed scene, Time to live ]
 var scenes_ready : Dictionary
 var scenes_waiting : Array
-
+@onready var gamepiece_nav_map : RID = get_world_2d().get_navigation_map()
 
 @onready var activity_interface_wrapper = $InterfaceActivityWrapper
 @onready var activity_interface = $InterfaceActivityWrapper/InterfaceActivity
@@ -44,6 +44,8 @@ func _process(_delta):
 		
 	pass
 
+func map_rid_for_gamepiece(_gamepiece:Gamepiece):
+	return gamepiece_nav_map
 
 func switch_to_interface( interface:InterfaceOptions ):
 	match interface:
@@ -70,7 +72,7 @@ func get_map_index( map:String ) -> int:
 	return -1
 
 
-func change_map_from_path( map:String ):
+func change_map_from_path( map:String ) -> int:
 	var next_map;
 	
 	if scenes_ready.has(map):
@@ -80,8 +82,10 @@ func change_map_from_path( map:String ):
 	elif map.is_valid_filename():
 		next_map = load( map )#.new()
 	else:
-		return
+		append_preload_map( map )
+		return -1
 	change_map( next_map )
+	return 0
 
 
 func change_map( map_template ):
@@ -100,6 +104,10 @@ func change_map( map_template ):
 	
 	world_interface.add_child( next_map ) #.instantiate()
 	pass
+
+
+func map_is_ready( map:String ):
+	return scenes_ready.has(map)
 
 
 func append_preload_map( map:String ):

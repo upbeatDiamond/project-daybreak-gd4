@@ -32,12 +32,12 @@ var move_speed:float
 const LandingDustEffect = preload("res://overworld/landing_dust_effect.tscn")
 
 @onready var animation_tree = $AnimationTree
-@onready var animation_state = animation_tree["parameters/playback"]
+@onready var animation_state #= animation_tree["parameters/playback"]
 @onready var block_ray : RayCast2D = $Collision/BlockingRayCast2D
 @onready var event_ray : RayCast2D = $Collision/EventRayCast2D
 @onready var gfx = $GFX
 @onready var shadow = $GFX/Shadow
-@onready var collision = $Collision
+@onready var collision : CollisionShape2D = $Collision
 @onready var controller = $Controller
 @onready var move_tween : Tween
 @onready var my_camera = (self.find_child("Camera", true) as Camera2D)
@@ -77,7 +77,7 @@ var move_queue :Array[Movement] = []
 # ^ The movement queue should be updated to account for the ability to turn, ...
 # ... and to switch traversal modes.
 
-var monster : Monster
+@export var monster : Monster
 # The 'soul' of the gamepiece.
 # The gamepiece is but a vehicle to the spirit (that which stores name, stats, species, etc)
 
@@ -91,6 +91,26 @@ func _init():
 	monster.umid = umid
 
 func _ready():
+	
+	# "animation_tree" serves as a canary for overall loading issues.
+	if animation_tree == null:
+		
+		get_parent().add_child( GlobalGamepieceTransfer.reform_gamepiece_treelet( self ) )
+		get_parent().remove_child( self )
+		return
+	#animation_tree = $AnimationTree
+	animation_state = animation_tree["parameters/playback"]
+	#block_ray = $Collision/BlockingRayCast2D
+	#event_ray = $Collision/EventRayCast2D
+	#gfx = $GFX
+	#shadow = $GFX/Shadow
+	#collision = $Collision
+	#controller = $Controller
+	#controller.set("gamepiece", self)
+	my_camera = (self.find_child("Camera", true) as Camera2D)
+	#animation_state = animation_tree["parameters/playback"]
+	
+	
 	is_moving = false
 	$GFX/Sprite.visible = true
 	GlobalRuntime.snap_to_grid( position )
@@ -102,9 +122,11 @@ func _ready():
 	
 	GlobalRuntime.pause_gameworld.connect( _on_gameworld_pause )
 	GlobalRuntime.unpause_gameworld.connect( _on_gameworld_unpause )
+	print("GP: I think I'm at ", current_position, "")
 
 
 func _process(_delta):
+	#print("GP: I think I'm at ", current_position, "")
 	if not is_paused:
 		if move_queue.size() > 0 && is_moving == false:
 			move( (move_queue.pop_front() as Movement) )
@@ -113,7 +135,6 @@ func _process(_delta):
 		elif was_moving == true: # implied: is_moving is false
 			#traversal_mode = TraversalMode.STANDING
 			update_anim_tree()
-	pass
 
 
 func _on_gameworld_pause():
@@ -121,7 +142,6 @@ func _on_gameworld_pause():
 		move_tween.pause()
 	is_paused = true
 	#print("Stop! GlobalRuntime.")
-	pass
 
 
 func _on_gameworld_unpause():
@@ -129,7 +149,6 @@ func _on_gameworld_unpause():
 		move_tween.play()
 	is_paused = false
 	#print("I can run? I CAN FIGHT!")
-	pass
 
 # This should be the longest line of code in the entire codebase.
 #func snap_to_grid( pos ) -> Vector2:
@@ -149,8 +168,6 @@ func update_rays( direction : Vector2 ):
 	
 	event_ray.target_position = direction * GlobalRuntime.DEFAULT_TILE_SIZE
 	event_ray.force_raycast_update()
-	
-	pass
 
 
 func move( direction ):
@@ -169,7 +186,6 @@ func move( direction ):
 		var colliding_with = event_ray.get_collider()
 		if colliding_with.is_in_group("event_exterior") and colliding_with.has_method("run_event"):
 			colliding_with.run_event( self )
-		pass
 	
 	if !block_ray.is_colliding():
 		
@@ -181,13 +197,10 @@ func move( direction ):
 		match traversal_mode:
 			TraversalMode.WALKING:
 				move_speed = walk_speed
-				pass
 			TraversalMode.RUNNING:
 				move_speed = run_speed
-				pass
 			_:
 				move_speed = walk_speed
-				pass
 		update_anim_tree()
 		
 		
@@ -224,17 +237,23 @@ func entered_door():
 
 func queue_movement( movement:Movement ):
 	move_queue.append( movement )
-	pass
 
 
 func resync_position():
-	var collision_gp = collision.global_position
-	var gfx_gp = gfx.global_position
 	
-	self.global_position = collision_gp - (Vector2.ONE * GlobalRuntime.DEFAULT_TILE_OFFSET)
-	collision.global_position = collision_gp
-	gfx.global_position = gfx_gp
-	pass
+	if collision == null:
+		return
+	print("gp ", umid, "/", unique_id, " global position ~ ", current_position)
+	
+	var collision_gp = collision.global_position
+	var gfx_gp = current_position
+	if gfx != null:
+		gfx_gp = gfx.global_position
+	
+	self.global_position = Vector2(collision_gp) - (Vector2.ONE * GlobalRuntime.DEFAULT_TILE_OFFSET)
+	collision.global_position = Vector2(collision_gp)
+	if gfx != null:
+		gfx.global_position = Vector2(gfx_gp)
 
 
 func update_anim_tree():
@@ -292,9 +311,28 @@ func set_teleport(loci: Vector2i, direction: Vector2i, map:="", anchor_name:="",
 	controller.finalize_map_change( pause_prior, silent )
 	
 
+
 func save_gamepiece():
+	current_position = global_position
+	print("gp ", umid, "/", unique_id, " global position ~ ", current_position)
 	GlobalDatabase.save_gamepiece(self)
 	pass
+
+
+func transfer_data_from_gp(gamepiece:Gamepiece):
+	unique_id = gamepiece.unique_id
+	umid = gamepiece.umid
+	monster = gamepiece.monster
+	current_position = gamepiece.current_position
+	if gamepiece.controller != null:
+		controller.set_script( gamepiece.controller.get_script() )
+	#else:#elif gamepiece.umid == 0:
+	#	if controller == null:
+	#		controller = Node.new()
+	#		add_child( controller )
+	#	controller.set_script( load( "res://overworld/characters/gamepiece_controller_player.gd" ) )
+	pass
+
 
 static func gamepiece_from_walker( walker:GamepieceWalker ) -> Gamepiece:
 	var model_gamepiece = load("res://overworld/characters/gamepiece.tscn") as PackedScene

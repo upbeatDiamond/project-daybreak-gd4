@@ -1,4 +1,4 @@
-extends Object
+extends RefCounted
 class_name Movement
 
 # enum for facing/moving towards direction
