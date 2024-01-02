@@ -42,10 +42,11 @@ const LandingDustEffect = preload("res://overworld/landing_dust_effect.tscn")
 @onready var move_tween : Tween
 @onready var my_camera = (self.find_child("Camera", true) as Camera2D)
 
-var is_paused = false;	# true if cannot act, should not be set by the gamepiece or controller
-var is_moving = false;	# true if walking, running, jumping, etc
+var is_paused = false;	# true if cannot act; this shouldn't be set by Gamepiece OR its controller
+var is_moving = false;	# true if currently tweening a traversal (walking, running, jumping, etc)
 var was_moving = false;	# true if animation for an 'is_moving' action would still be playing
 var position_is_known = true;	# false if the gamepiece needs a new position calculated.
+var position_stabilized = false;	#current_position == global_position; or, "has been placed yet"
 var facing_direction = Vector2(0,0);	# Used for animation state
 
 var traversal_mode = TraversalMode.STANDING
@@ -69,7 +70,9 @@ enum TraversalMode
 		move_to_target(pos)
 		current_position = self.global_position 
 	get:
-		return self.global_position 
+		if position_stabilized:
+			return self.global_position
+		return current_position 
 
 @export var target_map := 0
 @export var target_position := Vector2(0,0)
@@ -91,6 +94,8 @@ func _init():
 	monster.umid = umid
 
 func _ready():
+	
+	add_to_group("gamepiece")
 	
 	# "animation_tree" serves as a canary for overall loading issues.
 	if animation_tree == null:
@@ -225,9 +230,9 @@ func move( direction ):
 
 # Not the same as move, used for in-map teleportation.
 func move_to_target( target:Vector2i ):
-	var new_position = GlobalRuntime.snap_to_grid( target )
+	var new_position = GlobalRuntime.snap_to_grid_corner_f( target )
 	
-	self.position = new_position - GlobalRuntime.DEFAULT_TILE_OFFSET
+	self.global_position = new_position #- GlobalRuntime.DEFAULT_TILE_OFFSET
 	resync_position()
 
 
@@ -296,7 +301,7 @@ func set_teleport(loci: Vector2i, direction: Vector2i, map:="", anchor_name:="",
 	if anchor_container != null:
 		anchor = anchor_container.get_anchor_by_name(anchor_name)
 	if anchor != null:
-		loci = self.position + (anchor.global_position - self.global_position)
+		loci = anchor.global_position #self.position + (anchor.global_position - self.global_position)
 		direction = anchor.facing_direction
 	print("anchor detail: ", anchor, " :+ name: ", anchor_name)
 	
@@ -312,9 +317,36 @@ func set_teleport(loci: Vector2i, direction: Vector2i, map:="", anchor_name:="",
 	
 
 
+func kill_imposters():
+	var other_pieces = get_tree().get_nodes_in_group("gamepiece")
+	for piece in other_pieces:
+		if piece == self:
+			pass
+		elif piece is Gamepiece and piece.monster.equals(monster):
+			if !piece.is_inside_tree():
+				piece.umid = -1
+				piece.queue_free()
+			elif !is_inside_tree():
+				umid = -1
+				queue_free()
+			elif piece.unique_id == unique_id:
+				piece.unique_id *= 2
+		pass
+	return true
+
+
+# ONLY USE TO SAVE THE GAMEPIECE LIVE, like ON THE FIELD.
+# This function as a non-descriptive name because this is an EARLY BUILD
+# PLEASE FIX THIS 
 func save_gamepiece():
-	current_position = global_position
-	print("gp ", umid, "/", unique_id, " global position ~ ", current_position)
+	#var treee = get_tree()
+	if is_inside_tree():
+		kill_imposters()
+		current_position = global_position
+		current_map = GlobalRuntime.scene_manager.get_overworld_root().map_index
+	else:
+		return
+	print("save gp ", umid, "/", unique_id, " global position ~ ", current_position)
 	GlobalDatabase.save_gamepiece(self)
 	pass
 
@@ -326,11 +358,6 @@ func transfer_data_from_gp(gamepiece:Gamepiece):
 	current_position = gamepiece.current_position
 	if gamepiece.controller != null:
 		controller.set_script( gamepiece.controller.get_script() )
-	#else:#elif gamepiece.umid == 0:
-	#	if controller == null:
-	#		controller = Node.new()
-	#		add_child( controller )
-	#	controller.set_script( load( "res://overworld/characters/gamepiece_controller_player.gd" ) )
 	pass
 
 

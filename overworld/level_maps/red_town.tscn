@@ -1496,6 +1496,7 @@ zoom = Vector2(2.5, 2.5)
 position = Vector2(-80, 128)
 scale = Vector2(4, 4)
 map = "res://overworld/level_maps/route_home_to_red.tscn"
+target_anchor_name = "ToTownRed"
 target_position = Vector2i(640, -96)
 target_facing = Vector2i(0, 1)
 portal_id = 1

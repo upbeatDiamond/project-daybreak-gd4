@@ -290,6 +290,7 @@ func load_gamepiece( umid:int ) -> Gamepiece:
 	
 	var gamepiece = Gamepiece.new()
 	gamepiece.monster = Monster.new()
+	gamepiece.umid = umid
 	database_to_game(gamepiece, tkpv_gamepiece, db_name_user_active, "gamepiece", str(" UMID = ", umid ) )
 	database_to_game(gamepiece.monster, tkpv_monster, db_name_user_active, "monster", str(" UMID = ", umid ) )
 	
@@ -396,11 +397,12 @@ func recover_last_state() -> String:
 	gp_player.transfer_data_from_gp(gp_read)
 	
 	#GlobalGamepieceTransfer.reform_gamepiece_treelet( gp_player )
-	overworld.place_gamepieces( [gp_player] )
+	await overworld.place_gamepieces( [gp_player] )
 	gp_player.visible = true
 	gp_player.global_position = gp_player.current_position
-	gp_player.add_to_group("gamepiece")
+	#gp_player.add_to_group("gamepiece") # redundant?
 	gp_player.unique_id = 0
+	gp_player.my_camera.reset_smoothing()
 	for child in gp_player.get_children():
 		if child is Node2D:
 			child.visible = true

@@ -76,7 +76,7 @@ func place_gamepieces( gamepieces:Array ):
 		
 		piece.global_position = piece.current_position
 		print("placing gamepiece at co-ord ~ ", piece.global_position, piece.current_position)
-	pass
+	return 0
 
 
 

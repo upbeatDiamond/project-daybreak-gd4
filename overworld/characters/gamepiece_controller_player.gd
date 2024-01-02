@@ -26,6 +26,7 @@ func _get_configuration_warnings() -> PackedStringArray:
 	
 	return warnings
 
+
 func _process(_delta):
 	if gamepiece.is_node_ready():
 		gamepiece.umid = 0
@@ -33,6 +34,7 @@ func _process(_delta):
 	#	set_physics_process(true);
 	#print( "controller thinks gp = %d", gamepiece )
 #	pass
+
 
 func _physics_process(_delta):
 	if GlobalRuntime.gameworld_input_stopped || gamepiece.is_paused:
@@ -50,9 +52,11 @@ func _physics_process(_delta):
 		input_cooldown -= _delta
 	#print( "controller thinks moving = %d", gamepiece.is_moving )
 
+
 func sanity_check():
 	print( "Virtual sanity ~ ", scene_file_path )
 	pass
+
 
 func handle_movement_input():
 	if !gamepiece.is_paused:
@@ -78,6 +82,7 @@ func handle_movement_input():
 			movement.method = gamepiece.TraversalMode.WALKING
 		
 		if input_direction != Vector2.ZERO:
+			gamepiece.position_stabilized = true
 			gamepiece.queue_movement( movement )
 			gamepiece.update_anim_tree()
 			print("GPC: I think I'm at ", gamepiece.current_position, "")
@@ -103,6 +108,7 @@ func handle_map_change( map:String, silent:bool=false ):
 	
 	return was_paused
 
+
 func finalize_map_change( was_paused, silent ):
 	
 	if !silent:
@@ -118,5 +124,7 @@ func finalize_map_change( was_paused, silent ):
 	var map = (GlobalRuntime.scene_manager.get_overworld_root() as LevelMap)
 	
 	GlobalDatabase.save_level_map( map )
+	
+	gamepiece.position_stabilized = true
 	
 	pass

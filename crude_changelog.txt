@@ -33,12 +33,11 @@ Noteworthy additions:
 	+ Added code to save all gamepieces to database (proving the new database system kinda works)
 		+ Need to update to Godot 4.3 to make it work properly, since I'm relying on global groups
 	+ Pressing the 'save' button now saves the player's current location
-		+ The game sometimes loads this saved location... and sometimes completely breaks.
-		+ I might have fixed it between uploads??????????
-	+ Added more images, as always
+		+ The game is usually capable of restoring the player's last level-map + position
+	+ Expanded GlobalDatabase to enable game recovery tests
+	+ Added more assets, as always
 	
 	+ GamepieceWalker (tentative name) for Gamepieces not in current scene but otherwise active
-	+ Expanded GlobalDatabase in anticipation for upcoming feature tests
 	+ Added more license text
 	
 
