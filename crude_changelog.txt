@@ -9,17 +9,18 @@ Update: Pre-alpha 5, "The Longest Time"
 TL;DR: I found some new tutorials to follow to show I'm an independent thinker.
 
 
-Noteworthy additions:
-	+ Added or otherwise developed maps: 
-		+ "Hometown Home"
-		+ "Hometown Lab"
-		+ "Porttown Museum"
+Noteworthy Additions:
+	+ Added, modified, or replaced maps: 
+		+ "Home Town Home"
+		+ "Home Town Lab"
+		* "Route Home to Red"
+		* "Port Town Museum"
 	+ SceneManager has been tweaked to make use of Godot 4.2's PackedScene preview in editor
 		+ Scenes can now be loaded/switched to from a string, a packed scene, or a node treelet
 	+ Added Warp Anchors, not to be confused with TrackStar's "waypoints" or lore's "warp slates"
 	+ Re-wrote the UMID generation code (older version was in a different repo)
 		> needs testing to ensure uniqueness and proper bit manipulation.
-	+ Added new Dictionary to the GlobalDatabase to be used for reading/writing table data.
+	+ Added new Dictionarys to the GlobalDatabase to be used for reading/writing table data.
 	+ Added new Movement class to store gamepiece movement instructions
 		+ Renamed Move to Technique in an effort to disambiguate.
 	+ "Fixed" AnimationTree/Player issues by replacing the state tree with more code
@@ -31,25 +32,26 @@ Noteworthy additions:
 	+ Added PushBlock in anticipation for puzzles (pre-Alpha 4)
 		+ Fixed PushBlock's movement code in an only slightly hacky way (pre-Alpha 5)
 	+ Added code to save all gamepieces to database (proving the new database system kinda works)
-		+ Need to update to Godot 4.3 to make it work properly, since I'm relying on global groups
-	+ Pressing the 'save' button now saves the player's current location
-		+ The game is usually capable of restoring the player's last level-map + position
-	+ Expanded GlobalDatabase to enable game recovery tests
+		+ Need to update to Godot 4.3 to make it work properly, since I'd rely on global groups
+	+ Pressing the 'save' button now saves the player's current location + facing direction
+		+ The game is *usually* able to restore the player's last level-map + position
+	+ Expanded GlobalDatabase ... 
+		+ ... to enable game recovery tests
+		+ ... to enable automatic database backups
 	+ Added more assets, as always
 	
 	+ GamepieceWalker (tentative name) for Gamepieces not in current scene but otherwise active
 	+ Added more license text
-	
 
 
-Noteworthy subtractions:
+Noteworthy Subtractions:
 	- Removed ability for player to clone self by leaving the room they spawned in, then returning.
 		* Fixed bug where a map's player's monster had outdated UMID, leading to duplication.
 	- Gutted some old GlobalDatabase code to try to save space / increase consistancy
 	- Squashed all the warnings, which means some functions were cut or parameters renamed
 
 
-Noteworthy changes:
+Noteworthy Changes:
 	* Gamepiece cameras should now reset smoothing upon switching maps, improving immersion.
 	* Set collision to once again move before the gamepiece graphics
 		* If the collision moves first, it looks wrong while debugging.
@@ -60,20 +62,48 @@ Noteworthy changes:
 	* Changed Tree and House to have the same corner point as Gamepiece; updated maps accordingly
 
 
-To do eventually:
+To Do List + Constructive Commentary:
 	% Replace the remaining Arkeve tutorial code after prototyping his party screen system
-		% Revise all Arkeve-based code until it both cannot be detected by plagiarism scanners...
-			... and is overall more robust. Not either/or, but both of these things.
+		% Ironically, continue watching and completing more of the tutorials since clearly...
+		... independently written code ends up being harder to follow.
+		% Revise ALL Arkeve-based code until it both cannot be detected by plagiarism scanners...
+		... and is overall more robust. Not either/or, but both of these things.
 	% Follow the Chris' Tutorials videos, mix with GDQuest for the battle scene
 	% Fix and finish the failsafe map's generation code, otherwise it's not very safe
 		% Make the shader actually do something, and put it in a nicer folder
-	% Fix the ledge graphics
-		% Split rock and dirt tiles visually
-		% Make the top edge closer match the collision box
+	% Add ledges
+	% Add/fix texture sheets
+		% Fix the ledge graphics
+			% Split rock and dirt tiles visually
+			% Make the top edge closer match the collision box
+		% Add player hair shapes
+			% Add tool to switch texture color palletes
+				% Develop code for synthesizing a sprite sheet for the player to use.
+		% Add overworld sprites for Mom, Scientist, Starters, and Barney
 	% Move the TitleScreen to the ActivityInterface
+		% Make the Activity/Overworld switch not shrink the overworld, as this may cause...
+		... misalignments if any children are still running.
+			% Pausing should switch between process modes INHERIT and DISABLED.
 	% Replace the broken traces of D* with a new proposed "TrackStar" algorithm
+		% Or... hear me out... delay developing TrackStar and use Godot 4.2's NavMesh baking tool?
+			% Still work on TrackStar eventually, but that's very low priority if NavMesh works.
 	% Saving and Loading
-		% Save and load the current player position, with code applicable for all gamepieces.
+		% Refactor all save/load code regarding Gamepieces
+			% Re-evaluate the usefulness of current_position
+			% Consider making facing_direction a setget that calls update_anim()
+			% Instead of using signals, have all Gamepieces registered with GlobalGamepieceTransfer
+				% When saving, save all members of GlobalGamepieceTransfer
+				% Rename GlobalGamepieceTransfer, because of its expanded role (Gametokens too?)
+					% Maybe rename to GlobalGamethingTracker? 
+			% Gamepiece's data transfer code should be more complete
+			% Gamepieces should automatically fix themselves upon being 'placed'
+		% Add Gametokens and save code for that
+		% Fix database backup system
+			% Load from save_stable, write to save_active
+			% If the databases don't exist, then create them via some template
+		% If the game lacks a PATCHDATA database in "user://", then copy the provided one
+			% Rely on PATCHDATA for balancing and forwards compatibility but not for assets/code
+				% Maybe use PATCHDATA for asset/code pointers/paths? Seems like a .PCK thing
 	% 
 	
 
@@ -82,6 +112,8 @@ General Commentary:
 	> Code that is reused often, or is otherwise bulky, should be moved to "global" classes.
 	> That way, I don't have to worry about if the code is duplicating functions, enums, etc.
 	> Only issue then would be too many "global" (autoload) classes.
+	
+	> Generally, code regarding a thing should be kept within that thing, or its direct controller.
 	
 	> This whole thing is a redo for multiple reasons including: 
 		> Being confused between code and asset licensing in the GitHub repository settings

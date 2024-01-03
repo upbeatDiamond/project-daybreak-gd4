@@ -24,7 +24,7 @@ var play_scene_path = "res://overworld/level_maps/red_town.tscn"
 
 func _ready():
 	
-	
+	GlobalDatabase.fetch_save_to_stage()
 	#if GlobalDatabase.can_recover_last_state():
 	#	pass
 	#else:

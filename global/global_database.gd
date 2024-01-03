@@ -18,9 +18,9 @@ var db_name_patch := "res://database/patchdata"
 
 # 3 Databases intended to be used for save file security.
 # Active updates as you play, but some players might not want to autosave.
-var db_name_user_active := "user://database/save_active"
+var db_name_user_stage := "user://database/save_active"
 # Stable is created when the player manually hits the 'save' button
-var db_name_user_stable := "user://database/save_stable"
+var db_name_user_commit := "user://database/save_stable"
 # Backup is intended to avoid any corruption errors, but so far doesn't do much.
 var db_name_user_backup := "user://database/save_backup"
 # And this file acts as intermediary between all of the 3 user save files.
@@ -76,7 +76,8 @@ var tkpv_gamepiece = {
 	"traversal_mode": 	{"property": "traversal_mode", 		"fallback": Gamepiece.TraversalMode.STANDING },
 	"target_map":		{"property": "target_map", 			"fallback": -1 },
 	"current_map":		{"property": "current_map", 		"fallback": -1 },
-	"current_position":	{"property": "global_position", 	"fallback": Vector2i(0,0)},
+	"current_position":	{"property": "current_position", 	"fallback": Vector2i(0,0)},
+	"current_direction":	{"property": "facing_direction", 	"fallback": Vector2i(0,1)},
 }
 
 var tkpv_level_map = {
@@ -99,7 +100,7 @@ func exists_monster( monster ) -> bool:
 	var row_array = ["name"]
 	
 	db = SQLite.new()
-	db.path = db_name_user_active
+	db.path = db_name_user_stage
 	db.open_db()
 	
 	var query_result = db.select_rows( table_name_monster, str("umid = ", monster.umid), row_array );
@@ -195,7 +196,7 @@ func database_to_game(thing:Object, tablekey_propval:Dictionary, target_db_path:
 	var selected_columns : Array = tablekey_propval.keys()
 	
 	db = SQLite.new()
-	db.path = target_db_path#db_name_user_active
+	db.path = target_db_path#db_name_user_stage
 	db.open_db()
 	
 	var fetched:Array = db.select_rows( target_table_name, query_conditions, selected_columns )
@@ -232,7 +233,7 @@ func database_to_game(thing:Object, tablekey_propval:Dictionary, target_db_path:
 
 # To be called by GlobalMonsterSpawner
 func store_monster( monster ):
-	game_to_database( monster, tkpv_monster, db_name_user_active, table_name_monster, \
+	game_to_database( monster, tkpv_monster, db_name_user_stage, table_name_monster, \
 	str("UMID = ", monster.umid) )
 
 
@@ -245,7 +246,7 @@ func save_monster( monster ):
 
 # Contains code to save monster character to database
 func update_monster( monster ):
-	database_to_game( monster, tkpv_monster, db_name_user_active, table_name_monster, \
+	database_to_game( monster, tkpv_monster, db_name_user_stage, table_name_monster, \
 	str("UMID = ", monster.umid) )
 
 
@@ -265,7 +266,7 @@ func update_monster( monster ):
 	#var summary_dict : Dictionary = Dictionary();
 	#
 	#db = SQLite.new()
-	#db.path = db_name_user_active
+	#db.path = db_name_user_stage
 	#db.open_db()
 	#
 	#var fetched:Array = db.select_rows( table_name_monster, str("umid = ", monster.umid), selected_columns )
@@ -279,8 +280,8 @@ func update_monster( monster ):
 func save_gamepiece( gamepiece:Gamepiece ):
 	var umid = gamepiece.umid
 	
-	game_to_database(gamepiece, tkpv_gamepiece, db_name_user_active, "gamepiece", str(" UMID = ", umid )  )
-	game_to_database(gamepiece.monster, tkpv_monster, db_name_user_active, "monster", str(" UMID = ", umid )  )
+	game_to_database(gamepiece, tkpv_gamepiece, db_name_user_stage, "gamepiece", str(" UMID = ", umid )  )
+	game_to_database(gamepiece.monster, tkpv_monster, db_name_user_stage, "monster", str(" UMID = ", umid )  )
 	
 	pass
 
@@ -291,8 +292,8 @@ func load_gamepiece( umid:int ) -> Gamepiece:
 	var gamepiece = Gamepiece.new()
 	gamepiece.monster = Monster.new()
 	gamepiece.umid = umid
-	database_to_game(gamepiece, tkpv_gamepiece, db_name_user_active, "gamepiece", str(" UMID = ", umid ) )
-	database_to_game(gamepiece.monster, tkpv_monster, db_name_user_active, "monster", str(" UMID = ", umid ) )
+	database_to_game(gamepiece, tkpv_gamepiece, db_name_user_stage, "gamepiece", str(" UMID = ", umid ) )
+	database_to_game(gamepiece.monster, tkpv_monster, db_name_user_stage, "monster", str(" UMID = ", umid ) )
 	
 	return gamepiece
 
@@ -305,7 +306,7 @@ func load_gamepieces_for_map( map_id ) -> Array[Gamepiece]:
 	#var summary_dict : Dictionary = Dictionary();
 	
 	db = SQLite.new()
-	db.path = db_name_user_active
+	db.path = db_name_user_stage
 	db.open_db()
 	
 	var fetched : Array = db.select_rows( table_name_user_gamepiece, str("current_map = ", map_id), selected_columns )
@@ -344,12 +345,12 @@ func load_map_link_data():
 func load_level_map( map:int ):
 	var dummy_map := LevelMap.new()
 	dummy_map.map_index = (map as GlobalGamepieceTransfer.MapIndex)
-	return database_to_game(dummy_map, tkpv_level_map, db_name_user_active, "level_map", str("map_id = ", map) )
+	return database_to_game(dummy_map, tkpv_level_map, db_name_user_stage, "level_map", str("map_id = ", map) )
 
 
 # Saves which file path correlates to the level map index
 func save_level_map( map:LevelMap ):
-	game_to_database(map, tkpv_level_map, db_name_user_active, "level_map", str("map_id = ", map.map_index) )
+	game_to_database(map, tkpv_level_map, db_name_user_stage, "level_map", str("map_id = ", map.map_index) )
 	pass
 
 
@@ -395,14 +396,16 @@ func recover_last_state() -> String:
 	var gp_model := load("res://player/player.tscn")
 	var gp_player : Gamepiece = gp_model.instantiate()
 	gp_player.transfer_data_from_gp(gp_read)
+	gp_player.current_position = gp_player.current_position
 	
 	#GlobalGamepieceTransfer.reform_gamepiece_treelet( gp_player )
+	#gp_player.global_position = gp_player.current_position
 	await overworld.place_gamepieces( [gp_player] )
 	gp_player.visible = true
-	gp_player.global_position = gp_player.current_position
 	#gp_player.add_to_group("gamepiece") # redundant?
 	gp_player.unique_id = 0
 	gp_player.my_camera.reset_smoothing()
+	#gp_player.update_anim_tree()
 	for child in gp_player.get_children():
 		if child is Node2D:
 			child.visible = true
@@ -410,7 +413,7 @@ func recover_last_state() -> String:
 
 
 #func load_level_map( map:LevelMap ):
-#	game_to_database(map, tkpv_level_map, db_name_user_active, "level_map", str("map_id = ", map.map_index) )
+#	game_to_database(map, tkpv_level_map, db_name_user_stage, "level_map", str("map_id = ", map.map_index) )
 #	pass
 
 
@@ -422,49 +425,77 @@ func load_global_data():
 	pass
 
 
-func fetch_save_to_active():
-	var db_stage = SQLite.new(); db_stage.path = db_name_user_active; db_stage.open_db()
-	var db_commit = SQLite.new(); db_commit.path = db_name_user_stable; db_commit.open_db()
+func fetch_save_to_stage():
+	var db_commit = SQLite.new(); db_commit.path = db_name_user_commit; db_commit.open_db()
 	var db_backup = SQLite.new(); db_backup.path = db_name_user_backup; db_backup.open_db()
 	
 	var success
 	
-	success = db_commit.export_to_json( json_name_user_pidgeonhole )
-	if success:
-		success = db_stage.import_from_json( json_name_user_pidgeonhole )
-	else:# success:
-		success = db_backup.export_to_json( json_name_user_pidgeonhole )
-		if success:
-			success = db_stage.import_from_json( json_name_user_pidgeonhole )
-			return
-		print("Your journal latch seems stuck... We'll just have to see what you remember!")
+	var globalized_backup_path = ProjectSettings.globalize_path(db_name_user_backup) + ".db"
+	var globalized_commit_path = ProjectSettings.globalize_path(db_name_user_commit) + ".db"
+	var globalized_stage_path = ProjectSettings.globalize_path(db_name_user_stage) + ".db"
 	
-	db_stage.close_db()
+	if FileAccess.file_exists( db_name_user_stage + ".db" ):
+		OS.move_to_trash( globalized_stage_path )
+	
+	success = db_commit.query("VACUUM INTO \"" + globalized_stage_path + "\"")
+	
+	if !success:
+		success = db_backup.query("VACUUM INTO \"" + globalized_stage_path + "\"")
+		
+		if !success:
+			print("It seems your journal is damaged... How far can you go without saving?")
+		print("Your journal latch seems stuck... We'll just have to see what you remember!")
+	print("Your journal opened wide! Your past adventures are still here, bless the Stars.")
+	
 	db_commit.close_db()
 	db_backup.close_db()
-
 
 
 func commit_save_from_active() -> bool:
-	var db_stage = SQLite.new(); db_stage.path = db_name_user_active; db_stage.open_db()
-	var db_commit = SQLite.new(); db_commit.path = db_name_user_stable; db_commit.open_db()
-	var db_backup = SQLite.new(); db_backup.path = db_name_user_backup; db_backup.open_db()
+	var db_stage = SQLite.new(); db_stage.path = db_name_user_stage; db_stage.open_db()
+	var db_commit = SQLite.new(); db_commit.path = db_name_user_commit; db_commit.open_db()
 	
-	var success
+	var globalized_backup_path = ProjectSettings.globalize_path(db_name_user_backup) + ".db"
+	var globalized_commit_path = ProjectSettings.globalize_path(db_name_user_commit) + ".db"
 	
-	success = db_commit.export_to_json( json_name_user_pidgeonhole )
+	var success : bool
+	
+	if FileAccess.file_exists( db_name_user_backup + ".db" ):
+		OS.move_to_trash( globalized_backup_path )
+		print("db backup trashed")
+	else:
+		print("db backup not trashed // ", db_name_user_backup, " ", globalized_backup_path)
+	
+	success = db_commit.query("VACUUM INTO \"" + globalized_backup_path + "\"")
+	
+	# If the VACUUM INTO Backup did not work, then DO NOT then delete the Commit version.
+	# This is why we have three copies, so we can delete one and still be able to recover.
 	if success:
-		success = db_backup.import_from_json( json_name_user_pidgeonhole )
+		print("commit => backup succeeded")
+		db_commit.close_db()
+		if FileAccess.file_exists(db_name_user_commit + ".db" ):
+			OS.move_to_trash( globalized_commit_path )
+			print("db commit trashed")
+		else:
+			print("db commit not trashed //")
+		
+		
+		success = db_stage.query("VACUUM INTO \"" + globalized_commit_path + "\"")
+		
+		if success:
+			print("stage => commit succeeded")
+		else:
+			print("stage => commit failed")
+	else:
+		print("commit => backup failed")
 	
-	success = db_stage.export_to_json( json_name_user_pidgeonhole )
-	if success:
-		success = db_commit.import_from_json( json_name_user_pidgeonhole )
 	
-	db_stage.close_db()
 	db_commit.close_db()
-	db_backup.close_db()
+	db_stage.close_db()
 	
 	return success
+
 
 func db_wrap(thing):
 	match typeof(thing):
@@ -474,10 +505,12 @@ func db_wrap(thing):
 			return str(thing)
 	return var_to_bytes(thing)
 
+
 func db_unwrap(thing):
 	if typeof(thing) == TYPE_PACKED_BYTE_ARRAY:
 		return bytes_to_var(thing)
 	return thing
+
 
 func validate_umid( umid:int=0 ) -> int:
 	

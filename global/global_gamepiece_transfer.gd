@@ -117,6 +117,7 @@ target_map_coordinates:=Vector2i(0,0), _origin_map_index:=MapIndex.INVALID_INDEX
 	if piece != null:
 		piece.current_map = _origin_map_index
 		piece.target_map = target_map_index
+		piece.position_stabilized = false
 		if piece.current_map == MapIndex.INVALID_INDEX:
 			piece.current_map = piece.target_map
 	

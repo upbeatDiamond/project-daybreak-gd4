@@ -62,11 +62,12 @@ func handle_movement_input():
 	if !gamepiece.is_paused:
 		var input_direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 		
+		if input_direction == Vector2.ZERO:
+			return
+		
 		# This section deals with some diagonal inputs cotextually
-		if input_direction != gamepiece.facing_direction:
-			if (input_direction.x != 0) && (input_direction.y != 0) && (input_direction != Vector2.ZERO):
-				input_direction = gamepiece.facing_direction;
-				pass
+		if (input_direction.x != 0) && (input_direction.y != 0) && (input_direction != Vector2.ZERO):
+			input_direction = gamepiece.facing_direction;
 		
 		var movement := Movement.new( input_direction )
 		
@@ -75,13 +76,14 @@ func handle_movement_input():
 		var is_running = Input.is_action_pressed("ui_fast")
 		if is_running:
 			movement.method = gamepiece.TraversalMode.RUNNING
-		elif Vector2i(gamepiece.facing_direction.x, gamepiece.facing_direction.y) != movement.to_facing_vector2i():
+		elif Vector2i(gamepiece.facing_direction) != movement.to_facing_vector2i():
 			movement.method = gamepiece.TraversalMode.STANDING
 			input_cooldown = INPUT_COOLDOWN_DEFAULT
 		else:
 			movement.method = gamepiece.TraversalMode.WALKING
 		
 		if input_direction != Vector2.ZERO:
+			gamepiece.facing_direction = input_direction;
 			gamepiece.position_stabilized = true
 			gamepiece.queue_movement( movement )
 			gamepiece.update_anim_tree()

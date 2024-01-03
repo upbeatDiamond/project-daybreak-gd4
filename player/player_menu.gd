@@ -105,7 +105,8 @@ func handle_input(event):
 		
 		ScreenLoaded.SAVE:
 			print("Feature Unfinished: Save")
-			GlobalRuntime.save_game_data()
+			await GlobalRuntime.save_game_data()
+			GlobalDatabase.commit_save_from_active()
 			# should wait between saving gamepieces and committing...
 			#GlobalDatabase.commit_save_from_active()
 			screen_loaded = ScreenLoaded.PAUSE_MENU

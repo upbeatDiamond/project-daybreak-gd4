@@ -47,7 +47,9 @@ var is_moving = false;	# true if currently tweening a traversal (walking, runnin
 var was_moving = false;	# true if animation for an 'is_moving' action would still be playing
 var position_is_known = true;	# false if the gamepiece needs a new position calculated.
 var position_stabilized = false;	#current_position == global_position; or, "has been placed yet"
-var facing_direction = Vector2(0,0);	# Used for animation state
+var facing_direction = Vector2(0,0):	# Used for animation state
+	set(value):
+		facing_direction = value
 
 var traversal_mode = TraversalMode.STANDING
 
@@ -68,7 +70,7 @@ enum TraversalMode
 @export var current_position := Vector2i(0,0):
 	set( pos ): 
 		move_to_target(pos)
-		current_position = self.global_position 
+		current_position = pos#self.global_position 
 	get:
 		if position_stabilized:
 			return self.global_position
@@ -103,24 +105,15 @@ func _ready():
 		get_parent().add_child( GlobalGamepieceTransfer.reform_gamepiece_treelet( self ) )
 		get_parent().remove_child( self )
 		return
-	#animation_tree = $AnimationTree
 	animation_state = animation_tree["parameters/playback"]
-	#block_ray = $Collision/BlockingRayCast2D
-	#event_ray = $Collision/EventRayCast2D
-	#gfx = $GFX
-	#shadow = $GFX/Shadow
-	#collision = $Collision
-	#controller = $Controller
-	#controller.set("gamepiece", self)
 	my_camera = (self.find_child("Camera", true) as Camera2D)
-	#animation_state = animation_tree["parameters/playback"]
 	
 	
 	is_moving = false
 	$GFX/Sprite.visible = true
 	GlobalRuntime.snap_to_grid( position )
 	animation_tree.active = true
-	#update_anim_tree()
+	update_anim_tree()
 	
 	if monster == null:
 		monster = Monster.new()
@@ -183,6 +176,8 @@ func move( direction ):
 	elif direction is Vector2i:
 		direction = Vector2( direction.x, direction.y )
 	
+	if direction == Vector2.ZERO:
+		return
 	facing_direction = direction
 	
 	update_rays(direction)
@@ -352,10 +347,17 @@ func save_gamepiece():
 
 
 func transfer_data_from_gp(gamepiece:Gamepiece):
+	var bool_pidgeonhole = false
 	unique_id = gamepiece.unique_id
 	umid = gamepiece.umid
 	monster = gamepiece.monster
+	
+	bool_pidgeonhole = gamepiece.position_stabilized
+	gamepiece.position_stabilized = true
 	current_position = gamepiece.current_position
+	gamepiece.position_stabilized = bool_pidgeonhole
+	
+	facing_direction = gamepiece.facing_direction
 	if gamepiece.controller != null:
 		controller.set_script( gamepiece.controller.get_script() )
 	pass
