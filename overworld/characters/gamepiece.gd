@@ -183,6 +183,10 @@ func move( direction ):
 	
 	if !block_ray.is_colliding():
 		
+		var colliding_within
+		if event_ray.is_colliding():
+			colliding_within = event_ray.get_collider()
+		
 		var new_position = GlobalRuntime.snap_to_grid(collision.position + \
 			(direction * GlobalRuntime.DEFAULT_TILE_SIZE) )
 		
@@ -212,6 +216,11 @@ func move( direction ):
 				await move_tween.finished
 		
 		resync_position()
+		
+		if colliding_within != null and \
+		colliding_within.is_in_group("event_interior") and \
+		colliding_within.has_method("run_event"):
+			colliding_within.run_event( self )
 	is_moving = false
 	traversal_mode = TraversalMode.STANDING
 	
@@ -222,9 +231,13 @@ func move( direction ):
 # Not the same as move, used for in-map teleportation.
 func move_to_target( target:Vector2i ):
 	var new_position = GlobalRuntime.snap_to_grid_corner_f( target )
-	
 	self.global_position = new_position
 	resync_position()
+	
+	
+	#if collision != null:
+	#	collision.global_position = GlobalRuntime.snap_to_grid_center_f( target )
+	#resync_position()
 
 
 func entered_door():
@@ -241,9 +254,9 @@ func resync_position():
 	print("gp ", umid, "/", unique_id, " global position ~ ", current_position)
 	
 	var collision_gp = collision.global_position
-	var gfx_gp = collision.global_position - Vector2(0,1)*GlobalRuntime.DEFAULT_TILE_OFFSET
-	if gfx != null:
-		gfx_gp = gfx.global_position
+	var gfx_gp = collision.global_position - (GlobalRuntime.DEFAULT_TILE_OFFSET)
+	#if gfx != null:
+	#	gfx_gp = gfx.global_position
 	
 	self.global_position = Vector2(collision_gp) - (Vector2.ONE * GlobalRuntime.DEFAULT_TILE_OFFSET)
 	collision.global_position = Vector2(collision_gp)
