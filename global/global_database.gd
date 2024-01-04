@@ -397,15 +397,10 @@ func recover_last_state() -> String:
 	var gp_player : Gamepiece = gp_model.instantiate()
 	gp_player.transfer_data_from_gp(gp_read)
 	gp_player.current_position = gp_player.current_position
-	
-	#GlobalGamepieceTransfer.reform_gamepiece_treelet( gp_player )
-	#gp_player.global_position = gp_player.current_position
 	await overworld.place_gamepieces( [gp_player] )
 	gp_player.visible = true
-	#gp_player.add_to_group("gamepiece") # redundant?
 	gp_player.unique_id = 0
 	gp_player.my_camera.reset_smoothing()
-	#gp_player.update_anim_tree()
 	for child in gp_player.get_children():
 		if child is Node2D:
 			child.visible = true
@@ -431,8 +426,8 @@ func fetch_save_to_stage():
 	
 	var success
 	
-	var globalized_backup_path = ProjectSettings.globalize_path(db_name_user_backup) + ".db"
-	var globalized_commit_path = ProjectSettings.globalize_path(db_name_user_commit) + ".db"
+	#var globalized_backup_path = ProjectSettings.globalize_path(db_name_user_backup) + ".db"
+	#var globalized_commit_path = ProjectSettings.globalize_path(db_name_user_commit) + ".db"
 	var globalized_stage_path = ProjectSettings.globalize_path(db_name_user_stage) + ".db"
 	
 	if FileAccess.file_exists( db_name_user_stage + ".db" ):

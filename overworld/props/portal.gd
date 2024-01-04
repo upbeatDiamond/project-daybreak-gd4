@@ -15,7 +15,6 @@ class_name Portal
 	get:
 		return height
 
-#@export_file("*.tscn") var map = null;
 @export var map : String = "";
 
 # By default, use 0 or -1 if "blank", and always use position and facing as backup
@@ -30,19 +29,17 @@ class_name Portal
 @export var enabled : bool				# flip based on player progress
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+#func _ready():
+#	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	pass
+#func _process(_delta):
+#	pass
 
 
 func _on_area_entered(area):
-	if (area is Gamepiece or area.is_in_group("gamepiece")) and validate_keycard(area):
-		area.set_teleport(target_position, target_facing, map, target_anchor_name)
-	pass # Replace with function body.
+	run_event(area)
 
 
 func validate_keycard(gp:Gamepiece) -> bool:
@@ -52,4 +49,5 @@ func validate_keycard(gp:Gamepiece) -> bool:
 
 
 func run_event( area ):
-	_on_area_entered(area)
+	if (area is Gamepiece or area.is_in_group("gamepiece")) and validate_keycard(area):
+		area.set_teleport(target_position, target_facing, map, target_anchor_name)

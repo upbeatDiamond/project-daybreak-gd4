@@ -90,24 +90,24 @@ var move_queue :Array[Movement] = []
 signal gamepiece_moved( direction:Vector2, global_endpoint:Vector2, mode:TraversalMode )
 signal gamepiece_moving( direction:Vector2, global_endpoint:Vector2, mode:TraversalMode )
 
+
 func _init():
 	GlobalRuntime.save_data.connect( save_gamepiece )
 	monster = Monster.new()
 	monster.umid = umid
 
+
 func _ready():
-	
 	add_to_group("gamepiece")
 	
 	# "animation_tree" serves as a canary for overall loading issues.
 	if animation_tree == null:
-		
 		get_parent().add_child( GlobalGamepieceTransfer.reform_gamepiece_treelet( self ) )
 		get_parent().remove_child( self )
 		return
+	
 	animation_state = animation_tree["parameters/playback"]
 	my_camera = (self.find_child("Camera", true) as Camera2D)
-	
 	
 	is_moving = false
 	$GFX/Sprite.visible = true
@@ -124,15 +124,14 @@ func _ready():
 
 
 func _process(_delta):
-	#print("GP: I think I'm at ", current_position, "")
 	if not is_paused:
 		if move_queue.size() > 0 && is_moving == false:
 			move( (move_queue.pop_front() as Movement) )
 		elif is_moving == true:
 			was_moving = true
 		elif was_moving == true: # implied: is_moving is false
-			#traversal_mode = TraversalMode.STANDING
 			update_anim_tree()
+			was_moving = false
 
 
 func _on_gameworld_pause():
@@ -148,10 +147,6 @@ func _on_gameworld_unpause():
 	is_paused = false
 	#print("I can run? I CAN FIGHT!")
 
-# This should be the longest line of code in the entire codebase.
-#func snap_to_grid( pos ) -> Vector2:
-#	return Vector2(pos.x - tile_offset.x, pos.y - tile_offset.y).snapped(Vector2.ONE * GlobalRuntime.DEFAULT_TILE_SIZE) + tile_offset
-
 
 func set_umid(new_umid:int):
 	if monster == null:
@@ -160,7 +155,6 @@ func set_umid(new_umid:int):
 
 
 func update_rays( direction : Vector2 ):
-	
 	block_ray.target_position = direction * GlobalRuntime.DEFAULT_TILE_SIZE
 	block_ray.force_raycast_update()
 	
@@ -189,7 +183,8 @@ func move( direction ):
 	
 	if !block_ray.is_colliding():
 		
-		var new_position = GlobalRuntime.snap_to_grid(collision.position+direction*GlobalRuntime.DEFAULT_TILE_SIZE)
+		var new_position = GlobalRuntime.snap_to_grid(collision.position + \
+			(direction * GlobalRuntime.DEFAULT_TILE_SIZE) )
 		
 		# Before this match is run, try looking for materials that change the...
 		# ... character's speed/animation, and change the traversal mode to match.
@@ -206,12 +201,13 @@ func move( direction ):
 		
 		collision.position = new_position
 		
-		# Sometimes the gamepiece is picked up as the move() is called, so make sure we can get a tween
+		# Sometimes the gamepiece is picked up as move() is called, so make sure we can get a tween
 		if is_inside_tree():
 			move_tween = create_tween()
 			if move_tween != null:
 				move_tween.tween_property(gfx, "position",
-					new_position - GlobalRuntime.DEFAULT_TILE_OFFSET, 1/move_speed ).set_trans(Tween.TRANS_LINEAR)
+					new_position - GlobalRuntime.DEFAULT_TILE_OFFSET, 
+					1/move_speed ).set_trans(Tween.TRANS_LINEAR)
 				is_moving = true
 				await move_tween.finished
 		
@@ -227,7 +223,7 @@ func move( direction ):
 func move_to_target( target:Vector2i ):
 	var new_position = GlobalRuntime.snap_to_grid_corner_f( target )
 	
-	self.global_position = new_position #- GlobalRuntime.DEFAULT_TILE_OFFSET
+	self.global_position = new_position
 	resync_position()
 
 
@@ -240,13 +236,12 @@ func queue_movement( movement:Movement ):
 
 
 func resync_position():
-	
 	if collision == null:
 		return
 	print("gp ", umid, "/", unique_id, " global position ~ ", current_position)
 	
 	var collision_gp = collision.global_position
-	var gfx_gp = current_position
+	var gfx_gp = collision.global_position - Vector2(0,1)*GlobalRuntime.DEFAULT_TILE_OFFSET
 	if gfx != null:
 		gfx_gp = gfx.global_position
 	
@@ -296,11 +291,10 @@ func set_teleport(loci: Vector2i, direction: Vector2i, map:="", anchor_name:="",
 	if anchor_container != null:
 		anchor = anchor_container.get_anchor_by_name(anchor_name)
 	if anchor != null:
-		loci = anchor.global_position #self.position + (anchor.global_position - self.global_position)
+		loci = anchor.global_position 
 		direction = anchor.facing_direction
 	print("anchor detail: ", anchor, " :+ name: ", anchor_name)
 	
-	loci = GlobalRuntime.snap_to_grid( loci ) # This line might be redundant.
 	move_to_target( loci )
 	facing_direction = Vector2( direction.x, direction.y )
 	
@@ -309,7 +303,6 @@ func set_teleport(loci: Vector2i, direction: Vector2i, map:="", anchor_name:="",
 	my_camera.reset_smoothing()
 	
 	controller.finalize_map_change( pause_prior, silent )
-	
 
 
 func kill_imposters():
@@ -332,9 +325,8 @@ func kill_imposters():
 
 # ONLY USE TO SAVE THE GAMEPIECE LIVE, like ON THE FIELD.
 # This function as a non-descriptive name because this is an EARLY BUILD
-# PLEASE FIX THIS 
+# Unless... it fixed itself and can be used anywhere?
 func save_gamepiece():
-	#var treee = get_tree()
 	if is_inside_tree():
 		kill_imposters()
 		current_position = global_position
@@ -371,7 +363,7 @@ static func gamepiece_from_walker( walker:GamepieceWalker ) -> Gamepiece:
 	if walker.current_position_is_known:
 		new_gamepiece.position = walker.current_position
 	else:
-		# Replace this else statement with position estimation code
+		#TODO: Replace this else statement with position estimation code
 		new_gamepiece.position = walker.current_position
 	
 	return new_gamepiece

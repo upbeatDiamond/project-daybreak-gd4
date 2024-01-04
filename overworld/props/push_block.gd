@@ -9,13 +9,13 @@ var move_speed = 2.0
 var cooling_down = false
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+#func _ready():
+#	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	cooling_down = false
+#func _process(_delta):
+#	cooling_down = false
 
 func _physics_process(_delta):
 	cooling_down = false
@@ -78,6 +78,4 @@ func resync_position():
 
 func _on_area_entered(area):
 	if area is Gamepiece or area.is_in_group("gamepiece"):
-		#area.set_teleport(target_position, target_facing, map, target_anchor_name)
 		run_event( area )
-	pass # Replace with function body.
