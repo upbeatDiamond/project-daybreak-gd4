@@ -105,7 +105,6 @@ var gamepieces_by_map : Array[Array] = []
 func _ready():
 	pass # Replace with function body.
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	pass
@@ -143,8 +142,8 @@ target_map_coordinates:=Vector2i(0,0), _origin_map_index:=MapIndex.INVALID_INDEX
 			piece.get_parent().remove_child( piece )
 	
 	GlobalDatabase.save_gamepiece( piece )
-	
 	pass
+
 
 func reform_gamepiece_treelet( gamepiece:Gamepiece ):
 	
@@ -185,6 +184,7 @@ func reform_gamepiece_treelet( gamepiece:Gamepiece ):
 # Else, make sure they're saved in the relevant database.
 func warp_gamepiece_to_map( _map_index:MapIndex ):
 	pass
+
 
 func eject_gamepieces_for_map( target_map_index:int ): #-> Array[Gamepiece]:
 	if target_map_index < 0 || target_map_index >= gamepieces_by_map.size():

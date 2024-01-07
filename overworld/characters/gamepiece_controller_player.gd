@@ -28,6 +28,7 @@ func _get_configuration_warnings() -> PackedStringArray:
 
 
 func _process(_delta):
+	#super._process(_delta)
 	if gamepiece.is_node_ready():
 		gamepiece.umid = 0
 	#if gamepiece != null:

@@ -3,12 +3,11 @@ I'm jan Wiwijen (jan Opitaman), and today I'll be discussing a pre-alpha version
 
 Late 2023 - Early 2024
 
-
 Codename: Project Daybreak
 Update: Pre-alpha 5, "The Longest Time"
 Namesake: Even if I somehow accidentally finished writing all core code, ...
 	... there would still be music left to write.
-TL;DR: I found some new tutorials to follow to show I'm an independent thinker.
+TL;DR: The game can now be fleshed out into a walking simulator if so desired.
 
 
 Noteworthy Additions:
@@ -46,7 +45,6 @@ Noteworthy Additions:
 		+ ... to enable automatic database backups
 	+ Added more assets, as always
 	
-	+ GamepieceWalker (tentative name) for Gamepieces not in current scene but otherwise active
 	+ Added more license text
 
 
@@ -58,7 +56,12 @@ Noteworthy Subtractions:
 
 
 Noteworthy Changes:
+	* Changed spacing and line lengths for a lot of scripts to closer comply to Godot standards.
 	* Gamepiece cameras should now reset smoothing upon switching maps, improving immersion.
+	* Gamepieces resync position differently now
+		+ Resync was to resync children with parent, now resyncs everything to the collider
+			% Be ready to rewrite again when 64x64 sprite size becomes the default...
+	* Gamepiece func 'move-to-target()' renamed to 'shift-to-target()', as is unrelated to 'move()'
 	* Set collision to once again move before the gamepiece graphics
 		* If the collision moves first, it looks wrong while debugging.
 		* If the collision moves last, it literally is wrong.
@@ -70,9 +73,7 @@ Noteworthy Changes:
 
 To Do List + Constructive Commentary:
 	% Replace the remaining Arkeve tutorial code after prototyping his party screen system
-		% Ironically, continue watching and completing more of the tutorials since clearly...
-		... independently written code ends up being harder to follow.
-		% Revise ALL Arkeve-based code until it both cannot be detected by plagiarism scanners...
+		% Revise ALL Arkeve-based code until it both cannot be detected by plagiarism scanners ...
 		... and is overall more robust. Not either/or, but both of these things.
 	% Follow the Chris' Tutorials videos, mix with GDQuest for the battle scene
 	% Fix and finish the failsafe map's generation code, otherwise it's not very safe
@@ -86,7 +87,7 @@ To Do List + Constructive Commentary:
 				% Develop code for synthesizing a sprite sheet for the player to use.
 		% Add overworld sprites for Mom, Scientist, Starters, and Barney for Alpha demo 01
 	% Move the TitleScreen to the ActivityInterface
-		% Make the Activity/Overworld switch not shrink the overworld, as this may cause...
+		% Make the Activity/Overworld switch not shrink the overworld, as this may cause ...
 		... misalignments if any children are still running.
 			% Pausing should switch between process modes INHERIT and DISABLED.
 	% Replace the broken traces of D* with a new proposed "TrackStar" algorithm
@@ -106,8 +107,6 @@ To Do List + Constructive Commentary:
 		% If the game lacks a PATCHDATA database in "user://", then copy the provided one
 			% Rely on PATCHDATA for balancing and forwards compatibility but not for assets/code
 				% Maybe use PATCHDATA for asset/code pointers/paths? Seems more like a .PCK thing
-	% 
-	
 
 
 General Commentary:
@@ -115,25 +114,31 @@ General Commentary:
 	> That way, I don't have to worry about if the code is duplicating functions, enums, etc.
 	> Only issue then would be too many "global" (autoload) classes.
 	
+	> Functions must be separated with 2 blank lines, or 1 blank line and a long comment
+	> Comments preceeding a function shoukd explain as if it is the class documentation
+	> Comments within a function should explain 'why' or 'how' rather than 'what' or 'where'
+		> "this line solves an edge case related to char *"  >  [var v = 2] "this line sets v to 2"
+	
 	> Generally, code regarding a thing should be kept within that thing, or its direct controller.
 	
 	> This whole thing is a redo for multiple reasons including: 
 		> Being confused between code and asset licensing in the GitHub repository settings
 		> Following tutorials from unknown license repositories
+		> Inconsistant file naming + bad folder structure
 		> Improper credits documentation
 		> Outdated version of Godot
 		> Setting up is the best part once you know how. Expanding & bugfixing though...?
-		
+	
 	> No sources should be less permissive than a BSD 3-Clause license. 
 	> Everything in here should be both free as in libre, and free as in moneys.
 	> All assets not made for this project need proper credit (CC-BY-4.0, SIL), or to be PD/CC0.
 		> FilmCow's sound pack license is just past the limit of restrictiveness. Avoid using.
 	
-	> We're skipping the proper drop of the previous pre-alpha, as a lot of development...
+	> We're skipping the proper drop of the previous pre-alpha, as a lot of development ...
 ... went into lore, concepts, and other repos. And downloading assets. So much scrolling.
 ... and also I don't want to.
 	
-	> It turns out that ALL the work I put into planning a new navigation system...
+	> It turns out that ALL the work I put into planning a new navigation system ...
 	> ... the baking, parsing, running, etc...
 	> ... it wasn't *useless* per se, but I could just use the navmesh? At least for now?
 	> That's right, new to Godot 4.2+, the navmesh easy bake button.

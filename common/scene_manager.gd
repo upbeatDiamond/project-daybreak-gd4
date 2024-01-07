@@ -44,8 +44,10 @@ func _process(_delta):
 		
 	pass
 
+
 func map_rid_for_gamepiece(_gamepiece:Gamepiece):
 	return gamepiece_nav_map
+
 
 func switch_to_interface( interface:InterfaceOptions ):
 	match interface:
@@ -153,6 +155,7 @@ func update_preload_portals( ttl_decrement : int = 1 ):
 	
 	pass
 
+
 func fade_to_black( duration:=0.25 ) -> bool:
 	screen_transition.visible = true
 	var blackness = $ScreenTransition/Darkness #ColorRect.new()
@@ -173,6 +176,7 @@ func fade_to_black( duration:=0.25 ) -> bool:
 	print("darkness color ++> ", blackness.color, blackness.modulate)
 	
 	return true
+
 
 func fade_in( duration:=0.75 ):
 	var blackness = $ScreenTransition/Darkness #ColorRect.new()

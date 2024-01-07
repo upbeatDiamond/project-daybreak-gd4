@@ -1,8 +1,6 @@
 extends Node
-#extends NavigationAgent2D
 # replace with references to NavigationServer2D ...
 # ... and merge into a base GamepieceController
-
 
 var gamepiece : Gamepiece
 var INPUT_COOLDOWN_DEFAULT:float = 6.5;
@@ -19,23 +17,17 @@ var auto_waypoints:PackedVector2Array=[]
 var auto_current_target:Vector2
 var auto_target_position:Vector2
 
-#var gamepiece : Gamepiece
-#const TILE_SIZE_VECTOR = Vector2(GlobalRuntime.DEFAULT_TILE_SIZE, GlobalRuntime.DEFAULT_TILE_SIZE)
-
-#var gamepiece : Gamepiece
 
 func _init():
 	nav_agent = NavigationServer2D.agent_create()
 	NavigationServer2D.agent_set_radius( nav_agent, GlobalRuntime.DEFAULT_TILE_SIZE/2.0 )
-	NavigationServer2D.agent_set_position( nav_agent, gamepiece.collision.global_position )
+	NavigationServer2D.agent_set_map( nav_agent, _get_map_rid() )
+	_update_nav_agent_position()
+
 
 func _process(_delta):
-	if gamepiece.is_node_ready():
-		gamepiece.umid = 0
-	#if gamepiece != null:
-	#	set_physics_process(true);
-	#print( "controller thinks gp = %d", gamepiece )
-#	pass
+	pass
+
 
 func _physics_process(_delta):
 	if GlobalRuntime.gameworld_input_stopped || gamepiece.is_paused:
@@ -47,18 +39,40 @@ func _physics_process(_delta):
 		else: 
 			handle_movement_auto()
 
+
 func handle_movement_input():
+	assert(false, "Error: handle_movement_input(void) was not implemented!")
 	pass
 
-func queue_auto_path( waypoints:PackedVector2Array ):
-	
-	auto_waypoints = waypoints
-	
+
+func _guess_nav_agent_position():
+	return GlobalRuntime.snap_to_grid_center_f( gamepiece.collision.global_position )
 	pass
+
+
+func _update_nav_agent_position():
+	var nav_pos = _guess_nav_agent_position()
+	NavigationServer2D.agent_set_position( nav_agent, nav_pos )
+
+
+func queue_auto_path( waypoints:PackedVector2Array ):
+	auto_waypoints = waypoints
+
+
+func _regenerate_auto_path_to_target( target:Vector2 ):
+	queue_auto_path( NavigationServer2D.map_get_path( _get_map_rid(), _guess_nav_agent_position(), \
+	GlobalRuntime.snap_to_grid_center_f(target), true ) )
+	pass
+
+
+func _get_map_rid():
+	# Please please get RID from the current level map
+	return GlobalRuntime.scene_manager.gamepiece_nav_map
+
 
 func handle_movement_auto():
 	
-	NavigationServer2D.agent_set_position( nav_agent, gamepiece.collision.global_position )
+	_update_nav_agent_position()
 	
 	if auto_current_target != null:
 		_auto_walk_to_point( auto_current_target )
@@ -66,20 +80,36 @@ func handle_movement_auto():
 		auto_current_target = auto_waypoints[0]
 		auto_waypoints.remove_at(0)
 		_auto_walk_to_point( auto_current_target )
+	else:
+		handle_movement_input()
 	
 	pass
 
-#func _get_next_path_position():
-	#
-	#if auto_current_target != null and \
-	#(gamepiece.global_position - auto_current_target).length() < GlobalRuntime.DEFAULT_TILE_SIZE / 2:
-		#pass
-	#pass
 
-func _auto_walk_to_point( target:Vector2 ) -> Vector2:
+func _packed_vector2_pop_front(packed:PackedVector2Array):
+	if packed == null or packed.size() <= 0:
+		return null
+	var ret = packed[0]
+	packed.remove_at(0)
+	return ret
+
+
+func _get_next_path_position():
+	if auto_current_target == null or \
+	(gamepiece.global_position-auto_current_target).length() < GlobalRuntime.DEFAULT_TILE_SIZE/2:
+		auto_current_target = _packed_vector2_pop_front(auto_waypoints)
+	return auto_current_target
+
+
+func _auto_walk_to_point( target:Vector2 ):
+	_regenerate_auto_path_to_target(target)
 	auto_target_position = GlobalRuntime.snap_to_grid_center_f( target )
-	
-	var next_subtarget = auto_target_position #GlobalRuntime.snap_to_grid_center_f( get_next_path_position() )
+	_auto_walk_to_next_point()
+	pass
+
+
+func _auto_walk_to_next_point():
+	var next_subtarget = _get_next_path_position()
 	var has_moved_valid = true # Inverse of: Has 'this' movement been invalidated yet?
 	var projected_movement : Movement = Movement.new()
 	var projected_move_result : Vector2
@@ -119,9 +149,6 @@ func _auto_walk_to_point( target:Vector2 ) -> Vector2:
 			# wait a lil bit to see if things move.
 			input_cooldown = INPUT_COOLDOWN_DEFAULT
 			pass
-		
-		#if gamepiece.global_position
-		#next_subtarget = GlobalRuntime.snap_to_grid_center_f( get_next_path_position() )
 	
 	projected_move_result = GlobalRuntime.DEFAULT_TILE_SIZE*projected_movement.to_cell_vector2f() \
 		+ gamepiece.global_position

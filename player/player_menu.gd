@@ -48,6 +48,7 @@ var input_cooldown := INPUT_COOLDOWN_DEFAULT
 func get_screen_name( tag:ScreenLoaded ):
 	return screen_name[ tag ]
 
+
 func _ready():
 	menu.visible = false
 	
@@ -55,13 +56,16 @@ func _ready():
 	
 	update_select_arrow()
 
+
 #func _process(_delta):
 #	if Input.is_action_pressed("menu"):
 #		handle_input( InputMap.action_get_events("menu")[0] )
 
+
 func update_select_arrow():
 	#	select_arrow.rect_position.y = [default y] + (selected_option % 6) * [distance between options = richtext height + vbox separation]
 	select_arrow.position.y = 56 + posmod(selected_option, option_count) * 49
+
 
 func update_submenu():
 	submenu_name = get_screen_name( screen_loaded )
@@ -70,6 +74,7 @@ func update_submenu():
 	
 	pass
 
+
 func _process(delta):
 	if input_cooldown <= 0:
 		input_cooldown = INPUT_COOLDOWN_DEFAULT
@@ -77,8 +82,10 @@ func _process(delta):
 	else:
 		input_cooldown -= delta
 
+
 #func _unhandled_input(event):
 #	handle_input(event)
+
 
 func handle_input(event):
 	#event = 

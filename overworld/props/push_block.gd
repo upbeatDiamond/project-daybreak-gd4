@@ -17,11 +17,12 @@ var cooling_down = false
 #func _process(_delta):
 #	cooling_down = false
 
+
 func _physics_process(_delta):
 	cooling_down = false
 
+
 func run_event( gamepiece:Gamepiece ):
-	
 	var pidgeonhole_gp_lock := false
 	
 	if !cooling_down:
@@ -57,15 +58,14 @@ func run_event( gamepiece:Gamepiece ):
 					await move_tween.finished
 			
 			#print(str( new_position, " ~ pushing to" ) )
-			
 			resync_position()
 		
 		gamepiece.is_paused = pidgeonhole_gp_lock 
 	# If invalid b/c gamepiece, push gamepiece (parallel, else perpendicular)
 		# If gamepiece cannot be pushed, swap with gamepiece
 	# If any other intrusion, do not allow push
-	
 	pass
+
 
 func resync_position():
 	var collision_gp = collision.global_position
@@ -75,6 +75,7 @@ func resync_position():
 	collision.global_position = collision_gp
 	gfx.global_position = gfx_gp
 	pass
+
 
 func _on_area_entered(area):
 	if area is Gamepiece or area.is_in_group("gamepiece"):

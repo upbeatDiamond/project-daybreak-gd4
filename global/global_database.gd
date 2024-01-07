@@ -89,7 +89,6 @@ var tkpv_level_map = {
 func _ready():
 	pass # Replace with function body.
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	pass
@@ -341,6 +340,7 @@ func save_map_link_data():
 # Retrieves the gametoken & graph connection data
 func load_map_link_data():
 	pass
+
 
 func load_level_map( map:int ):
 	var dummy_map := LevelMap.new()

@@ -60,10 +60,12 @@ func clean_up_descent( target_node : Node ):
 			
 		current_mark.queue_free()
 
+
 func _input(event):
 	if event.is_action_pressed("game_pause"):
 		gamepieces_set_paused( !gameworld_is_paused )
 	pass
+
 
 func gamepieces_set_paused( value:bool ):
 	if value and multiplayer_enabled:
@@ -100,6 +102,7 @@ func freeze_scene(node:Node, freeze:bool):
 		freeze_node(current_mark, freeze)
 	pass
 
+
 func freeze_node(node:Node, freeze:bool):
 	node.set_process(!freeze)
 	node.set_physics_process(!freeze)
@@ -107,8 +110,8 @@ func freeze_node(node:Node, freeze:bool):
 	node.set_process_internal(!freeze)
 	node.set_process_unhandled_input(!freeze)
 	node.set_process_unhandled_key_input(!freeze)
-
 	pass
+
 
 func save_game_data():
 	#for gp in scene_manager.get_tree().get_nodes_in_group("gamepiece"):
@@ -117,6 +120,7 @@ func save_game_data():
 	
 	print("saved!");
 	pass
+
 
 func multiply_string( _text:String, count:int, _separator:="" ) -> String:
 	var ret = ""
@@ -128,22 +132,28 @@ func multiply_string( _text:String, count:int, _separator:="" ) -> String:
 			count -= 1
 	return ret
 
+
 func screen_transition( style := "fade" ):
 	scene_transition_player.play(style)
 	await scene_transition_player.animation_finished
 
+
 func snap_to_grid( pos ) -> Vector2:
 	return snap_to_grid_center_f( pos )
+
 
 func snap_to_grid_center_f( pos ) -> Vector2:
 	return snap_to_grid_corner_f( pos ) + DEFAULT_TILE_OFFSET
 
+
 func snap_to_grid_center_i( pos ) -> Vector2i:
 	return snap_to_grid_corner_i( pos ) + DEFAULT_TILE_OFFSET_INT
-	
+
+
 func snap_to_grid_corner_f( pos ) -> Vector2:
 	pos = Vector2(pos.x - DEFAULT_TILE_OFFSET.x, pos.y - DEFAULT_TILE_OFFSET.y)
 	return pos.snapped(Vector2.ONE * GlobalRuntime.DEFAULT_TILE_SIZE)
+
 
 func snap_to_grid_corner_i( pos ) -> Vector2i:
 	pos = Vector2i(pos.x - DEFAULT_TILE_OFFSET.x, pos.y - DEFAULT_TILE_OFFSET.y)
@@ -156,6 +166,7 @@ func snap_to_grid_corner_i( pos ) -> Vector2i:
 func switch_to_interface( interface:SceneManager.InterfaceOptions ):
 	scene_manager.switch_to_interface( interface )
 	pass
+
 
 func is_player_menu_enabled():
 	return player_menu_enabled;

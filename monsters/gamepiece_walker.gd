@@ -32,6 +32,7 @@ var is_moving = false;	# true if walking, running, jumping, etc
 @export var current_position_is_known := false
 @export var controller : Script
 
+
 func _init( _monster:Monster, 
 			_controller:Script,
 			_current_map:=GlobalGamepieceTransfer.MapIndex.INVALID_INDEX, 

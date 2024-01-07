@@ -16,7 +16,6 @@ func _ready():
 	umid_buffer.resize( UMID_BUFFER_MAX )
 	pass # Replace with function body.
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if umid_buffer_size < UMID_BUFFER_MIN:
@@ -25,8 +24,8 @@ func _process(_delta):
 		umid_buffer.slice(umid_buffer.size() - UMID_BUFFER_MIN)
 
 # Checks database for monster. If not found, create a new one.
-# MAKE SURE TO STORE IVs AND EVs IN THE DATABASE BEFORE HANDING BACK THE MONSTER IF THESE...
-# ... ARE NOT STORED WITHIN THE MONSTER
+# MAKE SURE TO STORE IVs AND EVs IN THE DATABASE BEFORE HANDING BACK ...
+# ... THE MONSTER IF THESE ARE NOT STORED WITHIN THE MONSTER
 
 func spawn_monster( _rng_seed:int, _spawn_weights:Dictionary ) -> Object:
 	return null
@@ -49,8 +48,8 @@ func fill_umid_buffer():
 	
 	if umid_buffer_size < UMID_BUFFER_MAX:
 		umid_buffer.insert( umid_buffer_index, generate_umid() )
-		umid_buffer_index = (umid_buffer_index + 1) % UMID_BUFFER_MAX	# increment index, wraparound
-		umid_buffer_size = min( umid_buffer_size+1, UMID_BUFFER_MAX )	# increment size, limit
+		umid_buffer_index = (umid_buffer_index + 1) % UMID_BUFFER_MAX	# incr. index, wraparound
+		umid_buffer_size = min( umid_buffer_size+1, UMID_BUFFER_MAX )	# incr. size, limit
 	pass
 
 ## TODO: incorporate the location a monster is found in into the UMID, so long as complexity is not lost.

@@ -3,7 +3,7 @@ extends Area2D
 
 const granularity := 1
 const jump_height := 2.0 # Height expressed in number of tiles; float in case half-tiles are needed
-const landing_dust_effect = 0 #preload("")
+const landing_dust_effect = 0
 @export var pointing_direction := Vector2(0,1):
 	set(dir):
 		if abs(dir.x) > abs(dir.y):
@@ -26,12 +26,13 @@ const landing_dust_effect = 0 #preload("")
 @onready var collision = $Collision
 @onready var sprite_left = $CornerL
 @onready var sprite_side = $Side
-var sprite_side_x = 1.0#0.036
-var sprite_right_x = 1.0#0.018
+var sprite_side_x = 1.0
+var sprite_right_x = 1.0
 @onready var sprite_right = $CornerR
 @export var is_ready := false
 
 var current_pos_offset := Vector2(0,0)
+
 
 func _ready():
 	is_ready = true
@@ -101,6 +102,7 @@ func run_event( area ):
 				
 				area.resync_position()
 		area.is_paused = pidgeonhole_gp_lock
+
 
 func _parabola_jump( progress, start, end, thing ) -> Vector2:
 	var h = jump_height * GlobalRuntime.DEFAULT_TILE_SIZE

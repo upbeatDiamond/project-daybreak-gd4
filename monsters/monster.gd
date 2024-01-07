@@ -1,16 +1,6 @@
 extends Node
 class_name Monster
 
-# Called when the node enters the scene tree for the first time.
-func _init():
-	p_factor_base.resize( GlobalMonster.PersonalityFactor.size() );
-	p_factor_offset.resize( GlobalMonster.PersonalityFactor.size() );
-	techniques_active.resize( GlobalMonster.max_battle_techniques );
-	stats_base.resize( GlobalMonster.BattleStats.size() );
-	stats_current.resize( GlobalMonster.BattleStats.size() );
-	pass # Replace with function body.
-
-
 # Used for proper saving/loading/reloading
 @export var umid = -1
 @export var world_of_origin = -1
@@ -39,7 +29,6 @@ var birth_name := ""
 var keycard = 0
 
 var met_at_level = -1
-
 
 var health: set = set_health, get = get_health;
 var spirit: set = set_spirit, get = get_spirit;
@@ -77,6 +66,14 @@ var relationships = {}
 var activity_heap = {}
 
 
+# Called when the node enters the scene tree for the first time.
+func _init():
+	p_factor_base.resize( GlobalMonster.PersonalityFactor.size() );
+	p_factor_offset.resize( GlobalMonster.PersonalityFactor.size() );
+	techniques_active.resize( GlobalMonster.max_battle_techniques );
+	stats_base.resize( GlobalMonster.BattleStats.size() );
+	stats_current.resize( GlobalMonster.BattleStats.size() );
+	pass # Replace with function body.
 
 
 func get_current_stat():
@@ -140,9 +137,11 @@ func load_data():
 func get_active_techniques():
 	return techniques_active;
 
+
 func _to_string():
 	return str(name, "(", umid, ") is a ", species, " with techniques ", \
 	techniques_learned, " and stats ", stats_base, " -> ", stats_current)
+
 
 func equals(other_mon:Monster) -> bool:
 	if other_mon == null:
@@ -151,6 +150,7 @@ func equals(other_mon:Monster) -> bool:
 	|| world_of_origin < 0 || other_mon.world_of_origin < 0):
 		return true
 	return false
+
 
 #func saveAndReload:
 	# Call saveData and loadData sequentially, ... 

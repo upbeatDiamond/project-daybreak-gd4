@@ -69,7 +69,7 @@ enum TraversalMode
 @export var current_map := -1	# depricated, please ask the local map for its ID
 @export var current_position := Vector2i(0,0):
 	set( pos ): 
-		move_to_target(pos)
+		shift_to_target(pos)
 		current_position = pos#self.global_position 
 	get:
 		if position_stabilized:
@@ -229,7 +229,7 @@ func move( direction ):
 			overlap.run_event(self)
 
 # Not the same as move, used for in-map teleportation.
-func move_to_target( target:Vector2i ):
+func shift_to_target( target:Vector2i ):
 	var new_position = GlobalRuntime.snap_to_grid_corner_f( target )
 	self.global_position = new_position
 	resync_position()
@@ -308,7 +308,7 @@ func set_teleport(loci: Vector2i, direction: Vector2i, map:="", anchor_name:="",
 		direction = anchor.facing_direction
 	print("anchor detail: ", anchor, " :+ name: ", anchor_name)
 	
-	move_to_target( loci )
+	shift_to_target( loci )
 	facing_direction = Vector2( direction.x, direction.y )
 	
 	print("teleport: gx %d, gy %d, x %d, y %d"%[global_position.x,global_position.y,loci.x,loci.y])

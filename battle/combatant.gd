@@ -4,7 +4,8 @@ extends Node
 
 
 var monster : Monster # The entity used for read/write on stats and abilities
-# Monster is carried around as a neat container, and to allow for 1 pointer to be passed
+# Monster is carried around as a neat container, ...
+# ... and to allow for 1 pointer to be passed
 # from global to global to class while still editing the same monster (I hope)
 var active = false: set = set_active
 
@@ -56,7 +57,8 @@ enum BytefieldStatusBattle
 {
 	NIGHTMARE,
 	TELEKINESIS, 	# Being lifted by another's accord
-	CHARGING, 		# How to tell which move is charging? Easy, you can't choose a new move while charging.
+	CHARGING, 		# How to tell which move is charging? ...
+					# ... Easy, you can't choose a new move while charging.
 }
 
 
@@ -68,7 +70,7 @@ enum BytefieldStatusCondition
 	DROWSY,
 	DIZZY,
 	CURSED,
-	ON_LOOP,			# A performance was demanded of them, now they must deliver.
+	ON_LOOP,		# A performance was demanded of them, now they must deliver.
 	LIMELIGHT,			# Detection, identitification, and spotlight
 	STICKY,
 	FLINCH,
@@ -124,13 +126,16 @@ func flee():
 # Used in combat_scene, might be used for moves later
 # Sorts high to low speed, otherwise compares other stats
 func compare_priority( a:Combatant, b:Combatant ):
-	if a.queued_move == null || b.queued_move == null || a.queued_move["move"].priority_tier == b.queued_move["move"].priority_tier:
-		if a.monster.get_stat(GlobalMonster.BattleStats.SPEED) > b.key.monster.get_stat(GlobalMonster.BattleStats.SPEED):
+	if a.queued_move == null || b.queued_move == null \
+	|| a.queued_move["move"].priority_tier == b.queued_move["move"].priority_tier:
+		if a.monster.get_stat(GlobalMonster.BattleStats.SPEED) \
+		> b.key.monster.get_stat(GlobalMonster.BattleStats.SPEED):
 			return true
 		if a.monster.get_health() < b.monster.get_health():
 			return true
 	else:
-		return a.queued_move["move"].priority_tier > b.queued_move["move"].priority_tier 
+		return a.queued_move["move"].priority_tier \
+		> b.queued_move["move"].priority_tier 
 	return false
 
 
@@ -138,7 +143,8 @@ func get_priority():
 	pass
 
 # Ignores STAB, applies a preprocessed effect
-# This is why the categories of end results of a move are "moveeffect" and not "move effect"
+# This is why the categories of end results of a move are ...
+# ... "moveeffect" and not "move effect"
 func apply_move_effects():
 	pass
 

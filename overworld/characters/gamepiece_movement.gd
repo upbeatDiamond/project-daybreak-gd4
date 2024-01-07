@@ -16,6 +16,7 @@ enum Direction{
 var direction:Direction
 var method:Gamepiece.TraversalMode
 
+
 func _init( vector:=Vector2i(0,0), _method:=Gamepiece.TraversalMode.WALKING ):
 	method = _method
 	
@@ -33,6 +34,7 @@ func _init( vector:=Vector2i(0,0), _method:=Gamepiece.TraversalMode.WALKING ):
 			direction = Direction.WEST
 	pass
 
+
 func to_facing_vector2i() -> Vector2i:
 	var vector_export := Vector2i(0,0)
 	
@@ -41,15 +43,18 @@ func to_facing_vector2i() -> Vector2i:
 	
 	return vector_export
 
+
 func to_facing_vector2f() -> Vector2:
 	var vec = to_facing_vector2i()
 	return Vector2( vec.x, vec.y )
+
 
 func to_cell_vector2i() -> Vector2i:
 	if method == Gamepiece.TraversalMode.STANDING:
 		return Vector2i(0,0)
 
 	return to_facing_vector2i()
+
 
 func to_cell_vector2f() -> Vector2:
 	var vec = to_cell_vector2i()

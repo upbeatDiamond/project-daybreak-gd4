@@ -95,23 +95,24 @@ func populate_with_gamepieces():
 	place_gamepieces( gamepieces )
 	pass
 
+
 func get_anchor_container():
 	var anchor_container = find_child("Anchors", false)
 	return anchor_container
+
 
 func pack_up():
 	var childs = get_children()
 	
 	# Tagged out to avoid massive duplication of the test NPC. Now only clones the Player.
 	# Recursively find & pack up gamepieces, assuming no gamepieces have gamepiece children
-	
 	# Please replace this with a signal.
-	
 	# EDIT TO ABOVE COMMENTS: Untagged out to see what happens. Doesn't break yet but... eh....????
 	
 	for child in childs:
 		if child is Gamepiece:
-			GlobalGamepieceTransfer.submit_gamepiece(child, map_index, child.global_position, map_index)
+			GlobalGamepieceTransfer.submit_gamepiece(child, map_index, \
+				child.global_position, map_index)
 		else:
 			childs.append_array( child.get_children() )
 	

@@ -8,10 +8,10 @@ const SLOT = preload("res://menu/inventory_slot.tscn")
 func _ready():
 	pass # Replace with function body.
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+
 
 func repopulate_item_list(slot_list : Array[ItemGroupData]) -> void:
 	GlobalRuntime.clean_up_descent(item_list)

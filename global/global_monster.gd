@@ -1,16 +1,6 @@
 extends Node
 # Most of this stuff oughta be static methods.
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	pass
-
-
 const max_battle_techniques = 4
 
 enum PersonalityFactor
@@ -134,3 +124,13 @@ enum GameOfOrigin
 	SNAP,
 }
 	
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta):
+	pass

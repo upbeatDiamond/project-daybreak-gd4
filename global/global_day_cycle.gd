@@ -48,15 +48,18 @@ func _process(delta) -> void:
 		if current_day > DayOfWeek.size():
 			current_day = DayOfWeek.MONDAY
 
+
 func get_current_day():
 	if is_date_locked:
 		return locked_day
 	return current_day
 
+
 func get_current_hour():
 	if is_hour_locked:
 		return hours_per_day * locked_time / day_length
 	return hours_per_day * current_time / day_length
+
 
 func set_current_time( new_time:float ):
 	if is_hour_locked:
@@ -69,20 +72,24 @@ func set_current_hour( new_time:float ):
 	set_current_time( fposmod( new_time, hours_per_day ) * day_length / hours_per_day )
 	pass
 
+
 func lock_hour():
 	locked_time = current_time
 	is_hour_locked = true
 	pass
+
 
 func lock_day():
 	locked_day = current_day
 	is_date_locked = true
 	pass
 
+
 func unlock_hour():
 	current_time = locked_time
 	is_hour_locked = false
 	pass
+
 
 func unlock_day():
 	current_day = locked_day 
