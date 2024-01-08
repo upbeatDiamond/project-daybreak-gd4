@@ -110,6 +110,7 @@ func _parabola_jump( progress, start, end, thing ) -> Vector2:
 	
 	# Remember, high Y on Desmos is 'up', but when porting to Godot, Y = 'down', thus...
 	# ... subtracting rather than adding the Y-offset
+	# Why not calculate it 'right' in the first place? Uhhhhhhhhhhhhhhh ill get back to you on that
 	var point = ((1-progress) * start) + (progress * end) - \
 		Vector2( 0, h*(-1*pow(progress - 0.5, 2) + 0.25) )
 	thing.global_position = point

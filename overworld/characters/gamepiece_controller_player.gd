@@ -5,7 +5,6 @@ var INPUT_COOLDOWN_DEFAULT:float = 6.5;
 var input_cooldown := 0.0
 
 func _ready() -> void:
-	#set_physics_process(false)
 	if gamepiece == null:
 		gamepiece = get_parent()
 	print("GPC: I think I'm at ", gamepiece.current_position, "")
@@ -14,16 +13,14 @@ func _ready() -> void:
 	gamepiece = self.get_parent() as Gamepiece
 	
 	if not Engine.is_editor_hint():
-		assert(gamepiece, "Gamepiece '%s' must be a child of a Gamepiece to function! Is '%s'" % [name, get_parent().get_class()] )
-		pass
-	#set_physics_process(true)
+		assert(gamepiece, "Gamepiece '%s' must be a child of a Gamepiece to function! Is '%s'" 
+			% [name, get_parent().get_class()] )
 
 
 func _get_configuration_warnings() -> PackedStringArray:
 	var warnings: PackedStringArray = []
 	if not get_parent() is Gamepiece:
 		warnings.append("Controller must be a child of a Gamepiece to function!")
-	
 	return warnings
 
 
@@ -31,32 +28,18 @@ func _process(_delta):
 	#super._process(_delta)
 	if gamepiece.is_node_ready():
 		gamepiece.umid = 0
-	#if gamepiece != null:
-	#	set_physics_process(true);
 	#print( "controller thinks gp = %d", gamepiece )
-#	pass
 
 
 func _physics_process(_delta):
 	if GlobalRuntime.gameworld_input_stopped || gamepiece.is_paused:
 		return
-	elif gamepiece.move_queue.size() <= 1 && gamepiece.is_moving == false && input_cooldown <= 0: #:
+	elif gamepiece.move_queue.size() <= 1 && gamepiece.is_moving == false && input_cooldown <= 0:
 		handle_movement_input()
-	
-	#if Input.is_action_pressed("menu"):
-		#GlobalRuntime.scene_manager.player_menu.Control.visible = !GlobalRuntime.scene_manager.player_menu.Control.visible
-		#print( str(InputMap.action_get_events("menu")[0]) )
-	
-	
 	
 	if input_cooldown > 0:
 		input_cooldown -= _delta
 	#print( "controller thinks moving = %d", gamepiece.is_moving )
-
-
-func sanity_check():
-	print( "Virtual sanity ~ ", scene_file_path )
-	pass
 
 
 func handle_movement_input():
@@ -66,7 +49,7 @@ func handle_movement_input():
 		if input_direction == Vector2.ZERO:
 			return
 		
-		# This section deals with some diagonal inputs cotextually
+		# This section deals with some diagonal inputs contextually
 		if (input_direction.x != 0) && (input_direction.y != 0) && (input_direction != Vector2.ZERO):
 			input_direction = gamepiece.facing_direction;
 		
@@ -89,20 +72,15 @@ func handle_movement_input():
 			gamepiece.queue_movement( movement )
 			gamepiece.update_anim_tree()
 			print("GPC: I think I'm at ", gamepiece.current_position, "")
-		
-		#if Input.is_action_pressed("debug_summon"):
-		#	pass
 
 
 func handle_map_change( map:String, silent:bool=false ):
-	
 	var was_paused = gamepiece.is_paused
 	gamepiece.is_paused = true
 	
 	if !silent:
 		print("not silent warp!")
 		await GlobalRuntime.scene_manager.fade_to_black()
-	
 	
 	if GlobalRuntime.scene_manager.get_map_index(map) != null:
 		GlobalGamepieceTransfer.submit_gamepiece( gamepiece, \
@@ -113,7 +91,6 @@ func handle_map_change( map:String, silent:bool=false ):
 
 
 func finalize_map_change( was_paused, silent ):
-	
 	if !silent:
 		GlobalRuntime.scene_manager.fade_in()
 	
@@ -130,4 +107,6 @@ func finalize_map_change( was_paused, silent ):
 	
 	gamepiece.position_stabilized = true
 	
+	# Save to preserve at least current position and facing direction
+	GlobalDatabase.save_gamepiece( gamepiece )
 	pass

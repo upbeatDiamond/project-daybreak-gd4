@@ -24,10 +24,9 @@ var play_scene_path = "res://overworld/level_maps/red_town.tscn"
 
 func _ready():
 	
-	GlobalDatabase.fetch_save_to_stage()
-	#if GlobalDatabase.can_recover_last_state():
-	#	pass
-	#else:
+	## The following line SHOULD NOT be commented out... however...
+	## ... to debug more efficiently, we will be ignoring this ominous warning.
+	#GlobalDatabase.fetch_save_to_stage()
 	GlobalRuntime.scene_manager.append_preload_map( play_scene_path )
 	
 	pass
@@ -40,6 +39,8 @@ func _on_play_pressed():
 		
 		if GlobalDatabase.can_recover_last_state():
 			print( "can recover, I think!" )
+			await GlobalDatabase.save_keyval("test_worked;(&)\\", true)
+			print(GlobalDatabase.load_keyval("test_worked;(&)\\"))
 			GlobalDatabase.recover_last_state()
 		else:
 			print( "cannot recover..." )

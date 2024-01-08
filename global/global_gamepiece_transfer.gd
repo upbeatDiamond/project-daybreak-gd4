@@ -89,12 +89,13 @@ enum MapIndex
 	
 	# From this point forward are identifiers that are extremely likely to change value.
 
-	FAILSAFE_ROOM,
 	TOWN_RED_GYM,
-	TOWN_BLUE_GYM,
 	TOWN_GREEN_GYM,
-
+	TOWN_BLUE_GYM,
+	MAX_VALUE,
 	# From this point on is compatibility aliases (As in, please phase these out, but carefully.)
+	
+	FAILSAFE_ROOM = INVALID_INDEX,
 }
 
 var gamepiece_preload = preload( "res://overworld/characters/gamepiece.tscn" )
@@ -103,6 +104,7 @@ var gamepieces_by_map : Array[Array] = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	gamepieces_by_map.resize( MapIndex.MAX_VALUE )
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -144,13 +146,12 @@ target_map_coordinates:=Vector2i(0,0), _origin_map_index:=MapIndex.INVALID_INDEX
 	GlobalDatabase.save_gamepiece( piece )
 	pass
 
-
+# Deprecated? If used, improve, else remove.
 func reform_gamepiece_treelet( gamepiece:Gamepiece ):
 	
 	gamepiece.get_children()
-	#for child in gamepiece.get_children():
-		#gamepiece.remove_child( child )
 	
+	# Indirectly repair the 'gamepiece' variable / class object
 	var gp_repair = gamepiece_preload.instantiate() as Gamepiece
 	gp_repair.transfer_data_from_gp( gamepiece )
 	
@@ -175,9 +176,43 @@ func reform_gamepiece_treelet( gamepiece:Gamepiece ):
 	
 	return gamepiece
 
-#func retrieve_gamepiece( gp_id:int ) -> Gamepiece:
-#	return null
-#	pass
+
+# If gp_id == -1, then ignore it.
+# Assumes you want to retrieve from the cache
+# If there's a cache fail and check_table == true, then check the db
+# There shouldn't be duplication of gamepieces in general, so besides linear search time, this good
+func pop_out_gamepiece( umid:int, gp_id:int=-1, check_table:=false ) -> Gamepiece:
+	var piece_list := []
+	for gamepieces in gamepieces_by_map:
+		piece_list.append_array(gamepieces)
+	for piece in piece_list:
+		# If it exists, then gp_id == -1 (check umid) or != -1 (check gp_id)
+		if piece != null and \
+		((piece.umid == umid or gp_id != -1) and (gp_id == -1 or gp_id == piece.unique_id)):
+			return piece
+	if check_table:
+		return GlobalDatabase.load_gamepiece( umid )
+	return null
+
+
+func save_map_gamepieces( _map:LevelMap ):
+	_save_map_placed_gamepieces(_map)
+	_save_map_stored_gamepieces(_map.map_index)
+
+
+func _save_map_stored_gamepieces( _map_id:int ):
+	if _map_id >= gamepieces_by_map.size():
+		return
+	for piece in gamepieces_by_map[_map_id]:
+		GlobalDatabase.save_gamepiece( piece )
+
+
+func _save_map_placed_gamepieces( _map:LevelMap ):
+	for piece in _map.current_gamepieces:
+		if piece is Gamepiece:
+			GlobalDatabase.save_gamepiece( piece as Gamepiece )
+	
+	pass
 
 # When playing multiplayer, or even singleplayer, and an NPC/Guest changes to your map?
 # Detect that happened and warp them into your current map.

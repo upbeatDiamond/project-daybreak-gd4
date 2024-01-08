@@ -78,7 +78,7 @@ func change_map_from_path( map:String ) -> int:
 	var next_map;
 	
 	if scenes_ready.has(map):
-		# This following line of code causes a lot of errors in the debugger. What a shame.
+		# This following line of code caused a lot of errors in the debugger. Was fixed?
 		next_map = scenes_ready[map][0]
 		scenes_ready.erase( map )
 	elif map.is_valid_filename():
@@ -150,9 +150,10 @@ func update_preload_portals( ttl_decrement : int = 1 ):
 		
 		# If their TTL is expired, remove from the list
 		if scenes_ready[rs][1] < 0:
+			if scenes_ready[rs][0] is LevelMap:
+				await GlobalGamepieceTransfer.save_map_gamepieces( scenes_ready[rs][0] )
 			GlobalRuntime.clean_up_node_descent( scenes_ready[rs][0] )
 			scenes_ready.erase(rs)
-	
 	pass
 
 

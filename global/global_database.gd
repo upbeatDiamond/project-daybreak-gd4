@@ -14,7 +14,8 @@ var db : SQLite = null
 const verbosity_level : int = SQLite.VERBOSE
 
 # Used for balance patches and backwards compatibility with future monster additions
-var db_name_patch := "res://database/patchdata"
+# Please copy this file to user:// upon not finding one in user://
+var db_name_patch_base := "res://database/patchdata"
 
 # 3 Databases intended to be used for save file security.
 # Active updates as you play, but some players might not want to autosave.
@@ -23,13 +24,18 @@ var db_name_user_stage := "user://database/save_active"
 var db_name_user_commit := "user://database/save_stable"
 # Backup is intended to avoid any corruption errors, but so far doesn't do much.
 var db_name_user_backup := "user://database/save_backup"
-# And this file acts as intermediary between all of the 3 user save files.
-var json_name_user_pidgeonhole := "user://database/pidgeonhole"
+
+## I know it's fun to delete commented code after 1 upload, but this is new upcoming code...
+## Yeah, yeah, "YAGNI". But I will need, if not this, then something similar.
+
+## Stores metadata, settings, preferences, and any data persistant between resets.
+#var db_name_system := "user://database/system_db"
 
 
 var table_name_monster := "monster"
 var table_name_user_monster := "monster"
 var table_name_user_gamepiece := "gamepiece"
+var table_name_keyval := "variables"
 #var table_name_player := "person"
 #var table_name_relationship := "character"
 
@@ -95,7 +101,6 @@ func _process(_delta):
 
 
 func exists_monster( monster ) -> bool:
-	
 	var row_array = ["name"]
 	
 	db = SQLite.new()
@@ -103,28 +108,17 @@ func exists_monster( monster ) -> bool:
 	db.open_db()
 	
 	var query_result = db.select_rows( table_name_monster, str("umid = ", monster.umid), row_array );
-	
 	db.close_db()
 	
 	if (query_result is Array && query_result.size() > 0):
 		return true
-	
 	return false
 
-## concept code:
-#var pre_bind = GlobalRuntime.multiply_string(" ? ", cols.size, "," )
-#var bind = vals
-#var query_template = str( "INSERT OR REPLACE INTO ", table_name, " ( " )
-#for col in cols:
-	#query_template = str(query_template, " ", col, ", ")
-#query_template = str(query_template,   " ) values ( ",  pre_bind,  " )" )
-#query_with_bindings( query_template, bind );
 
 func game_to_database(thing:Object, tablekey_propval:Dictionary, target_db_path:String, \
 target_table_name:String, _query_conditions:String=""  ):
 	
 	var row_dict : Dictionary = {}
-	#var current_propval
 	var cols = tablekey_propval.keys()
 	var vals = cols.duplicate()
 	
@@ -138,13 +132,6 @@ target_table_name:String, _query_conditions:String=""  ):
 				row_dict[key] = thing.get( tablekey_propval[key]["property"] )
 				if (row_dict[key] is Array or row_dict[key] is Dictionary) and tablekey_propval[key].has( "index" ):
 					row_dict[key] = thing.get(tablekey_propval[key]["property"])[ tablekey_propval[key]["index"] ]
-					#print( thing, thing.get(tablekey_propval[key]["property"]) )
-					#print(row_dict[key], " y'know?")
-					
-					## if the reassignment failed, revert.
-					## it might be better to make a new variable for this instead?
-					#if row_dict[key] == null:
-						#row_dict[key] = thing.get( tablekey_propval[key]["property"] )
 			else:
 				row_dict[key] = null
 			
@@ -166,15 +153,7 @@ target_table_name:String, _query_conditions:String=""  ):
 	db = SQLite.new()
 	db.path = target_db_path
 	db.open_db()
-	#var row_array = [row_dict]
-	#var success = db.insert_rows( target_table_name, row_array )
-	#if !success:
-	#	db.update_rows( target_table_name, query_conditions, row_dict )
-	
-	#print("nbind")
 	var pre_bind = GlobalRuntime.multiply_string(" ? ", cols.size(), "," )
-	#var bind = vals
-	#print("bind")
 	var query_template = str( "INSERT OR REPLACE INTO ", target_table_name, " ( " )
 	for col in cols:
 		query_template = str(query_template, " ", col, ", ")
@@ -183,19 +162,15 @@ target_table_name:String, _query_conditions:String=""  ):
 	var _success = db.query_with_bindings( query_template, vals );
 	
 	db.close_db()
-	
-	pass
 
 
-func database_to_game(thing:Object, tablekey_propval:Dictionary, target_db_path:String, target_table_name:String, query_conditions:String ):
-	
+func database_to_game(thing:Object, tablekey_propval:Dictionary, target_db_path:String, \
+target_table_name:String, query_conditions:String ):
 	var row_dict : Dictionary = {}
-	#var current_propval
-	
 	var selected_columns : Array = tablekey_propval.keys()
 	
 	db = SQLite.new()
-	db.path = target_db_path#db_name_user_stage
+	db.path = target_db_path
 	db.open_db()
 	
 	var fetched:Array = db.select_rows( target_table_name, query_conditions, selected_columns )
@@ -218,16 +193,14 @@ func database_to_game(thing:Object, tablekey_propval:Dictionary, target_db_path:
 					if row_dict[key] == null:
 						row_dict[key] = thing.get( tablekey_propval[key]["property"] )
 						# thing.set(property <-- fetched[key])
-						thing.set(tablekey_propval[key]["property"], db_unwrap(fetched.front()[ key ]) ) # selected_columns.find(key)
+						thing.set(tablekey_propval[key]["property"], db_unwrap(fetched.front()[ key ]) )
 					else:
 						# thing.set(property[index] <-- fetched[key])
 						thing.set(tablekey_propval[key]["property"] [tablekey_propval[key]["index"]], db_unwrap(fetched.front()[ key ]))
 				else:
 					# thing.set(property <-- fetched[key])
-					thing.set(tablekey_propval[key]["property"], db_unwrap(fetched.front()[ key ])) # selected_columns.find(key)
-	
+					thing.set(tablekey_propval[key]["property"], db_unwrap(fetched.front()[ key ]))
 	db.close_db()
-	
 	return thing
 
 # To be called by GlobalMonsterSpawner
@@ -242,67 +215,30 @@ func save_monster( monster ):
 	else:
 		store_monster( monster )
 
-
 # Contains code to save monster character to database
 func update_monster( monster ):
 	database_to_game( monster, tkpv_monster, db_name_user_stage, table_name_monster, \
 	str("UMID = ", monster.umid) )
 
 
-## Need to update the selected columns here.
-#func load_monster( monster ):
-	#
-	#var selected_columns : Array = ["current_health", "current_spirit", 
-									#"current_attack", "current_defense", 
-									#"current_speed", "current_evasion", 
-									#"current_intimidate", "current_resolve", 
-									#"current_mana", "max_health", "max_spirit", 
-									#"max_attack", "max_defense", "max_speed", 
-									#"max_evasion", "max_intimidate", "max_resolve", 
-									#"max_mana", "ability", "exp", "level", 
-									#"name", "item_held"];
-	#
-	#var summary_dict : Dictionary = Dictionary();
-	#
-	#db = SQLite.new()
-	#db.path = db_name_user_stage
-	#db.open_db()
-	#
-	#var fetched:Array = db.select_rows( table_name_monster, str("umid = ", monster.umid), selected_columns )
-	#
-	#db.close_db()
-	#
-	#pass
-
-
-
 func save_gamepiece( gamepiece:Gamepiece ):
 	var umid = gamepiece.umid
-	
 	game_to_database(gamepiece, tkpv_gamepiece, db_name_user_stage, "gamepiece", str(" UMID = ", umid )  )
 	game_to_database(gamepiece.monster, tkpv_monster, db_name_user_stage, "monster", str(" UMID = ", umid )  )
-	
-	pass
-
 
 
 func load_gamepiece( umid:int ) -> Gamepiece:
-	
 	var gamepiece = Gamepiece.new()
 	gamepiece.monster = Monster.new()
 	gamepiece.umid = umid
 	database_to_game(gamepiece, tkpv_gamepiece, db_name_user_stage, "gamepiece", str(" UMID = ", umid ) )
 	database_to_game(gamepiece.monster, tkpv_monster, db_name_user_stage, "monster", str(" UMID = ", umid ) )
-	
 	return gamepiece
 
 
 func load_gamepieces_for_map( map_id ) -> Array[Gamepiece]:
-	
 	var selected_columns : Array = ["umid", "current_position", 
 									"current_direction", "current_action"];
-	
-	#var summary_dict : Dictionary = Dictionary();
 	
 	db = SQLite.new()
 	db.path = db_name_user_stage
@@ -319,7 +255,6 @@ func load_gamepieces_for_map( map_id ) -> Array[Gamepiece]:
 		gamepiece_array.append( gamepiece )
 	
 	db.close_db()
-	
 	return gamepiece_array
 
 
@@ -327,9 +262,52 @@ func save_player_data():
 	pass
 
 
-
 func load_player_data():
 	pass
+
+
+# Does not use game_to_database because GtDB is for objects and looks iffy.
+# This is smaller, and probably more stable, at the small cost of overall code expansion.
+func save_keyval(_key:String, _val):
+	_key = cheap_sanitize(_key)
+	
+	db = SQLite.new()
+	db.path = db_name_user_stage
+	db.open_db()
+	var query_template = str( "INSERT OR REPLACE INTO ", table_name_keyval, " ( key, value ) " )
+	query_template = str(query_template, " values ( ?, ? )" )
+	print(query_template)
+	var _success = db.query_with_bindings( query_template, [ _key, db_wrap(_val)] );
+	
+	db.close_db()
+
+
+func load_keyval(_key:String, _val=null):
+	_key = cheap_sanitize(_key)
+	
+	db = SQLite.new()
+	db.path = db_name_user_stage
+	db.open_db()
+	
+	var query_conditions = str("key = '", _key, "'") 
+	var fetched:Array = db.select_rows( table_name_keyval, query_conditions, ["key", "value"] )
+	db.close_db()
+	
+	if fetched.size() <= 0:
+		return null
+	return fetched.front()#["value"]
+
+
+# Used for save/load_keyval, to avoid escaping strings too early
+func cheap_sanitize( statement:String ):
+	statement = statement.replace(")", "")
+	statement = statement.replace("(", "")
+	statement = statement.replace("'", "")
+	statement = statement.replace('"', "")
+	statement = statement.replace(';', "")
+	statement = statement.replace('/', "//")
+	statement = statement.replace('\\', "/")
+	return statement
 
 
 # Saves the gametoken & graph connection data
@@ -377,15 +355,10 @@ func recover_last_state() -> String:
 	var gp_read : Gamepiece = load_gamepiece( 0 )
 	if gp_read == null:
 		return ""
-	#GlobalGamepieceTransfer.submit_gamepiece( gp_player, gp_player.current_map, gp_player.current_position )
 	var map_player = load_level_map( gp_read.current_map )
 	if map_player == null:
 		return ""
 	
-	
-		#GlobalRuntime.clean_up_descent( self )
-	
-	#var check : int = -1
 	GlobalRuntime.scene_manager.append_preload_map( map_player.scene_file_path )
 	while !GlobalRuntime.scene_manager.map_is_ready( map_player.scene_file_path ):
 		await get_tree().process_frame
@@ -404,18 +377,18 @@ func recover_last_state() -> String:
 	for child in gp_player.get_children():
 		if child is Node2D:
 			child.visible = true
+	
+	load_global_data() # Should recover background stuff like Gamepieces, their AI, Gametokens, etc
+	
 	return map_player.scene_file_path
 
 
-#func load_level_map( map:LevelMap ):
-#	game_to_database(map, tkpv_level_map, db_name_user_stage, "level_map", str("map_id = ", map.map_index) )
-#	pass
-
-
+##TODO: Refactor current save system to use this (currently empty) function
 func save_global_data():
 	pass
 
 
+##TODO: Expand current load/"recover" system to use this (currently empty) function
 func load_global_data():
 	pass
 
@@ -519,9 +492,3 @@ func validate_umid( umid:int=0 ) -> int:
 	#
 	
 	return umid
-
-
-# I call this a 'struct' because I like the C langauge.
-#func load_move_effectiveness_struct(move_id):
-#	print( sqrt(-1)/0 ); # Because I don't know how throwing and catching works in GD 4
-#	pass

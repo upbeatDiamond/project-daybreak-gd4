@@ -67,7 +67,8 @@ var secondary_techniqueeffect_template = {
 	"accuracy_dependence" = false	# true = only executes if primary effect executes
 }
 
-# base_power, accuracy, primary_effect, flag_bitfield, effects, effect_accuracies, type1, type2, priority, cost
+# base_power, accuracy, primary_effect, flag_bitfield, 
+# effects, effect_accuracies, type1, type2, priority, cost
 var default_move = Technique.new(100, 100, null, 0, [], [], 0, 0)
 
 

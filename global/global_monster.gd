@@ -92,6 +92,7 @@ enum GenderBitfield
 }
 
 
+# ALL THESE WORLDS ARE OURS EXCEPT XXXXXX.
 enum LostSoulHints
 {
 	FAMILIAR,		# Represents creature from this game, but is corrupted or unimplemented

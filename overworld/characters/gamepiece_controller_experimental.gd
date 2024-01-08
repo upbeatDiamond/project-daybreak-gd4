@@ -1,11 +1,11 @@
 extends Node
-# replace with references to NavigationServer2D ...
-# ... and merge into a base GamepieceController
+# When stabilized and tested, will be the new GamepieceController(Base), which GC.Player inherits
 
 var gamepiece : Gamepiece
 var INPUT_COOLDOWN_DEFAULT:float = 6.5;
 var input_cooldown := 0.0
 var nav_agent : RID
+var move_control_mode := MoveControlMode.CONTROLLER
 
 enum MoveControlMode{
 	PLAYPAD = 0,	# keylogger playback
@@ -25,6 +25,13 @@ func _init():
 	_update_nav_agent_position()
 
 
+func _ready() -> void:
+	gamepiece = self.get_parent() as Gamepiece
+	
+	update_configuration_warnings()
+	set_physics_process(true)
+
+
 func _process(_delta):
 	pass
 
@@ -34,10 +41,29 @@ func _physics_process(_delta):
 		return
 	elif gamepiece.move_queue.size() <= 1 and gamepiece.is_moving == false \
 	and input_cooldown <= 0:
-		if auto_waypoints.size() <= 0:
-			handle_movement_input()
-		else: 
-			handle_movement_auto()
+		match move_control_mode:
+			MoveControlMode.PLAYPAD:
+				move_control_mode = MoveControlMode.CONTROLLER #PLAYPAD not implemented yet
+			MoveControlMode.CONTROLLER:
+				handle_movement_input()
+			MoveControlMode.AUTOPATH:
+				handle_movement_auto()
+			_:	# If we don't know what the control mode is, then finish the path.
+				if auto_waypoints.size() <= 0:
+					handle_movement_input()
+				else: 
+					handle_movement_auto()
+	
+	if input_cooldown > 0:
+		input_cooldown -= _delta
+
+
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings: PackedStringArray = []
+	if not get_parent() is Gamepiece:
+		warnings.append("Controller must be a child of a Gamepiece to function!")
+	
+	return warnings
 
 
 func handle_movement_input():
@@ -50,6 +76,12 @@ func _guess_nav_agent_position():
 	pass
 
 
+func assign_target_position( target:Vector2 ):
+	auto_target_position = target
+	_update_nav_agent_position()
+	_regenerate_auto_path_to_target( auto_target_position )
+
+
 func _update_nav_agent_position():
 	var nav_pos = _guess_nav_agent_position()
 	NavigationServer2D.agent_set_position( nav_agent, nav_pos )
@@ -60,9 +92,9 @@ func queue_auto_path( waypoints:PackedVector2Array ):
 
 
 func _regenerate_auto_path_to_target( target:Vector2 ):
-	queue_auto_path( NavigationServer2D.map_get_path( _get_map_rid(), _guess_nav_agent_position(), \
-	GlobalRuntime.snap_to_grid_center_f(target), true ) )
-	pass
+	var path_fix = NavigationServer2D.map_get_path( _get_map_rid(), _guess_nav_agent_position(), \
+		GlobalRuntime.snap_to_grid_center_f(target), true )
+	queue_auto_path( path_fix )
 
 
 func _get_map_rid():
@@ -81,9 +113,7 @@ func handle_movement_auto():
 		auto_waypoints.remove_at(0)
 		_auto_walk_to_point( auto_current_target )
 	else:
-		handle_movement_input()
-	
-	pass
+		return
 
 
 func _packed_vector2_pop_front(packed:PackedVector2Array):

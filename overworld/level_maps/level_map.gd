@@ -109,6 +109,8 @@ func pack_up():
 	# Please replace this with a signal.
 	# EDIT TO ABOVE COMMENTS: Untagged out to see what happens. Doesn't break yet but... eh....????
 	
+	GlobalGamepieceTransfer.save_map_gamepieces( self )
+	
 	for child in childs:
 		if child is Gamepiece:
 			GlobalGamepieceTransfer.submit_gamepiece(child, map_index, \
