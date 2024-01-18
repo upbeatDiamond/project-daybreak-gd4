@@ -122,6 +122,10 @@ func handle_input(event):
 			update_select_arrow()
 			pass
 		
+		
+		ScreenLoaded.INVENTORY:
+			pass
+		
 		_: #ScreenLoaded.PAUSE_MENU:
 			
 			if event.is_action_pressed("ui_accept"):

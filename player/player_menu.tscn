@@ -1,9 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://cpjyc350pwf57"]
+[gd_scene load_steps=10 format=3 uid="uid://cpjyc350pwf57"]
 
 [ext_resource type="Script" path="res://player/player_menu.gd" id="1_5rlhg"]
 [ext_resource type="Texture2D" uid="uid://dwvr10slisk7o" path="res://assets/textures/menu/gui_woodengem_frame.png" id="1_x08vi"]
 [ext_resource type="Script" path="res://player/submenu_selection.gd" id="3_1w4mh"]
 [ext_resource type="Texture2D" uid="uid://bryctcvhwj6rh" path="res://assets/textures/menu/selection_arrow.png" id="3_a8ymm"]
+[ext_resource type="Script" path="res://addons/gloot/ui/ctrl_inventory_stacked.gd" id="5_eu4fv"]
+[ext_resource type="Texture2D" uid="uid://cr17q6mvvkai1" path="res://assets/textures/items/blue_jewel.png" id="6_57npq"]
+[ext_resource type="Script" path="res://addons/gloot/core/inventory_stacked.gd" id="7_0loov"]
+[ext_resource type="Resource" uid="uid://b4k68yn0si4th" path="res://item_protoset_json_test.tres" id="8_8qyui"]
+[ext_resource type="Script" path="res://addons/gloot/core/inventory_item.gd" id="9_7l1du"]
 
 [node name="Menu" type="CanvasLayer"]
 script = ExtResource("1_5rlhg")
@@ -157,3 +162,25 @@ submenu_link = 11
 position = Vector2(48, 56)
 scale = Vector2(1.54839, 1.71429)
 texture = ExtResource("3_a8ymm")
+
+[node name="InventoryGUI" type="Control" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_eu4fv")
+progress_bar_visible = false
+label_visible = false
+inventory_path = NodePath("InventoryCore")
+default_item_icon = ExtResource("6_57npq")
+
+[node name="InventoryCore" type="Node" parent="Control/InventoryGUI"]
+script = ExtResource("7_0loov")
+item_protoset = ExtResource("8_8qyui")
+
+[node name="Node" type="Node" parent="Control/InventoryGUI/InventoryCore"]
+script = ExtResource("9_7l1du")
+protoset = ExtResource("8_8qyui")
+prototype_id = "stick"

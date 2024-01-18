@@ -1,13 +1,11 @@
 Welcome to crude changelog, the log that gets facts wrong about your favorite changes.
 I'm jan Wiwijen (jan Opitaman), and today I'll be discussing a pre-alpha version of a Godot project.
 
-Late 2023 - Early 2024
+December 2023 - January 2024
 
 Codename: Project Daybreak
-Update: Pre-alpha 5, "The Longest Time"
-Namesake: Even if I somehow accidentally finished writing all core code, ...
-	... there would still be music left to write.
-TL;DR: The game can now be fleshed out into a walking simulator if so desired.
+Update: Pre-alpha 5, "Stamp on the Ground"
+TL;DR: Added ledges, pushable props, and saving player position.
 
 
 Noteworthy Additions:
@@ -44,8 +42,10 @@ Noteworthy Additions:
 		+ ... to enable game recovery tests
 		+ ... to enable automatic database backups
 	+ Added more assets, as always
-	
-	+ Added more license text
+	+ Added the Gloot addon
+		* Tweaked addon to break the debugger less when Stop-ing (F8-ing)
+	+ Merged in files from subprject Director
+		* Re-enabled GlobalDayCycle
 
 
 Noteworthy Subtractions:
@@ -142,3 +142,7 @@ General Commentary:
 	> ... the baking, parsing, running, etc...
 	> ... it wasn't *useless* per se, but I could just use the navmesh? At least for now?
 	> That's right, new to Godot 4.2+, the navmesh easy bake button.
+
+	> "For The Longest Time" is going to be deferred due to lack of thematic accuracy. 
+	> To avoid confusion, the name may not be reused for any pre-Alphas.
+	> It may be reused for late Alphas, or Betas, or patches, but ideally not.

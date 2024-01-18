@@ -1,0 +1,42 @@
+<<syntax_version, -1750815>> //some absurdly high number
+<<db_read $cs_seen, "cutscene_seen_intro_sync">>
+<<jump_if $cs_seen, "end">>
+
+=== start ===
+<<chmod "6000">>	// ugt = host player, guests, can leave; rwx = menu, save, self-control
+<<play_cinematic "res://cinematic/intro/intro.tscn", "intro">>
+<<await_cinematic "intro", "fade out", 0.5>>	// await this cine +> do this transition this long
+<<db_read $play_name, "player_name">>
+<<rename @Player, $play_name>>
+<<rename @Mom, "???">>
+<<emote "sleepy", @Player>>
+Player: ...
+Player: ?
+Mom: <@Player>! <<emote "grinning">>!
+
+<<play_pad "a">>
+//<<play_sound "creak">>
+
+<<rename @Mom, "Mom">>
+Mom: Ah, <wait 0.25> the floor creaked, <wait 0.5> so you're awake.
+Mom: When you get a chance, come downstairs to the kitchen.
+Mom: I've been working on something and I need someone to try it.
+
+	* Me?
+		<<emote "curious", @Player>>
+		Player: ...?
+		
+		Mom: Yes, you.
+		
+		<<emote "blush">>
+	* Uncle?
+		<<emote "curious", @Player>>
+		Player: ...?
+
+		Mom: And no, it can't be your uncle.
+
+		<<emote "unamused">>
+		Player: ...
+
+=== end ===
+<<finish>>

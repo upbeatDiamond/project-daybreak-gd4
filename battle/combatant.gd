@@ -148,10 +148,6 @@ func get_priority():
 func apply_move_effects():
 	pass
 
-# Applies STAB, used for move queuing 
-func preprocess_move_effects():
-	pass
-
 # Applies STAB, used for AI calculations and priority sorting
 func anticipate_move_effects():
 	pass

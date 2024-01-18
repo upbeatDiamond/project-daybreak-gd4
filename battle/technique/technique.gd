@@ -4,19 +4,15 @@ class_name Technique
 var flag_bitfield
 
 var base_power
-var primary_moveeffect_accuracy
-var primary_moveeffect
+var moveeffect_accuracy
+var moveeffect
 	# The overall accuracy. If this misses, no effects are used.
-
 
 var priority_tier := 0
 
-# 2D array, with 2nd dimension being pairs of Effect and Element.
-var secondary_moveeffects = []
-
-
 var type_one # This type is always in play for primary effect
 var type_two # This type might be in play anywhere
+var moveeffect_mods := {}
 
 var priority
 var energy_cost
@@ -33,21 +29,23 @@ func _process(_delta):
 
 
 func _init( _base_power:int, _accuracy, primary_effect:TechniqueEffect, _flag_bitfield:int, \
-_effects:Array, effect_accuracies:Array, type1, type2, _priority_tier=0, cost=0):
+effect_accuracy, type1, type2, _priority_tier:=0, cost:=0.0):
 	self.base_power = _base_power
 	self.accuracy = _accuracy
 	self.flag_bitfield = _flag_bitfield
-	self.primary_moveeffect = primary_effect
-	self.primary_moveeffect_accuracy = effect_accuracies.pop_front()
+	self.moveeffect = primary_effect
+	self.moveeffect_accuracy = effect_accuracy
 	self.priority_tier = _priority_tier
 	self.type_one = type1
 	self.type_two = type2
 	self.energy_cost = cost
-	pass
+
 
 # Only uses functions to expose fields. 
 # The Move's functionality is split between its Global and its Effects
 # Stores name, types, effects, and flags
-func calculate_effect( _user, _targets:Array, _traits:Dictionary ):
+func calculate_effect( _user:Combatant, _targets:Array[Combatant], _traits:Dictionary ):
 	pass
+
+
 

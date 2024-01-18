@@ -53,7 +53,7 @@ enum BooleanFlags
 }
 
 # 2 tier key-value pairing: attacker, defender, multiplier
-var type_matchup = {}
+static var type_matchup = {}
 
 var techniques_loaded = {}
 
@@ -77,36 +77,58 @@ var default_move = Technique.new(100, 100, null, 0, [], [], 0, 0)
 # Index = "similarity value" ~= index matchup counted in a roundabout way
 # Higher value = better. Max as of this comment is 6 in theory, but should be unreachable normally
 # This system may be replaced in a future version.
-var stab_multiplier = [1, 1.25, 1.5, 1.5, 1.5, 2, 2.25]
+static var stab_multiplier = [1, 1.25, 1.5, 1.5, 1.5, 2, 2.25]
 
 func load_technique_from_database( _move_reference ):
 	pass
 	# Calls database, links effect shorthand/index to effect objects and passes to the manager.
 
-func execute_technique( _move, _user, _target : Array ):
+
+func preprocess_ability_effects( _user, _target, _move, _raw_damage, _tags:={}) -> Dictionary:
+	
+	return _tags
+
+
+func preprocess_item_effects( _user, _target, _move, _raw_damage, _tags:={}) -> Dictionary:
+	
+	return _tags
+
+
+func execute_technique( _move:Technique, _users:Array[Combatant], _targets:Array[Combatant] ):
+	
+	var raw_damage := 0.0
+	var tags := {}
+	
+	for user in _users:
+		for target in _targets:
+			@warning_ignore("static_called_on_instance")
+			raw_damage = GlobalTechnique.calculate_raw_damage( [_move.type_one, _move.type_two], user, target )
+			
+			tags = {"raw_damage":raw_damage}
+			
+			tags = preprocess_ability_effects( user, target, _move, raw_damage, tags )
+			#tags = preprocess_ability_effects( user, target, move, raw_damage, tags )
+			
+			tags = preprocess_item_effects( user, target, _move, raw_damage, tags )
+			#tags = preprocess_item_effects( user, target, move, raw_damage, tags )
+	
 	pass
 	# Intakes user, array of targets, effects, tags and flags. Calculates changes via effect code, synthesizes and cleans results, then applies changes to the combatants.
 
+
 # Not raw as in 'completely unedited', but as in 'before Effects are applied'.
-func calculate_raw_damage( technique, user, target ) -> float: 
+static func calculate_raw_damage( technique, user, target ) -> float: 
 	var type_damage = type_matchup[ technique.type1 ][ target.type1 ] * type_matchup[ technique.type1 ][ target.type2 ] + ( type_matchup[ technique.type2 ][ target.type1 ] + type_matchup[ technique.type2 ][ target.type2 ] + 1 ) / 3;
-	
-	var stab_level = calculate_stab_level( technique, user );
-	
-	return type_damage * stab_multiplier[stab_level] * technique.base_power
-
-# Duplicate, please change/edit/replace
-func calculate_raw_special_damage( technique, user, target ) -> float: 
-	var type_damage = calculate_type_effectiveness( technique, target )
 	var stab_level = calculate_stab_level( technique, user );
 	return type_damage * stab_multiplier[stab_level] * technique.base_power
 
 
-func calculate_type_effectiveness( action, target ) -> float:
+static func calculate_type_effectiveness( action, target ) -> float:
 	return type_matchup[action.type1][target.type1] * type_matchup[action.type1][target.type2] \
 	+ ( type_matchup[action.type2][target.type1] + type_matchup[action.type2][target.type2] + 1)/3;
 
-func calculate_stab_level( technique, user ) -> int:
+
+static func calculate_stab_level( technique, user ) -> int:
 	var stab_level = 0;
 	
 	if (technique.type1 == user.type1):

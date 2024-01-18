@@ -30,15 +30,18 @@ var sprite_side_x = 1.0
 var sprite_right_x = 1.0
 @onready var sprite_right = $CornerR
 @export var is_ready := false
+var is_dirty := false
 
 var current_pos_offset := Vector2(0,0)
 
+func _process(_delta):
+	if is_dirty:
+		_update_size()
 
 func _ready():
 	is_ready = true
 	_update_size()
 	pass
-
 
 func _update_size():
 	
@@ -47,7 +50,14 @@ func _update_size():
 	for child in children:
 		child.position -= current_pos_offset
 	
-	collision.shape.size.x = length * GlobalRuntime.DEFAULT_TILE_SIZE
+	if collision != null:
+		collision.shape.size.x = length * GlobalRuntime.DEFAULT_TILE_SIZE
+	else:
+		is_dirty = true
+	
+	if sprite_side == null || sprite_right == null || sprite_left == null:
+		is_dirty = true
+		return
 	sprite_side.region_rect.size.x = int( floor(sprite_side_x * (length-1) ) * GlobalRuntime.DEFAULT_TILE_SIZE )
 	#print("update spriteside scalex ~ ", sprite_side_x * length)
 	@warning_ignore( "integer_division" )

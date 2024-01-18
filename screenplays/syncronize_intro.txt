@@ -1,0 +1,7 @@
+<<syntax_version, 19750814>> //some absurdly high number
+
+
+=== start ===
+<<play_cinematic "res://cinematic/intro/intro.tscn">>
+<<await_cinematic>>
+: 
