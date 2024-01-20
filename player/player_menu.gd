@@ -1,8 +1,10 @@
 extends CanvasLayer
 class_name PlayerMenu
 
-@onready var select_arrow = $Control/NinePatchRect/SelectionArrow
+@onready var select_arrow = $Control/PauseRect/SelectionArrow
 @onready var menu = $Control
+@onready var inventory_gui = $Control/InventoryGUI
+@onready var pause_list = $Control/PauseRect/PausedList
 
 var screen_loaded = ScreenLoaded.CLOSED
 
@@ -63,13 +65,14 @@ func _ready():
 
 
 func update_select_arrow():
-	#	select_arrow.rect_position.y = [default y] + (selected_option % 6) * [distance between options = richtext height + vbox separation]
+	#	select_arrow.rect_position.y = [default y] + (selected_option % 6) * 
+	#		[distance between options = richtext height + vbox separation]
 	select_arrow.position.y = 56 + posmod(selected_option, option_count) * 49
 
 
 func update_submenu():
 	submenu_name = get_screen_name( screen_loaded )
-	option_count = get_parent().find_child(submenu_name).get_child_count()
+	option_count = get_parent().find_child(submenu_name, true).get_child_count()
 	selected_option = 0
 	
 	pass
@@ -105,6 +108,7 @@ func handle_input(event):
 				screen_loaded = ScreenLoaded.PAUSE_MENU
 			else:
 				input_cooldown = 0
+		
 		ScreenLoaded.PARTY_SCREEN:
 			print("Feature Unfinished: Load Party Screen")
 			input_cooldown = 0
@@ -123,8 +127,16 @@ func handle_input(event):
 			pass
 		
 		
-		ScreenLoaded.INVENTORY:
-			pass
+		#ScreenLoaded.INVENTORY:
+			#inventory_gui.visible = true
+			##pause_list.visible = false
+			#var childs:Array[Node] = get_children()
+			#for child in childs:
+				#print(child)
+				#
+				#childs.append_array(child.get_children())
+				#pass
+			#screen_loaded = ScreenLoaded.PAUSE_MENU
 		
 		_: #ScreenLoaded.PAUSE_MENU:
 			
@@ -152,3 +164,4 @@ func handle_input(event):
 				
 			else:
 				input_cooldown = 0
+				pause_list.visible = true

@@ -10,11 +10,6 @@ var gameworld_is_paused: bool		# Can the characters/world move around on their o
 var player_menu_enabled: bool		# Can the player open their menu?
 var multiplayer_enabled: bool
 
-
-signal pause_gameworld
-signal unpause_gameworld
-signal save_data
-
 @export var combat_screen : Node
 @export var scene_transition_player : Node
 
@@ -39,9 +34,15 @@ signal save_data
 @onready var activity_root_node : Node = get_node(activity_root_path)
 
 
+signal pause_gameworld
+signal unpause_gameworld
+signal save_data
+
+
 func _ready():
 	#scene_root_node = get_node(scene_root_path)
 	pass
+
 
 # Cleans up all children of a node, and their children, and their children, etc
 func clean_up_descent( target_node : Node ):
@@ -78,6 +79,7 @@ func gamepieces_set_paused( value:bool ):
 	else:
 		unpause_gameworld.emit()
 		gameworld_is_paused = false
+
 
 # Queues deletion of a node and all of its child nodes
 # This is intended to slow down inevitable memory leakage
@@ -160,6 +162,7 @@ func snap_to_grid_corner_i( pos ) -> Vector2i:
 	pos = pos.snapped(Vector2i.ONE * GlobalRuntime.DEFAULT_TILE_SIZE) #+ DEFAULT_TILE_OFFSET_INT
 	return pos
 
+
 # It feels like a Runtime access thing...
 # But it relies on the Scene Manager's structure and knowledge...
 # So why not host the function call and pass it over?
@@ -170,6 +173,7 @@ func switch_to_interface( interface:SceneManager.InterfaceOptions ):
 
 func is_player_menu_enabled():
 	return player_menu_enabled;
+
 
 # Copied & modified from "JRPG Demo", do not use yet.
 func start_combat(combat_actors):

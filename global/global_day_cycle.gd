@@ -42,9 +42,11 @@ func _process(delta) -> void:
 	
 	if is_active:
 		if current_time >= day_length:
-			current_time = 0.0
-			current_day += 1
+			current_time = fmod(current_time, day_length)
+			current_day += int(current_time / day_length)
 		
+		# Assumes Monday = 1, and no values are skipped.
+		# Therefore, length = value of final element
 		if current_day > DayOfWeek.size():
 			current_day = DayOfWeek.MONDAY
 

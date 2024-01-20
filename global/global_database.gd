@@ -203,6 +203,7 @@ target_table_name:String, query_conditions:String ):
 	db.close_db()
 	return thing
 
+
 # To be called by GlobalMonsterSpawner
 func store_monster( monster ):
 	game_to_database( monster, tkpv_monster, db_name_user_stage, table_name_monster, \

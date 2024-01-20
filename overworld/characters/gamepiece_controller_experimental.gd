@@ -1,4 +1,5 @@
 extends Node
+class_name GamepieceController
 # When stabilized and tested, will be the new GamepieceController(Base), which GC.Player inherits
 
 var gamepiece : Gamepiece

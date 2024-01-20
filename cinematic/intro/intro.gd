@@ -45,8 +45,8 @@ func _ready():
 	
 	print( music_layers[0].playing, " is playing?" )
 	
-	var fly = AnnoyingFly.new()
-	add_child(fly)
+	#var fly = AnnoyingFly.new()
+	#add_child(fly)
 	
 	self.find_child("Survey", true).modulate= Color(1,1,1,0);
 	self.reflect_kv.connect( self.on_reflect_kv ) #request_kv
