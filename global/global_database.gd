@@ -385,11 +385,13 @@ func recover_last_state() -> String:
 
 
 ##TODO: Refactor current save system to use this (currently empty) function
+# Saves data stored in Global/Autoload classes, like in-game time/date, etc
 func save_global_data():
 	pass
 
 
 ##TODO: Expand current load/"recover" system to use this (currently empty) function
+# Loads stored data into Global/Autoload classes, like in-game time/date, etc
 func load_global_data():
 	pass
 

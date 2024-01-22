@@ -44,9 +44,11 @@ Noteworthy Additions:
 		+ ... to enable automatic database backups
 	+ Added more assets, as always
 	+ Added the Gloot addon
-		* Tweaked addon to break the debugger less when Stop-ing (F8-ing)
+		* Tweaked addon code to break the debugger less when Stop-ing (F8-ing)
 	+ Merged in files from subprject Director
 		* Re-enabled GlobalDayCycle
+		> Continued development may be split between the two repos for now.
+			> Not the most efficient in terms of GitHub stuff, but perhaps overall effective.
 
 
 Noteworthy Subtractions:
@@ -109,7 +111,6 @@ To Do List + Constructive Commentary:
 			% Rely on PATCHDATA for balancing and forwards compatibility but not for assets/code
 				% Maybe use PATCHDATA for asset/code pointers/paths? Seems more like a .PCK thing
 	% Fix/expand the pause menu
-		% It breaks sometimes when opening the inventory
 
 
 General Commentary:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cpjyc350pwf57"]
+[gd_scene load_steps=12 format=3 uid="uid://cpjyc350pwf57"]
 
 [ext_resource type="Script" path="res://player/player_menu.gd" id="1_5rlhg"]
 [ext_resource type="Texture2D" uid="uid://dwvr10slisk7o" path="res://assets/textures/menu/gui_woodengem_frame.png" id="1_x08vi"]
@@ -10,6 +10,7 @@
 [ext_resource type="Resource" uid="uid://b4k68yn0si4th" path="res://item_protoset_json_test.tres" id="8_8qyui"]
 [ext_resource type="Script" path="res://addons/gloot/core/inventory_item.gd" id="9_7l1du"]
 [ext_resource type="Texture2D" uid="uid://mxsw3tbuu4em" path="res://assets/textures/mask_face_01.png" id="10_tjj3u"]
+[ext_resource type="Script" path="res://menu/exit_btn.gd" id="11_fvbtw"]
 
 [node name="Menu" type="CanvasLayer"]
 script = ExtResource("1_5rlhg")
@@ -201,3 +202,4 @@ size_flags_vertical = 10
 texture_normal = ExtResource("3_a8ymm")
 texture_disabled = ExtResource("10_tjj3u")
 texture_focused = ExtResource("3_a8ymm")
+script = ExtResource("11_fvbtw")
