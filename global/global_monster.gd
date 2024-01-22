@@ -1,17 +1,7 @@
 extends Node
 # Most of this stuff oughta be static methods.
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	pass
-
-
-const max_battle_moves = 4
+const max_battle_techniques = 4
 
 enum PersonalityFactor
 {
@@ -66,16 +56,43 @@ enum BooleanFlags
 }
 
 # Might be implemented as integer that gets bitshifted and modulo'd
-enum Sex
+# Sex can change, but not frequently, and not naturally for humans. And yet, you can.
+# There are generally 2 gametes in nature, so 2 here, although defining them is rough so...
+# ...blorboic and scrungly it is.
+# Two integers to track estrogenemia and androgenemia may influence this field
+enum SexBitfield
 {
-	IS_SPERMATOGEN,			# Kids, ask your biology teacher about this. And maybe etymology...
-	IS_OOGEN,
+	IS_SPERMATOGENIC,		# Produces small/mobile/scrungly cells
+	IS_OOGENIC,				# Produces large/immobile/blorboic cells
 	CAN_DEPOSIT_GAMETES,	# orthagonality check: if not a x-gen, it has a depositor.
 	CAN_RECIEVE_GAMETES,	# orthagonality check: if not x-gen but can recieve & deposit, then stores.
+	CAN_GESTATE_GAMETES,	# can make Egg
+	PRODUCES_MILK,			# yeah
+	
 	# Gene byte has been removed
 }
 
+# This is far from finished, and may be culturally sensitive
+enum GenderBitfield
+{
+	PRONOUN_MASC,			# uses/accepts masculine pronouns
+	PRONOUN_FEM,			# uses/accepts feminine pronouns
+	PRONOUN_MAV,			# uses/accepts maverique pronouns
+	PRONOUN_INAN,			# uses/accepts inanimate pronouns
+	
+	IDENTIFY_MASC,
+	IDENTIFY_FEM,
+	IDENTIFY_MAV,
+	IDENTIFY_INAN,
+	
+	ASSOCIATE_MASC,
+	ASSOCIATE_FEM,
+	ASSOCIATE_MAV,
+	ASSOCIATE_INAN,
+}
 
+
+# ALL THESE WORLDS ARE OURS EXCEPT XXXXXX.
 enum LostSoulHints
 {
 	FAMILIAR,		# Represents creature from this game, but is corrupted or unimplemented
@@ -97,6 +114,24 @@ enum GameOfOrigin
 {
 	SUNNY,
 	SHADY,
-	ZENITH
+	ZENITH,
+	SKY,
+	GROUND,
+	SEA,
+	WALKER,
+	SMOKE,
+	FOG,
+	SPARK,
+	SNAP,
 }
 	
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta):
+	pass

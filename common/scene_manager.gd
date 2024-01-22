@@ -4,11 +4,13 @@ class_name SceneManager
 # Structure is "FilePath" : [ packed scene, Time to live ]
 var scenes_ready : Dictionary
 var scenes_waiting : Array
-
+@onready var gamepiece_nav_map : RID = get_world_2d().get_navigation_map()
 
 @onready var activity_interface_wrapper = $InterfaceActivityWrapper
 @onready var activity_interface = $InterfaceActivityWrapper/InterfaceActivity
 @onready var world_interface = $InterfaceWorld
+@onready var screen_transition = $ScreenTransition
+@onready var player_menu = $Menu
 
 # Keep the -1, it's a mnemonic.
 # The number preceding the '-1' is the number of levels you can access before an item expires.
@@ -42,18 +44,10 @@ func _process(_delta):
 		
 	pass
 
-# Right now, just a collection of commented-out call templates
-# Soon, a loader of multiple levels at once.
-func idkwhatthisisyet_man_ijustwanna_like_uhhh_loadsevenlevelsatthesametime():
-	#SceneTree.change_scene_to_packed ( PackedScene packed_scene ) # Replace a scene with a packed scene
-	#ResourceLoader.load_threaded_request(SCENE_PATH)
-	
-	#var next_scene = ...
-	#if next_scene.get_parent():
-	#	next_scene.get_parent().remove_child(next_scene)
-	#GlobalRuntime.scene_root_node.add_child(next_scene)
-	
-	pass
+
+func map_rid_for_gamepiece(_gamepiece:Gamepiece):
+	return gamepiece_nav_map
+
 
 func switch_to_interface( interface:InterfaceOptions ):
 	match interface:
@@ -74,30 +68,48 @@ func switch_to_interface( interface:InterfaceOptions ):
 	pass
 
 
-func change_map( map:String ):
-	
-	var old_children = world_interface.get_children()
-	
+func get_map_index( map:String ) -> int:
+	if scenes_ready.has(map):
+		return scenes_ready[map][0].map_index
+	return -1
+
+
+func change_map_from_path( map:String ) -> int:
 	var next_map;
 	
 	if scenes_ready.has(map):
+		# This following line of code caused a lot of errors in the debugger. Was fixed?
 		next_map = scenes_ready[map][0]
 		scenes_ready.erase( map )
+	elif map.is_valid_filename():
+		next_map = load( map )#.new()
 	else:
-		next_map = load( map ).new()
+		append_preload_map( map )
+		return -1
+	change_map( next_map )
+	return 0
+
+
+func change_map( map_template ):
+	var old_children = world_interface.get_children()
+	var next_map
 	
-	#if scenes_ready.has(map):
-	for child in world_interface.get_children():
+	if map_template is PackedScene:
+		next_map = map_template.instantiate()
+	else:
+		next_map = map_template#.new()
+		
+	for child in old_children:
 		if child is LevelMap:
 			child.pack_up()
 		GlobalRuntime.clean_up_node_descent( child )
 	
-	
-	
 	world_interface.add_child( next_map ) #.instantiate()
-	
 	pass
 
+
+func map_is_ready( map:String ):
+	return scenes_ready.has(map)
 
 
 func append_preload_map( map:String ):
@@ -108,6 +120,15 @@ func append_preload_map( map:String ):
 	else:
 		scenes_ready[map][1] = TTL_RESET;
 
+
+func get_overworld_root():
+	var children = $InterfaceWorld.get_children()
+	
+	# Because I am lazy and prefer crashing from memleaks than crashing from null pointers.
+	if children == null or children.size() < 1:
+		$InterfaceWorld.add_child( Node2D.new() )
+	
+	return $InterfaceWorld.get_children().back()
 
 
 func update_preload_portals( ttl_decrement : int = 1 ):
@@ -129,7 +150,48 @@ func update_preload_portals( ttl_decrement : int = 1 ):
 		
 		# If their TTL is expired, remove from the list
 		if scenes_ready[rs][1] < 0:
+			if scenes_ready[rs][0] is LevelMap:
+				await GlobalGamepieceTransfer.save_map_gamepieces( scenes_ready[rs][0] )
 			GlobalRuntime.clean_up_node_descent( scenes_ready[rs][0] )
 			scenes_ready.erase(rs)
+	pass
+
+
+func fade_to_black( duration:=0.25 ) -> bool:
+	screen_transition.visible = true
+	var blackness = $ScreenTransition/Darkness #ColorRect.new()
+	#blackness.set_anchors_preset( Control.LayoutPreset.PRESET_FULL_RECT )
+	blackness.color = Color.BLACK
+	blackness.visible = true
+	var new_modulate = Color.WHITE
+	new_modulate.a = 0
+	blackness.modulate = new_modulate
+	#screen_transition.add_child( blackness )
 	
+	print("darkness color +> ", blackness.color, blackness.modulate)
+	var move_tween = create_tween()
+	if move_tween != null:
+		move_tween.tween_property(blackness, "modulate", \
+			Color(0,0,0,1) , duration ).set_trans(Tween.TRANS_LINEAR)
+		await move_tween.finished
+	print("darkness color ++> ", blackness.color, blackness.modulate)
+	
+	return true
+
+
+func fade_in( duration:=0.75 ):
+	var blackness = $ScreenTransition/Darkness #ColorRect.new()
+	#blackness.set_anchors_preset( Control.LayoutPreset.PRESET_FULL_RECT )
+	#blackness.color = Color.BLACK
+	blackness.visible = true
+	#blackness.modulate = Color.BLACK
+	#screen_transition.add_child( blackness )
+	
+	print("darkness color +> ", blackness.color, blackness.modulate)
+	var move_tween = create_tween()
+	if move_tween != null:
+		move_tween.tween_property(blackness, "modulate", \
+			Color.TRANSPARENT, duration ).set_trans(Tween.TRANS_LINEAR)
+		await move_tween.finished
+	print("darkness color ++> ", blackness.color, blackness.modulate)
 	pass

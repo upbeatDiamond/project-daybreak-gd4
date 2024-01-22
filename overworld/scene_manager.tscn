@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cxo7qpniggd1g"]
+[gd_scene load_steps=5 format=3 uid="uid://cxo7qpniggd1g"]
 
 [ext_resource type="Script" path="res://common/scene_manager.gd" id="1_whyfs"]
 [ext_resource type="PackedScene" uid="uid://dploeuvc2gd6p" path="res://menu/title_menu.tscn" id="2_6kute"]
 [ext_resource type="PackedScene" uid="uid://cpjyc350pwf57" path="res://player/player_menu.tscn" id="3_atd50"]
+[ext_resource type="PackedScene" uid="uid://cy5r6u8b3aan2" path="res://overworld/level_maps/home_town_home.tscn" id="3_huq3u"]
 
 [node name="SceneManager" type="Node2D"]
 script = ExtResource("1_whyfs")
@@ -10,6 +11,7 @@ script = ExtResource("1_whyfs")
 [node name="InterfaceWorld" type="Node" parent="."]
 
 [node name="TitleScreen" parent="InterfaceWorld" instance=ExtResource("2_6kute")]
+play_scene = ExtResource("3_huq3u")
 
 [node name="InterfaceActivityWrapper" type="Node2D" parent="."]
 
@@ -18,3 +20,12 @@ script = ExtResource("1_whyfs")
 [node name="Menu" parent="." instance=ExtResource("3_atd50")]
 
 [node name="ScreenTransition" type="CanvasLayer" parent="."]
+
+[node name="Darkness" type="ColorRect" parent="ScreenTransition"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(10, 10)

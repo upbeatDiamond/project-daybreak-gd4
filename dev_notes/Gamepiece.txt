@@ -1,0 +1,14 @@
+In this project, "Gamepiece" represents 2 interconnected manifestations of the same concept.
+
+A "Gamepiece" is based on the idea of a "chess piece" or a "man" or a "pawn" on a board game. 
+
+
+The "Gamepiece" scenes contain templates for the different types of Gamepiece, which should all be very similar at their core. 
+
+The "Gamepiece" class is the code that runs on the parent of the "Gamepiece" scene.
+
+The "Gamepiece Controller" class family are interchangable code for controlling a "Gamepiece".
+
+Controllers can manipulate Gamepieces in any way needed but cannot themselves contain core functionality. Likewise, Gamepieces can have any functionality used by both players and NPCs but should contain no code used by only one or neither party. 
+
+Core functionality for Gamepieces involve saving, loading, traversal of the overworld, and interacting with Events and Gametokens.

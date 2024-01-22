@@ -35,7 +35,6 @@ func _process(delta):
 	pass
 
 
-
 func fix_daylight_value( hour, colour ):
 	
 	var shift = 12
@@ -72,7 +71,7 @@ func get_daylight_temp2( hour ) -> float:
 		light_length = moonlight_length
 		pass
 	
-	return -( abs(temp_max-temp_min)/2 ) * cos((hour - hour_sunrise)*PI/light_length) + (temp_min+temp_max)/2
+	return -( abs(temp_max-temp_min)/2.0 ) * cos((hour - hour_sunrise)*PI/light_length) + (temp_min+temp_max)/2.0
 
 
 func get_daylight_temp( hour ) -> float:
@@ -108,9 +107,7 @@ func get_daylight_temp( hour ) -> float:
 	#return focalpoint_y + scaling * abs(sin(PI*relative_hour/relative_length))
 	#return focalpoint_y + scaling * sqrt( pow(radius,2) - pow(  min( hour - focalpoint_x, 24 - hour - focalpoint_x )  ,2) )
 
-
 # Adapted from https://tannerhelland.com/2012/09/18/convert-temperature-rgb-algorithm-code.html
-
 func kelvin_to_color( temperature ) -> Color:
 
 	var colour = Color()

@@ -1,0 +1,455 @@
+[gd_scene load_steps=17 format=3 uid="uid://biosqpjnwc3b7"]
+
+[ext_resource type="Texture2D" uid="uid://dum0jl6q66lo4" path="res://assets/textures/intro/final_frontier.png" id="1_5eini"]
+[ext_resource type="Script" path="res://cinematic/intro/intro.gd" id="1_q0ap4"]
+[ext_resource type="Script" path="res://cinematic/intro/intro_naming.gd" id="3_wq8hc"]
+[ext_resource type="Script" path="res://cinematic/intro/intro_gender.gd" id="4_yr767"]
+[ext_resource type="Texture2D" uid="uid://cglx0sevkcxl4" path="res://assets/textures/intro/bg_transparency_border.png" id="5_c16kf"]
+[ext_resource type="ButtonGroup" uid="uid://bo1fmk10wg36c" path="res://cinematic/intro/button_group_hair.tres" id="5_cajf8"]
+[ext_resource type="Script" path="res://cinematic/intro/intro_form.gd" id="5_f3x64"]
+[ext_resource type="Texture2D" uid="uid://bhm2yki7cxvqj" path="res://assets/textures/intro/Hair_blonde.png" id="7_mn4gj"]
+[ext_resource type="ButtonGroup" uid="uid://dulq52iwbwhp3" path="res://cinematic/intro/button_group_skin.tres" id="7_xjh8e"]
+[ext_resource type="Texture2D" uid="uid://c370nw04rtjjo" path="res://assets/textures/intro/Hair_red.png" id="8_ud27l"]
+[ext_resource type="Texture2D" uid="uid://cs8saa3ar7pgy" path="res://assets/textures/intro/Hair_blue.png" id="9_b8p0n"]
+[ext_resource type="Texture2D" uid="uid://bfm57f3qpcvr8" path="res://assets/textures/bg_transparency.png" id="9_p3ma1"]
+[ext_resource type="Texture2D" uid="uid://cqh0iqdsec2lf" path="res://assets/textures/intro/Hair_auburn.png" id="9_wuum7"]
+[ext_resource type="Texture2D" uid="uid://cif7jjcmh6wv3" path="res://assets/textures/intro/Hair_brun.png" id="10_l4k45"]
+[ext_resource type="Texture2D" uid="uid://cosi5tshe0bck" path="res://assets/textures/intro/Hair_marshy.png" id="11_nr3s3"]
+[ext_resource type="ButtonGroup" uid="uid://b8fsbdwe3swiq" path="res://cinematic/intro/button_group_shape.tres" id="15_xo040"]
+
+[node name="Intro" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_q0ap4")
+
+[node name="Background" type="TextureRect" parent="."]
+texture_repeat = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_5eini")
+expand_mode = 5
+
+[node name="AudioIntroHeartbeat" type="AudioStreamPlayer" parent="Background"]
+
+[node name="AudioIntroBrightness" type="AudioStreamPlayer" parent="Background"]
+
+[node name="AudioIntroDarkness" type="AudioStreamPlayer" parent="Background"]
+
+[node name="AudioIntroTheremin" type="AudioStreamPlayer" parent="Background"]
+
+[node name="AudioIntroNewAge" type="AudioStreamPlayer" parent="Background"]
+
+[node name="Survey" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Sections" type="VBoxContainer" parent="Survey"]
+layout_mode = 2
+
+[node name="Prompt" type="Label" parent="Survey/Sections"]
+layout_mode = 2
+text = "Let us imagine a world together."
+
+[node name="Selection" type="PanelContainer" parent="Survey/Sections"]
+layout_mode = 2
+
+[node name="Naming" type="PanelContainer" parent="Survey/Sections/Selection"]
+visible = false
+layout_mode = 2
+script = ExtResource("3_wq8hc")
+
+[node name="NameEdit" type="LineEdit" parent="Survey/Sections/Selection/Naming"]
+layout_mode = 2
+
+[node name="Gender" type="HBoxContainer" parent="Survey/Sections/Selection"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_yr767")
+
+[node name="Pronoun" type="VBoxContainer" parent="Survey/Sections/Selection/Gender"]
+layout_mode = 2
+
+[node name="MascPron" type="CheckButton" parent="Survey/Sections/Selection/Gender/Pronoun"]
+layout_mode = 2
+text = "He is..."
+
+[node name="FemnPron" type="CheckButton" parent="Survey/Sections/Selection/Gender/Pronoun"]
+layout_mode = 2
+text = "She is..."
+
+[node name="NeutPron" type="CheckButton" parent="Survey/Sections/Selection/Gender/Pronoun"]
+layout_mode = 2
+text = "They are..."
+
+[node name="ComnPron" type="CheckButton" parent="Survey/Sections/Selection/Gender/Pronoun"]
+layout_mode = 2
+text = "Ey is..."
+
+[node name="Class" type="VBoxContainer" parent="Survey/Sections/Selection/Gender"]
+layout_mode = 2
+
+[node name="MascClass" type="CheckButton" parent="Survey/Sections/Selection/Gender/Class"]
+layout_mode = 2
+text = "...a boy!"
+
+[node name="FemnClass" type="CheckButton" parent="Survey/Sections/Selection/Gender/Class"]
+layout_mode = 2
+text = "...a girl!"
+
+[node name="NeutClass" type="CheckButton" parent="Survey/Sections/Selection/Gender/Class"]
+layout_mode = 2
+text = "...a youth!"
+
+[node name="ComnClass" type="CheckButton" parent="Survey/Sections/Selection/Gender/Class"]
+layout_mode = 2
+text = "...alive!"
+
+[node name="Reflect" type="Button" parent="Survey/Sections/Selection/Gender"]
+layout_mode = 2
+toggle_mode = true
+text = "Submit"
+
+[node name="Form" type="GridContainer" parent="Survey/Sections/Selection"]
+layout_mode = 2
+columns = 2
+script = ExtResource("5_f3x64")
+
+[node name="SkinLabel" type="Label" parent="Survey/Sections/Selection/Form"]
+layout_mode = 2
+text = "Skin tone"
+
+[node name="SkinBtn" type="GridContainer" parent="Survey/Sections/Selection/Form"]
+layout_mode = 2
+columns = 3
+
+[node name="SkinColorW" type="CheckBox" parent="Survey/Sections/Selection/Form/SkinBtn"]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("5_c16kf")
+theme_override_icons/checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/unchecked = ExtResource("9_p3ma1")
+theme_override_icons/unchecked_disabled = ExtResource("9_p3ma1")
+theme_override_icons/radio_checked = ExtResource("5_c16kf")
+theme_override_icons/radio_checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/radio_unchecked = ExtResource("9_p3ma1")
+theme_override_icons/radio_unchecked_disabled = ExtResource("9_p3ma1")
+button_group = ExtResource("7_xjh8e")
+icon = ExtResource("7_mn4gj")
+icon_alignment = 1
+expand_icon = true
+
+[node name="SkinColorP" type="CheckBox" parent="Survey/Sections/Selection/Form/SkinBtn"]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("5_c16kf")
+theme_override_icons/checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/unchecked = ExtResource("9_p3ma1")
+theme_override_icons/unchecked_disabled = ExtResource("9_p3ma1")
+theme_override_icons/radio_checked = ExtResource("5_c16kf")
+theme_override_icons/radio_checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/radio_unchecked = ExtResource("9_p3ma1")
+theme_override_icons/radio_unchecked_disabled = ExtResource("9_p3ma1")
+button_group = ExtResource("7_xjh8e")
+icon = ExtResource("8_ud27l")
+icon_alignment = 1
+expand_icon = true
+
+[node name="SkinColorS" type="CheckBox" parent="Survey/Sections/Selection/Form/SkinBtn"]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("5_c16kf")
+theme_override_icons/checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/unchecked = ExtResource("9_p3ma1")
+theme_override_icons/unchecked_disabled = ExtResource("9_p3ma1")
+theme_override_icons/radio_checked = ExtResource("5_c16kf")
+theme_override_icons/radio_checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/radio_unchecked = ExtResource("9_p3ma1")
+theme_override_icons/radio_unchecked_disabled = ExtResource("9_p3ma1")
+button_group = ExtResource("7_xjh8e")
+icon = ExtResource("9_b8p0n")
+icon_alignment = 1
+expand_icon = true
+
+[node name="SkinColorN" type="CheckBox" parent="Survey/Sections/Selection/Form/SkinBtn"]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("5_c16kf")
+theme_override_icons/checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/unchecked = ExtResource("9_p3ma1")
+theme_override_icons/unchecked_disabled = ExtResource("9_p3ma1")
+theme_override_icons/radio_checked = ExtResource("5_c16kf")
+theme_override_icons/radio_checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/radio_unchecked = ExtResource("9_p3ma1")
+theme_override_icons/radio_unchecked_disabled = ExtResource("9_p3ma1")
+button_group = ExtResource("7_xjh8e")
+icon = ExtResource("9_wuum7")
+icon_alignment = 1
+expand_icon = true
+
+[node name="SkinColorD" type="CheckBox" parent="Survey/Sections/Selection/Form/SkinBtn"]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("5_c16kf")
+theme_override_icons/checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/unchecked = ExtResource("9_p3ma1")
+theme_override_icons/unchecked_disabled = ExtResource("9_p3ma1")
+theme_override_icons/radio_checked = ExtResource("5_c16kf")
+theme_override_icons/radio_checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/radio_unchecked = ExtResource("9_p3ma1")
+theme_override_icons/radio_unchecked_disabled = ExtResource("9_p3ma1")
+button_group = ExtResource("7_xjh8e")
+icon = ExtResource("10_l4k45")
+icon_alignment = 1
+expand_icon = true
+
+[node name="SkinColorK" type="CheckBox" parent="Survey/Sections/Selection/Form/SkinBtn"]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("5_c16kf")
+theme_override_icons/checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/unchecked = ExtResource("9_p3ma1")
+theme_override_icons/unchecked_disabled = ExtResource("9_p3ma1")
+theme_override_icons/radio_checked = ExtResource("5_c16kf")
+theme_override_icons/radio_checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/radio_unchecked = ExtResource("9_p3ma1")
+theme_override_icons/radio_unchecked_disabled = ExtResource("9_p3ma1")
+button_group = ExtResource("7_xjh8e")
+icon = ExtResource("11_nr3s3")
+icon_alignment = 1
+expand_icon = true
+
+[node name="HairLabel" type="Label" parent="Survey/Sections/Selection/Form"]
+layout_mode = 2
+text = "Hair color"
+
+[node name="HairBtn" type="GridContainer" parent="Survey/Sections/Selection/Form"]
+layout_mode = 2
+columns = 3
+
+[node name="HairColor" type="CheckBox" parent="Survey/Sections/Selection/Form/HairBtn"]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("5_c16kf")
+theme_override_icons/checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/unchecked = ExtResource("9_p3ma1")
+theme_override_icons/unchecked_disabled = ExtResource("9_p3ma1")
+theme_override_icons/radio_checked = ExtResource("5_c16kf")
+theme_override_icons/radio_checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/radio_unchecked = ExtResource("9_p3ma1")
+theme_override_icons/radio_unchecked_disabled = ExtResource("9_p3ma1")
+button_group = ExtResource("5_cajf8")
+icon = ExtResource("7_mn4gj")
+icon_alignment = 1
+expand_icon = true
+
+[node name="HairColor2" type="CheckBox" parent="Survey/Sections/Selection/Form/HairBtn"]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("5_c16kf")
+theme_override_icons/checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/unchecked = ExtResource("9_p3ma1")
+theme_override_icons/unchecked_disabled = ExtResource("9_p3ma1")
+theme_override_icons/radio_checked = ExtResource("5_c16kf")
+theme_override_icons/radio_checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/radio_unchecked = ExtResource("9_p3ma1")
+theme_override_icons/radio_unchecked_disabled = ExtResource("9_p3ma1")
+button_group = ExtResource("5_cajf8")
+icon = ExtResource("8_ud27l")
+icon_alignment = 1
+expand_icon = true
+
+[node name="HairColor3" type="CheckBox" parent="Survey/Sections/Selection/Form/HairBtn"]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("5_c16kf")
+theme_override_icons/checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/unchecked = ExtResource("9_p3ma1")
+theme_override_icons/unchecked_disabled = ExtResource("9_p3ma1")
+theme_override_icons/radio_checked = ExtResource("5_c16kf")
+theme_override_icons/radio_checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/radio_unchecked = ExtResource("9_p3ma1")
+theme_override_icons/radio_unchecked_disabled = ExtResource("9_p3ma1")
+button_group = ExtResource("5_cajf8")
+icon = ExtResource("9_b8p0n")
+icon_alignment = 1
+expand_icon = true
+
+[node name="HairColor4" type="CheckBox" parent="Survey/Sections/Selection/Form/HairBtn"]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("5_c16kf")
+theme_override_icons/checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/unchecked = ExtResource("9_p3ma1")
+theme_override_icons/unchecked_disabled = ExtResource("9_p3ma1")
+theme_override_icons/radio_checked = ExtResource("5_c16kf")
+theme_override_icons/radio_checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/radio_unchecked = ExtResource("9_p3ma1")
+theme_override_icons/radio_unchecked_disabled = ExtResource("9_p3ma1")
+button_group = ExtResource("5_cajf8")
+icon = ExtResource("9_wuum7")
+icon_alignment = 1
+expand_icon = true
+
+[node name="HairColor5" type="CheckBox" parent="Survey/Sections/Selection/Form/HairBtn"]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("5_c16kf")
+theme_override_icons/checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/unchecked = ExtResource("9_p3ma1")
+theme_override_icons/unchecked_disabled = ExtResource("9_p3ma1")
+theme_override_icons/radio_checked = ExtResource("5_c16kf")
+theme_override_icons/radio_checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/radio_unchecked = ExtResource("9_p3ma1")
+theme_override_icons/radio_unchecked_disabled = ExtResource("9_p3ma1")
+button_group = ExtResource("5_cajf8")
+icon = ExtResource("10_l4k45")
+icon_alignment = 1
+expand_icon = true
+
+[node name="HairColor6" type="CheckBox" parent="Survey/Sections/Selection/Form/HairBtn"]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("5_c16kf")
+theme_override_icons/checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/unchecked = ExtResource("9_p3ma1")
+theme_override_icons/unchecked_disabled = ExtResource("9_p3ma1")
+theme_override_icons/radio_checked = ExtResource("5_c16kf")
+theme_override_icons/radio_checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/radio_unchecked = ExtResource("9_p3ma1")
+theme_override_icons/radio_unchecked_disabled = ExtResource("9_p3ma1")
+button_group = ExtResource("5_cajf8")
+icon = ExtResource("11_nr3s3")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ShapeLabel" type="Label" parent="Survey/Sections/Selection/Form"]
+layout_mode = 2
+text = "Body shape"
+
+[node name="ShapeBtn" type="GridContainer" parent="Survey/Sections/Selection/Form"]
+layout_mode = 2
+columns = 3
+
+[node name="ShapeColor" type="CheckBox" parent="Survey/Sections/Selection/Form/ShapeBtn"]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("5_c16kf")
+theme_override_icons/checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/unchecked = ExtResource("9_p3ma1")
+theme_override_icons/unchecked_disabled = ExtResource("9_p3ma1")
+theme_override_icons/radio_checked = ExtResource("5_c16kf")
+theme_override_icons/radio_checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/radio_unchecked = ExtResource("9_p3ma1")
+theme_override_icons/radio_unchecked_disabled = ExtResource("9_p3ma1")
+button_group = ExtResource("15_xo040")
+icon = ExtResource("7_mn4gj")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ShapeColor2" type="CheckBox" parent="Survey/Sections/Selection/Form/ShapeBtn"]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("5_c16kf")
+theme_override_icons/checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/unchecked = ExtResource("9_p3ma1")
+theme_override_icons/unchecked_disabled = ExtResource("9_p3ma1")
+theme_override_icons/radio_checked = ExtResource("5_c16kf")
+theme_override_icons/radio_checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/radio_unchecked = ExtResource("9_p3ma1")
+theme_override_icons/radio_unchecked_disabled = ExtResource("9_p3ma1")
+button_group = ExtResource("15_xo040")
+icon = ExtResource("8_ud27l")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ShapeColor3" type="CheckBox" parent="Survey/Sections/Selection/Form/ShapeBtn"]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("5_c16kf")
+theme_override_icons/checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/unchecked = ExtResource("9_p3ma1")
+theme_override_icons/unchecked_disabled = ExtResource("9_p3ma1")
+theme_override_icons/radio_checked = ExtResource("5_c16kf")
+theme_override_icons/radio_checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/radio_unchecked = ExtResource("9_p3ma1")
+theme_override_icons/radio_unchecked_disabled = ExtResource("9_p3ma1")
+button_group = ExtResource("15_xo040")
+icon = ExtResource("9_b8p0n")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ShapeColor4" type="CheckBox" parent="Survey/Sections/Selection/Form/ShapeBtn"]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("5_c16kf")
+theme_override_icons/checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/unchecked = ExtResource("9_p3ma1")
+theme_override_icons/unchecked_disabled = ExtResource("9_p3ma1")
+theme_override_icons/radio_checked = ExtResource("5_c16kf")
+theme_override_icons/radio_checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/radio_unchecked = ExtResource("9_p3ma1")
+theme_override_icons/radio_unchecked_disabled = ExtResource("9_p3ma1")
+button_group = ExtResource("15_xo040")
+icon = ExtResource("9_wuum7")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ShapeColor5" type="CheckBox" parent="Survey/Sections/Selection/Form/ShapeBtn"]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("5_c16kf")
+theme_override_icons/checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/unchecked = ExtResource("9_p3ma1")
+theme_override_icons/unchecked_disabled = ExtResource("9_p3ma1")
+theme_override_icons/radio_checked = ExtResource("5_c16kf")
+theme_override_icons/radio_checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/radio_unchecked = ExtResource("9_p3ma1")
+theme_override_icons/radio_unchecked_disabled = ExtResource("9_p3ma1")
+button_group = ExtResource("15_xo040")
+icon = ExtResource("10_l4k45")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ShapeColor6" type="CheckBox" parent="Survey/Sections/Selection/Form/ShapeBtn"]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("5_c16kf")
+theme_override_icons/checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/unchecked = ExtResource("9_p3ma1")
+theme_override_icons/unchecked_disabled = ExtResource("9_p3ma1")
+theme_override_icons/radio_checked = ExtResource("5_c16kf")
+theme_override_icons/radio_checked_disabled = ExtResource("5_c16kf")
+theme_override_icons/radio_unchecked = ExtResource("9_p3ma1")
+theme_override_icons/radio_unchecked_disabled = ExtResource("9_p3ma1")
+button_group = ExtResource("15_xo040")
+icon = ExtResource("11_nr3s3")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Reflect" type="Button" parent="Survey/Sections/Selection/Form"]
+layout_mode = 2
+toggle_mode = true
+text = "Submit"
+
+[node name="Ability" type="HBoxContainer" parent="Survey/Sections/Selection"]
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Survey/Sections/Selection"]
+visible = false
+layout_mode = 2
+
+[node name="Revise" type="VBoxContainer" parent="Survey/Sections/Selection"]
+visible = false
+layout_mode = 2
+
+[node name="Naming" type="Button" parent="Survey/Sections/Selection/Revise"]
+layout_mode = 2
+text = "My name is \"\""
+
+[node name="Gender" type="Button" parent="Survey/Sections/Selection/Revise"]
+layout_mode = 2
+text = "My friends would say \"x is a x\""
+
+[node name="Form" type="Button" parent="Survey/Sections/Selection/Revise"]
+layout_mode = 2
+text = "Here is a picture of me:"
+
+[node name="Ability" type="Button" parent="Survey/Sections/Selection/Revise"]
+layout_mode = 2
+text = "I am known for my \"\""

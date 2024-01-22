@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://cjgevt7icqp7c"]
+
+[ext_resource type="Script" path="res://menu/region_map/region_map.gd" id="1_aq6t6"]
+[ext_resource type="Texture2D" uid="uid://ba52548mxvt0f" path="res://assets/textures/gui/map/settlement_icon.png" id="2_7mip2"]
+[ext_resource type="Script" path="res://menu/region_map/map_nodule.gd" id="2_qakui"]
+[ext_resource type="Texture2D" uid="uid://b0kr1hvm17rmj" path="res://assets/textures/gui/map/landmark_icon.png" id="4_x1jy8"]
+
+[node name="RegionMap" type="Node2D"]
+script = ExtResource("1_aq6t6")
+
+[node name="MapNodule" type="Sprite2D" parent="." node_paths=PackedStringArray("outlink_insert")]
+position = Vector2(38, 26)
+texture = ExtResource("2_7mip2")
+script = ExtResource("2_qakui")
+outlink_insert = NodePath("../MapNodule2")
+
+[node name="MapNodule2" type="Sprite2D" parent="." node_paths=PackedStringArray("outlink_insert")]
+position = Vector2(45, 152)
+texture = ExtResource("2_7mip2")
+script = ExtResource("2_qakui")
+map_index = 1
+map_file_id = 1
+outlink_insert = NodePath("../MapNodule3")
+
+[node name="MapNodule3" type="Sprite2D" parent="." node_paths=PackedStringArray("outlink_insert")]
+position = Vector2(166, 112)
+texture = ExtResource("4_x1jy8")
+script = ExtResource("2_qakui")
+map_index = 2
+map_file_id = 2
+outlink_insert = NodePath("../MapNodule2")
+
+[node name="Line2D" type="Line2D" parent="MapNodule3"]
+visible = false
+position = Vector2(-94, -9)
+points = PackedVector2Array(94, 9, 45, 105)
+texture = ExtResource("4_x1jy8")
+texture_mode = 1
+begin_cap_mode = 1
+end_cap_mode = 2

@@ -1,9 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://cpjyc350pwf57"]
+[gd_scene load_steps=12 format=3 uid="uid://cpjyc350pwf57"]
 
 [ext_resource type="Script" path="res://player/player_menu.gd" id="1_5rlhg"]
 [ext_resource type="Texture2D" uid="uid://dwvr10slisk7o" path="res://assets/textures/menu/gui_woodengem_frame.png" id="1_x08vi"]
 [ext_resource type="Script" path="res://player/submenu_selection.gd" id="3_1w4mh"]
 [ext_resource type="Texture2D" uid="uid://bryctcvhwj6rh" path="res://assets/textures/menu/selection_arrow.png" id="3_a8ymm"]
+[ext_resource type="Script" path="res://menu/ctrl_inventory_stacked_friendly.gd" id="5_bb31o"]
+[ext_resource type="Texture2D" uid="uid://cr17q6mvvkai1" path="res://assets/textures/items/blue_jewel.png" id="6_57npq"]
+[ext_resource type="Script" path="res://addons/gloot/core/inventory_stacked.gd" id="7_0loov"]
+[ext_resource type="Resource" uid="uid://b4k68yn0si4th" path="res://item_protoset_json_test.tres" id="8_8qyui"]
+[ext_resource type="Script" path="res://addons/gloot/core/inventory_item.gd" id="9_7l1du"]
+[ext_resource type="Texture2D" uid="uid://mxsw3tbuu4em" path="res://assets/textures/mask_face_01.png" id="10_tjj3u"]
+[ext_resource type="Script" path="res://menu/exit_btn.gd" id="11_fvbtw"]
 
 [node name="Menu" type="CanvasLayer"]
 script = ExtResource("1_5rlhg")
@@ -16,7 +23,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="NinePatchRect" type="NinePatchRect" parent="Control"]
+[node name="PauseRect" type="NinePatchRect" parent="Control"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.777778
@@ -33,7 +40,7 @@ patch_margin_right = 16
 patch_margin_bottom = 16
 metadata/_edit_use_anchors_ = true
 
-[node name="PausedList" type="VBoxContainer" parent="Control/NinePatchRect"]
+[node name="PausedList" type="VBoxContainer" parent="Control/PauseRect"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.15625
@@ -44,7 +51,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 metadata/_edit_use_anchors_ = true
 
-[node name="LabelJournal" type="RichTextLabel" parent="Control/NinePatchRect/PausedList"]
+[node name="LabelJournal" type="RichTextLabel" parent="Control/PauseRect/PausedList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -54,7 +61,7 @@ fit_content = true
 autowrap_mode = 0
 script = ExtResource("3_1w4mh")
 
-[node name="LabelParty" type="RichTextLabel" parent="Control/NinePatchRect/PausedList"]
+[node name="LabelParty" type="RichTextLabel" parent="Control/PauseRect/PausedList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -65,7 +72,7 @@ autowrap_mode = 0
 script = ExtResource("3_1w4mh")
 submenu_link = 2
 
-[node name="LabelInventory" type="RichTextLabel" parent="Control/NinePatchRect/PausedList"]
+[node name="LabelInventory" type="RichTextLabel" parent="Control/PauseRect/PausedList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -76,7 +83,7 @@ autowrap_mode = 0
 script = ExtResource("3_1w4mh")
 submenu_link = 4
 
-[node name="LabelApp" type="RichTextLabel" parent="Control/NinePatchRect/PausedList"]
+[node name="LabelApp" type="RichTextLabel" parent="Control/PauseRect/PausedList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -87,7 +94,7 @@ autowrap_mode = 0
 script = ExtResource("3_1w4mh")
 submenu_link = 5
 
-[node name="LabelProfile" type="RichTextLabel" parent="Control/NinePatchRect/PausedList"]
+[node name="LabelProfile" type="RichTextLabel" parent="Control/PauseRect/PausedList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -98,7 +105,7 @@ autowrap_mode = 0
 script = ExtResource("3_1w4mh")
 submenu_link = 6
 
-[node name="LabelCamp" type="RichTextLabel" parent="Control/NinePatchRect/PausedList"]
+[node name="LabelCamp" type="RichTextLabel" parent="Control/PauseRect/PausedList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -109,7 +116,7 @@ autowrap_mode = 0
 script = ExtResource("3_1w4mh")
 submenu_link = 7
 
-[node name="LabelSettings" type="RichTextLabel" parent="Control/NinePatchRect/PausedList"]
+[node name="LabelSettings" type="RichTextLabel" parent="Control/PauseRect/PausedList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -120,7 +127,7 @@ autowrap_mode = 0
 script = ExtResource("3_1w4mh")
 submenu_link = 9
 
-[node name="LabelSave" type="RichTextLabel" parent="Control/NinePatchRect/PausedList"]
+[node name="LabelSave" type="RichTextLabel" parent="Control/PauseRect/PausedList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -131,7 +138,7 @@ autowrap_mode = 0
 script = ExtResource("3_1w4mh")
 submenu_link = 10
 
-[node name="LabelExit" type="RichTextLabel" parent="Control/NinePatchRect/PausedList"]
+[node name="LabelExit" type="RichTextLabel" parent="Control/PauseRect/PausedList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -142,7 +149,7 @@ autowrap_mode = 0
 script = ExtResource("3_1w4mh")
 submenu_link = 0
 
-[node name="LabelQuit" type="RichTextLabel" parent="Control/NinePatchRect/PausedList"]
+[node name="LabelQuit" type="RichTextLabel" parent="Control/PauseRect/PausedList"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -153,7 +160,46 @@ autowrap_mode = 0
 script = ExtResource("3_1w4mh")
 submenu_link = 11
 
-[node name="SelectionArrow" type="Sprite2D" parent="Control/NinePatchRect"]
+[node name="SelectionArrow" type="Sprite2D" parent="Control/PauseRect"]
 position = Vector2(48, 56)
 scale = Vector2(1.54839, 1.71429)
 texture = ExtResource("3_a8ymm")
+
+[node name="InventoryGUI" type="HBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InventoryListCol" type="VBoxContainer" parent="Control/InventoryGUI"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InventoryList" type="Control" parent="Control/InventoryGUI/InventoryListCol"]
+layout_mode = 2
+script = ExtResource("5_bb31o")
+progress_bar_visible = false
+label_visible = false
+inventory_path = NodePath("InventoryCore")
+default_item_icon = ExtResource("6_57npq")
+
+[node name="InventoryCore" type="Node" parent="Control/InventoryGUI/InventoryListCol/InventoryList"]
+script = ExtResource("7_0loov")
+item_protoset = ExtResource("8_8qyui")
+
+[node name="Node" type="Node" parent="Control/InventoryGUI/InventoryListCol/InventoryList/InventoryCore"]
+script = ExtResource("9_7l1du")
+protoset = ExtResource("8_8qyui")
+prototype_id = "stick"
+
+[node name="InventoryExitBtn" type="TextureButton" parent="Control/InventoryGUI/InventoryListCol"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 10
+texture_normal = ExtResource("3_a8ymm")
+texture_disabled = ExtResource("10_tjj3u")
+texture_focused = ExtResource("3_a8ymm")
+script = ExtResource("11_fvbtw")

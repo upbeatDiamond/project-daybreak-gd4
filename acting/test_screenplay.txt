@@ -1,0 +1,27 @@
+//demo script
+Henry: Hello!	//name “Henry”, says “Hello!”
+<<rename @Henry, “Harry”>>
+Henry: I’m not quite sure what we’re doing here… //name prints as “Harry”
+<<alias @Henry, @Enri>>
+Enri: …but I’m glad I can do it with you. //name prints as “Harry”
+Pearl: Me too.	//new character to the reader, but should be old internally
+Pearl: So where do you want to start?
+	* At the docks
+	Pearl: Okay. <wait 0.5 0.1> Grab a mop.
+	<<jump “end”>>
+	* At the door
+	Pearl: Okay. <wait 0.5 0.1> Grab a wrench.
+	<<jump “end”>>
+	* At the lights
+	<<jump “lights”>>
+=== lights ===
+Pearl: Okay. <wait 0.5 0.1> Grab a screwdriver.
+Pearl: We'll need to-<interrupt>
+Maria: Ha-ha haa! Oh you utter [b]FOOL[\\b]...
+Maria: There are no more lights for you to fix.
+Maria: I uninstalled ALL LIGHT FIXTURES!
+
+=== end ===
+Henry: Let's get to it!
+//! <<dismiss-all>> // optional line to dismiss all actors, should be done automagically
+//

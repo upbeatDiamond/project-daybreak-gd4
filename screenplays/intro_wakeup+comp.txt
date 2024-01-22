@@ -1,0 +1,30 @@
+{"compile_version":-19750814,"syntax_version":-1}
+{"_cuecard":12,"condition":" end@9","target_from":"cs_seen"}
+{"_cuecard":132,"target":"start7@7"}
+{"_cuecard":231,"path":"intro"}
+{"_cuecard":8,"actor":"Player","name_from":"play_name"}
+{"_cuecard":8,"actor":"Mom","name":" ???"}
+{"_cuecard":203,"actor":"Player","quote":"..."}
+{"_cuecard":203,"actor":"Player","quote":"?"}
+{"_cuecard":8,"actor":"Mom","name":" Mom"}
+{"_cuecard":203,"actor":"Mom","quote":"Ah,"}
+{"_cuecard":0,"duration":0.25}
+{"_cuecard":0,"duration":0.5}
+{"_cuecard":203,"actor":"Mom","quote":"When you get a chance, come downstairs to the kitchen."}
+{"_cuecard":203,"actor":"Mom","quote":"I've been working on something and I need someone to try it."}
+{"_cuecard":207,"quote":"Me?","store":"43@8","target":"Me?44@7"}
+{"_cuecard":207,"quote":"Uncle?","store":"43@8","target":"Uncle?45@7"}
+{"_cuecard":11,"target_from":"43@8"}
+{"_cuecard":132,"target":"43@6"}
+{"_cuecard":132,"target":"end49@7"}
+{"_cuecard":255}
+{"_cuecard":255}
+{"_cuecard":132,"target":"Me?44@7"}
+{"_cuecard":203,"actor":"Player","quote":"...?"}
+{"_cuecard":203,"actor":"Mom","quote":"Yes, you."}
+{"_cuecard":11,"target":"43@6"}
+{"_cuecard":132,"target":"Uncle?45@7"}
+{"_cuecard":203,"actor":"Player","quote":"...?"}
+{"_cuecard":203,"actor":"Mom","quote":"And no, it can't be your uncle."}
+{"_cuecard":203,"actor":"Player","quote":"..."}
+{"_cuecard":11,"target":"43@6"}

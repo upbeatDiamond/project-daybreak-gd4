@@ -3,22 +3,22 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ng84petxracw"
-path="res://.godot/imported/Orb.png-91b545d70c7e7cc7907c45701b809d0a.ctex"
+path="res://.godot/imported/Orb.png-bd42e1c09e2d879e58babd91919bbc99.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Orb.png"
-dest_files=["res://.godot/imported/Orb.png-91b545d70c7e7cc7907c45701b809d0a.ctex"]
+source_file="res://addons/Godot-Palette-Swap-Shader/ExampleProject/Orb.png"
+dest_files=["res://.godot/imported/Orb.png-bd42e1c09e2d879e58babd91919bbc99.ctex"]
 
 [params]
 
 compress/mode=0
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=false

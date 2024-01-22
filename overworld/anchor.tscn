@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bujjcbv7y4wxv"]
+
+[ext_resource type="Script" path="res://overworld/props/warp_anchor.gd" id="1_0n4a8"]
+
+[node name="Anchor" type="Marker2D"]
+gizmo_extents = 579.5
+script = ExtResource("1_0n4a8")

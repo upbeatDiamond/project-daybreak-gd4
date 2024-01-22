@@ -1,0 +1,100 @@
+NOTES:
+- Commas as separators might be optional. Don't count on it.
+- Footer and header tags can be used outside of their context, but...
+	... they would have undocumented and unstable behavior. Avoid using.
+- I am enabling using unstable behavior. Muahahah.
+- If a 'say' line has no speaker and no non-whitespace text, that's a "dialog hide"
+- Default actors that a scene should always have are @Player and @Partner. 
+	If no partner, then just speak to yourself in your own head.
+
+HEADER TAGS:
+<<syntax_version, 1>>			: used for detecting incompatible scripts
+
+EFFECTS / MODIFIERS:
+<more>, <contd>					: say next line w/o pausing or changing speaker
+<emote "emotion">: 
+<$var>							: prints var contents
+<clear>							: clears chat window suddenly
+<wait 0.0>					:  wait some number of seconds (float intended)
+
+COMMANDS:
+<<wait 0.0>>				: wait some number of seconds (float intended)
+
+<<assign $key, "value">>		: 
+<<walkto "anchor", @actor>>		: 
+<<emote "emotion", @actor>>		: 
+<<jump “section”>>				:
+<<jump_if $bool, "section">>	: 
+<<alias @Name, @NewName>>		: creates new reference to @Name, or merges @NewName into @Name
+<<rename @Name, “DisplayName”>>	: changes screen name for @Name so ref_name != display_name
+<<avatar @Name, "avatar">>				: set walk sprites
+<<icon @Name, "icon">>					: set talk sprites
+<<assert $var, "value">>		: can be any type, shouldn't be any type
+<<db_read "key", $value, "database">>	: reads from the Variable table into $value
+<<db_write "key", $value, "database">>	: writes to the Variable table of the selected db
+
+<<create-actor @Name, $umid, "Name", "res://sprites">> 	: Creates an actor without a premade UMID
+<<recruit-actor @Name, $umid>>	: Adds actor using Name, UMID
+<<create-prop @Prop, "res://template">>			: Creates a prop without a UMID
+<<recruit-prop @Prop, $tkn>>		: Adds prop using Name, TokenID
+
+<<save_actor @Actor>> 			: saves actor using its UMID if UMID is valid
+<<load_actor @Actor, $umid>>	: loads actor from UMID into actor
+<<load_actor @Actor>>			: loads actor from identifier name (not recommended)
+
+<<chmod @Name, "u+x">>			: Change permissions, in a Bash-like manner
+<<chgrp @Name, "group">>		: Change group for command dispatch, assigned depricated at birth
+
+... acts as 'eval', spread among many smaller commands
+<<add_store $base, $more>>			: add $more to $base
+<<sub_store $base, $less>>			: remove $less from $base
+
+<<animate @thing, $property, $action>>
+
+<<thread_split "section",...>>	: Jump, but jump to all of these points at once.
+<<thread_unify>>				: Kill this thread if there are any others
+
+<<set_position $x, $y, @Thing>>
+<<set_facing "n", @Thing>>	: checks for "north", "northwest", "north-west", or just "n"/"nw".
+<<facing_point $pos, @looker>>
+<<facing_actor @target, @looker>>
+<<play_pad "wa", @actor>>			: simulates keypresses using custom key->action conversion.
+<<animate "action", "parameters", @actor>>
+
+<<cam_follow @Name>>
+<<cam_effect "effect">>
+<<cam_snap>>					: camera stop moving, stay on current tile
+
+<<cinematic "res://x.tscn">>	: play a movie/animation overlay
+<<cinematic_await>>				: lock gameplay until cinematic finished if playing...
+									... else, if no cine or cine is suspected broken...
+									... clear any broken cine and keep going.
+
+
+<<walk_mode "walk", @Walker>>
+<<walk_point $x, $y, @Walker>>
+<<walk_path "[[10,1],[10,1]]">>	: List of relative positions to walk to, in order, ignoring hazards
+
+<<follow @actor, @follower>>	: Set follower as (temp?) partner
+
+<<set_hour $hr>>
+<<lock_hour>>
+<<unlock_hour>>
+<<set_date $dt>>
+<<lock_date>>
+<<unlock_date>>
+<<weather $weather>
+
+FOOTER TAGS:
+<<finish>>						: calls all mutually compatible footer tags and frees some memory
+
+<<dismiss_all>>					: give back permissions, drop actors & aliases
+<<dismiss @Name>>				: Frees actor and all its aliases from script
+<<free $Thing>>					: Queue frees the variable/asset from memory
+<<drop_threads>>				: Kill all but the main thread; may end script.
+
+
+IMPLICIT COMMANDS:
+<<say "quote", @Speaker>>					: Speaker:quote
+<<say_option "quote", $variable, "option">>	: * quote
+consider... ** = option that expires once clicked

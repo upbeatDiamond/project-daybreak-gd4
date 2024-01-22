@@ -4,14 +4,18 @@ extends Control
 # tracks whether buttons can do things, and might be used for sound logic later
 var scene_enabled = true
 
-var play_scene_path = "res://overworld/port_town.tscn"
+var play_scene_path = "res://overworld/level_maps/red_town.tscn"
 
-@export var play_scene = preload("res://overworld/port_town.tscn") :
+@export var play_scene = preload("res://overworld/level_maps/red_town.tscn") :
 	get:
 		return play_scene
 	set( value ):
-		if value.contains("res://"):
+		if value is PackedScene:
+			play_scene = value
+		elif value is String and value.contains("res://"):
 			play_scene = load(value)
+		elif value == null:
+			play_scene = null
 		else:
 			play_scene = get_node(value)
 
@@ -20,6 +24,9 @@ var play_scene_path = "res://overworld/port_town.tscn"
 
 func _ready():
 	
+	## The following line SHOULD NOT be commented out... however...
+	## ... to debug more efficiently, we will be ignoring this ominous warning.
+	#GlobalDatabase.fetch_save_to_stage()
 	GlobalRuntime.scene_manager.append_preload_map( play_scene_path )
 	
 	pass
@@ -27,22 +34,34 @@ func _ready():
 
 func _on_play_pressed():
 	if scene_enabled:
+		
 		GlobalRuntime.clean_up_descent( self )
-		#replace_by(  play_scene.instantiate()  )
-		GlobalRuntime.scene_manager.change_map( play_scene_path )
+		
+		if GlobalDatabase.can_recover_last_state():
+			print( "can recover, I think!" )
+			await GlobalDatabase.save_keyval("test_worked;(&)\\", true)
+			print(GlobalDatabase.load_keyval("test_worked;(&)\\"))
+			GlobalDatabase.recover_last_state()
+		else:
+			print( "cannot recover..." )
+		
+			if play_scene == null:
+				GlobalRuntime.scene_manager.change_map_from_path( play_scene_path )
+			else:
+				GlobalRuntime.scene_manager.change_map( play_scene )
 		queue_free()
-	pass # Replace with function body.
+	pass
 
 
 func _on_options_pressed():
 	#GlobalRuntime.clean_up_descent( self )
 	#replace_by(  options_menu.instantiate()  )
 	#queue_free()
-	pass # Replace with function body.
+	pass
 
 
 func _on_connection_pressed():
-	pass # Replace with function body.
+	pass
 
 
 func _on_quit_pressed():
@@ -53,4 +72,3 @@ func _on_credits_pressed():
 	if scene_enabled:
 		GlobalRuntime.activity_root_node.add_child( credits_menu.instantiate() )
 		scene_enabled = false
-	pass # Replace with function body.

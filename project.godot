@@ -15,26 +15,35 @@ config/name_localized={
 "en_Latn": "Project Daybreak"
 }
 run/main_scene="res://overworld/scene_manager.tscn"
-config/features=PackedStringArray("4.0", "GL Compatibility")
+config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
-GlobalDatabaseManager="*res://global/global_database_manager.gd"
+GlobalDatabase="*res://global/global_database.gd"
 GlobalMonster="*res://global/global_monster.gd"
 GlobalMonsterSpawner="*res://global/global_monster_spawner.gd"
-GlobalMove="*res://global/global_move.gd"
+GlobalTechnique="*res://global/global_technique.gd"
 GlobalBitManip="*res://global/global_bit_manip.gd"
 GlobalRuntime="*res://global/global_runtime.gd"
 GlobalGamepieceTransfer="*res://global/global_gamepiece_transfer.gd"
+GlobalDayCycle="*res://global/global_day_cycle.gd"
 
 [display]
 
 window/stretch/mode="viewport"
 
+[dotnet]
+
+project/assembly_name="ProjectDaybreakGD4"
+
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/godot-sqlite/plugin.cfg")
+enabled=PackedStringArray()
+
+[filesystem]
+
+import/blender/enabled=false
 
 [input]
 
@@ -91,9 +100,8 @@ debug_summon={
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://database/pr_XTOKIPONA.po")
 locale/translations_pot_files=PackedStringArray("res://player/player_menu.tscn")
-locale/test="pr_XTOKIPONA"
+locale/test="en"
 
 [layer_names]
 
