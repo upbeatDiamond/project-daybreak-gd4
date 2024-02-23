@@ -1,77 +1,28 @@
 Welcome to crude changelog, the log that gets facts wrong about your favorite changes.
 I'm jan Wiwijen (jan Opitamon), and today I'll be discussing a pre-alpha version of a Godot project.
 
-December 2023 - January 2024
+January 2024 - ????? 2024
 
 Codename: Project Daybreak
-Update: Pre-alpha 5, "Stamp on the Ground"
-TL;DR: Added ledges, pushable props, and saving player position.
+Update: Pre-alpha 6,
+TL;DR: 
 
 
 Noteworthy Additions:
 	+ Added, modified, or replaced maps: 
-		+ "Home Town Home"
-		+ "Home Town Lab"
-		* "Home Town"
-		* "Route Home to Red"
-		* "Port Town Museum"
-	+ SceneManager has been tweaked to make use of Godot 4.2's PackedScene preview in editor
-		+ Scenes can now be loaded/switched to from a string, a packed scene, or a node treelet
-	+ Added Warp Anchors, not to be confused with TrackStar's "waypoints" or lore's "warp slates"
-	+ Re-wrote the UMID generation code (older version was in a different repo)
-		> needs testing to ensure uniqueness and proper bit manipulation.
-	+ Added new Dictionarys to the GlobalDatabase to be used for reading/writing table data.
-	+ Added new Movement class to store gamepiece movement instructions
-		+ Renamed Move to Technique in an effort to disambiguate.
-	+ "Fixed" AnimationTree/Player issues by replacing the state tree with more code
-		+ Fixed issue where walking animation wouldn't play
-		+ Fixed issue where stopping walking would make the character face the screen
-		+ Added crude running animation
-	+ Ported over practically all code from side-project Daybreak-Director
-	+ Added/reimplemented screen transition effect (very sloppy)
-	+ Added PushBlock in anticipation for puzzles (pre-Alpha 4)
-		+ Fixed PushBlock's movement code in an only slightly hacky way (pre-Alpha 5)
-	+ Added ledge, with full functionality except landing_dust_effect + updated sprites
-	+ Edited event_interior/exterior system for Gamepieces
-		+ Added queue_free / destruction code for Tall Grass
-		* Tweaked group assignments
-	+ Added code to save all gamepieces to database (proving the new database system kinda works)
-		+ Need to update to Godot 4.3 to make it work properly, since I'd rely on global groups
-	+ Pressing the 'save' button now saves the player's current location + facing direction
-		+ The game is *usually* able to restore the player's last level-map + position
-	+ Expanded GlobalDatabase ... 
-		+ ... to enable game recovery tests
-		+ ... to enable automatic database backups
-	+ Added more assets, as always
-	+ Added the Gloot addon
-		* Tweaked addon code to break the debugger less when Stop-ing (F8-ing)
-	+ Merged in files from subprject Director
-		* Re-enabled GlobalDayCycle
-		> Continued development may be split between the two repos for now.
-			> Not the most efficient in terms of GitHub stuff, but perhaps overall effective.
+		+ 
+	+ Added placeholder graphics for ~60 monsters, out of between 150-256 total (1/3rd designed)
+	+ Added more Addons
+		+ Safe Resource Loader
+		+ ModPlayer
 
 
 Noteworthy Subtractions:
-	- Removed ability for player to clone self by leaving the room they spawned in, then returning.
-		* Fixed(?) bug where a map's player's monster had outdated UMID, leading to duplication.
-	- Gutted some old GlobalDatabase code to try to save space & increase consistancy
-	- Squashed all old warnings, which means some functions were cut or parameters renamed
+	- 
 
 
 Noteworthy Changes:
-	* Changed spacing and line lengths for a lot of scripts to closer comply to Godot standards.
-	* Gamepiece cameras should now reset smoothing upon switching maps, improving immersion.
-	* Gamepieces resync position differently now
-		+ Resync was to resync children with parent, now resyncs everything to the collider
-			% Be ready to rewrite again when 64x64 sprite size becomes the default...
-	* Gamepiece func 'move-to-target()' renamed to 'shift-to-target()', as is unrelated to 'move()'
-	* Set collision to once again move before the gamepiece graphics
-		* If the collision moves first, it looks wrong while debugging.
-		* If the collision moves last, it literally is wrong.
-	* Yet again changed file structure
-	* Changed teleport code to more easily allow for room/map transitions to be treated the same
-	* Changed PlayerMenu to no longer rely on _unhandled_input(delta)
-	* Changed Tree and House to have the same corner point as Gamepiece; updated maps accordingly
+	* 
 
 
 To Do List + Constructive Commentary:
@@ -111,6 +62,7 @@ To Do List + Constructive Commentary:
 			% Rely on PATCHDATA for balancing and forwards compatibility but not for assets/code
 				% Maybe use PATCHDATA for asset/code pointers/paths? Seems more like a .PCK thing
 	% Fix/expand the pause menu
+		% This includes the inventory GUI and backend
 
 
 General Commentary:
