@@ -1159,6 +1159,7 @@ sources/0 = SubResource("TileSetAtlasSource_oy114")
 sources/1 = SubResource("TileSetAtlasSource_5t3mx")
 
 [node name="RouteToRed" type="Node2D"]
+position = Vector2(48, 0)
 script = ExtResource("1_wg0ev")
 map_index = 2048
 
@@ -1175,7 +1176,7 @@ layer_1/tile_data = PackedInt32Array()
 [node name="Objects" type="Node" parent="."]
 
 [node name="Portal" parent="Objects" instance=ExtResource("4_q6ugm")]
-position = Vector2(80, 896)
+position = Vector2(128, 896)
 scale = Vector2(8, 8)
 map = "res://overworld/level_maps/home_town.tscn"
 target_anchor_name = "RouteToRed"
@@ -1184,28 +1185,29 @@ target_facing = Vector2i(0, 1)
 portal_id = 1
 
 [node name="Portal2" parent="Objects" instance=ExtResource("4_q6ugm")]
-position = Vector2(544, 320)
-scale = Vector2(8, 8)
+position = Vector2(592, 320)
+scale = Vector2(4, 4)
 map = "res://overworld/level_maps/red_town.tscn"
-target_anchor_name = "RouteToHome"
+target_anchor_name = "ToRouteHome"
 target_facing = Vector2i(0, -1)
 portal_id = 2
 
 [node name="Ledge" parent="Objects" instance=ExtResource("2_hf63k")]
-position = Vector2(224, 432)
+position = Vector2(272, 432)
 length = 4
 
 [node name="Y-Sort" type="Node2D" parent="Objects"]
 y_sort_enabled = true
+position = Vector2(48, 0)
 
 [node name="TallGrass2" parent="Objects/Y-Sort" instance=ExtResource("7_n5ydw")]
-position = Vector2(176, 416)
+position = Vector2(-16, 512)
 
 [node name="TallGrass" parent="Objects/Y-Sort" instance=ExtResource("7_n5ydw")]
-position = Vector2(176, 400)
+position = Vector2(16, 528)
 
 [node name="House" parent="Objects/Y-Sort" instance=ExtResource("10_m3vie")]
-position = Vector2(80, 384)
+position = Vector2(-32, 544)
 
 [node name="Tree" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
 position = Vector2(64, 896)
@@ -1268,7 +1270,7 @@ position = Vector2(64, 960)
 position = Vector2(64, 992)
 
 [node name="Tree21" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(32, 712)
+position = Vector2(32, 704)
 
 [node name="Tree22" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
 position = Vector2(192, 992)
@@ -1298,25 +1300,25 @@ position = Vector2(288, 160)
 position = Vector2(32, 480)
 
 [node name="Tree31" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(64, 744)
+position = Vector2(64, 736)
 
 [node name="Tree32" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
 position = Vector2(32, 512)
 
 [node name="Tree33" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(32, 584)
+position = Vector2(-64, 480)
 
 [node name="Tree34" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(32, 552)
+position = Vector2(-32, 480)
 
 [node name="Tree35" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(32, 616)
+position = Vector2(0, 640)
 
 [node name="Tree36" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(32, 680)
+position = Vector2(32, 672)
 
 [node name="Tree37" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(32, 648)
+position = Vector2(32, 640)
 
 [node name="Tree38" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
 position = Vector2(544, 288)
@@ -1415,7 +1417,7 @@ position = Vector2(512, 352)
 position = Vector2(512, 320)
 
 [node name="Tree69" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(0, 320)
+position = Vector2(-96, 480)
 
 [node name="Tree70" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
 position = Vector2(192, 352)
@@ -1424,7 +1426,7 @@ position = Vector2(192, 352)
 position = Vector2(192, 320)
 
 [node name="Tree72" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(160, 320)
+position = Vector2(-32, 640)
 
 [node name="Tree73" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
 position = Vector2(192, 384)
@@ -1436,46 +1438,46 @@ position = Vector2(448, 640)
 position = Vector2(640, 544)
 
 [node name="Tree76" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(640, 512)
+position = Vector2(288, 384)
 
 [node name="Tree77" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(672, 512)
+position = Vector2(608, 512)
 
 [node name="Tree78" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(672, 480)
+position = Vector2(608, 480)
 
 [node name="Tree79" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(64, 320)
+position = Vector2(-96, 608)
 
 [node name="Tree80" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
 position = Vector2(320, 416)
 
 [node name="Tree81" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(32, 320)
+position = Vector2(-96, 512)
 
 [node name="Tree82" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(672, 448)
+position = Vector2(608, 448)
 
 [node name="Tree83" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(32, 352)
+position = Vector2(-96, 640)
 
 [node name="Tree84" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(672, 416)
+position = Vector2(608, 416)
 
 [node name="Tree85" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(128, 352)
+position = Vector2(96, 448)
 
 [node name="Tree86" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(672, 384)
+position = Vector2(608, 384)
 
 [node name="Tree87" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(160, 352)
+position = Vector2(-96, 576)
 
 [node name="Tree88" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(672, 352)
+position = Vector2(608, 352)
 
 [node name="Tree89" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(96, 320)
+position = Vector2(128, 448)
 
 [node name="Tree91" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
 position = Vector2(320, 352)
@@ -1487,7 +1489,7 @@ position = Vector2(480, 384)
 position = Vector2(320, 384)
 
 [node name="Tree94" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(352, 352)
+position = Vector2(288, 416)
 
 [node name="Tree95" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
 position = Vector2(384, 416)
@@ -1499,10 +1501,10 @@ position = Vector2(480, 416)
 position = Vector2(512, 384)
 
 [node name="Tree98" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(0, 352)
+position = Vector2(-96, 544)
 
 [node name="Tree99" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(128, 320)
+position = Vector2(-64, 640)
 
 [node name="Tree100" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
 position = Vector2(160, 448)
@@ -1517,13 +1519,13 @@ position = Vector2(0, 448)
 position = Vector2(64, 864)
 
 [node name="Tree104" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(0, 384)
+position = Vector2(64, 448)
 
 [node name="Tree105" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
 position = Vector2(0, 480)
 
 [node name="Tree106" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(608, 288)
+position = Vector2(544, 256)
 
 [node name="Tree107" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
 position = Vector2(352, 416)
@@ -1544,28 +1546,28 @@ position = Vector2(192, 448)
 position = Vector2(480, 352)
 
 [node name="Tree113" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(672, 288)
+position = Vector2(608, 288)
 
 [node name="Tree114" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(64, 712)
+position = Vector2(64, 704)
 
 [node name="Tree115" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(672, 320)
+position = Vector2(608, 320)
 
 [node name="Tree116" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
 position = Vector2(576, 288)
 
 [node name="Tree117" parent="Objects/Y-Sort" instance=ExtResource("6_3ac02")]
-position = Vector2(640, 288)
+position = Vector2(576, 256)
 
 [node name="TallGrass3" parent="Objects/Y-Sort" instance=ExtResource("7_n5ydw")]
-position = Vector2(160, 400)
+position = Vector2(0, 528)
 
 [node name="TallGrass4" parent="Objects/Y-Sort" instance=ExtResource("7_n5ydw")]
-position = Vector2(176, 384)
+position = Vector2(16, 512)
 
 [node name="TallGrass5" parent="Objects/Y-Sort" instance=ExtResource("7_n5ydw")]
-position = Vector2(160, 384)
+position = Vector2(0, 512)
 
 [node name="DaylightFilter" parent="." instance=ExtResource("8_0h04j")]
 visible = false
@@ -1580,14 +1582,14 @@ zoom = Vector2(2.5, 2.5)
 script = ExtResource("8_xtb47")
 
 [node name="WarpTownHome" type="Marker2D" parent="Anchors"]
-position = Vector2(128, 880)
+position = Vector2(176, 880)
 gizmo_extents = 16.0
 script = ExtResource("9_ykrbc")
 anchor_name = "ToTownHome"
 facing_direction = Vector2i(0, -1)
 
 [node name="WarpTownRed" type="Marker2D" parent="Anchors"]
-position = Vector2(576, 464)
+position = Vector2(624, 464)
 gizmo_extents = 16.0
 script = ExtResource("9_ykrbc")
 anchor_name = "ToTownRed"
