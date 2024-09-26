@@ -39,7 +39,7 @@ project/assembly_name="ProjectDaybreakGD4"
 
 [editor_plugins]
 
-enabled=PackedStringArray()
+enabled=PackedStringArray("res://addons/godot-sqlite/plugin.cfg")
 
 [filesystem]
 
