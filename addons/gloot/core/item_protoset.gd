@@ -5,7 +5,7 @@ extends Resource
 
 const KEY_ID: String = "id"
 
-@export_multiline var json_data :
+@export_multiline var json_data : String:
 	get:
 		return json_data
 	set(new_json_data):

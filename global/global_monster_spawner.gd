@@ -97,6 +97,9 @@ func generate_umid() -> int:
 	
 	# practically impossible to achieve. You need some real TAS to get this.
 	# maybe if the game runs for many years, and overlaps with the incrementor?
+	if export_umid < 0:
+		export_umid = 0 - export_umid	
+	
 	if export_umid < 512:
 		print( str(export_umid, " is not a valid ID, recalculating...") )
 		return generate_umid()

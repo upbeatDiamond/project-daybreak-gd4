@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://q07xx3r4k1ew"
-path="res://.godot/imported/Cry-MISSINGNO2.wav-9049a2482892c9f286f3060331d19542.sample"
+path="res://.godot/imported/cry-MISSINGNO2.wav-3a9e8c166019077962d1118a0323cfba.sample"
 
 [deps]
 
-source_file="res://assets/sounds/Cry-MISSINGNO2.wav"
-dest_files=["res://.godot/imported/Cry-MISSINGNO2.wav-9049a2482892c9f286f3060331d19542.sample"]
+source_file="res://assets/sounds/cries/cry-MISSINGNO2.wav"
+dest_files=["res://.godot/imported/cry-MISSINGNO2.wav-3a9e8c166019077962d1118a0323cfba.sample"]
 
 [params]
 

@@ -1,0 +1,37 @@
+extends ItemList
+class_name InventoryList
+
+@export var item_category : String # Used for SQL queries, associated with display text
+@export var player_id : int = 0
+
+# This code has not been tried out yet. 
+# It was written on a whim as part of procrastination, 
+# because GLoot looked annoying to deal with.
+
+# In fact, it doesn't work. It is in essence pseudocode.
+var items := {}
+
+func regenerate_list():
+	# First query SQL for all items in the current player's inv & this category
+	# Second, make the list easy to traverse.
+
+	for (var item in item_query):
+		# Then, for each item, query for icon data. 
+		# Item stacks should be merged, so repeat queries are niche.
+	
+		add_item( tr(item.TR), load(item.icon), true );
+
+func collect_item(item_id, count:=1) -> bool:
+	# query database for meaning of item, and get it
+	# try to add item to Dictionary items
+	# if the item was invalid, or the inventory is full, fail and return false
+	# succeed and return true
+	pass
+
+func release_item(item_id, count:=1) -> bool:
+	# query database for meaning of item, and get it
+	# try to subtract item to Dictionary items
+	# if the item was invalid, or the inventory lack(s/ed) any, fail and return false
+	# succeed and return true
+	pass
+
