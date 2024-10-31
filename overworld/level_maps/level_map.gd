@@ -13,6 +13,7 @@ var debug_please_remove:=[1,3,2]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
 	if GlobalRuntime.scene_manager != null:
 		GlobalRuntime.scene_manager.update_preload_portals()
 		establish_ysort()

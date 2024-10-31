@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://drnn0x2dg4s23"]
+
+[ext_resource type="Script" path="res://overworld/navigation/astar_overlay.gd" id="1_jjucr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lyhoc"]
+
+[node name="AStarOverlay" type="Area2D"]
+collision_layer = 0
+script = ExtResource("1_jjucr")
+
+[node name="OverlayCollider" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_lyhoc")
