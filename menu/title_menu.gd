@@ -4,9 +4,9 @@ extends Control
 # tracks whether buttons can do things, and might be used for sound logic later
 var scene_enabled = true
 
-var play_scene_path = "res://overworld/level_maps/red_town.tscn"
+const play_scene_path = "res://overworld/level_maps/red_town.tscn"
 
-@export var play_scene = preload("res://overworld/level_maps/red_town.tscn") :
+@export var play_scene = preload(play_scene_path) :
 	get:
 		return play_scene
 	set( value ):

@@ -15,6 +15,8 @@ Noteworthy Additions:
 	+ Added more Addons
 		+ Safe Resource Loader
 		+ ModPlayer
+		+ Clyde Dialogue
+	+ Added navigation layers to maps, and code to utilize it
 
 
 Noteworthy Subtractions:
@@ -26,6 +28,12 @@ Noteworthy Changes:
 
 
 To Do List + Constructive Commentary:
+	% Merge the Mob, Experimental, and Mouse Follow controllers into one big NPC controller
+		% Tried, needs testing
+	% Tear out Director/Screenplay and integrate Clyde
+	% Integrate intro cinematic sequence
+		% Add sprite layers for hair and clothing for player
+	
 	% Replace the remaining Arkeve tutorial code after prototyping his party screen system
 		% Revise ALL Arkeve-based code until it both cannot be detected by plagiarism scanners ...
 		... and is overall more robust. Not either/or, but both of these things.
@@ -44,9 +52,6 @@ To Do List + Constructive Commentary:
 		% Make the Activity/Overworld switch not shrink the overworld, as this may cause ...
 		... misalignments if any children are still running.
 			% Pausing should switch between process modes INHERIT and DISABLED.
-	% Replace the broken traces of D* with a new proposed "TrackStar" algorithm
-		% Or... hear me out... delay developing TrackStar and use Godot 4.2's NavMesh baking tool?
-			% Still work on TrackStar eventually, but that's very low priority if NavMesh works.
 	% Saving and Loading
 		% Refactor all save/load code regarding Gamepieces
 			% Instead of using signals, have all Gamepieces registered with GlobalGamepieceTransfer

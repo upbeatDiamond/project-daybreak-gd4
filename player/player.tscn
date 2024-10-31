@@ -1,8 +1,8 @@
 [gd_scene load_steps=36 format=3 uid="uid://db8npf25b22jx"]
 
 [ext_resource type="Script" path="res://overworld/characters/gamepiece.gd" id="1_6lhpg"]
+[ext_resource type="Script" path="res://overworld/characters/gamepiece_controller_mouse_follow.gd" id="2_ptsrp"]
 [ext_resource type="Texture2D" uid="uid://bd37e47ywhomq" path="res://assets/textures/monsters/overworld/human_base_c2.png" id="3_lrqsi"]
-[ext_resource type="Script" path="res://overworld/characters/gamepiece_controller_player.gd" id="3_wmhfs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v1cr0"]
 size = Vector2(16, 16)
@@ -328,7 +328,7 @@ unique_id = 0
 umid = 0
 
 [node name="Controller" type="Node" parent="."]
-script = ExtResource("3_wmhfs")
+script = ExtResource("2_ptsrp")
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 position = Vector2(8, 8)
