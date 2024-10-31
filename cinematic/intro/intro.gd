@@ -28,6 +28,10 @@ var kv_bank = {};
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
+	size = Vector2(1152, 648)
+	#anchor_bottom = 
+	
 	$Background/AudioIntroHeartbeat.set_stream( load("res://assets/music/intro_heartbeat.mp3") )
 	$Background/AudioIntroBrightness.set_stream( load("res://assets/music/intro_brightness.mp3") )
 	$Background/AudioIntroDarkness.set_stream( load("res://assets/music/intro_darkness.mp3") )
@@ -305,6 +309,17 @@ func music_end():
 	for layer in music_layers:
 		layer.play()
 		pass
+	
+	# Give the system a moment to adjust
+	await get_tree().physics_frame
+	await get_tree().physics_frame
+	
+	# If the song is not over, wait it out.
+	if ($Background/AudioIntroBrightness as AudioStreamPlayer).playing:
+		await $Background/AudioIntroBrightness.finished
+	
+	# Then end the cinematic.
+	#cinematic_finished.emit()
 	pass
 
 func music_fade_in(layer:int):

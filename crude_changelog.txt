@@ -1,11 +1,11 @@
 Welcome to crude changelog, the log that gets facts wrong about your favorite changes.
 I'm jan Wiwijen (jan Opitamon), and today I'll be discussing a pre-alpha version of a Godot project.
 
-January 2024 - ????? 2024
+January 2024 - November 2024
 
 Codename: Project Daybreak
-Update: Pre-alpha 6,
-TL;DR: 
+Update: Pre-alpha 6, "Paperback Writer"
+TL;DR: Rapid half-baked polishing; stitching the pieces together.
 
 
 Noteworthy Additions:
@@ -24,15 +24,17 @@ Noteworthy Subtractions:
 
 
 Noteworthy Changes:
-	* 
+	* Intro now plays at the start of the game
 
 
 To Do List + Constructive Commentary:
 	% Merge the Mob, Experimental, and Mouse Follow controllers into one big NPC controller
 		% Tried, needs testing
 	% Tear out Director/Screenplay and integrate Clyde
-	% Integrate intro cinematic sequence
+	% Repair/polish intro cinematic sequence
 		% Add sprite layers for hair and clothing for player
+		% Fix bug where audio outro is skipped
+	% Add Interface for cinematics, on top of Activity and World
 	
 	% Replace the remaining Arkeve tutorial code after prototyping his party screen system
 		% Revise ALL Arkeve-based code until it both cannot be detected by plagiarism scanners ...

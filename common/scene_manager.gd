@@ -8,7 +8,7 @@ var scenes_waiting : Array
 
 @onready var activity_interface_wrapper = $InterfaceActivityWrapper
 @onready var activity_interface = $InterfaceActivityWrapper/InterfaceActivity
-@onready var world_interface = $InterfaceWorld
+@onready var world_interface = $PlayerCamView/SubViewport/InterfaceWorld
 @onready var screen_transition = $ScreenTransition
 @onready var player_menu = $Menu
 
@@ -122,13 +122,28 @@ func append_preload_map( map:String ):
 
 
 func get_overworld_root():
-	var children = $InterfaceWorld.get_children()
+	var children = world_interface.get_children()
 	
 	# Because I am lazy and prefer crashing from memleaks than crashing from null pointers.
 	if children == null or children.size() < 1:
-		$InterfaceWorld.add_child( Node2D.new() )
+		world_interface.add_child( Node2D.new() )
 	
-	return $InterfaceWorld.get_children().back()
+	return world_interface.get_children().back()
+
+
+func mount_cinematic( cine:Control ):
+	
+	# I assume this works as a check for if the cine & scene manager co-exist
+	if not cine.is_inside_tree():
+		activity_interface.add_child( cine )
+	switch_to_interface( SceneManager.InterfaceOptions.ACTIVITY )
+	await (cine as Cinematic).cinematic_finished
+	for child in activity_interface.get_children():
+		child.queue_free()
+	switch_to_interface( SceneManager.InterfaceOptions.WORLD )
+	pass
+
+
 
 
 func update_preload_portals( ttl_decrement : int = 1 ):

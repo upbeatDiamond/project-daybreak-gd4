@@ -5,6 +5,7 @@ extends Control
 var scene_enabled = true
 
 const play_scene_path = "res://overworld/level_maps/red_town.tscn"
+const play_cutscene_path = "res://cinematic/intro/intro.tscn"
 
 @export var play_scene = preload(play_scene_path) :
 	get:
@@ -18,6 +19,19 @@ const play_scene_path = "res://overworld/level_maps/red_town.tscn"
 			play_scene = null
 		else:
 			play_scene = get_node(value)
+
+@export var play_cutscene = preload(play_cutscene_path) :
+	get:
+		return play_cutscene
+	set( value ):
+		if value is PackedScene:
+			play_cutscene = value
+		elif value is String and value.contains("res://"):
+			play_cutscene = load(value)
+		elif value == null:
+			play_cutscene = null
+		else:
+			play_cutscene = get_node(value)
 
 @export var options_menu = preload("res://menu/options_menu.tscn")
 @export var credits_menu = preload("res://menu/options_menu.tscn")
@@ -34,6 +48,10 @@ func _ready():
 
 func _on_play_pressed():
 	if scene_enabled:
+		
+		
+		GlobalRuntime.scene_manager.mount_cinematic(play_cutscene.instantiate());
+		#GlobalRuntime.switch_to_interface( SceneManager.InterfaceOptions.ACTIVITY );
 		
 		GlobalRuntime.clean_up_descent( self )
 		

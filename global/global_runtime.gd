@@ -13,9 +13,9 @@ var multiplayer_enabled: bool
 @export var combat_screen : Node
 @export var scene_transition_player : Node
 
-@onready var scene_manager := get_node(^"/root/SceneManager")
+@onready var scene_manager : SceneManager = get_node(^"/root/SceneManager")
 
-@export var overworld_root_path := ^"/root/SceneManager/InterfaceWorld" :
+@export var overworld_root_path := ^"/root/SceneManager/PlayerCamView/SubViewport/InterfaceWorld" :
 	get:
 		return overworld_root_path
 	set(value):
