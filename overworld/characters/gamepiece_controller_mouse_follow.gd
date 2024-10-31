@@ -12,6 +12,7 @@ func _ready() -> void:
 	update_configuration_warnings()
 	
 	gamepiece = self.get_parent() as Gamepiece
+	navigation_agent_2d = gamepiece.find_child("NavigationAgent", true)
 	
 	if not Engine.is_editor_hint():
 		assert(gamepiece, "Gamepiece '%s' must be a child of a Gamepiece to function! Is '%s'" 
@@ -35,22 +36,49 @@ func _process(_delta):
 func _physics_process(_delta):
 	if GlobalRuntime.gameworld_input_stopped || gamepiece.is_paused:
 		return
-	elif gamepiece.move_queue.size() <= 1 && gamepiece.is_moving == false && input_cooldown <= 0:
+	elif input_cooldown <= 0:#gamepiece.move_queue.size() <= 1 && gamepiece.is_moving == false && input_cooldown <= 0:
+		gamepiece.move_queue.clear()
 		handle_movement_input()
+		
 	
 	if input_cooldown > 0:
 		input_cooldown -= _delta
 	#print( "controller thinks moving = %d", gamepiece.is_moving )
+	
+	
+	if navigation_agent_2d != null:
+		#get_global_mouse_position needs a CanvasItem
+		var mouse_position = gamepiece.get_global_mouse_position()
+		navigation_agent_2d.target_position = mouse_position
+		
+		var current_agent_position = gamepiece.global_position
+		var next_path_position = navigation_agent_2d.get_next_path_position()
+		var new_direction = current_agent_position.direction_to(next_path_position)
+		
+		_input_direction_bypass = new_direction
+
+var _input_direction_bypass := Vector2(0,0)
 
 
 func handle_movement_input():
 	if !gamepiece.is_paused:
-		var input_direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+		var input_direction = _input_direction_bypass#Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 		
 		if input_direction == Vector2.ZERO:
 			return
 		
 		# This section deals with some diagonal inputs contextually
+		# If x and y are not equal, choose the greater.
+		# Else, change direction so the character moves zig-zag
+		# Else, follow the direction the character is facing, if X and Y are 0 or NaN.
+		if (abs(input_direction.x) > abs(input_direction.y)):
+			input_direction = Vector2(sign(input_direction.x), 0)
+		elif (abs(input_direction.x) < abs(input_direction.y)):
+			input_direction = Vector2(0, sign(input_direction.y))
+		elif ( abs(gamepiece.facing_direction.x) > 0 ):
+			input_direction = Vector2(0, sign(input_direction.y))
+		elif ( abs(gamepiece.facing_direction.x) > 0 ):
+			input_direction = Vector2(sign(input_direction.x), 0)
 		if (input_direction.x != 0) && (input_direction.y != 0) && (input_direction != Vector2.ZERO):
 			input_direction = gamepiece.facing_direction;
 		

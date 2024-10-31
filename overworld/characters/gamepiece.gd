@@ -47,7 +47,7 @@ var is_moving = false;	# true if currently tweening a traversal (walking, runnin
 var was_moving = false;	# true if animation for an 'is_moving' action would still be playing
 var position_is_known = true;	# false if the gamepiece needs a new position calculated.
 var position_stabilized = false;	#current_position == global_position; or, "has been placed yet"
-var facing_direction = Vector2(0,0):	# Used for animation state
+var facing_direction = Vector2(0,-1):	# Used for animation state
 	set(value):
 		facing_direction = value
 
