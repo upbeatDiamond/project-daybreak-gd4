@@ -3,9 +3,14 @@ extends Cinematic
 var progress := 0;
 const INPUT_COOLDOWN_DEFAULT := 10.0;
 const INPUT_COOLDOWN_RATE := 4.0;
+
+
+const STAGE_MAX = 15
+
 var input_cooldown := INPUT_COOLDOWN_DEFAULT / 2;
 var stage_locked := false;
 var stage_finished := true;
+var cine_finished := false;
 @onready var intro_naming  = self.find_child("Naming",  true);
 @onready var intro_gender  = self.find_child("Gender",  true);
 @onready var intro_form    = self.find_child("Form",    true);
@@ -30,7 +35,6 @@ var kv_bank = {};
 func _ready():
 	
 	size = Vector2(1152, 648)
-	#anchor_bottom = 
 	
 	$Background/AudioIntroHeartbeat.set_stream( load("res://assets/music/intro_heartbeat.mp3") )
 	$Background/AudioIntroBrightness.set_stream( load("res://assets/music/intro_brightness.mp3") )
@@ -48,9 +52,6 @@ func _ready():
 		pass
 	
 	print( music_layers[0].playing, " is playing?" )
-	
-	#var fly = AnnoyingFly.new()
-	#add_child(fly)
 	
 	self.find_child("Survey", true).modulate= Color(1,1,1,0);
 	self.reflect_kv.connect( self.on_reflect_kv ) #request_kv
@@ -128,14 +129,9 @@ func play_next_stage():
 		switch_stage( progress )
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-	#pass
-
-#func tween_sync():
-	#pass
-
 func switch_stage(stage:int):
+	
+	
 	
 	# fade out all elements except the background
 	stage_locked = true
@@ -150,6 +146,9 @@ func switch_stage(stage:int):
 	for n in (self.find_child("Selection", true) as Container).get_children():
 		n.visible = false;
 		pass
+	
+	if stage > STAGE_MAX:
+		stage = STAGE_MAX
 	
 	match stage:
 		0:
@@ -227,11 +226,12 @@ func switch_stage(stage:int):
 			set_prompt("Thank you for imagining with me.");
 			pass
 		15:
-			set_prompt("Now I know what kind of monster you are.");
-			music_end()
-			
-			cinematic_finished.emit(self)
 			stage_finished = false;
+			set_prompt("Now I know what kind of monster you are.");
+			#(self.find_child("Prompt", true) as Container).visible = true;
+			
+			cine_finished = true
+			
 			pass
 		_:
 			pass
@@ -242,7 +242,11 @@ func switch_stage(stage:int):
 	survey.visible = true;
 	tween.play();
 	await tween.finished
-	stage_locked = false;
+	
+	if (cine_finished):
+		await music_end()
+	else:
+		stage_locked = false;
 	
 	pass
 
@@ -314,13 +318,18 @@ func music_end():
 	await get_tree().physics_frame
 	await get_tree().physics_frame
 	
-	# If the song is not over, wait it out.
+	
+	GlobalRuntime.scene_manager.fade_to_black($Background/AudioIntroHeartbeat.stream.get_length())
+	# If the song is not over, wait it out...
 	if ($Background/AudioIntroBrightness as AudioStreamPlayer).playing:
 		await $Background/AudioIntroBrightness.finished
 	
-	# Then end the cinematic.
-	#cinematic_finished.emit()
-	pass
+	#await GlobalRuntime.scene_manager.fade_out_finished
+	
+	GlobalRuntime.scene_manager.fade_in(0.25)
+	# ... then end the cinematic.
+	cinematic_finished.emit(self)
+	return
 
 func music_fade_in(layer:int):
 	var another_tween

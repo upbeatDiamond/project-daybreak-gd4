@@ -23,6 +23,11 @@ func _ready():
 	print( str("pronoun_m -- ",pronoun_m) );
 	pass # Replace with function body.
 
+func on_become_visible():
+	if self.visible:
+		pronoun_n.grab_focus()
+	pass
+
 func on_reflect_pressed(_h:=true):
 	var gender = ''
 	var gclass = ''

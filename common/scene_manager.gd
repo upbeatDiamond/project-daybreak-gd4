@@ -12,6 +12,10 @@ var scenes_waiting : Array
 @onready var screen_transition = $ScreenTransition
 @onready var player_menu = $Menu
 
+
+signal fade_out_finished
+signal fade_in_finished
+
 # Keep the -1, it's a mnemonic.
 # The number preceding the '-1' is the number of levels you can access before an item expires.
 const TTL_RESET := 4 - 1
@@ -141,6 +145,7 @@ func mount_cinematic( cine:Control ):
 	for child in activity_interface.get_children():
 		child.queue_free()
 	switch_to_interface( SceneManager.InterfaceOptions.WORLD )
+	$PlayerCamView.grab_focus()
 	pass
 
 
@@ -191,6 +196,8 @@ func fade_to_black( duration:=0.25 ) -> bool:
 		await move_tween.finished
 	print("darkness color ++> ", blackness.color, blackness.modulate)
 	
+	fade_out_finished.emit();
+	
 	return true
 
 
@@ -209,4 +216,6 @@ func fade_in( duration:=0.75 ):
 			Color.TRANSPARENT, duration ).set_trans(Tween.TRANS_LINEAR)
 		await move_tween.finished
 	print("darkness color ++> ", blackness.color, blackness.modulate)
+	
+	fade_in_finished.emit();
 	pass

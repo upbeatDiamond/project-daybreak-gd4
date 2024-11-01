@@ -132,6 +132,7 @@ func _process(_delta):
 		elif was_moving == true: # implied: is_moving is false
 			update_anim_tree()
 			was_moving = false
+	
 
 
 func _on_gameworld_pause():
