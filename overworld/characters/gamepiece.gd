@@ -27,7 +27,7 @@ signal gamepiece_entered_door_signal
 var move_speed:float
 @export var walk_speed = 5.0
 @export var jump_speed = 5.0
-@export var run_speed = 12.0
+@export var run_speed = 8.0
 
 const LandingDustEffect = preload("res://overworld/landing_dust_effect.tscn")
 
@@ -110,7 +110,9 @@ func _ready():
 	my_camera = (self.find_child("Camera", true) as Camera2D)
 	
 	is_moving = false
-	$GFX/Sprite.visible = true
+	$GFX/SpriteBase.visible = true
+	$GFX/SpriteAccent.visible = true
+	$GFX/SpriteClothes.visible = true
 	GlobalRuntime.snap_to_grid( position )
 	animation_tree.active = true
 	update_anim_tree()

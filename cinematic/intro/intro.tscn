@@ -147,6 +147,10 @@ text = "...a youth!"
 
 [node name="ComnClass" type="CheckButton" parent="Survey/Sections/Selection/Gender/Class"]
 layout_mode = 2
+focus_neighbor_left = NodePath("../../Pronoun/ComnPron")
+focus_neighbor_top = NodePath("../NeutClass")
+focus_neighbor_right = NodePath("../../Reflect")
+focus_neighbor_bottom = NodePath("../MascClass")
 text = "...alive!"
 
 [node name="Reflect" type="Button" parent="Survey/Sections/Selection/Gender"]

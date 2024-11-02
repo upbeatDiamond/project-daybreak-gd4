@@ -120,7 +120,7 @@ func _physics_process(delta):
 
 
 func play_next_stage():
-	print(input_cooldown);
+	#print(input_cooldown);
 	
 	if input_cooldown <= 0 && !stage_locked && stage_finished:
 		# Move as long as the key/button is pressed.
