@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://biosqpjnwc3b7"]
+[gd_scene load_steps=25 format=3 uid="uid://biosqpjnwc3b7"]
 
 [ext_resource type="Texture2D" uid="uid://8a8c4ay4r0vt" path="res://assets/textures/intro/final_frontier.png" id="1_5eini"]
 [ext_resource type="Shader" path="res://cinematic/intro/intro.gdshader" id="1_ht6sq"]
@@ -10,6 +10,7 @@
 [ext_resource type="ButtonGroup" uid="uid://bo1fmk10wg36c" path="res://cinematic/intro/button_group_hair.tres" id="5_cajf8"]
 [ext_resource type="Script" path="res://cinematic/intro/intro_form.gd" id="5_f3x64"]
 [ext_resource type="Texture2D" uid="uid://bhm2yki7cxvqj" path="res://assets/textures/intro/Hair_blonde.png" id="7_mn4gj"]
+[ext_resource type="PackedScene" uid="uid://dsk04vtyuk6hu" path="res://overworld/characters/gamepiece.tscn" id="7_whbk7"]
 [ext_resource type="ButtonGroup" uid="uid://dulq52iwbwhp3" path="res://cinematic/intro/button_group_skin.tres" id="7_xjh8e"]
 [ext_resource type="Texture2D" uid="uid://c370nw04rtjjo" path="res://assets/textures/intro/Hair_red.png" id="8_ud27l"]
 [ext_resource type="Texture2D" uid="uid://cs8saa3ar7pgy" path="res://assets/textures/intro/Hair_blue.png" id="9_b8p0n"]
@@ -94,6 +95,7 @@ caret_blink = true
 caret_mid_grapheme = true
 
 [node name="Gender" type="HBoxContainer" parent="Survey/Sections/Selection"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 script = ExtResource("4_yr767")
@@ -159,8 +161,12 @@ toggle_mode = true
 text = "Submit"
 
 [node name="FormMeta" type="HBoxContainer" parent="Survey/Sections/Selection"]
-visible = false
 layout_mode = 2
+
+[node name="Gamepiece" parent="Survey/Sections/Selection/FormMeta" instance=ExtResource("7_whbk7")]
+position = Vector2(321, 24)
+scale = Vector2(8, 8)
+facing_direction = Vector2(0, 1)
 
 [node name="Form" type="GridContainer" parent="Survey/Sections/Selection/FormMeta"]
 layout_mode = 2

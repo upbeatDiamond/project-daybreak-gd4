@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ng84petxracw"
-path="res://.godot/imported/Orb.png-bd42e1c09e2d879e58babd91919bbc99.ctex"
+uid="uid://cm344lv46gvy"
+path="res://.godot/imported/human_palette_shiny.png-8aa3da165fccfa47d670a44eaa1ffe5b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/Godot-Palette-Swap-Shader/ExampleProject/Orb.png"
-dest_files=["res://.godot/imported/Orb.png-bd42e1c09e2d879e58babd91919bbc99.ctex"]
+source_file="res://assets/textures/monsters/overworld/human/human_palette_shiny.png"
+dest_files=["res://.godot/imported/human_palette_shiny.png-8aa3da165fccfa47d670a44eaa1ffe5b.ctex"]
 
 [params]
 

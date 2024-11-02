@@ -11,14 +11,14 @@ extends GridContainer
 @onready var skin_white 	= btn_grp_skin.find_child("SkinColorWhite", true);
 @onready var skin_pale 		= btn_grp_skin.find_child("SkinColorPale", true);
 @onready var skin_shiny 	= btn_grp_skin.find_child("SkinColorShiny", true);
-@onready var skin_neutral 	= btn_grp_skin.find_child("SkinColorNeutral", true);
+@onready var skin_common 	= btn_grp_skin.find_child("SkinColorNeutral", true);
 @onready var skin_dark 		= btn_grp_skin.find_child("SkinColorDark", true);
 @onready var skin_black 	= btn_grp_skin.find_child("SkinColorBlack", true);
 
 @onready var hair_white 	= btn_grp_hair.find_child("HairColorWhite", true);
 @onready var hair_pale 		= btn_grp_hair.find_child("HairColorPale", true);
 @onready var hair_shiny 	= btn_grp_hair.find_child("HairColorShiny", true);
-@onready var hair_neutral 	= btn_grp_hair.find_child("HairColorNeutral", true);
+@onready var hair_common 	= btn_grp_hair.find_child("HairColorNeutral", true);
 @onready var hair_dark 		= btn_grp_hair.find_child("HairColorDark", true);
 @onready var hair_black 	= btn_grp_hair.find_child("HairColorBlack", true);
 
@@ -29,12 +29,27 @@ extends GridContainer
 @onready var btn_reflect = self.find_child("Reflect");
 var reflect_target : Node;
 
+@onready var form_meta 		= self.get_parent()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	btn_reflect.connect('toggled', self.on_reflect_pressed);
 	#name_edit.connect('text_submitted', self.on_text_submitted);
 	print( str("btn_grp_shape -- ",btn_grp_shape) );
+	
+	skin_black.connect("pressed", on_skin_black_pressed)
+	skin_dark.connect("pressed", on_skin_dark_pressed)
+	skin_common.connect("pressed", on_skin_common_pressed)
+	skin_pale.connect("pressed", on_skin_pale_pressed)
+	skin_white.connect("pressed", on_skin_white_pressed)
+	skin_shiny.connect("pressed", on_skin_shiny_pressed)
+	hair_black.connect("pressed", on_hair_black_pressed)
+	hair_dark.connect("pressed", on_hair_dark_pressed)
+	hair_common.connect("pressed", on_hair_common_pressed)
+	hair_pale.connect("pressed", on_hair_pale_pressed)
+	hair_white.connect("pressed", on_hair_white_pressed)
+	hair_shiny.connect("pressed", on_hair_shiny_pressed)
+	
 	pass # Replace with function body.
 
 func on_reflect_pressed(_h:=true):
@@ -92,4 +107,53 @@ func set_reflect_target(n:Node):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	pass
+
+
+func on_skin_white_pressed():
+	form_meta.find_child("Gamepiece").find_child("SpriteBase").material.set("shader_paramater/palette", load("res://assets/textures/monsters/overworld/human/human_palette_white.png") )
+	pass
+
+func on_skin_pale_pressed():
+	form_meta.find_child("Gamepiece").find_child("SpriteBase").material.set("shader_paramater/palette", load("res://assets/textures/monsters/overworld/human/human_palette_pale.png") )
+	pass
+
+func on_skin_common_pressed():
+	form_meta.find_child("Gamepiece").find_child("SpriteBase").material.set("shader_paramater/palette", load("res://assets/textures/monsters/overworld/human/human_palette_common.png") )
+	pass
+
+func on_skin_dark_pressed():
+	form_meta.find_child("Gamepiece").find_child("SpriteBase").material.set("shader_paramater/palette", load("res://assets/textures/monsters/overworld/human/human_palette_dark.png") )
+	pass
+
+func on_skin_black_pressed():
+	form_meta.find_child("Gamepiece").find_child("SpriteBase").material.set("shader_paramater/palette", load("res://assets/textures/monsters/overworld/human/human_palette_black.png") )
+	pass
+
+func on_skin_shiny_pressed():
+	form_meta.find_child("Gamepiece").find_child("SpriteBase").material.set("shader_paramater/palette", load("res://assets/textures/monsters/overworld/human/human_palette_shiny.png") )
+	pass
+
+func on_hair_white_pressed():
+	form_meta.find_child("Gamepiece").find_child("SpriteBase").material.set("shader_paramater/palette", load("res://assets/textures/monsters/overworld/human/human_palette_pale.png") )
+	pass
+
+func on_hair_pale_pressed():
+	form_meta.find_child("Gamepiece").find_child("SpriteBase").material.set("shader_paramater/palette", load("res://assets/textures/monsters/overworld/human/human_palette_pale.png") )
+	pass
+
+func on_hair_common_pressed():
+	form_meta.find_child("Gamepiece").find_child("SpriteBase").material.set("shader_paramater/palette", load("res://assets/textures/monsters/overworld/human/human_palette_pale.png") )
+	pass
+
+func on_hair_dark_pressed():
+	form_meta.find_child("Gamepiece").find_child("SpriteBase").material.set("shader_paramater/palette", load("res://assets/textures/monsters/overworld/human/human_palette_pale.png") )
+	pass
+
+func on_hair_black_pressed():
+	form_meta.find_child("Gamepiece").find_child("SpriteBase").material.set("shader_paramater/palette", load("res://assets/textures/monsters/overworld/human/human_palette_pale.png") )
+	pass
+
+func on_hair_shiny_pressed():
+	form_meta.find_child("Gamepiece").find_child("SpriteBase").material.set("shader_paramater/palette", load("res://assets/textures/monsters/overworld/human/human_palette_pale.png") )
 	pass

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://hpvif84laihb"
-path="res://.godot/imported/OrbRecolor.png-121c617724e056361869272a376502f3.ctex"
+uid="uid://cssqpc6emdsh7"
+path="res://.godot/imported/human_palette.png-cc82d367eb66c371aa32088b2b138bfa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/Godot-Palette-Swap-Shader/ExampleProject/OrbRecolor.png"
-dest_files=["res://.godot/imported/OrbRecolor.png-121c617724e056361869272a376502f3.ctex"]
+source_file="res://assets/textures/monsters/overworld/human/human_palette.png"
+dest_files=["res://.godot/imported/human_palette.png-cc82d367eb66c371aa32088b2b138bfa.ctex"]
 
 [params]
 
@@ -31,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

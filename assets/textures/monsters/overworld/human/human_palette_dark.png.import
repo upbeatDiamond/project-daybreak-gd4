@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d35ak66lmippa"
-path="res://.godot/imported/GrayscaleOrb.png-55029cc37e05d67fd9ce517626c4b066.ctex"
+uid="uid://bkg3kktcmqkub"
+path="res://.godot/imported/human_palette_dark.png-6d7aa251bae66a70ed9ac917edcf101b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/Godot-Palette-Swap-Shader/ExampleProject/GrayscaleOrb.png"
-dest_files=["res://.godot/imported/GrayscaleOrb.png-55029cc37e05d67fd9ce517626c4b066.ctex"]
+source_file="res://assets/textures/monsters/overworld/human/human_palette_dark.png"
+dest_files=["res://.godot/imported/human_palette_dark.png-6d7aa251bae66a70ed9ac917edcf101b.ctex"]
 
 [params]
 
