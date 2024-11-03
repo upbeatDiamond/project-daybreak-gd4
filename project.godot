@@ -28,6 +28,7 @@ GlobalBitManip="*res://global/global_bit_manip.gd"
 GlobalRuntime="*res://global/global_runtime.gd"
 GlobalGamepieceTransfer="*res://global/global_gamepiece_transfer.gd"
 GlobalDayCycle="*res://global/global_day_cycle.gd"
+GlobalDirector="*res://global/global_director.gd"
 
 [display]
 
