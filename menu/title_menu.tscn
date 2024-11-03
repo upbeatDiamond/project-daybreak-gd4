@@ -2,10 +2,10 @@
 
 [ext_resource type="Texture2D" uid="uid://b0sqrjx3rdsmi" path="res://assets/textures/menu/logo_placeholder.png" id="1_cd0h6"]
 [ext_resource type="Script" path="res://menu/title_menu.gd" id="1_piyin"]
-[ext_resource type="Texture2D" uid="uid://dkdh2ht7ovvl" path="res://assets/textures/menu/title_placeholder.png" id="2_243jk"]
 [ext_resource type="Texture2D" uid="uid://d3kv0l1wrshm0" path="res://assets/textures/menu/title_screen_panorama.png" id="2_j18ws"]
 [ext_resource type="Texture2D" uid="uid://b8jpwlhpnoum6" path="res://assets/textures/menu/title_screen_background.png" id="3_l2cji"]
 [ext_resource type="Texture2D" uid="uid://no8hvc4vvh66" path="res://assets/textures/menu/strapline_daybreak.png" id="3_lwrdh"]
+[ext_resource type="Texture2D" uid="uid://g6hnaxvug0n6" path="res://assets/textures/menu/title_placeholder3.png" id="5_q0mnw"]
 [ext_resource type="Texture2D" uid="uid://1v5pu8023tay" path="res://assets/technical/spacer_1x4.png" id="5_v1od3"]
 
 [node name="TitleScreen" type="Control"]
@@ -70,7 +70,7 @@ layout_mode = 2
 [node name="TitleIcon" type="TextureRect" parent="Menu/LogoAlign/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-texture = ExtResource("2_243jk")
+texture = ExtResource("5_q0mnw")
 expand_mode = 3
 stretch_mode = 4
 

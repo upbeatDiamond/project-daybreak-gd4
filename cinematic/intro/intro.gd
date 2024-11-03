@@ -253,10 +253,12 @@ func switch_stage(stage:int):
 	
 	pass
 
+
 func set_prompt(txt:String):
 	var label = self.find_child("Prompt", true)
 	if label != null:
 		label.text = txt;
+
 
 func parse_pronoun() -> String:
 	var gendre;
@@ -280,6 +282,7 @@ func parse_pronoun() -> String:
 			return "they are"
 	return "th3y are"
 
+
 func parse_gender() -> String:
 	var gendre;
 	if kv_bank.has("player_gender"):
@@ -301,6 +304,7 @@ func parse_gender() -> String:
 		elif gendre.contains('N'):
 			return "person"
 	return "kid"
+
 
 func parse_goback():
 	var goback := progress
@@ -325,6 +329,11 @@ func parse_goback():
 	kv_bank.erase("goback")
 	pass
 
+
+"""
+	This function ends the entire Cinematic.
+	The name represents its primary function: playing the closing musical notes
+"""
 func music_end():
 	$Background/AudioIntroHeartbeat.set_stream( load("res://assets/music/intro_heartbeat_end.mp3") )
 	$Background/AudioIntroBrightness.set_stream( load("res://assets/music/intro_brightness_end.mp3") )
@@ -353,6 +362,7 @@ func music_end():
 	cinematic_finished.emit(self)
 	return
 
+
 func music_fade_in(layer:int):
 	var another_tween
 	
@@ -373,6 +383,7 @@ func music_fade_in(layer:int):
 		pass
 	
 	pass
+
 
 func music_fade_out(layer:int):
 	var another_tween

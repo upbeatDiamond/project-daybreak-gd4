@@ -17,6 +17,7 @@ Noteworthy Additions:
 		+ ModPlayer
 		+ Clyde Dialogue
 	+ Added navigation layers to maps, and code to utilize it
+		+ Added AStarOverlay scene, which may be dropped or expanded later on?
 
 
 Noteworthy Subtractions:

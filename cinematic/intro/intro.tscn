@@ -167,6 +167,7 @@ toggle_mode = true
 text = "Submit"
 
 [node name="FormMeta" type="HBoxContainer" parent="Survey/Sections/Selection"]
+visible = false
 layout_mode = 2
 
 [node name="Form" type="GridContainer" parent="Survey/Sections/Selection/FormMeta"]
@@ -417,8 +418,19 @@ toggle_mode = true
 text = "Submit"
 
 [node name="Ability" type="HBoxContainer" parent="Survey/Sections/Selection"]
-visible = false
 layout_mode = 2
+
+[node name="ReviseName" type="Button" parent="Survey/Sections/Selection/Ability"]
+layout_mode = 2
+text = "Strength"
+
+[node name="ReviseName2" type="Button" parent="Survey/Sections/Selection/Ability"]
+layout_mode = 2
+text = "Wisdom"
+
+[node name="ReviseName3" type="Button" parent="Survey/Sections/Selection/Ability"]
+layout_mode = 2
+text = "Charisma"
 
 [node name="Revise" type="VBoxContainer" parent="Survey/Sections/Selection"]
 visible = false
