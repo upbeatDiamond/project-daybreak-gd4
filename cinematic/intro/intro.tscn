@@ -63,6 +63,12 @@ stretch_mode = 1
 
 [node name="AudioIntroNewAge" type="AudioStreamPlayer" parent="Background"]
 
+[node name="Gamepiece" parent="." instance=ExtResource("7_whbk7")]
+visible = false
+position = Vector2(768, 320)
+scale = Vector2(8, 8)
+facing_direction = Vector2(0, 1)
+
 [node name="Survey" type="CenterContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -162,11 +168,6 @@ text = "Submit"
 
 [node name="FormMeta" type="HBoxContainer" parent="Survey/Sections/Selection"]
 layout_mode = 2
-
-[node name="Gamepiece" parent="Survey/Sections/Selection/FormMeta" instance=ExtResource("7_whbk7")]
-position = Vector2(321, 24)
-scale = Vector2(8, 8)
-facing_direction = Vector2(0, 1)
 
 [node name="Form" type="GridContainer" parent="Survey/Sections/Selection/FormMeta"]
 layout_mode = 2

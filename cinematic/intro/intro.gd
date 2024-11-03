@@ -141,6 +141,7 @@ func switch_stage(stage:int):
 	await tween.finished
 	
 	survey.visible = false;
+	find_child("Gamepiece").visible = false;
 	# set all direct children of Selections to invisible
 	
 	for n in (self.find_child("Selection", true) as Container).get_children():
@@ -187,12 +188,14 @@ func switch_stage(stage:int):
 			pass
 		7:
 			set_prompt(str( "Interesting. This world could always use another ", parse_gender() ," like you."));
-			revise_gender.set_text( str("My friends would say ", parse_pronoun(), " is a ", parse_gender()) )
+			revise_gender.set_text( str("My friends would say ", parse_pronoun(), " a ", parse_gender()) )
 			music_fade_in(2);
 			pass
 		8:
 			set_prompt("In this world, how would people perceive your form?");
-			(self.find_child("FormMeta", true) as Container).visible = true;
+			var form_meta = (self.find_child("FormMeta", true) as Container)
+			form_meta.visible = true;
+			find_child("Gamepiece").visible = true;
 			music_fade_out(4);
 			music_fade_out(5);
 			stage_finished = false;
@@ -256,7 +259,26 @@ func set_prompt(txt:String):
 		label.text = txt;
 
 func parse_pronoun() -> String:
-	return "they"
+	var gendre;
+	if kv_bank.has("player_gender"):
+		gendre = kv_bank["player_gender"]
+		if gendre.contains('c'):
+			return "ey is";
+		elif gendre.contains('m'):
+			if gendre.contains('f'):
+				if gendre.contains('n'):
+					return "he/she is"
+				return "she/he is";
+			elif gendre.contains('n'):
+				return "they are";
+			return "he is";
+		elif gendre.contains('f'):
+			if gendre.contains('n'):
+				return "they are";
+			return "she is";
+		elif gendre.contains('n'):
+			return "they are"
+	return "th3y are"
 
 func parse_gender() -> String:
 	var gendre;
