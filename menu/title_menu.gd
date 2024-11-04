@@ -50,7 +50,7 @@ func _on_play_pressed():
 	if scene_enabled:
 		
 		
-		GlobalRuntime.scene_manager.mount_cinematic(play_cutscene.instantiate());
+		#GlobalRuntime.scene_manager.mount_cinematic(play_cutscene.instantiate());
 		
 		GlobalRuntime.clean_up_descent( self )
 		

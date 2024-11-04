@@ -44,7 +44,7 @@ func _physics_process(_delta):
 
 
 func handle_movement_input():
-	if !gamepiece.is_paused:
+	if !gamepiece.is_paused and !GlobalRuntime.gameworld_input_stopped:
 		var input_direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 		
 		if input_direction == Vector2.ZERO:
