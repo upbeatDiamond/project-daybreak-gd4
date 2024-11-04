@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://mr16k2apn43v" path="res://overworld/props/push_block.tscn" id="8_8vf1f"]
 [ext_resource type="PackedScene" uid="uid://dup7lwhlludsr" path="res://overworld/props/portal.tscn" id="9_jpa74"]
 [ext_resource type="PackedScene" uid="uid://6ddmv74oq12n" path="res://overworld/props/bed.tscn" id="11_p31mf"]
-[ext_resource type="PackedScene" uid="uid://bmqnf3wsehu3h" path="res://overworld/screenplay_trigger.tscn" id="12_d6euc"]
+[ext_resource type="PackedScene" uid="uid://bmqnf3wsehu3h" path="res://overworld/cutscene_trigger.tscn" id="12_d6euc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_oy114"]
 texture = ExtResource("2_8i7a7")

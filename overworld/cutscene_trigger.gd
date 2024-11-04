@@ -27,6 +27,20 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
+
+func run_event( gamepiece:Gamepiece ):
+	var pidgeonhole_gp_lock : bool = gamepiece.is_paused
+	gamepiece.is_paused = true
+	
+	GlobalDirector.load_screenplay("ch1_wakeup")
+	
+	gamepiece.is_paused = pidgeonhole_gp_lock 
+	# If invalid b/c gamepiece, push gamepiece (parallel, else perpendicular)
+		# If gamepiece cannot be pushed, swap with gamepiece
+	# If any other intrusion, do not allow push
+	pass
+
+
 ## True if fulfilled
 ## False if unfulfilled
 func _match_conditions() -> bool:

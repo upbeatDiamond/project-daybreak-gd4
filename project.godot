@@ -46,6 +46,11 @@ enabled=PackedStringArray("res://addons/godot-sqlite/plugin.cfg")
 
 import/blender/enabled=false
 
+[global_group]
+
+event_exterior="Activates by a gamepiece bumping or touching; needs to have a run_event( gamepiece:Gamepiece ) function to avoid crashes"
+event_interior="Activates by a gamepiece entering or overlapping; needs to have a run_event( gamepiece:Gamepiece ) function to avoid crashes"
+
 [input]
 
 ui_left={

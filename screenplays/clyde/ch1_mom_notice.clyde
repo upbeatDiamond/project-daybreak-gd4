@@ -1,0 +1,14 @@
+: Creak!
+Mom: 
+	Ah, ... the floor creaked, so you're awake.
+	When you get a chance, come outside.
+	I've been working on something and I need someone to try it.
+
++ Me?
+	<Player>: ...? #curious
+	Mom: Yes, you.
+	<Player>: ... #blush
++ Uncle?
+	<Player>: ...? #curious
+	Mom: And no, it can't be your uncle.
+	<Player>: ... #unamused

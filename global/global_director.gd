@@ -10,6 +10,7 @@ var registered_alias := {}	# Stores actor pseudonyms
 
 # spritesheet?
 var iconsets : Dictionary
+var prev_line_type := "line"
 
 
 # Called when the node enters the scene tree for the first time.
@@ -32,8 +33,10 @@ func reset_clyde():
 	clyde.on_external_variable_fetch(_on_external_variable_fetch)
 	clyde.on_external_variable_update(_on_external_variable_update)
 	
+	#clyde.load_resource(resource, block)
+	
 	# Call get content to return the next dialogue line
-	clyde.get_content()
+	#clyde.get_content()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -43,14 +46,18 @@ func _process(delta: float) -> void:
 
 func load_screenplay(file_name: String, block:String="") -> void:
 	clyde.load_dialogue(file_name, block)
-	
-	pass
 
-func start_current_screenplay():
+
+func _start_current_screenplay():
 	unpaused_prior = GlobalRuntime.gameworld_input_enabled(false)
 
 
-func end_current_screenplay():
+func _continue_current_screenplay():
+	
+	pass
+
+
+func _end_current_screenplay():
 	GlobalRuntime.gameworld_input_enabled( unpaused_prior )
 
 
