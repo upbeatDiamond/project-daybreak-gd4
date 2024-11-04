@@ -1,11 +1,13 @@
 [gd_scene load_steps=3 format=3 uid="uid://bmqnf3wsehu3h"]
 
-[ext_resource type="Script" path="res://screenplays/screenplay_trigger.gd" id="1_w7l7y"]
+[ext_resource type="Script" path="res://overworld/screenplay_trigger.gd" id="1_w7l7y"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2bc4r"]
 size = Vector2(32, 32)
 
 [node name="Node2D" type="Area2D"]
+collision_layer = 4
+collision_mask = 6
 script = ExtResource("1_w7l7y")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

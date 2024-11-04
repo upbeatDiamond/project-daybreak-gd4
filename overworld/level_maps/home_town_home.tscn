@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://cy5r6u8b3aan2"]
+[gd_scene load_steps=21 format=4 uid="uid://cy5r6u8b3aan2"]
 
 [ext_resource type="Script" path="res://overworld/level_maps/level_map.gd" id="1_61xgg"]
 [ext_resource type="Texture2D" uid="uid://claaq3m3x57i0" path="res://assets/textures/tilesets/dirtgrass_mauvetown.png" id="2_8i7a7"]
@@ -10,6 +10,8 @@
 [ext_resource type="Script" path="res://overworld/props/warp_anchor.gd" id="5_h308y"]
 [ext_resource type="PackedScene" uid="uid://mr16k2apn43v" path="res://overworld/props/push_block.tscn" id="8_8vf1f"]
 [ext_resource type="PackedScene" uid="uid://dup7lwhlludsr" path="res://overworld/props/portal.tscn" id="9_jpa74"]
+[ext_resource type="PackedScene" uid="uid://6ddmv74oq12n" path="res://overworld/props/bed.tscn" id="11_p31mf"]
+[ext_resource type="PackedScene" uid="uid://bmqnf3wsehu3h" path="res://overworld/screenplay_trigger.tscn" id="12_d6euc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_oy114"]
 texture = ExtResource("2_8i7a7")
@@ -955,3 +957,15 @@ target_anchor_name = "MainPlayerBedroomDoor"
 target_position = Vector2i(640, -96)
 target_facing = Vector2i(0, 1)
 portal_id = 1
+
+[node name="Node2D" parent="." instance=ExtResource("11_p31mf")]
+position = Vector2(-80, -192)
+
+[node name="CutsceneTriggerKnock" parent="." instance=ExtResource("12_d6euc")]
+position = Vector2(-96, -192)
+
+[node name="CutsceneTriggerCreak" parent="." instance=ExtResource("12_d6euc")]
+position = Vector2(-112, -192)
+
+[node name="CutsceneTriggerHug" parent="." instance=ExtResource("12_d6euc")]
+position = Vector2(-256, -192)
