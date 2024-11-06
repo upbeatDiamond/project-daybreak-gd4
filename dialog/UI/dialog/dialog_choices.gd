@@ -16,7 +16,7 @@ Info:
 extends HBoxContainer
 class_name DialogChoices
 
-signal choice_selected(next_id)
+signal choice_selected(index:int)
 
 @onready var button_container = $VBox
 @onready var button_sound = self.owner.get_node("ButtonSound")
@@ -40,6 +40,24 @@ func set_buttons(choices):
 	for button in button_container.get_children():
 		button.queue_free()
 	# Populate with current choices.
+	
+	for i in range(choices.size()):
+		var choice = choices[i]
+		if not ("show_only_if" in choice) or \
+			("show_only_if" in choice and GlobalDialog.is_condition_met(choice["show_only_if"])):
+			# Show choice button if there is no conditional.
+			# If there is a condition, only show choice if the condition in show_only_if is met.
+			var button = Button.new()
+			button.text = choice
+			button_container.add_child(button)
+			var next_id = i
+			var action = null
+			if "action" in choice:
+				action = choice["action"]
+			button.connect("pressed", Callable(self, "_on_button_pressed").bind(next_id, action))
+			button.connect("focus_entered", Callable(button_sound, "_on_choice_hovered"))
+			button.connect("mouse_entered", Callable(button_sound, "_on_choice_hovered"))
+	
 	for choice in choices:
 		if not ("show_only_if" in choice) or \
 			("show_only_if" in choice and GlobalDialog.is_condition_met(choice["show_only_if"])):
@@ -61,10 +79,10 @@ func set_buttons(choices):
 	if choices.size() > 0 and button_container.get_child_count() == 0:
 		print("WARNING: No choices set. Check your conditionals.")
 
-func _on_button_pressed(next_id, action):
+func _on_button_pressed(index:int, action):
 	# Execute actions associated with choosing button choice.
 	if action:
 		for act in action:
 			print("Execute " + act)
 			GlobalDialog.execute(act)
-	emit_signal("choice_selected", next_id)
+	emit_signal("choice_selected", index)

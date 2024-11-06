@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dploeuvc2gd6p" path="res://menu/title_menu.tscn" id="2_6kute"]
 [ext_resource type="PackedScene" uid="uid://cpjyc350pwf57" path="res://player/player_menu.tscn" id="3_atd50"]
 [ext_resource type="PackedScene" uid="uid://cy5r6u8b3aan2" path="res://overworld/level_maps/home_town_home.tscn" id="3_huq3u"]
-[ext_resource type="PackedScene" uid="uid://cwbmckf1cnuk3" path="res://cinematic/dialogue_box.tscn" id="5_ipb08"]
+[ext_resource type="PackedScene" uid="uid://cix5cxli0bhmt" path="res://dialog/UI/UI.tscn" id="5_5gkbf"]
 
 [node name="SceneManager" type="Node2D"]
 script = ExtResource("1_whyfs")
@@ -34,6 +34,9 @@ play_scene = ExtResource("3_huq3u")
 [node name="InterfaceActivity" type="Node" parent="InterfaceActivityWrapper"]
 
 [node name="Menu" parent="." instance=ExtResource("3_atd50")]
+visible = false
+
+[node name="InterfaceBattle" type="Node" parent="."]
 
 [node name="ScreenTransition" type="CanvasLayer" parent="."]
 
@@ -46,11 +49,6 @@ grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(10, 10)
 
-[node name="Dialog" type="Node" parent="."]
+[node name="DialogUI" parent="." instance=ExtResource("5_5gkbf")]
 
-[node name="DialogBox" parent="Dialog" instance=ExtResource("5_ipb08")]
-z_index = 32
-offset_top = -136.0
-offset_bottom = -8.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
+[editable path="DialogUI"]

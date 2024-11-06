@@ -57,27 +57,27 @@ func _input(event):
 	if talking and event.is_action_pressed("ui_accept"):
 		continue_dialog()
 
-func start_dialog(first_id):
-	GameState.talking = true
+func start_dialog(line:Dictionary):
+	GlobalDialog.talking = true
 	talking = true
-	set_curr(first_id)
+	set_curr(line)
 	timer.start()
 	
 func end_dialog():
 	timer.stop()
-	GameState.talking = false
+	GlobalDialog.talking = false
 	talking = false
 	dialog_UI.hide()
 	
 # Set curr_dialog_node by text id, the current dialog to display.
-func set_curr(id):
-	if id == GlobalDialog.END_DIALOG_ID:
+func set_curr(line:Dictionary):
+	if line["type"] == GlobalDialog.END_DIALOG_ID:
 		end_dialog()
-		emit_signal("dialog_ended", id) # FIX: should be id before end.
+		emit_signal("dialog_ended", ":(") # FIX: should be id before end.
 	else:
 		# Set current dialogNode, and free old to prevent orphaned nodes
 #		curr_dialog_node = DialogNode.new()
-		curr_dialog_node.init(id)
+		curr_dialog_node.init(line)
 		# Set name box 
 		text_name.text = curr_dialog_node.speaker
 		box_name.visible = false
@@ -131,7 +131,7 @@ func continue_dialog():
 			else:
 				if curr_dialog_node.choices.size() == 0:
 					# - (B) We need to move to next_id if no choices
-					set_curr(curr_dialog_node.next_id)
+					set_curr(GlobalDirector.get_next_line())
 				else:
 					# - (C) Show choices if there are choces
 					choices.show()
@@ -158,9 +158,10 @@ func focus_first_choice():
 		choices_container.get_child(0).call_deferred("grab_focus")
 
 # Player chooses a choice, then go to next dialog id accordingly.
-func _on_choice_selected(id):
+func _on_choice_selected(id:int):
 	timer.start()
-	set_curr(id)
+	GlobalDirector.choose_dialog_option(id)
+	set_curr(GlobalDirector.get_next_line())
 
 #======================================Text===================================
 func _on_timer_timeout():

@@ -8,10 +8,11 @@ var scenes_waiting : Array
 
 @onready var activity_interface_wrapper = $InterfaceActivityWrapper
 @onready var activity_interface = $InterfaceActivityWrapper/InterfaceActivity
+@onready var battle_interface = $InterfaceBattle ##TODO: integrate!
 @onready var world_interface = $PlayerCamView/SubViewport/InterfaceWorld
 @onready var screen_transition = $ScreenTransition
 @onready var player_menu = $Menu
-@onready var dialog_box = $Dialog/DialogBox
+@onready var dialog_box = $DialogUI/Dialog
 
 
 signal fade_out_finished

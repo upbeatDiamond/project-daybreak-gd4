@@ -11,7 +11,7 @@ var registered_alias := {}	# Stores actor pseudonyms
 # spritesheet?
 var iconsets : Dictionary
 var prev_line_type := "line"
-
+var next_line : Dictionary
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -36,7 +36,7 @@ func _process(delta: float) -> void:
 	pass
 
 
-func load_screenplay(file_name: String, block:String="") -> void:
+func _load_screenplay(file_name: String, block:String="") -> void:
 	await clyde.load_dialogue(file_name, block)
 	
 	clyde.variable_changed.connect(_on_variable_changed)
@@ -49,20 +49,27 @@ func load_screenplay(file_name: String, block:String="") -> void:
 
 
 func run_screenplay(file_name: String, block:String="") -> void:
-	load_screenplay(file_name, block)
+	_load_screenplay(file_name, block)
 	_start_current_screenplay()
-	while clyde.get_content() != null:
-		GlobalRuntime.scene_manager.
+	#while clyde.get_content() != null:
+	#	GlobalRuntime.scene_manager.dialog_box.
 	pass
 
 func _start_current_screenplay():
 	unpaused_prior = GlobalRuntime.gameworld_input_enabled(false)
+	GlobalRuntime.scene_manager.dialog_box.start_dialog( get_next_line() )
 
+func get_next_line() -> Dictionary:
+	next_line = clyde.get_content()
+	return next_line
 
 func _continue_current_screenplay():
 	
 	pass
 
+func choose_dialog_option(id:int):
+	clyde.choose(id)
+	pass
 
 func _end_current_screenplay():
 	GlobalRuntime.gameworld_input_enabled( unpaused_prior )

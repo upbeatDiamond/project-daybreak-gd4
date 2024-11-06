@@ -38,41 +38,51 @@ func _ready():
 
 # Initializes a dialogNode with given dialog id, curr_id
 #	curr_id - the id of this DialogNode, assumes key matching curr_id exists in GlobalDialog.db_dialog
-func init(curr_id):
+func init(curr_line:Dictionary):
 	set_default_values()
 	
-	id = curr_id
-	var curr_dialog = GlobalDialog.db_dialog[id]
-	if "name" in curr_dialog:
-		speaker = curr_dialog["name"]
-	if "voice" in curr_dialog:
-		voice = curr_dialog["voice"]
-	if "icon" in curr_dialog:
-		icon = curr_dialog["icon"]
+	if "id" in curr_line:
+		speaker = str(curr_line["id"])
+	#id = curr_id
+	#var curr_dialog = GlobalDialog.db_dialog[id]
+	if "speaker" in curr_line:
+		speaker = curr_line["speaker"]
+	if "voice" in curr_line:
+		voice = curr_line["voice"]
+	if "icon" in curr_line:
+		icon = curr_line["icon"]
 		
-	if "choices" in curr_dialog:
+	if "options" in curr_line:
 		# next_id is not used if choices are used
-		choices = curr_dialog["choices"]
+		choices = curr_line["options"]
 	else:
-		if "next" in curr_dialog:
-			if curr_dialog["next"] is String:
-				next_id = curr_dialog["next"]
-			else:
-				# Want to set next_id based on conditionals (an array of dictionaries)
-				var nexts = curr_dialog["next"]
-				# ASSUMES: The default next_id must always be the last element, and a string.
-				next_id = nexts[nexts.size() - 1]
-				if nexts.size() > 1:
-					# Set the next_id according to conditionals, in order (left to right) of
-					# increasing precedence. Assumes each is a dictionary {"id" : "next_id", "if" : "condition"} 
-					# Defaults to last next_id (a string) if no conditions are met.
-					for next in nexts.slice(0, nexts.size() - 2):
-						if GlobalDialog.is_condition_met(next["if"]):
-							next_id = next["id"]
+		if "type" in curr_line and curr_line["type"] != "end":
+			next_id = "go"
+		else:
+			next_id = "end"
+			#if curr_dialog["next"] is String:
+				#next_id = curr_dialog["next"]
+			#else:
+				## Want to set next_id based on conditionals (an array of dictionaries)
+				#var nexts = curr_dialog["next"]
+				## ASSUMES: The default next_id must always be the last element, and a string.
+				#next_id = nexts[nexts.size() - 1]
+				#if nexts.size() > 1:
+					## Set the next_id according to conditionals, in order (left to right) of
+					## increasing precedence. Assumes each is a dictionary {"id" : "next_id", "if" : "condition"} 
+					## Defaults to last next_id (a string) if no conditions are met.
+					#for next in nexts.slice(0, nexts.size() - 2):
+						#if GlobalDialog.is_condition_met(next["if"]):
+							#next_id = next["id"]
 
-	if "action" in curr_dialog:
-		action = curr_dialog["action"]
-	texts = curr_dialog["text"]
+	#if "action" in curr_line:
+		#action = curr_dialog["action"]
+	if "text" in curr_line:
+		texts = [curr_line["text"]]
+	elif "name" in curr_line:
+		texts = [curr_line["name"]]
+	else:
+		texts = ["..."]
 	var text = texts[text_index]
 	printable_text = convert_printable(text)
 	
