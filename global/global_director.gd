@@ -15,7 +15,7 @@ var prev_line_type := "line"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	
+	reset_clyde()
 
 	pass # Replace with function body.
 
@@ -24,14 +24,6 @@ func reset_clyde():
 	clyde = ClydeDialogue.new()
 	
 	clyde.dialogue_folder = "res://screenplays/clyde"
-	
-	clyde.variable_changed.connect(_on_variable_changed)
-	clyde.event_triggered.connect(_on_event_triggered)
-	
-	# setup external variable proxies. This will allow the dialogue to
-	# access external variables and update them
-	clyde.on_external_variable_fetch(_on_external_variable_fetch)
-	clyde.on_external_variable_update(_on_external_variable_update)
 	
 	#clyde.load_resource(resource, block)
 	
@@ -45,8 +37,23 @@ func _process(delta: float) -> void:
 
 
 func load_screenplay(file_name: String, block:String="") -> void:
-	clyde.load_dialogue(file_name, block)
+	await clyde.load_dialogue(file_name, block)
+	
+	clyde.variable_changed.connect(_on_variable_changed)
+	clyde.event_triggered.connect(_on_event_triggered)
+	
+	# setup external variable proxies. This will allow the dialogue to
+	# access external variables and update them
+	clyde.on_external_variable_fetch(_on_external_variable_fetch)
+	clyde.on_external_variable_update(_on_external_variable_update)
 
+
+func run_screenplay(file_name: String, block:String="") -> void:
+	load_screenplay(file_name, block)
+	_start_current_screenplay()
+	while clyde.get_content() != null:
+		GlobalRuntime.scene_manager.
+	pass
 
 func _start_current_screenplay():
 	unpaused_prior = GlobalRuntime.gameworld_input_enabled(false)

@@ -1,0 +1,14 @@
+[remap]
+
+importer="clyde.dialogue"
+type="ClydeDialogueFile"
+uid="uid://b0g5pdofjgjdo"
+path="res://.godot/imported/ch1_mom_hug.clyde-d50acfd4708ae09f0b83aabb76a55624.res"
+
+[deps]
+
+source_file="res://screenplays/clyde/ch1_mom_hug.clyde"
+dest_files=["res://.godot/imported/ch1_mom_hug.clyde-d50acfd4708ae09f0b83aabb76a55624.res"]
+
+[params]
+

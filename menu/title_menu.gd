@@ -46,6 +46,10 @@ func _ready():
 	pass
 
 
+func _on_reset_pressed():
+	print("reset pressed! Please clone database to save folder! Thanks!")
+	pass
+
 func _on_play_pressed():
 	if scene_enabled:
 		

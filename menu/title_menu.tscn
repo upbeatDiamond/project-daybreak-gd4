@@ -109,6 +109,11 @@ text = "Connection"
 layout_mode = 2
 text = "Credits"
 
+[node name="Reset" type="Button" parent="Menu/GridContainer/Buttons"]
+layout_mode = 2
+text = "Reset
+"
+
 [node name="Quit" type="Button" parent="Menu/GridContainer/Buttons"]
 layout_mode = 2
 text = "Quit"
@@ -117,4 +122,5 @@ text = "Quit"
 [connection signal="pressed" from="Menu/GridContainer/Buttons/Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="Menu/GridContainer/Buttons/Connection" to="." method="_on_connection_pressed"]
 [connection signal="pressed" from="Menu/GridContainer/Buttons/Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="Menu/GridContainer/Buttons/Reset" to="." method="_on_reset_pressed"]
 [connection signal="pressed" from="Menu/GridContainer/Buttons/Quit" to="." method="_on_quit_pressed"]

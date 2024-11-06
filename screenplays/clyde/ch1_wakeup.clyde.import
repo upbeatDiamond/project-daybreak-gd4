@@ -1,0 +1,14 @@
+[remap]
+
+importer="clyde.dialogue"
+type="ClydeDialogueFile"
+uid="uid://cmyj0ius5mjiy"
+path="res://.godot/imported/ch1_wakeup.clyde-ec537caf16a17e75f9ec0fbaae338dde.res"
+
+[deps]
+
+source_file="res://screenplays/clyde/ch1_wakeup.clyde"
+dest_files=["res://.godot/imported/ch1_wakeup.clyde-ec537caf16a17e75f9ec0fbaae338dde.res"]
+
+[params]
+

@@ -963,9 +963,12 @@ position = Vector2(-80, -192)
 
 [node name="CutsceneTriggerKnock" parent="." instance=ExtResource("12_d6euc")]
 position = Vector2(-96, -192)
+screenplay = "ch1_wakeup"
 
 [node name="CutsceneTriggerCreak" parent="." instance=ExtResource("12_d6euc")]
 position = Vector2(-112, -192)
+screenplay = "ch1_mom_notice"
 
 [node name="CutsceneTriggerHug" parent="." instance=ExtResource("12_d6euc")]
 position = Vector2(-256, -192)
+screenplay = "ch1_mom_hug"

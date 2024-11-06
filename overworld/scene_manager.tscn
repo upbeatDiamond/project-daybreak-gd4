@@ -46,9 +46,9 @@ grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(10, 10)
 
-[node name="Node" type="Node" parent="."]
+[node name="Dialog" type="Node" parent="."]
 
-[node name="DialogBox" parent="Node" instance=ExtResource("5_ipb08")]
+[node name="DialogBox" parent="Dialog" instance=ExtResource("5_ipb08")]
 z_index = 32
 offset_top = -136.0
 offset_bottom = -8.0

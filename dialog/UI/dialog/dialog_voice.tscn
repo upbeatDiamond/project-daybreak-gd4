@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource type="AudioStream" uid="uid://o0bqrf07cmrr" path="res://dialog/audio/boop.wav" id="1"]
+[ext_resource type="Script" path="res://dialog/UI/dialog/dialog_voice.gd" id="2"]
+
+
+[node name="Sound" type="AudioStreamPlayer"]
+stream = ExtResource( 1 )
+volume_db = 4.039
+script = ExtResource( 2 )

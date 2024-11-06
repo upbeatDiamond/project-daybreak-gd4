@@ -11,6 +11,7 @@ var scenes_waiting : Array
 @onready var world_interface = $PlayerCamView/SubViewport/InterfaceWorld
 @onready var screen_transition = $ScreenTransition
 @onready var player_menu = $Menu
+@onready var dialog_box = $Dialog/DialogBox
 
 
 signal fade_out_finished
