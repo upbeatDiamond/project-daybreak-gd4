@@ -46,7 +46,7 @@ func init(curr_line:Dictionary):
 	#id = curr_id
 	#var curr_dialog = GlobalDialog.db_dialog[id]
 	if "speaker" in curr_line:
-		speaker = curr_line["speaker"]
+		speaker = str(curr_line["speaker"])
 	if "voice" in curr_line:
 		voice = curr_line["voice"]
 	if "icon" in curr_line:
@@ -83,8 +83,8 @@ func init(curr_line:Dictionary):
 		texts = [curr_line["name"]]
 	else:
 		texts = ["..."]
-	var text = texts[text_index]
-	printable_text = convert_printable(text)
+	#var text = texts[text_index]
+	printable_text = str(texts[0])#convert_printable(text)
 	
 func set_default_values():
 	id = ""				# Current dialog id

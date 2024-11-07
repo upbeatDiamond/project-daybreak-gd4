@@ -177,12 +177,7 @@ func move( direction ):
 		return
 	facing_direction = direction
 	
-	update_rays(direction)
-	
-	if event_ray.is_colliding():
-		var colliding_with = event_ray.get_collider()
-		if colliding_with.is_in_group("event_exterior") and colliding_with.has_method("run_event"):
-			colliding_with.run_event( self )
+	_check_exterior_event_collision(direction)
 	
 	if !block_ray.is_colliding():
 		
@@ -227,9 +222,36 @@ func move( direction ):
 	is_moving = false
 	traversal_mode = TraversalMode.STANDING
 	
+	_check_interior_event_collision()
+
+
+"""
+	Check for touching the surface of an adjecent object/cell
+	
+	parameters:
+		direction - the predicted direction of the object collided with
+"""
+func _check_exterior_event_collision(direction:Vector2):
+	update_rays(direction)
+	
+	if event_ray.is_colliding():
+		var colliding_with = event_ray.get_collider()
+		if colliding_with.is_in_group("event_exterior") and colliding_with.has_method("run_event"):
+			colliding_with.run_event( self )
+	pass
+
+"""
+	Check for entering an event; used for redundancy & access of other classes.
+	
+	parameters:
+		direction - the predicted direction of the object collided with
+"""
+func _check_interior_event_collision():
 	for overlap in get_overlapping_areas():
 		if overlap.is_in_group("event_interior") and overlap.has_method("run_event"):
 			overlap.run_event(self)
+	pass
+
 
 # Not the same as move, used for in-map teleportation.
 func shift_to_target( target:Vector2i ):
@@ -254,7 +276,7 @@ func queue_movement( movement:Movement ):
 func resync_position():
 	if collision == null:
 		return
-	print("gp ", umid, "/", unique_id, " global position ~ ", current_position)
+	#print("gp ", umid, "/", unique_id, " global position ~ ", current_position)
 	
 	var collision_gp = collision.global_position
 	var gfx_gp = collision.global_position - (GlobalRuntime.DEFAULT_TILE_OFFSET)

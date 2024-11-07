@@ -48,7 +48,10 @@ func set_buttons(choices):
 			# Show choice button if there is no conditional.
 			# If there is a condition, only show choice if the condition in show_only_if is met.
 			var button = Button.new()
-			button.text = choice
+			if choice is Dictionary and "label" in choice:
+				button.text = choice["label"]
+			else:
+				button.text = str("option ", i)
 			button_container.add_child(button)
 			var next_id = i
 			var action = null
@@ -58,23 +61,23 @@ func set_buttons(choices):
 			button.connect("focus_entered", Callable(button_sound, "_on_choice_hovered"))
 			button.connect("mouse_entered", Callable(button_sound, "_on_choice_hovered"))
 	
-	for choice in choices:
-		if not ("show_only_if" in choice) or \
-			("show_only_if" in choice and GlobalDialog.is_condition_met(choice["show_only_if"])):
-			# Show choice button if there is no conditional.
-			# If there is a condition, only show choice if the condition in show_only_if is met.
-			var button = Button.new()
-			button.text = choice["text"]
-			button_container.add_child(button)
-			var next_id = choice["next"]
-			if next_id == "" :
-				next_id = GlobalDialog.END_DIALOG_ID
-			var action = null
-			if "action" in choice:
-				action = choice["action"]
-			button.connect("pressed", Callable(self, "_on_button_pressed").bind(next_id, action))
-			button.connect("focus_entered", Callable(button_sound, "_on_choice_hovered"))
-			button.connect("mouse_entered", Callable(button_sound, "_on_choice_hovered"))
+	#for choice in choices:
+		#if not ("show_only_if" in choice) or \
+			#("show_only_if" in choice and GlobalDialog.is_condition_met(choice["show_only_if"])):
+			## Show choice button if there is no conditional.
+			## If there is a condition, only show choice if the condition in show_only_if is met.
+			#var button = Button.new()
+			#button.text = choice["text"]
+			#button_container.add_child(button)
+			#var next_id = choice["next"]
+			#if next_id == "" :
+				#next_id = GlobalDialog.END_DIALOG_ID
+			#var action = null
+			#if "action" in choice:
+				#action = choice["action"]
+			#button.connect("pressed", Callable(self, "_on_button_pressed").bind(next_id, action))
+			#button.connect("focus_entered", Callable(button_sound, "_on_choice_hovered"))
+			#button.connect("mouse_entered", Callable(button_sound, "_on_choice_hovered"))
 	# Error checking; expect to have at least one visible choice.
 	if choices.size() > 0 and button_container.get_child_count() == 0:
 		print("WARNING: No choices set. Check your conditionals.")

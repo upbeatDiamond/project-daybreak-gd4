@@ -958,17 +958,19 @@ target_position = Vector2i(640, -96)
 target_facing = Vector2i(0, 1)
 portal_id = 1
 
-[node name="Node2D" parent="." instance=ExtResource("11_p31mf")]
+[node name="Bed" parent="." instance=ExtResource("11_p31mf")]
 position = Vector2(-80, -192)
 
-[node name="CutsceneTriggerKnock" parent="." instance=ExtResource("12_d6euc")]
-position = Vector2(-96, -192)
-screenplay = "ch1_wakeup"
+[node name="Node" type="Node2D" parent="."]
 
-[node name="CutsceneTriggerCreak" parent="." instance=ExtResource("12_d6euc")]
+[node name="CutsceneTriggerHug" parent="Node" instance=ExtResource("12_d6euc")]
+position = Vector2(-256, -192)
+screenplay = "ch1_mom_hug"
+
+[node name="CutsceneTriggerCreak" parent="Node" instance=ExtResource("12_d6euc")]
 position = Vector2(-112, -192)
 screenplay = "ch1_mom_notice"
 
-[node name="CutsceneTriggerHug" parent="." instance=ExtResource("12_d6euc")]
-position = Vector2(-256, -192)
-screenplay = "ch1_mom_hug"
+[node name="CutsceneTriggerKnock" parent="Node" instance=ExtResource("12_d6euc")]
+position = Vector2(-96, -192)
+screenplay = "ch1_wakeup"

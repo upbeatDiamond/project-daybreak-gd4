@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://c6vun4q1ywn8g" path="res://assets/textures/monsters/overworld/human/human_base_clothes.png" id="5_if88j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v1cr0"]
-size = Vector2(16, 16)
+size = Vector2(15, 15)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fcjf6"]
 shader = ExtResource("3_4kwqf")

@@ -72,7 +72,7 @@ func _input(event):
 	returns prior state of boolean
 """
 func gameworld_input_enabled( value:bool ) -> bool:
-	var _ret = gameworld_input_stopped
+	var _ret = not gameworld_input_stopped
 	gameworld_input_stopped = not value
 	return _ret
 

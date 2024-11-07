@@ -445,7 +445,7 @@ func _handle_next_node(node):
 	if _handlers.has(node.type):
 		return _handlers[node.type].call(node)
 	else:
-		printerr("Unkown node type '%s'" % node.type)
+		printerr("Unknown node type '%s'" % node.type)
 
 
 func _translate_text(key, text, id_suffixes = null):

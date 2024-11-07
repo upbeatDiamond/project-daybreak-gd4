@@ -67,7 +67,10 @@ func end_dialog():
 	timer.stop()
 	GlobalDialog.talking = false
 	talking = false
+	GlobalDirector._end_current_screenplay()
+	unfocus_all()
 	dialog_UI.hide()
+	
 	
 # Set curr_dialog_node by text id, the current dialog to display.
 func set_curr(line:Dictionary):
@@ -156,6 +159,20 @@ func focus_first_choice():
 	var choices_container = choices.get_child(0)
 	if choices_container.get_child_count() > 0:
 		choices_container.get_child(0).call_deferred("grab_focus")
+
+## CHEAP DIRTY GROSS FUNCTION!
+func unfocus_all():
+	var choices_container = choices.get_child(0)
+	if choices_container.get_child_count() > 0:
+		var children = choices_container.get_children()
+		for child in children:
+			child.call_deferred("release_focus")
+	var children = choices.get_children()
+	for child in children:
+		child.call_deferred("release_focus")
+	for child in self.get_children():
+		child.call_deferred("release_focus")
+
 
 # Player chooses a choice, then go to next dialog id accordingly.
 func _on_choice_selected(id:int):

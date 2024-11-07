@@ -83,7 +83,7 @@ func _on_options_pressed():
 
 func _on_connection_pressed():
 	
-	GlobalDirector.run_screenplay("ch1_mom_hug")
+	GlobalDirector.run_screenplay("ch1_wakeup")
 	
 	pass
 

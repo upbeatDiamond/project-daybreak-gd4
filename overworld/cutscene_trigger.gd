@@ -25,16 +25,30 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	
+	if enabled and one_shot and active_on_enter:
+		var areas = get_overlapping_areas()
+		for area in areas:
+			if area is Gamepiece:
+				run_event( area )
+	elif one_shot and not enabled:
+		self.queue_free()
 	pass
 
 
 func run_event( gamepiece:Gamepiece ):
+	var areas = get_overlapping_areas()
+	if (gamepiece not in areas) or not enabled:
+		return
 	var pidgeonhole_gp_lock : bool = gamepiece.is_paused
-	gamepiece.is_paused = true
+	#gamepiece.is_paused = true
+	if one_shot:
+		enabled = false
 	
-	GlobalDirector.load_screenplay("ch1_wakeup")
+	GlobalDirector.run_screenplay(screenplay, scene)
 	
-	gamepiece.is_paused = pidgeonhole_gp_lock 
+	#gamepiece.is_paused = pidgeonhole_gp_lock 
+	
 	# If invalid b/c gamepiece, push gamepiece (parallel, else perpendicular)
 		# If gamepiece cannot be pushed, swap with gamepiece
 	# If any other intrusion, do not allow push

@@ -1,12 +1,16 @@
 extends Node
 
 var clyde : ClydeDialogue
-var unpaused_prior := false
+var unpaused_prior := true
 
 var key_values := {}
 var registered_things := {}	# Stores actor ids, referenced by (key)name
 var registered_names := {} 	# Stores displayed name, ref'd by keyname
 var registered_alias := {}	# Stores actor pseudonyms
+
+var external_variables := {
+	"player_name": "Steve?"
+}
 
 # spritesheet?
 var iconsets : Dictionary
