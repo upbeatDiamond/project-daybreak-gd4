@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://dwxfahlei5r4d"]
+[gd_scene load_steps=12 format=4 uid="uid://dwxfahlei5r4d"]
 
 [ext_resource type="Script" path="res://overworld/level_maps/level_map.gd" id="1_651ra"]
 [ext_resource type="TileSet" uid="uid://cjfkw688icgrw" path="res://overworld/level_maps/tilesets/home_town_lab.tres" id="2_85iav"]
@@ -9,22 +9,23 @@
 [ext_resource type="PackedScene" uid="uid://crk1pu5pxjnen" path="res://common/daylight_cycle_filter.tscn" id="7_qfdiq"]
 [ext_resource type="Script" path="res://overworld/props/warp_anchor.gd" id="9_77nyv"]
 [ext_resource type="Script" path="res://overworld/warp_anchor_container.gd" id="9_nmyvk"]
+[ext_resource type="PackedScene" uid="uid://bmqnf3wsehu3h" path="res://overworld/cutscene_trigger.tscn" id="10_tfrft"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_5g8ot"]
-size = Vector2(16, 16)
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_rdb66"]
+vertices = PackedVector2Array(143, 215, 8.59375, 215, 16.9609, 16.9609, 143, 12.6875, 303, 407, 255, 407, 225, 345, 255, 345, 431, 471, 431, 505, 369, 505, 369, 471, 415, 281, 479.008, 583, -6.96094, 583, -3.65625, 505, 17, 505, 369, 5.02344, 431, 2.92188, 431, 25, 369, 25, 209, 10.4375, 271, 8.35156, 271, 25, 209, 25, 480.078, 505, 463, 25, 463, 119, 431, 119, 369, 119, 431, 153, 463, 153, 463, 215, 431, 215, 369, 153, 431, 247, 415, 247, 369, 215, 337, 185, 337, 153, 463, 281, 463, 471, 337, 471, 337, 345, 369, 345, 369, 311, 303, 345, 255, 311, 225, 311, 255, 441, 225, 441, 225, 407, 175, 345, 95, 281, 175, 407, 65, 281, 303, 441, 303, 505, 113, 407, 97, 407, 97, 343, 17, 281, 63, 343, 65, 249, 95, 249, 145, 281, 145, 249, 369, 249, 209, 119, 177, 119, 177, 25, 271, 119, 303, 25, 303, 119, 209, 215, 271, 153, 303, 153, 303, 185, 337, 119, 337, 25, 175, 311, 175, 441, 113, 441, 63, 441)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7), PackedInt32Array(8, 9, 10, 11, 12), PackedInt32Array(13, 14, 15, 16), PackedInt32Array(17, 18, 19, 20), PackedInt32Array(21, 22, 23, 24), PackedInt32Array(9, 25, 13), PackedInt32Array(19, 26, 27, 28), PackedInt32Array(20, 19, 28, 29), PackedInt32Array(30, 31, 32, 33), PackedInt32Array(34, 33, 35, 36, 37, 38, 39), PackedInt32Array(12, 40, 41, 8), PackedInt32Array(11, 42, 43, 44), PackedInt32Array(12, 11, 44), PackedInt32Array(12, 44, 45), PackedInt32Array(7, 46, 4), PackedInt32Array(47, 7, 6, 48), PackedInt32Array(5, 49, 50, 51), PackedInt32Array(6, 5, 51, 52), PackedInt32Array(53, 52, 51, 54, 55), PackedInt32Array(49, 56, 57), PackedInt32Array(58, 59, 60), PackedInt32Array(16, 61, 55, 62), PackedInt32Array(55, 63, 64, 53), PackedInt32Array(65, 66, 67, 12, 45, 47), PackedInt32Array(68, 69, 70, 24), PackedInt32Array(68, 24, 23, 71), PackedInt32Array(23, 72, 73, 71), PackedInt32Array(74, 68, 71, 75), PackedInt32Array(75, 76, 77, 74), PackedInt32Array(37, 74, 77, 38), PackedInt32Array(29, 78, 79, 20), PackedInt32Array(29, 28, 30, 34), PackedInt32Array(34, 30, 33), PackedInt32Array(67, 37, 36, 12), PackedInt32Array(65, 47, 48), PackedInt32Array(65, 48, 80), PackedInt32Array(10, 9, 13), PackedInt32Array(50, 49, 57), PackedInt32Array(65, 80, 52, 53), PackedInt32Array(55, 54, 81, 60), PackedInt32Array(81, 50, 57), PackedInt32Array(81, 57, 82), PackedInt32Array(81, 82, 58), PackedInt32Array(81, 58, 60), PackedInt32Array(55, 60, 62), PackedInt32Array(16, 62, 83), PackedInt32Array(13, 16, 83, 82, 57), PackedInt32Array(13, 57, 10)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-8, 584, 480, 584, 488, 0, 16, 16)])
+parsed_collision_mask = 4278190081
+source_geometry_mode = 1
+source_geometry_group_name = &"navigation_polygon_source"
+cell_size = 16.0
+agent_radius = 1.0
 
 [node name="HomeTown" type="Node2D"]
 script = ExtResource("1_651ra")
 map_index = 4
 
-[node name="Board" type="Node2D" parent="."]
-
-[node name="AstarTracer" type="Area2D" parent="Board"]
-visible = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Board/AstarTracer"]
-position = Vector2(-248, -248)
-shape = SubResource("RectangleShape2D_5g8ot")
+[node name="Board" type="Node2D" parent="." groups=["navigation_polygon_source"]]
 
 [node name="GrassDirt" type="TileMapLayer" parent="Board"]
 z_index = -2
@@ -37,10 +38,10 @@ z_index = -1
 use_parent_material = true
 tile_set = ExtResource("2_85iav")
 
-[node name="Objects" type="Node" parent="."]
+[node name="Objects" type="Node" parent="." groups=["navigation_polygon_source"]]
 
 [node name="PushBlock" parent="Objects" instance=ExtResource("5_byyr8")]
-position = Vector2(80, 304)
+position = Vector2(144, 304)
 
 [node name="NorthPortal" parent="Objects" instance=ExtResource("5_j4sa5")]
 position = Vector2(208, -32)
@@ -52,7 +53,7 @@ target_facing = Vector2i(0, -1)
 portal_id = 1
 
 [node name="HomePortal" parent="Objects" instance=ExtResource("5_j4sa5")]
-position = Vector2(32, 272)
+position = Vector2(112, 272)
 map = "res://overworld/level_maps/home_town_home.tscn"
 target_anchor_name = "MainEntrance"
 target_position = Vector2i(80, 640)
@@ -62,11 +63,11 @@ portal_id = 1
 [node name="Y-Sort" type="Node2D" parent="Objects"]
 y_sort_enabled = true
 
-[node name="House" parent="Objects/Y-Sort" instance=ExtResource("6_owl0c")]
-position = Vector2(16, 256)
+[node name="HouseHome" parent="Objects/Y-Sort" instance=ExtResource("6_owl0c")]
+position = Vector2(96, 256)
 
 [node name="House3" parent="Objects/Y-Sort" instance=ExtResource("6_owl0c")]
-position = Vector2(96, 256)
+position = Vector2(16, 256)
 
 [node name="House4" parent="Objects/Y-Sort" instance=ExtResource("6_owl0c")]
 position = Vector2(176, 320)
@@ -306,7 +307,7 @@ visible = false
 script = ExtResource("9_nmyvk")
 
 [node name="WarpPlayerHouse" type="Marker2D" parent="Anchors"]
-position = Vector2(32, 288)
+position = Vector2(112, 288)
 gizmo_extents = 16.0
 script = ExtResource("9_77nyv")
 anchor_name = "PlayerHouse"
@@ -318,3 +319,11 @@ gizmo_extents = 16.0
 script = ExtResource("9_77nyv")
 anchor_name = "RouteToRed"
 facing_direction = Vector2i(0, 1)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+position = Vector2(0, 8)
+navigation_polygon = SubResource("NavigationPolygon_rdb66")
+
+[node name="CutsceneTriggerUncle" parent="NavigationRegion2D" instance=ExtResource("10_tfrft")]
+position = Vector2(112, 280)
+screenplay = "ch1_uncle_init"

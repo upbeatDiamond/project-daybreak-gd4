@@ -1,0 +1,34 @@
+--
+--
+-- This is a sample dialogue.
+--
+
+: A light fog covers the terrain; the change in weather feels palpable. You see three figures ahead of you, hiding next to the lab.
+\?\?\? (Green): Leave while you still can!
+
+== Walk Back
+
+\?\?\? (Blue): Wait, we need help! Don't leave yet!
+
+== Approach
+
+:You step forward and hear footsteps to your right. Two eyes seem to gleam at you from within the fog. 
+:It continues walking towards you, slowly, continuously.
+-> Its
+
+== Its
+
+:Professor Olearia steps towards you from the fog.
+Olearia: Ah, hello there. Odd weather we're having, right? Must be a trickster's spell or something. 
+
+== Stand Ground
+
+Olearia: Someone's right behind me, aren't they?
+\?\?\?: Gurrraaahhhh!
+
+== Prepare Fight
+
+\?\?\? (Red): We need to stop that beast. If we could fight alongside <player_them>, we might be able to resist...
+\?\?\? (Blue): I guess this is something we do now.
+\?\?\? (Green): We'll give it our all, then!
+

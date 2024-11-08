@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://db8npf25b22jx"]
+[gd_scene load_steps=43 format=3 uid="uid://db8npf25b22jx"]
 
 [ext_resource type="Script" path="res://overworld/characters/gamepiece.gd" id="1_6lhpg"]
 [ext_resource type="Shader" path="res://addons/palette_swap/PaletteSwap.gdshader" id="3_4kwqf"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dqqvuscifl2jy" path="res://assets/textures/monsters/overworld/human/human_base_hair.png" id="4_p6uxo"]
 [ext_resource type="Texture2D" uid="uid://bdsybre63ash0" path="res://assets/textures/monsters/overworld/human/human_palette_common.png" id="4_x3ef0"]
 [ext_resource type="Texture2D" uid="uid://c6vun4q1ywn8g" path="res://assets/textures/monsters/overworld/human/human_base_clothes.png" id="5_if88j"]
+[ext_resource type="Texture2D" uid="uid://dylhuv7shgxlc" path="res://assets/textures/monsters/overworld/human/human_palette_hair_common.png" id="6_r6k5l"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v1cr0"]
 size = Vector2(15, 15)
@@ -17,6 +18,13 @@ shader_parameter/skip_first_row = true
 shader_parameter/use_palette_alpha = false
 shader_parameter/fps = 1.0
 shader_parameter/palette = ExtResource("4_x3ef0")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gb16k"]
+shader = ExtResource("3_4kwqf")
+shader_parameter/skip_first_row = true
+shader_parameter/use_palette_alpha = false
+shader_parameter/fps = 6.0
+shader_parameter/palette = ExtResource("6_r6k5l")
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bqt0l"]
 animation = &"idle_down"
@@ -688,6 +696,7 @@ frame = 7
 
 [node name="SpriteAccent" type="Sprite2D" parent="GFX"]
 visible = false
+material = SubResource("ShaderMaterial_gb16k")
 position = Vector2(8, 0)
 texture = ExtResource("4_p6uxo")
 hframes = 7

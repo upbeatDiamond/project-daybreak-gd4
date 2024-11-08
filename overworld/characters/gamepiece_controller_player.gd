@@ -4,6 +4,7 @@ var gamepiece : Gamepiece
 var INPUT_COOLDOWN_DEFAULT:float = 6.5;
 var input_cooldown := 0.0
 @onready var navigation_agent_2d : NavigationAgent2D
+var is_rendered := false
 
 func _ready() -> void:
 	if gamepiece == null:
@@ -29,6 +30,10 @@ func _process(_delta):
 	#super._process(_delta)
 	if gamepiece.is_node_ready():
 		gamepiece.umid = 0
+		if not is_rendered:
+			gamepiece.find_child("SpriteAccent").material.set_shader_parameter("palette", load("res://assets/textures/monsters/overworld/human/human_palette_hair_common.png"))
+			gamepiece.find_child("SpriteBase").material.set_shader_parameter("palette", load("res://assets/textures/monsters/overworld/human/human_palette_common.png"))
+			is_rendered = true
 	#print( "controller thinks gp = %d", gamepiece )
 
 

@@ -24,6 +24,8 @@ var db_name_user_stage := "user://database/save_active"
 var db_name_user_commit := "user://database/save_stable"
 # Backup is intended to avoid any corruption errors, but so far doesn't do much.
 var db_name_user_backup := "user://database/save_backup"
+# Reset is to be used if the prior three are all absent.
+var db_name_user_reset := "res://database/save_template"
 
 ## I know it's fun to delete commented code after 1 upload, but this is new upcoming code...
 ## Yeah, yeah, "YAGNI". But I will need, if not this, then something similar.
@@ -349,6 +351,27 @@ func can_recover_last_state() -> bool:
 	map_player.queue_free()
 	return true
 
+
+func reset_save_file() -> void:
+	var db_reset = SQLite.new(); db_reset.path = db_name_user_reset; db_reset.open_db()
+	#var db_commit = SQLite.new(); db_commit.path = db_name_user_commit; db_commit.open_db()
+	
+	var success
+	
+	#var globalized_backup_path = ProjectSettings.globalize_path(db_name_user_backup) + ".db"
+	#var globalized_commit_path = ProjectSettings.globalize_path(db_name_user_commit) + ".db"
+	var globalized_commit_path = ProjectSettings.globalize_path(db_name_user_commit) + ".db"
+	
+	if FileAccess.file_exists( db_name_user_commit + ".db" ):
+		OS.move_to_trash( globalized_commit_path )
+	
+	success = db_reset.query("VACUUM INTO \"" + globalized_commit_path + "\"")
+	
+	db_reset.close_db()
+	#db_commit.close_db()
+
+func does_save_exist() -> bool:
+	return FileAccess.file_exists(str(db_name_user_stage, ".db"))
 
 # Loads the player, and the last map the player was known to be in, and returns the map path
 # In the future, may also update the in-game clock settings and trickle down save data

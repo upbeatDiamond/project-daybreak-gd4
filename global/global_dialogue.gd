@@ -165,7 +165,7 @@ signal pause
 signal unpause
 
 var talking = false: get = get_state_talking, set = set_state_talking
-var cutscene = false: get = get_state_cutscene, set = set_state_cutscene
+var is_cutscene_playing = false: get = get_state_cutscene, set = set_state_cutscene
 	
 func set_state_talking(is_talking):
 	talking = is_talking
@@ -178,20 +178,20 @@ func set_state_talking(is_talking):
 func get_state_talking():
 	return talking
 	
-func set_state_cutscene(is_cutscene_playing):
-	cutscene = is_cutscene_playing
-	if is_cutscene_playing:
+func set_state_cutscene(_is_cutscene_playing):
+	is_cutscene_playing = _is_cutscene_playing
+	if _is_cutscene_playing:
 		emit_signal("pause")
 	elif not is_paused():
 		emit_signal("unpause")
 	
 func get_state_cutscene():
-	return cutscene
+	return is_cutscene_playing
 	
 # Returns whether game is paused. Manually setting how nodes react to this setting
 # allows greater control than get_tree().paused = true
 func is_paused():
-	return talking or cutscene
+	return talking or is_cutscene_playing
 
 func get_next_line():
 	pass

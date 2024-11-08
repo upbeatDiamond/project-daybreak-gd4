@@ -1,11 +1,11 @@
-[gd_scene load_steps=42 format=3 uid="uid://dsk04vtyuk6hu"]
+[gd_scene load_steps=41 format=3 uid="uid://dsk04vtyuk6hu"]
 
 [ext_resource type="Script" path="res://overworld/characters/gamepiece.gd" id="1_6sn36"]
 [ext_resource type="Shader" path="res://addons/palette_swap/PaletteSwap.gdshader" id="2_45ku8"]
 [ext_resource type="Texture2D" uid="uid://bdsybre63ash0" path="res://assets/textures/monsters/overworld/human/human_palette_common.png" id="3_kpi24"]
 [ext_resource type="Texture2D" uid="uid://dx0fdi2x8l2sg" path="res://assets/textures/monsters/overworld/human/human_base_skin.png" id="4_hefom"]
 [ext_resource type="Texture2D" uid="uid://dqqvuscifl2jy" path="res://assets/textures/monsters/overworld/human/human_base_hair.png" id="5_4hrmo"]
-[ext_resource type="Texture2D" uid="uid://dylhuv7shgxlc" path="res://assets/textures/monsters/overworld/human/human_palette_hair_common.png" id="5_r1mio"]
+[ext_resource type="Material" uid="uid://cgic7oddr34y" path="res://overworld/characters/gamepiece_palette.tres" id="5_5hb6f"]
 [ext_resource type="Texture2D" uid="uid://c6vun4q1ywn8g" path="res://assets/textures/monsters/overworld/human/human_base_clothes.png" id="6_8gwl6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v1cr0"]
@@ -17,13 +17,6 @@ shader_parameter/skip_first_row = true
 shader_parameter/use_palette_alpha = false
 shader_parameter/fps = 1.0
 shader_parameter/palette = ExtResource("3_kpi24")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jaybe"]
-shader = ExtResource("2_45ku8")
-shader_parameter/skip_first_row = true
-shader_parameter/use_palette_alpha = false
-shader_parameter/fps = 6.0
-shader_parameter/palette = ExtResource("5_r1mio")
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bqt0l"]
 animation = &"idle_down"
@@ -215,7 +208,7 @@ hframes = 7
 vframes = 4
 
 [node name="SpriteAccent" type="Sprite2D" parent="GFX"]
-material = SubResource("ShaderMaterial_jaybe")
+material = ExtResource("5_5hb6f")
 position = Vector2(8, 0)
 texture = ExtResource("5_4hrmo")
 hframes = 7

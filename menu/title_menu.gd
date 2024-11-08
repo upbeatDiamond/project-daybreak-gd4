@@ -48,6 +48,9 @@ func _ready():
 
 func _on_reset_pressed():
 	print("reset pressed! Please clone database to save folder! Thanks!")
+	
+	GlobalDatabase.reset_save_file()
+	GlobalDatabase.fetch_save_to_stage()
 	pass
 
 func _on_play_pressed():

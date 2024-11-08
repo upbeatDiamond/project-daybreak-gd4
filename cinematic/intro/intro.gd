@@ -89,25 +89,25 @@ func on_reflect_kv(key, value):
 #		str("INSERT INTO " + table + " (" + columns + ") VALUES (" + binder + ")" ),
 #		attributes );
 
-#func sanitize(txt) -> String:
-#	txt = txt.replace('&', '\\&');
-#	txt = txt.replace(';', '&semi;');
-#	txt = txt.replace('\\&', '&amp;');
-#	txt = txt.replace('"', '&quot');
-#	txt = txt.replace("'", '&apos');
-#	txt = txt.replace('#', '&num');
-#	#txt = txt.replace('', '');
-#	return txt;
-#
-#func desanitize(txt) -> String:
-#	txt = txt.replace('"', '&quot');
-#	txt = txt.replace("'", '&apos');
-#	txt = txt.replace('#', '&num');
-#
-#	txt = txt.replace('&semi;', ';');
-#	txt = txt.replace('&amp;', '&');
-#
-#	return txt;
+func sanitize(txt) -> String:
+	txt = txt.replace('&', '\\&');
+	txt = txt.replace(';', '&semi;');
+	txt = txt.replace('\\&', '&amp;');
+	txt = txt.replace('"', '&quot');
+	txt = txt.replace("'", '&apos');
+	txt = txt.replace('#', '&num');
+	#txt = txt.replace('', '');
+	return txt;
+
+func desanitize(txt) -> String:
+	txt = txt.replace('"', '&quot');
+	txt = txt.replace("'", '&apos');
+	txt = txt.replace('#', '&num');
+
+	txt = txt.replace('&semi;', ';');
+	txt = txt.replace('&amp;', '&');
+
+	return txt;
 
 
 func _physics_process(delta):
@@ -176,6 +176,7 @@ func switch_stage(stage:int):
 		5:
 			set_prompt(str( "Ah, ", kv_bank["player_name"] ,", a title with great meaning and power.") );
 			revise_name.set_text( str("My name is ", kv_bank["player_name"]) )
+			GlobalDatabase.save_keyval("player_name", kv_bank["player_name"])
 			music_fade_in(1);
 			pass
 		6:
@@ -202,6 +203,8 @@ func switch_stage(stage:int):
 			pass
 		9:
 			set_prompt("Fascinating. The canvas of life now looks ever more vibrant.");
+			#GlobalDatabase.save_keyval("player_palette_base", find_child("Gamepiece").find_child("SpriteBase").material.get_shader_parameter("palette"))
+			#GlobalDatabase.save_keyval("player_palette_accent", find_child("Gamepiece").find_child("SpriteAccent").material.get_shader_parameter("palette"))
 			music_fade_in(3);
 			pass
 		10:
