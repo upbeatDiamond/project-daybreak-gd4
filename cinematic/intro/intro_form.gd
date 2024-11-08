@@ -112,49 +112,60 @@ func _process(_delta):
 
 func on_skin_white_pressed():
 	reflect_target.find_child("Gamepiece").find_child("SpriteBase").material.set_shader_parameter("palette", load("res://assets/textures/monsters/overworld/human/human_palette_white.png") )
+	GlobalDatabase.save_keyval("player_sprite_base_palette", "white")
 	pass
 
 func on_skin_pale_pressed():
 	reflect_target.find_child("Gamepiece").find_child("SpriteBase").material.set_shader_parameter("palette", load("res://assets/textures/monsters/overworld/human/human_palette_pale.png") )
+	GlobalDatabase.save_keyval("player_sprite_base_palette", "pale")
 	pass
 
 func on_skin_common_pressed():
 	reflect_target.find_child("Gamepiece").find_child("SpriteBase").material.set_shader_parameter("palette", load("res://assets/textures/monsters/overworld/human/human_palette_common.png") )
+	GlobalDatabase.save_keyval("player_sprite_base_palette", "common")
 	pass
 
 func on_skin_dark_pressed():
 	reflect_target.find_child("Gamepiece").find_child("SpriteBase").material.set_shader_parameter("palette", load("res://assets/textures/monsters/overworld/human/human_palette_dark.png") )
+	GlobalDatabase.save_keyval("player_sprite_base_palette", "dark")
 	pass
 
 func on_skin_black_pressed():
 	reflect_target.find_child("Gamepiece").find_child("SpriteBase").material.set_shader_parameter("palette", load("res://assets/textures/monsters/overworld/human/human_palette_black.png") )
+	GlobalDatabase.save_keyval("player_sprite_base_palette", "black")
 	pass
 
 func on_skin_shiny_pressed():
 	reflect_target.find_child("Gamepiece").find_child("SpriteBase").material.set_shader_parameter("palette", load("res://assets/textures/monsters/overworld/human/human_palette_shiny.png") )
+	GlobalDatabase.save_keyval("player_sprite_base_palette", "shiny")
 	pass
-
 
 func on_hair_white_pressed():
 	reflect_target.find_child("Gamepiece").find_child("SpriteAccent").material.set_shader_parameter("palette", load("res://assets/textures/monsters/overworld/human/human_palette_hair_white.png") )
+	GlobalDatabase.save_keyval("player_sprite_accent_palette", "white")
 	pass
 
 func on_hair_pale_pressed():
 	reflect_target.find_child("Gamepiece").find_child("SpriteAccent").material.set_shader_parameter("palette", load("res://assets/textures/monsters/overworld/human/human_palette_hair_pale.png") )
+	GlobalDatabase.save_keyval("player_sprite_accent_palette", "pale")
 	pass
 
 func on_hair_common_pressed():
 	reflect_target.find_child("Gamepiece").find_child("SpriteAccent").material.set_shader_parameter("palette", load("res://assets/textures/monsters/overworld/human/human_palette_hair_common.png") )
+	GlobalDatabase.save_keyval("player_sprite_accent_palette", "common")
 	pass
 
 func on_hair_dark_pressed():
 	reflect_target.find_child("Gamepiece").find_child("SpriteAccent").material.set_shader_parameter("palette", load("res://assets/textures/monsters/overworld/human/human_palette_hair_dark.png") )
+	GlobalDatabase.save_keyval("player_sprite_accent_palette", "dark")
 	pass
 
 func on_hair_black_pressed():
 	reflect_target.find_child("Gamepiece").find_child("SpriteAccent").material.set_shader_parameter("palette", load("res://assets/textures/monsters/overworld/human/human_palette_hair_black.png") )
+	GlobalDatabase.save_keyval("player_sprite_accent_palette", "black")
 	pass
 
 func on_hair_shiny_pressed():
 	reflect_target.find_child("Gamepiece").find_child("SpriteAccent").material.set_shader_parameter("palette", load("res://assets/textures/monsters/overworld/human/human_palette_hair_shiny.png") )
+	GlobalDatabase.save_keyval("player_sprite_accent_palette", "shiny")
 	pass

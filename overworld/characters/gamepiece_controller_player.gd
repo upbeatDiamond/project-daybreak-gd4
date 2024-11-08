@@ -17,6 +17,8 @@ func _ready() -> void:
 	if not Engine.is_editor_hint():
 		assert(gamepiece, "Gamepiece '%s' must be a child of a Gamepiece to function! Is '%s'" 
 			% [name, get_parent().get_class()] )
+	
+	
 
 
 func _get_configuration_warnings() -> PackedStringArray:
@@ -31,9 +33,14 @@ func _process(_delta):
 	if gamepiece.is_node_ready():
 		gamepiece.umid = 0
 		if not is_rendered:
-			gamepiece.find_child("SpriteAccent").material.set_shader_parameter("palette", load("res://assets/textures/monsters/overworld/human/human_palette_hair_common.png"))
-			gamepiece.find_child("SpriteBase").material.set_shader_parameter("palette", load("res://assets/textures/monsters/overworld/human/human_palette_common.png"))
+			var palette_base_path = str("res://assets/textures/monsters/overworld/human/human_palette_",GlobalDatabase.load_keyval("player_sprite_base_palette"),".png")
+			var palette_accent_path = str("res://assets/textures/monsters/overworld/human/human_palette_hair_",GlobalDatabase.load_keyval("player_sprite_accent_palette"),".png")
+			if FileAccess.file_exists(palette_accent_path):
+				gamepiece.find_child("SpriteAccent").material.set_shader_parameter("palette", load(palette_accent_path))
+			if FileAccess.file_exists(palette_base_path):
+				gamepiece.find_child("SpriteBase").material.set_shader_parameter("palette", load(palette_base_path))
 			is_rendered = true
+			gamepiece._check_interior_event_collision()
 	#print( "controller thinks gp = %d", gamepiece )
 
 
