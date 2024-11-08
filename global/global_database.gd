@@ -296,9 +296,10 @@ func load_keyval(_key:String, _val=null):
 	var fetched:Array = db.select_rows( table_name_keyval, query_conditions, ["key", "value"] )
 	db.close_db()
 	
-	if fetched.size() <= 0:
-		return null
-	return fetched.front()#["value"]
+	if fetched.size() > 0:
+		_val = fetched.front()["value"]
+	return _val
+	#return fetched.front()["value"]
 
 
 # Used for save/load_keyval, to avoid escaping strings too early

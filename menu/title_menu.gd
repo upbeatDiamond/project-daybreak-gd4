@@ -56,15 +56,15 @@ func _on_reset_pressed():
 func _on_play_pressed():
 	if scene_enabled:
 		
-		
-		#GlobalRuntime.scene_manager.mount_cinematic(play_cutscene.instantiate());
+		if not GlobalDatabase.load_keyval("intro_dream_complete"):
+			GlobalRuntime.scene_manager.mount_cinematic(play_cutscene.instantiate());
 		
 		GlobalRuntime.clean_up_descent( self )
 		
 		if GlobalDatabase.can_recover_last_state():
-			print( "can recover, I think!" )
+			print( GlobalDatabase.load_keyval("player_name"), " can recover, I think!" )
 			await GlobalDatabase.save_keyval("test_worked;(&)\\", true)
-			print(GlobalDatabase.load_keyval("test_worked;(&)\\"))
+			print("kv test_worked: ", GlobalDatabase.load_keyval("test_worked;(&)\\"))
 			GlobalDatabase.recover_last_state()
 		else:
 			print( "cannot recover..." )

@@ -41,7 +41,7 @@ tile_set = ExtResource("2_85iav")
 [node name="Objects" type="Node" parent="." groups=["navigation_polygon_source"]]
 
 [node name="PushBlock" parent="Objects" instance=ExtResource("5_byyr8")]
-position = Vector2(144, 304)
+position = Vector2(128, 208)
 
 [node name="NorthPortal" parent="Objects" instance=ExtResource("5_j4sa5")]
 position = Vector2(208, -32)

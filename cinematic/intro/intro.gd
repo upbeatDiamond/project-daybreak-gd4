@@ -176,7 +176,7 @@ func switch_stage(stage:int):
 		5:
 			set_prompt(str( "Ah, ", kv_bank["player_name"] ,", a title with great meaning and power.") );
 			revise_name.set_text( str("My name is ", kv_bank["player_name"]) )
-			GlobalDatabase.save_keyval("player_name", kv_bank["player_name"])
+			GlobalDatabase.save_keyval("player_name", sanitize(kv_bank["player_name"]))
 			music_fade_in(1);
 			pass
 		6:
@@ -230,6 +230,7 @@ func switch_stage(stage:int):
 			pass
 		14:
 			set_prompt("Thank you for imagining with me.");
+			GlobalDatabase.save_keyval("intro_dream_complete", true)
 			pass
 		15:
 			stage_finished = false;

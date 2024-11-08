@@ -93,18 +93,20 @@ func _on_external_variable_update(key:String, value) -> void:
 
 
 func _on_external_variable_fetch(key:String):
-	get_key_value(key)
+	return get_key_value(key)
 
 
 # return the value for a key
 func get_key_value( key:String ):
 	if key_values.has(key):
 		return key_values[key]
-	return null
+	return GlobalDatabase.load_keyval(key)
+	#return null
 
 
 func set_key_value( key:String, value ):
 	key_values[key] = value
+	GlobalDatabase.save_keyval(key, value)
 
 
 # Parameters:
