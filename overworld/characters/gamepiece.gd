@@ -165,6 +165,7 @@ func update_rays( direction : Vector2 ):
 	
 	event_ray.target_position = direction * GlobalRuntime.DEFAULT_TILE_SIZE
 	event_ray.force_raycast_update()
+	event_ray.clear_exceptions()
 
 
 func move( direction ):
@@ -236,10 +237,14 @@ func move( direction ):
 func _check_exterior_event_collision(direction:Vector2):
 	update_rays(direction)
 	
-	if event_ray.is_colliding():
+	while event_ray.is_colliding():
 		var colliding_with = event_ray.get_collider()
 		if colliding_with.is_in_group("event_exterior") and colliding_with.has_method("run_event"):
 			colliding_with.run_event( self )
+		if colliding_with is CollisionObject2D:
+			event_ray.add_exception(colliding_with)
+			print(colliding_with)
+		await get_tree().process_frame
 	pass
 
 """

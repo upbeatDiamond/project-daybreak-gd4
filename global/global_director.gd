@@ -23,7 +23,7 @@ func _ready() -> void:
 	reset_clyde()
 	# TODO: Store in global variables, so load only once per file (not each instance of Dialog)
 	#db_dialog = LoadFile(dialog_file) #GlobalDialog.db_dialog
-	db_voices = LoadFile(voices_file)
+	db_voices = load_file(voices_file)
 	pass # Replace with function body.
 
 
@@ -69,6 +69,21 @@ func _start_current_screenplay():
 
 func get_next_line() -> Dictionary:
 	next_line = clyde.get_content()
+	if next_line.has("speaker"):
+		if next_line["speaker"] == null:
+			next_line["speaker"] = ""
+	elif next_line["type"] == "options":
+		next_line["speaker"] = ""
+	if next_line.get("text") == null:
+		next_line["text"] = ""
+	print(next_line["type"], " ~!~ ", next_line.get("text"))
+	
+	if next_line["type"] == "line" and \
+	( next_line.get("speaker") == null or next_line.get("speaker") == "" ) and \
+	( next_line.get("text") == null or next_line.get("text") == "" ) :
+		return get_next_line()
+		
+	
 	return next_line
 
 func _continue_current_screenplay():
@@ -144,8 +159,28 @@ func get_key_value( key:String ):
 
 
 func set_key_value( key:String, value ):
+	if str(value).strip_edges().is_valid_int():
+		value = str(value).to_int()
+	elif str(value).strip_edges().is_valid_float():
+		value = str(value).to_float()
 	key_values[key] = value
 	GlobalDatabase.save_keyval(key, value)
+
+
+"""
+	Runs a string as an action command, as a Clyde hack.
+"""
+func do_string(do:String):
+	do = do + " "
+	var d = do.split( )[0]
+	
+	match d:
+		"walk_at": #navigate to anchor
+			pass
+		"walk_pos": #navigate to coordinate
+			pass
+	pass
+
 
 
 # Parameters:
@@ -186,57 +221,8 @@ var player_name = "Bobby" # TODO: move to Player stats
 #func _ready():
 
 
-
-# Whether a condition (string) is met.	
-# condition must be in format of: source_of_variable variable_name conditional_operator value optional_amount
-func is_condition_met(condition : String):
-	var cond_parsed = condition.split(" ")
-	# Error checking
-	var num_args = cond_parsed.size()
-	if num_args < 4:
-		print("WARNING: condition of " + condition + " not set appropriately. Too few args.")
-	
-	# Check if condition met
-	var var_source = cond_parsed[0].to_lower()	# to_lower to check conditionals
-	var variable = cond_parsed[1]				# Not to_lower to preserve original intention
-	var operator = cond_parsed[2].to_lower()
-	var value = cond_parsed[3]
-	if var_source == "data":
-		# Use variable keys in GlobalDialog.data dictionary
-		if not data.has(variable):
-			print("WARNING: data key of " + variable + "not set. " + \
-				"Attempting to compare with defaulted assumed value of false.")
-			return compare("false", operator, value)
-		else:
-			return compare(data[variable], operator, value)
-	# TODO: implement your own ways of interpreting/evaluating conditions here where cond_parsed
-	# is the space-delineated strings that describe a condition
-	# The condition should ultimately evaluate to true or false
-	else:
-		print("WARNING: Unknown condition of source "+ var_source + ". Defaulting to false.")
-	print("WARNING: Unknown condition "+ condition + ". Defaulting to false.")
-	return false
-
-# Compares two values with string comparision operator. If operator is not "equal", then 
-# values must be castable to integer. Assume types and operators are appropriate.
-# TODO: support for floats, beware of floating-point precision
-func compare(thing1, operator : String, thing2):
-#	print("Comparing if " + thing1 + " is " + operator + thing2)
-	if operator == "equal" or operator == "equals" or operator == "is" or operator == "==":
-		# May be string or integer values.
-		return thing1 == thing2
-	elif operator == "not_equal" or operator == "not" or operator == "!=":
-		return thing1 != thing2
-	elif operator == "less" or operator == "<":
-		# Must be castable to integer.
-		return int(thing1) < int(thing2)
-	elif operator == "greater" or operator == ">":
-		return int(thing1) > int(thing2)
-	print("WARNING: Couldn't find condition operator " + operator)
-	return false
-
 # Loads a file as JSON, returns JSON
-func LoadFile(file_name):
+func load_file(file_name):
 	var file #= FileAccess.new()
 	if FileAccess.file_exists(file_name):
 		file = FileAccess.open(file_name, FileAccess.READ)

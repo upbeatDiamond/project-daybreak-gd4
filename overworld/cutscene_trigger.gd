@@ -41,6 +41,11 @@ func run_event( gamepiece:Gamepiece ):
 	# Early exit, to decrease ability for multiple cutscenes to occur at once
 	if GlobalDirector.is_paused():
 		return
+	
+	# Early exit, to enable cutscenes to be disabled
+	if not _match_conditions():
+		return
+	
 	var areas = get_overlapping_areas()
 	if (gamepiece not in areas) or not enabled:
 		return
@@ -60,57 +65,83 @@ func _match_conditions() -> bool:
 	
 	for key in conditions.keys():
 		var val = GlobalDatabase.load_keyval(key)
-		var compare
+		var compare #= str(conditions[key]).split("==",true,1)[1]
 		
 		# Match the first symbol in the string
-		match str(conditions[key]).strip_edges().split(" "): 
+		match str(conditions[key]).strip_edges().split(" ")[0]: 
 			"==": ## Equals
-				compare = str(conditions[key]).split("==",true,1)
-				if val is int:
-					invalidated = not (val == compare.to_int())
-				elif val is float:
-					invalidated = not (val == compare.to_float())
+				compare = str(conditions[key]).split("==",true,1)[1]
+				if str(val).strip_edges().is_valid_int() and str(compare).strip_edges().is_valid_int():
+					invalidated = not (str(val).to_int() == str(compare).to_int())
+				elif str(val).strip_edges().is_valid_float() and str(compare).strip_edges().is_valid_float():
+					invalidated = not (str(val).to_float() == str(compare).to_float())
 				else:
-					invalidated = not (val == compare)
+					invalidated = ( typeof(val) != typeof(compare) )
+			
+			"!=": ## Not Equals
+				compare = str(conditions[key]).split("!=",true,1)[1]
+				if str(val).strip_edges().is_valid_int() and str(compare).strip_edges().is_valid_int():
+					invalidated = not (str(val).to_int() != str(compare).to_int())
+				elif str(val).strip_edges().is_valid_float() and str(compare).strip_edges().is_valid_float():
+					invalidated = not (str(val).to_float() != str(compare).to_float())
+				else:
+					invalidated = ( typeof(val) == typeof(compare) and val == compare)
+			
 			
 			"<": ## Less Than
-				compare = str(conditions[key]).split("<",true,1)
-				if val is int:
-					invalidated = not (val < compare.to_int())
-				elif val is float:
-					invalidated = not (val < compare.to_float())
+				compare = str(conditions[key]).split("<",true,1)[1]
+				if val == null:
+					val = 0;
+				if compare == null:
+					compare = 0;
+				if str(val).strip_edges().is_valid_int() and str(compare).strip_edges().is_valid_int():
+					invalidated = not (str(val).to_int() < str(compare).to_int())
+				elif str(val).strip_edges().is_valid_float() and str(compare).strip_edges().is_valid_float():
+					invalidated = not (str(val).to_float() < str(compare).to_float())
 				else:
-					invalidated = not (val == compare)
-					print("Warning! Non-integers compared! <")
+					invalidated = ( typeof(val) != typeof(compare) )
+					print("Warning! Non-integers compared! ", val, "<", compare)
 			
 			">": ## Greater Than
-				compare = str(conditions[key]).split(">",true,1)
+				compare = str(conditions[key]).split(">",true,1)[1]
+				if val == null:
+					val = 0;
+				if compare == null:
+					compare = 0;
 				if val is int:
 					invalidated = not (val > compare.to_int())
 				elif val is float:
 					invalidated = not (val > compare.to_float())
 				else:
-					invalidated = not (val == compare)
-					print("Warning! Non-integers compared! >")
+					invalidated = ( typeof(val) != typeof(compare) )
+					print("Warning! Non-integers compared! ", val, ">", compare)
 			
 			"<=": ## Less Than or Equals
-				compare = str(conditions[key]).split("==",true,1)
+				compare = str(conditions[key]).split("<=",true,1)[1]
+				if val == null:
+					val = 0;
+				if compare == null:
+					compare = 0;
 				if val is int:
 					invalidated = not (val <= compare.to_int())
 				elif val is float:
 					invalidated = not (val <= compare.to_float())
 				else:
-					invalidated = not (val == compare)
+					invalidated = ( typeof(val) != typeof(compare) )
 					print("Warning! Non-integers compared! <=")
 			
 			">=": ## Greater Than or Equals
-				compare = str(conditions[key]).split("==",true,1)
+				compare = str(conditions[key]).split("==",true,1)[1]
+				if val == null:
+					val = 0;
+				if compare == null:
+					compare = 0;
 				if val is int:
 					invalidated = not (val >= compare.to_int())
 				elif val is float:
 					invalidated = not (val >= compare.to_float())
 				else:
-					invalidated = not (val == compare)
+					invalidated = ( typeof(val) != typeof(compare) )
 					print("Warning! Non-integers compared! >=")
 			
 			_: ## Default, same as '==' for now...
@@ -120,7 +151,7 @@ func _match_conditions() -> bool:
 				elif val is float:
 					invalidated = not (val == compare.to_float())
 				else:
-					invalidated = not (val == compare)
+					invalidated = ( typeof(val) != typeof(compare) )
 		
 		if invalidated:
 			return false;
