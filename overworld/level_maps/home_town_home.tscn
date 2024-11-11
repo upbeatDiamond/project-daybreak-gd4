@@ -973,7 +973,13 @@ conditions = {
 [node name="CutsceneTriggerCreak" parent="Node" instance=ExtResource("12_d6euc")]
 position = Vector2(-112, -192)
 screenplay = "ch1_mom_notice"
+conditions = {
+"ch1_knocked": "= 1"
+}
 
 [node name="CutsceneTriggerKnock" parent="Node" instance=ExtResource("12_d6euc")]
 position = Vector2(-96, -192)
 screenplay = "ch1_wakeup"
+conditions = {
+"ch1_knocked": "< 1"
+}

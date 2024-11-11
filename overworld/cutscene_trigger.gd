@@ -26,12 +26,13 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	
-	if enabled and one_shot and active_on_enter:
-		var areas = get_overlapping_areas()
-		for area in areas:
-			if area is Gamepiece:
-				run_event( area )
-	elif one_shot and not enabled:
+	#if enabled and one_shot and active_on_enter:
+		#var areas = get_overlapping_areas()
+		#for area in areas:
+			#if area is Gamepiece:
+				#run_event( area )
+	#el
+	if one_shot and not enabled:
 		self.queue_free()
 	pass
 
@@ -71,6 +72,22 @@ func _match_conditions() -> bool:
 		match str(conditions[key]).strip_edges().split(" ")[0]: 
 			"==": ## Equals
 				compare = str(conditions[key]).split("==",true,1)[1]
+				if val == null or val == "<null>":
+					val = 0;
+				if compare == null or compare == "<null>":
+					compare = 0;
+				if str(val).strip_edges().is_valid_int() and str(compare).strip_edges().is_valid_int():
+					invalidated = not (str(val).to_int() == str(compare).to_int())
+				elif str(val).strip_edges().is_valid_float() and str(compare).strip_edges().is_valid_float():
+					invalidated = not (str(val).to_float() == str(compare).to_float())
+				else:
+					invalidated = ( typeof(val) != typeof(compare) )
+			"=": ## Equals 2
+				compare = str(conditions[key]).split("=",true,1)[1]
+				if val == null or val == "<null>":
+					val = 0;
+				if compare == null or compare == "<null>":
+					compare = 0;
 				if str(val).strip_edges().is_valid_int() and str(compare).strip_edges().is_valid_int():
 					invalidated = not (str(val).to_int() == str(compare).to_int())
 				elif str(val).strip_edges().is_valid_float() and str(compare).strip_edges().is_valid_float():
@@ -80,6 +97,10 @@ func _match_conditions() -> bool:
 			
 			"!=": ## Not Equals
 				compare = str(conditions[key]).split("!=",true,1)[1]
+				if val == null or val == "<null>":
+					val = 0;
+				if compare == null or compare == "<null>":
+					compare = 0;
 				if str(val).strip_edges().is_valid_int() and str(compare).strip_edges().is_valid_int():
 					invalidated = not (str(val).to_int() != str(compare).to_int())
 				elif str(val).strip_edges().is_valid_float() and str(compare).strip_edges().is_valid_float():
@@ -90,9 +111,9 @@ func _match_conditions() -> bool:
 			
 			"<": ## Less Than
 				compare = str(conditions[key]).split("<",true,1)[1]
-				if val == null:
+				if val == null or val == "<null>":
 					val = 0;
-				if compare == null:
+				if compare == null or compare == "<null>":
 					compare = 0;
 				if str(val).strip_edges().is_valid_int() and str(compare).strip_edges().is_valid_int():
 					invalidated = not (str(val).to_int() < str(compare).to_int())
@@ -104,9 +125,9 @@ func _match_conditions() -> bool:
 			
 			">": ## Greater Than
 				compare = str(conditions[key]).split(">",true,1)[1]
-				if val == null:
+				if val == null or val == "<null>":
 					val = 0;
-				if compare == null:
+				if compare == null or compare == "<null>":
 					compare = 0;
 				if val is int:
 					invalidated = not (val > compare.to_int())
@@ -118,9 +139,9 @@ func _match_conditions() -> bool:
 			
 			"<=": ## Less Than or Equals
 				compare = str(conditions[key]).split("<=",true,1)[1]
-				if val == null:
+				if val == null or val == "<null>":
 					val = 0;
-				if compare == null:
+				if compare == null or compare == "<null>":
 					compare = 0;
 				if val is int:
 					invalidated = not (val <= compare.to_int())
@@ -132,9 +153,9 @@ func _match_conditions() -> bool:
 			
 			">=": ## Greater Than or Equals
 				compare = str(conditions[key]).split("==",true,1)[1]
-				if val == null:
+				if val == null or val == "<null>":
 					val = 0;
-				if compare == null:
+				if compare == null or compare == "<null>":
 					compare = 0;
 				if val is int:
 					invalidated = not (val >= compare.to_int())
@@ -145,13 +166,15 @@ func _match_conditions() -> bool:
 					print("Warning! Non-integers compared! >=")
 			
 			_: ## Default, same as '==' for now...
-				compare = str(conditions[key]).split("==",true,1)
-				if val is int:
-					invalidated = not (val == compare.to_int())
-				elif val is float:
-					invalidated = not (val == compare.to_float())
+				compare = str(conditions[key])#.split("==",true,1)[1]
+				if str(val).strip_edges().is_valid_int() and str(compare).strip_edges().is_valid_int():
+					invalidated = not (str(val).to_int() == str(compare).to_int())
+				elif str(val).strip_edges().is_valid_float() and str(compare).strip_edges().is_valid_float():
+					invalidated = not (str(val).to_float() == str(compare).to_float())
 				else:
-					invalidated = ( typeof(val) != typeof(compare) )
+					invalidated = ( typeof(val) != typeof(compare) or val == compare)
+		
+		print("cutscene trigger, test relation, ", val, " ={ ", !invalidated ," }= ", compare)
 		
 		if invalidated:
 			return false;

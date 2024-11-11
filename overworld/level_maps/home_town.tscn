@@ -30,6 +30,9 @@ map_index = 4
 [node name="CutsceneTriggerUncle" parent="Board" instance=ExtResource("10_tfrft")]
 position = Vector2(112, 288)
 screenplay = "ch1_uncle_init"
+conditions = {
+"ch1_got_spanner": "== 0"
+}
 
 [node name="GrassDirt" type="TileMapLayer" parent="Board"]
 z_index = -2

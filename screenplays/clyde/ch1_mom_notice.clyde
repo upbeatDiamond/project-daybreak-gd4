@@ -12,3 +12,4 @@ Mom:
 	You: ...? #curious
 	Mom: And no, it can't be your uncle.
 	You: ... #unamused
+{ set @ch1_knocked = 2 }
