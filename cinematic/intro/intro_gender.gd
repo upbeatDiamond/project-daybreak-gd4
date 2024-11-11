@@ -56,6 +56,7 @@ func on_reflect_pressed(_h:=true):
 func store_gender( gender ):
 	if reflect_target != null && reflect_target.has_method( 'on_reflect_kv' ):
 		reflect_target.on_reflect_kv("player_gender", gender);
+	GlobalDatabase.save_keyval("player_gender", gender)
 	pass
 
 func set_reflect_target(n:Node):

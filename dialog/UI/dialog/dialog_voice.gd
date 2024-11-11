@@ -40,7 +40,7 @@ func _ready():
 
 func init(id):
 	voice_id = id
-	var voice_info = GlobalDialog.db_voices[id]
+	var voice_info = GlobalDirector.db_voices[id]
 	rate = voice_info["rate"]
 	pitch = voice_info["pitch"]
 	pitch_range = voice_info["pitch_range"]

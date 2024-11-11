@@ -2,7 +2,8 @@
 Mom: 
 	Ah, ... the floor creaked, so you're awake.
 	When you get a chance, come outside.
-	I've been working on something and I need someone to try it.
+	I've been working on something and I need someone to try it. 
+{ trigger do|the|shiggy|wiggy }
 
 + Me?
 	You: ...? #curious

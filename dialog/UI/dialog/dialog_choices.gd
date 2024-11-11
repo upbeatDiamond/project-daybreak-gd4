@@ -44,7 +44,7 @@ func set_buttons(choices):
 	for i in range(choices.size()):
 		var choice = choices[i]
 		if not ("show_only_if" in choice) or \
-			("show_only_if" in choice and GlobalDialog.is_condition_met(choice["show_only_if"])):
+			("show_only_if" in choice and GlobalDirector.is_condition_met(choice["show_only_if"])):
 			# Show choice button if there is no conditional.
 			# If there is a condition, only show choice if the condition in show_only_if is met.
 			var button = Button.new()
@@ -87,5 +87,5 @@ func _on_button_pressed(index:int, action):
 	if action:
 		for act in action:
 			print("Execute " + act)
-			GlobalDialog.execute(act)
+			GlobalDirector.execute(act)
 	emit_signal("choice_selected", index)

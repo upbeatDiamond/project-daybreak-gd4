@@ -58,14 +58,14 @@ func _input(event):
 		continue_dialog()
 
 func start_dialog(line:Dictionary):
-	GlobalDialog.talking = true
+	GlobalDirector.talking = true
 	talking = true
 	set_curr(line)
 	timer.start()
 	
 func end_dialog():
 	timer.stop()
-	GlobalDialog.talking = false
+	GlobalDirector.talking = false
 	talking = false
 	GlobalDirector._end_current_screenplay()
 	#unfocus_all()
@@ -74,7 +74,7 @@ func end_dialog():
 	
 # Set curr_dialog_node by text id, the current dialog to display.
 func set_curr(line:Dictionary):
-	if line["type"] == GlobalDialog.END_DIALOG_ID:
+	if line["type"] == GlobalDirector.END_DIALOG_ID:
 		end_dialog()
 		emit_signal("dialog_ended", ":(") # FIX: should be id before end.
 	else:
@@ -107,7 +107,7 @@ func set_curr(line:Dictionary):
 		# TODO: Decide whether actions should be executed at start or end of dialog.
 		# Currently, executes actions at start of dialog, but after initialization of dialog.
 		for act in curr_dialog_node.action:
-			GlobalDialog.execute(act)
+			GlobalDirector.execute(act)
 		
 # Resizes dialog UI to fit content.
 func resize_control_nodes():

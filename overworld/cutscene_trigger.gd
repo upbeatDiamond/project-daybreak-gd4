@@ -39,7 +39,7 @@ func _process(delta: float) -> void:
 func run_event( gamepiece:Gamepiece ):
 	
 	# Early exit, to decrease ability for multiple cutscenes to occur at once
-	if GlobalDialog.is_paused():
+	if GlobalDirector.is_paused():
 		return
 	var areas = get_overlapping_areas()
 	if (gamepiece not in areas) or not enabled:
