@@ -32,3 +32,10 @@ Olearia: Someone's right behind me, aren't they?
 \?\?\? (Blue): I guess this is something we do now.
 \?\?\? (Green): We'll give it our all, then!
 
+== Win Fight
+
+{ set @ch1_finished_encounter = 1 }
+
+== Lose Fight
+
+{ set @ch1_finished_encounter = 1 }

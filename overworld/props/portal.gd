@@ -1,4 +1,4 @@
-extends Area2D
+extends EventArea
 class_name Portal
 
 @export var width := 1 :

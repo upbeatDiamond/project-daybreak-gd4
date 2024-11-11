@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=4 uid="uid://bbsa442x4jkgr"]
+[gd_scene load_steps=17 format=4 uid="uid://bbsa442x4jkgr"]
 
 [ext_resource type="Script" path="res://overworld/level_maps/level_map.gd" id="1_wg0ev"]
 [ext_resource type="PackedScene" uid="uid://bh1lpfwqyuqvt" path="res://overworld/props/ledge.tscn" id="2_hf63k"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://overworld/warp_anchor_container.gd" id="8_xtb47"]
 [ext_resource type="Script" path="res://overworld/props/warp_anchor.gd" id="9_ykrbc"]
 [ext_resource type="PackedScene" uid="uid://bx61t5b2ntp6r" path="res://overworld/buildings/house_2x3.tscn" id="10_m3vie"]
+[ext_resource type="PackedScene" uid="uid://bmqnf3wsehu3h" path="res://overworld/cutscene_trigger.tscn" id="12_0nmor"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_jqqqx"]
 vertices = PackedVector2Array(-2, 7, -21, 7, -20.5938, -36, -2, 4, -2, 0, -2, -4, -2, -8, -2, -12, -2, -16, -2, -20, -18, -36, -2, -24, -6, -28, -2, -28, -14, -36, -6, -32, -10, -36, -6, -36, 66, -36, 73, 7, 18, 7, 18, 4, 62, -36, 18, 0, 18, -4, 22, -4, 22, -24, 22, -28, 26, -28, 26, -32, 30, -32, 30, -36, 34, -36, 66, -40, 69.4531, -40, 58, -36, 54, -36, 22, -8, 50, -36, 22, -12, 46, -36, 22, -16, 42, -36, 22, -20, 38, -36, -18, -60, -20.3672, -60, -20, -99, 14, -99, 14, -96, -10, -68, 14, -68, 14, -64, 10, -64, -2, -64, -6, -64, -6, -68, -10, -64, -10, -60, -14, -60, 14, -72, 6, -64, 14, -76, 2, -64, 14, -80, 14, -84, 14, -88, 14, -92, 65, -99, 65.8281, -88, 62, -88, 30, -99, 58, -88, 30, -96, 30, -92, 30, -88, 58, -84, 54, -84, 30, -84, 54, -80, 30, -80, 54, -76, 50, -76, 50, -72, 46, -72, 42, -72, 34, -76, 38, -72, 34, -72, 30, -76, 66.1328, -84, 66, -84, 66, -85.75, 58, -76, 58, -80, 62, -80, 66, -76, 66, -80, 58, -72, 66, -72, 58, -68, 66, -68, 58, -64, 66, -64, 66, -60, 54, -64, 66, -52, 66, -48, 62, -48, 50, -64, -8, -48, -8, -52, -6, -52, 62, -44, 58, -44, 54, -44, 54, -40, 50, -40, 46, -40, 42, -40, 38, -40, 34, -40, 30, -40, 26, -40, 22, -40, 22, -36, 22, -32, 18, -32, 18, -16, 18, -12, 14, -12, 14, 0, 14, 4, 10, 4, 6, 4, 2, 4, 2, 0, 14, -4, 2, -32, -2, -32, -2, -36, -14, -40, -18, -40, -18, -44, -18, -52, -18, -56, -14, -56, -10, -56, -6, -56, -2, -56, -2, -60, 2, -60, 18, -96, 18, -99, 26, -99, 26, -96, 26, -92, 18, -92, 26, -88, 18, -88, 26, -84, 18, -84, 26, -80, 18, -80, 26, -76, 18, -76, 26, -72, 18, -72, 26, -68, 18, -68, 26, -64, 18, -64, 18, -60, 66, -56, 18, -28, 18, -24, 18, -20, -2, -40, 46, -64, 42, -64, 2, -16, 2, -12, 2, -4, 14, -8, 2, -8, 2, -20, 2, -24, 2, -28, -10, -40, -18, -48, -6, -40, -14, -52, -2, -52, 6, -60, 10, -60, 38, -64, 34, -64, -14, -48, 14, -60, 30, -64)
@@ -747,23 +748,6 @@ tile_set = SubResource("TileSet_d1g0t")
 
 [node name="Objects" type="Node" parent="." groups=["navigation_polygon_source"]]
 
-[node name="Portal" parent="Objects" instance=ExtResource("4_q6ugm")]
-position = Vector2(128, 896)
-scale = Vector2(8, 8)
-map = "res://overworld/level_maps/home_town.tscn"
-target_anchor_name = "RouteToRed"
-target_position = Vector2i(208, 64)
-target_facing = Vector2i(0, 1)
-portal_id = 1
-
-[node name="Portal2" parent="Objects" instance=ExtResource("4_q6ugm")]
-position = Vector2(592, 320)
-scale = Vector2(4, 4)
-map = "res://overworld/level_maps/red_town.tscn"
-target_anchor_name = "ToRouteHome"
-target_facing = Vector2i(0, -1)
-portal_id = 2
-
 [node name="Ledge" parent="Objects" instance=ExtResource("2_hf63k")]
 position = Vector2(272, 432)
 length = 4
@@ -1173,8 +1157,44 @@ anchor_name = "ToTownHome"
 facing_direction = Vector2i(0, -1)
 
 [node name="WarpTownRed" type="Marker2D" parent="Anchors"]
-position = Vector2(624, 464)
+position = Vector2(624, 400)
 gizmo_extents = 16.0
 script = ExtResource("9_ykrbc")
 anchor_name = "ToTownRed"
 facing_direction = Vector2i(0, 1)
+
+[node name="Triggers" type="Node" parent="."]
+
+[node name="Portal" parent="Triggers" instance=ExtResource("4_q6ugm")]
+position = Vector2(128, 896)
+scale = Vector2(8, 8)
+map = "res://overworld/level_maps/home_town.tscn"
+target_anchor_name = "RouteToRed"
+target_position = Vector2i(208, 64)
+target_facing = Vector2i(0, 1)
+portal_id = 1
+
+[node name="Portal2" parent="Triggers" instance=ExtResource("4_q6ugm")]
+position = Vector2(592, 320)
+scale = Vector2(4, 4)
+map = "res://overworld/level_maps/red_town.tscn"
+target_anchor_name = "ToRouteHome"
+target_facing = Vector2i(0, -1)
+portal_id = 2
+
+[node name="CutsceneTriggerEntry" parent="Triggers" instance=ExtResource("12_0nmor")]
+position = Vector2(144, 736)
+scale = Vector2(4, 1)
+screenplay = "ch1_encounter_first"
+conditions = {
+"ch1_got_spanner": "== 0"
+}
+
+[node name="CutsceneTriggerEntry2" parent="Triggers" instance=ExtResource("12_0nmor")]
+position = Vector2(144, 832)
+scale = Vector2(4, 1)
+screenplay = "ch1_encounter_first"
+scene = "Walk Back"
+conditions = {
+"ch1_got_spanner": "== 0"
+}
