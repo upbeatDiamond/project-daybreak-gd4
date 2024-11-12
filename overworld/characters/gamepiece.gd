@@ -261,9 +261,9 @@ func _check_interior_event_collision():
 
 
 func _update_sprites():
-	gfx.find_child("SpriteBase").texture = 
-	gfx.find_child("SpriteAccent").texture = 
-	gfx.find_child("SpriteClothes").texture = 
+	#gfx.find_child("SpriteBase").texture = 
+	#gfx.find_child("SpriteAccent").texture = 
+	#gfx.find_child("SpriteClothes").texture = 
 	pass
 
 
