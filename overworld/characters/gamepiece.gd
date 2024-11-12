@@ -260,6 +260,13 @@ func _check_interior_event_collision():
 	pass
 
 
+func _update_sprites():
+	gfx.find_child("SpriteBase").texture = 
+	gfx.find_child("SpriteAccent").texture = 
+	gfx.find_child("SpriteClothes").texture = 
+	pass
+
+
 # Not the same as move, used for in-map teleportation.
 func shift_to_target( target:Vector2i ):
 	var new_position = GlobalRuntime.snap_to_grid_corner_f( target )
@@ -350,6 +357,8 @@ func set_teleport(loci: Vector2i, direction: Vector2i, map:="", anchor_name:="",
 	controller.finalize_map_change( pause_prior, silent )
 
 
+# Among Us reference?
+# Remove or modify other gamepieces which are too similar, to halt player cloning
 func kill_imposters():
 	var other_pieces = get_tree().get_nodes_in_group("gamepiece")
 	for piece in other_pieces:

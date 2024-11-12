@@ -1,11 +1,9 @@
-[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://cgic7oddr34y"]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cgic7oddr34y"]
 
 [ext_resource type="Shader" path="res://addons/palette_swap/PaletteSwap.gdshader" id="1_ca1ht"]
-[ext_resource type="Texture2D" uid="uid://dylhuv7shgxlc" path="res://assets/textures/monsters/overworld/human/human_palette_hair_common.png" id="2_4bpfs"]
 
 [resource]
 shader = ExtResource("1_ca1ht")
 shader_parameter/skip_first_row = true
 shader_parameter/use_palette_alpha = false
 shader_parameter/fps = 6.0
-shader_parameter/palette = ExtResource("2_4bpfs")

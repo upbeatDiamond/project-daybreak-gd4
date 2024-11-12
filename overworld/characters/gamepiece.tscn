@@ -1,8 +1,7 @@
-[gd_scene load_steps=41 format=3 uid="uid://dsk04vtyuk6hu"]
+[gd_scene load_steps=40 format=3 uid="uid://dsk04vtyuk6hu"]
 
 [ext_resource type="Script" path="res://overworld/characters/gamepiece.gd" id="1_6sn36"]
 [ext_resource type="Shader" path="res://addons/palette_swap/PaletteSwap.gdshader" id="2_45ku8"]
-[ext_resource type="Texture2D" uid="uid://bdsybre63ash0" path="res://assets/textures/monsters/overworld/human/human_palette_common.png" id="3_kpi24"]
 [ext_resource type="Texture2D" uid="uid://dx0fdi2x8l2sg" path="res://assets/textures/monsters/overworld/human/human_base_skin.png" id="4_hefom"]
 [ext_resource type="Texture2D" uid="uid://dqqvuscifl2jy" path="res://assets/textures/monsters/overworld/human/human_base_hair.png" id="5_4hrmo"]
 [ext_resource type="Material" uid="uid://cgic7oddr34y" path="res://overworld/characters/gamepiece_palette.tres" id="5_5hb6f"]
@@ -16,7 +15,6 @@ shader = ExtResource("2_45ku8")
 shader_parameter/skip_first_row = true
 shader_parameter/use_palette_alpha = false
 shader_parameter/fps = 1.0
-shader_parameter/palette = ExtResource("3_kpi24")
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bqt0l"]
 animation = &"idle_down"
@@ -180,6 +178,15 @@ _data = {
 y_sort_enabled = true
 collision_layer = 2
 script = ExtResource("1_6sn36")
+unique_id = null
+umid = null
+treat_as_player = null
+is_local_player = null
+facing_direction = null
+current_map = null
+current_position = null
+target_map = null
+target_position = null
 
 [node name="Controller" type="Node" parent="."]
 
@@ -215,6 +222,7 @@ hframes = 7
 vframes = 4
 
 [node name="SpriteClothes" type="Sprite2D" parent="GFX"]
+material = ExtResource("5_5hb6f")
 position = Vector2(8, 0)
 texture = ExtResource("6_8gwl6")
 hframes = 7
