@@ -68,23 +68,24 @@ func _physics_process(_delta):
 func _autonav_next_move() -> Vector2:
 	if navigation_agent_2d == null:
 		navigation_agent_2d = NavigationAgent2D.new()
-		self.add_child(navigation_agent_2d)
+		self.get_parent().add_child(navigation_agent_2d)
 	elif navigation_agent_2d.get_parent() != self.get_parent():
 		navigation_agent_2d.reparent(self.get_parent())
 	
-	# redundant?
-	if navigation_agent_2d != null:
-		#get_global_mouse_position needs a CanvasItem
-		#var mouse_position = gamepiece.get_global_mouse_position() - gamepiece.global_position
-		navigation_agent_2d.target_position = target_position
-		
-		var current_agent_position = gamepiece.global_position
-		var next_path_position = navigation_agent_2d.get_next_path_position()
-		var new_direction = current_agent_position.direction_to(next_path_position)
-		
-		print(new_direction, " % ", target_position)
-		
-		return new_direction
+	navigation_agent_2d.target_position = target_position
+	
+	if abs(get_parent().global_position.x - target_position.x) <= GlobalRuntime.DEFAULT_TILE_SIZE/2 and\
+		abs(get_parent().global_position.y - target_position.y) <= GlobalRuntime.DEFAULT_TILE_SIZE/2 :
+		nav_mode = NavigationMode.KEYBOARD_LOCAL
+		return Vector2.ZERO
+	
+	var current_agent_position = gamepiece.global_position
+	var next_path_position = navigation_agent_2d.get_next_path_position()
+	var new_direction = current_agent_position.direction_to(next_path_position)
+	
+	print(new_direction, " % ", target_position)
+	
+	return new_direction
 
 	return Vector2.ZERO
 
