@@ -85,6 +85,11 @@ func _autonav_next_move() -> Vector2:
 	
 	print(new_direction, " % ", target_position)
 	
+	# Quick patch, because sometimes the navigation agent gets stuck on corners?
+	var bonk = await gamepiece._peek_exterior_collision(new_direction * gamepiece.facing_direction.abs())
+	if bonk:
+		new_direction = new_direction * Vector2( abs(gamepiece.facing_direction.y), abs(gamepiece.facing_direction.x) )
+	
 	return new_direction
 
 	return Vector2.ZERO
@@ -95,7 +100,8 @@ func _handle_movement_direction() -> Vector2:
 		NavigationMode.KEYBOARD_LOCAL:
 			return Input.get_vector("player_left", "player_right", "player_up", "player_down")
 		NavigationMode.AUTONAV:
-			return _autonav_next_move()
+			var autonav  = await _autonav_next_move()
+			return autonav
 	return Vector2.ZERO
 
 
@@ -111,7 +117,7 @@ func _handle_movement_running() -> bool:
 
 func handle_movement_input():
 	if !gamepiece.is_paused and !GlobalRuntime.gameworld_input_stopped:
-		var input_direction = _handle_movement_direction()#Input.get_vector("player_left", "player_right", "player_up", "player_down")
+		var input_direction = await _handle_movement_direction()#Input.get_vector("player_left", "player_right", "player_up", "player_down")
 		
 		if input_direction == Vector2.ZERO:
 			return

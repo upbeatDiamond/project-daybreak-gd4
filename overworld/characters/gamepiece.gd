@@ -172,7 +172,6 @@ func update_rays( direction : Vector2 ):
 
 
 func move( direction ):
-	
 	if direction is Movement:
 		traversal_mode = direction.method
 		direction = direction.to_cell_vector2f()
@@ -249,6 +248,15 @@ func _check_exterior_event_collision(direction:Vector2):
 			print(colliding_with)
 		await get_tree().process_frame
 	pass
+
+
+func _peek_exterior_collision(direction:Vector2):
+	update_rays(direction)
+	await get_tree().process_frame
+	
+	if block_ray.is_colliding():
+		return true
+	return false
 
 """
 	Check for entering an event; used for redundancy & access of other classes.
