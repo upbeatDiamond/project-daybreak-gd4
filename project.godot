@@ -29,6 +29,7 @@ GlobalRuntime="*res://global/global_runtime.gd"
 GlobalGamepieceTransfer="*res://global/global_gamepiece_transfer.gd"
 GlobalDayCycle="*res://global/global_day_cycle.gd"
 GlobalDirector="*res://global/global_director.gd"
+CommandServer="*res://addons/command-terminal/src/CommandServer.gd"
 
 [display]
 
@@ -40,7 +41,7 @@ project/assembly_name="ProjectDaybreakGD4"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/clyde/plugin.cfg", "res://addons/godot-sqlite/plugin.cfg")
+enabled=PackedStringArray("res://addons/clyde/plugin.cfg", "res://addons/db_import/plugin.cfg", "res://addons/godot-sqlite/plugin.cfg")
 
 [filesystem]
 
