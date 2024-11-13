@@ -229,3 +229,9 @@ parameters/Walk/blend_position = Vector2(-0.0274964, -0.301587)
 libraries = {
 "": SubResource("AnimationLibrary_kp116")
 }
+
+[node name="NavigationAgent" type="NavigationAgent2D" parent="."]
+path_desired_distance = 8.0
+target_desired_distance = 7.0
+path_max_distance = 64.0
+debug_enabled = true

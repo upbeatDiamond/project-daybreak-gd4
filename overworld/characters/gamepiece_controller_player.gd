@@ -5,6 +5,16 @@ var INPUT_COOLDOWN_DEFAULT:float = 6.5;
 var input_cooldown := 0.0
 @onready var navigation_agent_2d : NavigationAgent2D
 var is_rendered := false
+var target_position = Vector2(0,0)
+
+enum NavigationMode{
+	KEYBOARD_LOCAL = 0,
+	KEYBOARD_STREAMED,
+	AUTONAV
+}
+
+var nav_mode := NavigationMode.KEYBOARD_LOCAL
+
 
 func _ready() -> void:
 	if gamepiece == null:
@@ -55,22 +65,79 @@ func _physics_process(_delta):
 	#print( "controller thinks moving = %d", gamepiece.is_moving )
 
 
+func _autonav_next_move() -> Vector2:
+	if navigation_agent_2d == null:
+		navigation_agent_2d = NavigationAgent2D.new()
+		self.add_child(navigation_agent_2d)
+	elif navigation_agent_2d.get_parent() != self.get_parent():
+		navigation_agent_2d.reparent(self.get_parent())
+	
+	# redundant?
+	if navigation_agent_2d != null:
+		#get_global_mouse_position needs a CanvasItem
+		#var mouse_position = gamepiece.get_global_mouse_position() - gamepiece.global_position
+		navigation_agent_2d.target_position = target_position
+		
+		var current_agent_position = gamepiece.global_position
+		var next_path_position = navigation_agent_2d.get_next_path_position()
+		var new_direction = current_agent_position.direction_to(next_path_position)
+		
+		print(new_direction, " % ", target_position)
+		
+		return new_direction
+
+	return Vector2.ZERO
+
+
+func _handle_movement_direction() -> Vector2:
+	match nav_mode:
+		NavigationMode.KEYBOARD_LOCAL:
+			return Input.get_vector("player_left", "player_right", "player_up", "player_down")
+		NavigationMode.AUTONAV:
+			return _autonav_next_move()
+	return Vector2.ZERO
+
+
+func _handle_movement_running() -> bool:
+	match nav_mode:
+		NavigationMode.KEYBOARD_LOCAL:
+			return Input.is_action_pressed("ui_fast")
+		NavigationMode.AUTONAV:
+			return false
+	return false
+
+
+
 func handle_movement_input():
 	if !gamepiece.is_paused and !GlobalRuntime.gameworld_input_stopped:
-		var input_direction = Input.get_vector("player_left", "player_right", "player_up", "player_down")
+		var input_direction = _handle_movement_direction()#Input.get_vector("player_left", "player_right", "player_up", "player_down")
 		
 		if input_direction == Vector2.ZERO:
 			return
 		
 		# This section deals with some diagonal inputs contextually
+		# If x and y are not equal, choose the greater.
+		# Else, change direction so the character moves zig-zag
+		# Else, follow the direction the character is facing, if X and Y are 0 or NaN.
+		if (abs(input_direction.x) > abs(input_direction.y)):
+			input_direction = Vector2(sign(input_direction.x), 0)
+		elif (abs(input_direction.x) < abs(input_direction.y)):
+			input_direction = Vector2(0, sign(input_direction.y))
+		elif ( abs(gamepiece.facing_direction.x) > 0 ):
+			input_direction = Vector2(0, sign(input_direction.y))
+		elif ( abs(gamepiece.facing_direction.x) > 0 ):
+			input_direction = Vector2(sign(input_direction.x), 0)
+			
+		# Zig-zag?
 		if (input_direction.x != 0) && (input_direction.y != 0) && (input_direction != Vector2.ZERO):
-			input_direction = gamepiece.facing_direction;
+			input_direction = Vector2( sign(input_direction.x)*abs(gamepiece.facing_direction.y), sign(input_direction.y)*abs(gamepiece.facing_direction.x));
+		
 		
 		var movement := Movement.new( input_direction )
 		
 		gamepiece.facing_direction = input_direction;
 		
-		var is_running = Input.is_action_pressed("ui_fast")
+		var is_running = _handle_movement_running()#Input.is_action_pressed("ui_fast")
 		if is_running:
 			movement.method = gamepiece.TraversalMode.RUNNING
 		elif Vector2i(gamepiece.facing_direction) != movement.to_facing_vector2i():

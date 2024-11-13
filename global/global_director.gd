@@ -71,6 +71,12 @@ func _start_current_screenplay():
 
 func get_next_line() -> Dictionary:
 	next_line = clyde.get_content()
+	
+	if next_line["type"] == "line" and next_line.has("speaker") \
+	and next_line["speaker"] == "!do" and next_line.has("text"):
+		do_string(next_line["text"])
+		return get_next_line()
+	
 	if next_line.has("speaker"):
 		if next_line["speaker"] == null:
 			next_line["speaker"] = ""
@@ -174,15 +180,16 @@ func set_key_value( key:String, value ):
 """
 func do_string(do:String):
 	do = do + " "
-	var d = do.split( )[0]
+	var parameters = do.split(" ")
+	var d = parameters[0]
 	
 	match d:
 		"walk_at": #navigate to anchor
 			pass
 		"walk_pos": #navigate to coordinate
+			return ev_walk_pos(parameters[1], parameters[2], parameters[3])
 			pass
 	pass
-
 
 
 # Parameters:
@@ -191,6 +198,18 @@ func ev_wait( parameters ):
 	if parameters.has("duration"):
 		await get_tree().create_timer( parameters["duration"] ).timeout
 		
+
+# Parameters:
+# duration - length in seconds to wait for
+func ev_walk_pos( gp:String, x, y ):
+	
+	for piece in get_tree().get_nodes_in_group("gamepiece"):
+		piece.find_child("*ontrol*").target_position = Vector2(str(x).to_int(), str(y).to_int())
+		piece.find_child("*ontrol*").set("nav_mode", 2)
+		pass
+	
+	pass
+
 
 """
 Simple Global variables.

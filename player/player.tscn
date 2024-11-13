@@ -652,7 +652,7 @@ _data = {
 "walk_up": SubResource("Animation_t5jui")
 }
 
-[node name="Player" type="Area2D"]
+[node name="Player" type="Area2D" groups=["gamepiece"]]
 collision_layer = 2
 script = ExtResource("1_6lhpg")
 unique_id = 0

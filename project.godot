@@ -51,6 +51,7 @@ import/blender/enabled=false
 
 event_exterior="Activates by a gamepiece bumping or touching; needs to have a run_event( gamepiece:Gamepiece ) function to avoid crashes"
 event_interior="Activates by a gamepiece entering or overlapping; needs to have a run_event( gamepiece:Gamepiece ) function to avoid crashes"
+gamepiece=""
 
 [input]
 

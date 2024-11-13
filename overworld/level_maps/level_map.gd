@@ -74,6 +74,7 @@ func place_gamepieces( gamepieces:Array ):
 		current_gamepieces.append(piece)
 		
 		ysort.add_child(piece)
+		piece.add_to_group("gamepiece")
 		
 		piece.global_position = piece.current_position
 		print("placing gamepiece at co-ord ~ ", piece.global_position, piece.current_position)
