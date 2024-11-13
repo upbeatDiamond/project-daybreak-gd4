@@ -926,13 +926,6 @@ position = Vector2(-176, -160)
 
 [node name="Player" parent="Objects/Y-Sort" instance=ExtResource("5_17bh2")]
 position = Vector2(-80, -64)
-treat_as_player = null
-is_local_player = null
-facing_direction = null
-current_map = null
-current_position = null
-target_map = null
-target_position = null
 
 [node name="Camera2D" type="Camera2D" parent="."]
 visible = false
