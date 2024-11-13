@@ -2,15 +2,15 @@
 
 [ext_resource type="Script" path="res://overworld/characters/gamepiece.gd" id="1_6lhpg"]
 [ext_resource type="Shader" path="res://addons/palette_swap/PaletteSwap.gdshader" id="3_4kwqf"]
-[ext_resource type="Texture2D" uid="uid://dx0fdi2x8l2sg" path="res://assets/textures/monsters/overworld/human/human_base_skin.png" id="3_ne36o"]
 [ext_resource type="Script" path="res://overworld/characters/gamepiece_controller_player.gd" id="3_wmhfs"]
-[ext_resource type="Texture2D" uid="uid://dqqvuscifl2jy" path="res://assets/textures/monsters/overworld/human/human_base_hair.png" id="4_p6uxo"]
-[ext_resource type="Texture2D" uid="uid://bdsybre63ash0" path="res://assets/textures/monsters/overworld/human/human_palette_common.png" id="4_x3ef0"]
-[ext_resource type="Texture2D" uid="uid://c6vun4q1ywn8g" path="res://assets/textures/monsters/overworld/human/human_base_clothes.png" id="5_if88j"]
-[ext_resource type="Texture2D" uid="uid://dylhuv7shgxlc" path="res://assets/textures/monsters/overworld/human/human_palette_hair_common.png" id="6_r6k5l"]
+[ext_resource type="Texture2D" uid="uid://c2pfjadbo0k48" path="res://assets/textures/mon/overworld/human_adult/palette_base_common.png" id="4_x3ef0"]
+[ext_resource type="Texture2D" uid="uid://bch2pvuu2u4qm" path="res://assets/textures/mon/overworld/human_adult/base.png" id="5_trbop"]
+[ext_resource type="Texture2D" uid="uid://di2n8vqtpbief" path="res://assets/textures/mon/overworld/human_adult/palette_accent_common.png" id="6_r6k5l"]
+[ext_resource type="Texture2D" uid="uid://dch2u5eg2nv60" path="res://assets/textures/mon/overworld/human_adult/accent.png" id="7_eqgx1"]
+[ext_resource type="Texture2D" uid="uid://ce8fkya72xm21" path="res://assets/textures/mon/overworld/human_adult/dress.png" id="8_heyg8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v1cr0"]
-size = Vector2(15, 15)
+size = Vector2(16, 16)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fcjf6"]
 shader = ExtResource("3_4kwqf")
@@ -689,7 +689,7 @@ visible = false
 [node name="SpriteBase" type="Sprite2D" parent="GFX"]
 material = SubResource("ShaderMaterial_fcjf6")
 position = Vector2(8, 0)
-texture = ExtResource("3_ne36o")
+texture = ExtResource("5_trbop")
 hframes = 7
 vframes = 4
 frame = 7
@@ -698,7 +698,7 @@ frame = 7
 visible = false
 material = SubResource("ShaderMaterial_gb16k")
 position = Vector2(8, 0)
-texture = ExtResource("4_p6uxo")
+texture = ExtResource("7_eqgx1")
 hframes = 7
 vframes = 4
 frame = 7
@@ -706,7 +706,7 @@ frame = 7
 [node name="SpriteClothes" type="Sprite2D" parent="GFX"]
 visible = false
 position = Vector2(8, 0)
-texture = ExtResource("5_if88j")
+texture = ExtResource("8_heyg8")
 hframes = 7
 vframes = 4
 frame = 7

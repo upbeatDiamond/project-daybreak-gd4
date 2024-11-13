@@ -3,12 +3,11 @@
 importer="db.importer.wowzers"
 type="Database"
 uid="uid://c2221s5wudeeb"
-path="res://.godot/imported/patchdata.db-f826cb080b99d73c3bc108d4522a8195.res"
+valid=false
 
 [deps]
 
 source_file="res://database/patchdata.db"
-dest_files=["res://.godot/imported/patchdata.db-f826cb080b99d73c3bc108d4522a8195.res"]
 
 [params]
 

@@ -38,6 +38,7 @@ var table_name_monster := "monster"
 var table_name_user_monster := "monster"
 var table_name_user_gamepiece := "gamepiece"
 var table_name_keyval := "variables"
+var table_name_species := "species"
 #var table_name_player := "person"
 #var table_name_relationship := "character"
 
@@ -96,6 +97,7 @@ var tkpv_level_map = {
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -218,6 +220,7 @@ func save_monster( monster ):
 	else:
 		store_monster( monster )
 
+
 # Contains code to save monster character to database
 func update_monster( monster ):
 	database_to_game( monster, tkpv_monster, db_name_user_stage, table_name_monster, \
@@ -267,6 +270,16 @@ func save_player_data():
 
 func load_player_data():
 	pass
+
+
+func fetch_dex_from_index(species:int, row_array:Array[String]=["tag"]) -> Array:
+	db = SQLite.new()
+	db.path = db_name_patch_base
+	db.open_db()
+	
+	var query_result = db.select_rows( table_name_species, str("species_ID = ", species), row_array );
+	db.close_db()
+	return query_result
 
 
 # Does not use game_to_database because GtDB is for objects and looks iffy.
@@ -371,8 +384,10 @@ func reset_save_file() -> void:
 	db_reset.close_db()
 	#db_commit.close_db()
 
+
 func does_save_exist() -> bool:
 	return FileAccess.file_exists(str(db_name_user_stage, ".db"))
+
 
 # Loads the player, and the last map the player was known to be in, and returns the map path
 # In the future, may also update the in-game clock settings and trickle down save data

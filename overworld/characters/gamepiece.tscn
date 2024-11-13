@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" path="res://overworld/characters/gamepiece.gd" id="1_6sn36"]
 [ext_resource type="Shader" path="res://addons/palette_swap/PaletteSwap.gdshader" id="2_45ku8"]
-[ext_resource type="Texture2D" uid="uid://dx0fdi2x8l2sg" path="res://assets/textures/monsters/overworld/human/human_base_skin.png" id="4_hefom"]
-[ext_resource type="Texture2D" uid="uid://dqqvuscifl2jy" path="res://assets/textures/monsters/overworld/human/human_base_hair.png" id="5_4hrmo"]
+[ext_resource type="Texture2D" uid="uid://bch2pvuu2u4qm" path="res://assets/textures/mon/overworld/human_adult/base.png" id="3_jcyox"]
 [ext_resource type="Material" uid="uid://cgic7oddr34y" path="res://overworld/characters/gamepiece_palette.tres" id="5_5hb6f"]
-[ext_resource type="Texture2D" uid="uid://c6vun4q1ywn8g" path="res://assets/textures/monsters/overworld/human/human_base_clothes.png" id="6_8gwl6"]
+[ext_resource type="Texture2D" uid="uid://dch2u5eg2nv60" path="res://assets/textures/mon/overworld/human_adult/accent.png" id="5_h8kjf"]
+[ext_resource type="Texture2D" uid="uid://ce8fkya72xm21" path="res://assets/textures/mon/overworld/human_adult/dress.png" id="6_1ioaa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v1cr0"]
 size = Vector2(16, 16)
@@ -201,21 +201,21 @@ visible = false
 [node name="SpriteBase" type="Sprite2D" parent="GFX"]
 material = SubResource("ShaderMaterial_il7i3")
 position = Vector2(8, 0)
-texture = ExtResource("4_hefom")
+texture = ExtResource("3_jcyox")
 hframes = 7
 vframes = 4
 
 [node name="SpriteAccent" type="Sprite2D" parent="GFX"]
 material = ExtResource("5_5hb6f")
 position = Vector2(8, 0)
-texture = ExtResource("5_4hrmo")
+texture = ExtResource("5_h8kjf")
 hframes = 7
 vframes = 4
 
 [node name="SpriteClothes" type="Sprite2D" parent="GFX"]
 material = ExtResource("5_5hb6f")
 position = Vector2(8, 0)
-texture = ExtResource("6_8gwl6")
+texture = ExtResource("6_1ioaa")
 hframes = 7
 vframes = 4
 

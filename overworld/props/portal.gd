@@ -49,5 +49,10 @@ func validate_keycard(gp:Gamepiece) -> bool:
 
 
 func run_event( area ):
+	
+	# Early exit, to enable portals to be disabled
+	if not _match_conditions():
+		return
+	
 	if (area is Gamepiece or area.is_in_group("gamepiece")) and validate_keycard(area):
 		area.set_teleport(target_position, target_facing, map, target_anchor_name)

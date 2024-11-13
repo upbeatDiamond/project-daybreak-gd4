@@ -14,7 +14,7 @@ class_name Monster
 
 
 	# Either reference ID for species base info, or storage of summary 
-var species := -1
+var species := 254
 
 	# Either reference ID for ability info, or storage of object
 var ability = ""

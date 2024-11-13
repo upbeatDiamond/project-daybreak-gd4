@@ -264,9 +264,25 @@ func _check_interior_event_collision():
 
 
 func _update_sprites():
-	#gfx.find_child("SpriteBase").texture = 
-	#gfx.find_child("SpriteAccent").texture = 
-	#gfx.find_child("SpriteClothes").texture = 
+	
+	var tag = GlobalDatabase.fetch_dex_from_index(monster.species, ["tag"]).pop_front()
+	if tag == null:
+		return
+	if tag is Dictionary:
+		tag = tag["tag"]
+	
+	var addr_accent = str("res://assets/textures/mon/overworld/", tag ,"/accent.png")
+	var addr_base = str("res://assets/textures/mon/overworld/", tag ,"/base.png")
+	var addr_dress = str("res://assets/textures/mon/overworld/", tag ,"/dress.png")
+	var sprite_base = load(addr_base)
+	var sprite_accent = load(addr_accent)
+	var sprite_dress = load(addr_dress)
+	if sprite_base != null:
+		gfx.find_child("SpriteBase").texture = sprite_base
+	if sprite_accent != null:
+		gfx.find_child("SpriteAccent").texture = sprite_accent
+	if sprite_dress != null:
+		gfx.find_child("SpriteClothes").texture = sprite_dress
 	pass
 
 
