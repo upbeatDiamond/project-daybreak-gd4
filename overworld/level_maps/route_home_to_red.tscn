@@ -1,10 +1,12 @@
-[gd_scene load_steps=17 format=4 uid="uid://bbsa442x4jkgr"]
+[gd_scene load_steps=20 format=4 uid="uid://bbsa442x4jkgr"]
 
 [ext_resource type="Script" path="res://overworld/level_maps/level_map.gd" id="1_wg0ev"]
 [ext_resource type="PackedScene" uid="uid://bh1lpfwqyuqvt" path="res://overworld/props/ledge.tscn" id="2_hf63k"]
 [ext_resource type="Texture2D" uid="uid://claaq3m3x57i0" path="res://assets/textures/tilesets/dirtgrass_mauvetown.png" id="2_vli2d"]
 [ext_resource type="Texture2D" uid="uid://dg30v1evln7gc" path="res://assets/textures/tilesets/dirt_elevated.png" id="3_l56w4"]
+[ext_resource type="Shader" path="res://overworld/level_maps/route_home_to_red_fog.gdshader" id="4_342ik"]
 [ext_resource type="PackedScene" uid="uid://dup7lwhlludsr" path="res://overworld/props/portal.tscn" id="4_q6ugm"]
+[ext_resource type="Texture2D" uid="uid://dnvl8gcvcbf4o" path="res://assets/textures/overworld/fog.png" id="5_0gch1"]
 [ext_resource type="PackedScene" uid="uid://cvajri3ppp8k" path="res://overworld/props/tree.tscn" id="6_3ac02"]
 [ext_resource type="PackedScene" uid="uid://db2gcrrcc6uej" path="res://overworld/props/tall_grass.tscn" id="7_n5ydw"]
 [ext_resource type="PackedScene" uid="uid://crk1pu5pxjnen" path="res://common/daylight_cycle_filter.tscn" id="8_0h04j"]
@@ -723,6 +725,10 @@ custom_data_layer_2/type = 0
 sources/0 = SubResource("TileSetAtlasSource_oy114")
 sources/1 = SubResource("TileSetAtlasSource_5t3mx")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c85oa"]
+shader = ExtResource("4_342ik")
+shader_parameter/scroll_speed = Vector2(0.1, -0.05)
+
 [node name="RouteToRed" type="Node2D"]
 position = Vector2(48, 0)
 script = ExtResource("1_wg0ev")
@@ -745,6 +751,12 @@ tile_set = SubResource("TileSet_d1g0t")
 z_index = -1
 use_parent_material = true
 tile_set = SubResource("TileSet_d1g0t")
+
+[node name="Fog" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_c85oa")
+position = Vector2(248, 584)
+scale = Vector2(1.18842, -2.03753)
+texture = ExtResource("5_0gch1")
 
 [node name="Objects" type="Node" parent="." groups=["navigation_polygon_source"]]
 
@@ -1173,6 +1185,9 @@ target_anchor_name = "RouteToRed"
 target_position = Vector2i(208, 64)
 target_facing = Vector2i(0, 1)
 portal_id = 1
+conditions = {
+"ch1_finished_encounter": ">= 1"
+}
 
 [node name="Portal2" parent="Triggers" instance=ExtResource("4_q6ugm")]
 position = Vector2(592, 320)
@@ -1187,7 +1202,7 @@ position = Vector2(144, 736)
 scale = Vector2(4, 1)
 screenplay = "ch1_encounter_first"
 conditions = {
-"ch1_got_spanner": "== 0"
+"ch1_dismiss_player": "== 0"
 }
 
 [node name="CutsceneTriggerEntry2" parent="Triggers" instance=ExtResource("12_0nmor")]
@@ -1196,5 +1211,14 @@ scale = Vector2(4, 1)
 screenplay = "ch1_encounter_first"
 scene = "Walk Back"
 conditions = {
-"ch1_got_spanner": "== 0"
+"ch1_dismiss_player": "== 1"
+}
+
+[node name="CutsceneTriggerEntry3" parent="Triggers" instance=ExtResource("12_0nmor")]
+position = Vector2(112, 608)
+scale = Vector2(6, 1)
+screenplay = "ch1_encounter_first"
+scene = "Approach"
+conditions = {
+"ch1_dismiss_player": ">= 1"
 }

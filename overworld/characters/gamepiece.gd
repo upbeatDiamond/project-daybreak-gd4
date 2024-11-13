@@ -108,6 +108,9 @@ func _ready():
 		get_parent().remove_child( self )
 		return
 	
+	if facing_direction == null:
+		facing_direction = Vector2(0,1)
+	
 	animation_state = animation_tree["parameters/playback"]
 	my_camera = (self.find_child("Camera", true) as Camera2D)
 	

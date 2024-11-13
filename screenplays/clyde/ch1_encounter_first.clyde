@@ -5,10 +5,12 @@
 
 : A light fog covers the terrain; the change in weather feels palpable. You see three figures ahead of you, hiding next to the lab.
 \?\?\? (Green): Leave while you still can!
+{ set @ch1_dismiss_player = 1 }
 
 == Walk Back
 
 \?\?\? (Blue): Wait, we need help! Don't leave yet!
+{ set @ch1_dismiss_player = 2 }
 
 == Approach
 

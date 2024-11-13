@@ -178,15 +178,6 @@ _data = {
 y_sort_enabled = true
 collision_layer = 2
 script = ExtResource("1_6sn36")
-unique_id = null
-umid = null
-treat_as_player = null
-is_local_player = null
-facing_direction = null
-current_map = null
-current_position = null
-target_map = null
-target_position = null
 
 [node name="Controller" type="Node" parent="."]
 

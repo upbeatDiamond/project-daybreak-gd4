@@ -930,6 +930,13 @@ y_sort_enabled = true
 [node name="Player" parent="Objects/Y-Sort" instance=ExtResource("6_7tyub")]
 visible = false
 position = Vector2(-80, -32)
+treat_as_player = false
+is_local_player = false
+facing_direction = Vector2(0, -1)
+current_map = -1
+current_position = Vector2i(0, 0)
+target_map = 0
+target_position = Vector2(0, 0)
 
 [node name="Tree39" parent="Objects/Y-Sort" instance=ExtResource("7_0lbjb")]
 position = Vector2(672, 448)
