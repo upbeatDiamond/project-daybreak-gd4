@@ -129,7 +129,7 @@ func convert_printable(text):
 	var printable_label  = RichTextLabel.new()
 	printable_label.text = printable
 	printable_label.parse_bbcode(printable)
-	var printable_stripped_bbcode = printable_label.text # Does not include bbcode text, but does include newlines
+	#var printable_stripped_bbcode = printable_label.text # Does not include bbcode text, but does include newlines
 	# (2) Count number of PAUSE_CHAR at indexes in which they appear.
 	#while PAUSE_CHAR in printable_stripped_bbcode:
 		## Set index : count in pause_counts, based on index in text (excludes count of bbcode tags)

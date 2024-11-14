@@ -30,6 +30,7 @@ var jump_speed = 5.0
 var run_speed = 8.0
 @export var treat_as_player := false
 @export var is_local_player := false
+var tag = ""
 
 const LandingDustEffect = preload("res://overworld/landing_dust_effect.tscn")
 

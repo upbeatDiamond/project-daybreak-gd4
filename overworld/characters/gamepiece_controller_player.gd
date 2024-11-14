@@ -74,6 +74,7 @@ func _autonav_next_move() -> Vector2:
 	
 	navigation_agent_2d.target_position = target_position
 	
+	@warning_ignore("integer_division")
 	if abs(get_parent().global_position.x - target_position.x) <= GlobalRuntime.DEFAULT_TILE_SIZE/2 and\
 		abs(get_parent().global_position.y - target_position.y) <= GlobalRuntime.DEFAULT_TILE_SIZE/2 :
 		nav_mode = NavigationMode.KEYBOARD_LOCAL
@@ -91,8 +92,6 @@ func _autonav_next_move() -> Vector2:
 		new_direction = new_direction * Vector2( abs(gamepiece.facing_direction.y), abs(gamepiece.facing_direction.x) )
 	
 	return new_direction
-
-	return Vector2.ZERO
 
 
 func _handle_movement_direction() -> Vector2:

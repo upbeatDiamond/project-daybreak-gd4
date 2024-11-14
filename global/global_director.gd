@@ -204,8 +204,9 @@ func ev_wait( parameters ):
 func ev_walk_pos( gp:String, x, y ):
 	
 	for piece in get_tree().get_nodes_in_group("gamepiece"):
-		piece.find_child("*ontrol*").target_position = Vector2(str(x).to_int(), str(y).to_int())
-		piece.find_child("*ontrol*").set("nav_mode", 2)
+		if (piece as Gamepiece).tag == gp:
+			piece.find_child("*ontrol*").target_position = Vector2(str(x).to_int(), str(y).to_int())
+			piece.find_child("*ontrol*").set("nav_mode", 2)
 		pass
 	
 	pass

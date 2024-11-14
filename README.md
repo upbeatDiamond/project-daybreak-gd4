@@ -42,6 +42,7 @@ Donations are not set up because taxes are scary, and this project has only rece
 Features code and assets from many artists, including but not limited to:
 
 ### Code
+- upbeatDiamond
 - Arkeve (https://github.com/arkeve/Godot-Pokemon)
 - Vinicius Gerevini (https://github.com/viniciusgerevini/godot-clyde-dialogue) (MIT license)
 - 20milliliter (https://github.com/20milliliter/command-terminal) (MIT license)
@@ -54,15 +55,41 @@ Features code and assets from many artists, including but not limited to:
 - QueenChristina (https://github.com/QueenChristina/gd_dialog) (MIT license)
 - godotrecipes (https://github.com/godotrecipes/2d_grid_movement/) (MIT license)
 
+
+
 ### Art/Graphics
+
+- upbeatDiamond
+- isaiah658 (https://opengameart.org/content/50-monsters-pack-2d) (CC0)
+- Clint Bellanger (https://opengameart.org/content/tiny-creatures) (CC0)
+- sparklinlabs (https://github.com/sparklinlabs/superpowers-asset-packs) (CC0)
+- Shepardskin (https://opengameart.org/users/shepardskin)
+- Henrique Lazarini as 7Soul1 (https://opengameart.org/content/496-pixel-art-icons-for-medievalfantasy-rpg) (CC0)
+- SnoopethDuckDuck (https://opengameart.org/users/snoopethduckduck) (CC0)
+- Rae Karen Hauck (https://commons.wikimedia.org/wiki/File:Sunrise_Virginia_Beach.jpg) (CC0)
+- Dungeon Crawl Stone Soup team, including Chris Hamons (https://opengameart.org/content/dungeon-crawl-32x32-tiles , https://crawl.develz.org/wordpress/) (CC0)
+- megupets (http://www.megupets.com/espinis/) (CC0)
+
+
+
+### Fonts
+
+- 
+- 
+- 
+
 
 ### Music
 
 - upbeatDiamond
 - mannikim (https://mannikim.itch.io/singles-random-stuff-vol-1) (CC-BY-SA 4.0)
-    - .../mannikim/iwgfabimbi_loopable.ogg is modified from .../mannikim/iwgfabimbi.ogg
+	- .../mannikim/iwgfabimbi_loopable.ogg is modified from .../mannikim/iwgfabimbi.ogg
+
+
 
 ### Sounds
+
+
 
 ## Contributing <a id="contributing"></a>
 
