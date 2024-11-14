@@ -1,85 +1,82 @@
 Welcome to crude changelog, the log that gets facts wrong about your favorite changes.
 I'm jan Wiwijen (jan Opitamon), and today I'll be discussing a pre-alpha version of a Godot project.
 
-January 2024 - November 2024
+January - March, September, but mostly December 2024
 
 Codename: Project Daybreak
 Update: Pre-alpha 6, "Paperback Writer"
 TL;DR: Rapid half-baked polishing; stitching the pieces together.
 
-
 Noteworthy Additions:
 	+ Added, modified, or replaced maps: 
-		+ 
+		* Red Town
+		* Route for Red / Home
+			+ Added fog
+		* Home Town
 	+ Added placeholder graphics for ~60 monsters, out of between 150-256 total (1/3rd designed)
 	+ Added more Addons
 		+ Safe Resource Loader
 		+ ModPlayer
 		+ Clyde Dialogue
+		+ Command Terminal
+	+ Added dialogue system (addon?) and cutscene/dialogue triggers
 	+ Added navigation layers to maps, and code to utilize it
-		+ Added AStarOverlay scene, which may be dropped or expanded later on?
+		+ Started merging Player and Mob gamepiece controllers, using a state enum
 
 
 Noteworthy Subtractions:
-	- 
+	- Removed unused code and scenes from multiple addons
+	- Redacted most of the 'director' folder
+	- Removed or relocated push blocks
 
 
 Noteworthy Changes:
 	* Intro now plays at the start of the game
+	* Portals can now have execution conditions
+	* Added new tree system to world maps
 
 
 To Do List + Constructive Commentary:
 	% Merge the Mob, Experimental, and Mouse Follow controllers into one big NPC controller
 		% Tried, needs testing
-	% Tear out Director/Screenplay and integrate Clyde
 	% Repair/polish intro cinematic sequence
-		% Add sprite layers for hair and clothing for player
-		% Fix bug where audio outro is skipped
-	% Add Interface for cinematics, on top of Activity and World
-	
-	% Replace the remaining Arkeve tutorial code after prototyping his party screen system
-		% Revise ALL Arkeve-based code until it both cannot be detected by plagiarism scanners ...
+		% Save player data to player monster database entry
+		% Fix ability entry, and make relevant to demo
+	% Replace the remaining detectable Arkeve tutorial code.
+		% Revise ALL tutorial based code until it both can't be detected as plagiarism...
 		... and is overall more robust. Not either/or, but both of these things.
-	% Follow the Chris' Tutorials videos, mix with GDQuest for the battle scene
+	% Add credits scroll for all code/addons, music, and sprites that can be sourced.
+	% Make playable the Mayhem/Raze demo, and integrate into the unified demo
+	% Add overworld sprites for Mom, Scientist, Starters, and Barney for the upcoming demo
 	% Fix and finish the failsafe map's generation code, otherwise it's not very safe
 		% Make the shader actually do something, and put it in a nicer folder
 	% Have ledge ensure Gamepieces don't stack on top of eachother by using raycasting.
 	% Add/fix texture sheets
 		% Split rock and dirt tiles visually
 		% Fix the ledge art style
-		% Add player hair shapes
-			% Add tool to switch texture color palletes
-				% Develop code for synthesizing a sprite sheet for the player to use.
-		% Add overworld sprites for Mom, Scientist, Starters, and Barney for Alpha demo 01
-	% Move the TitleScreen to the ActivityInterface
-		% Make the Activity/Overworld switch not shrink the overworld, as this may cause ...
-		... misalignments if any children are still running.
-			% Pausing should switch between process modes INHERIT and DISABLED.
 	% Saving and Loading
 		% Refactor all save/load code regarding Gamepieces
 			% Instead of using signals, have all Gamepieces registered with GlobalGamepieceTransfer
 				% When saving, save all members of GlobalGamepieceTransfer
-				% Rename GlobalGamepieceTransfer, because of its expanded role (Gametokens too?)
-					% Maybe rename to GlobalGamethingTracker? 
+				% Use global groups? This point is from before global groups were stable.
 			% Gamepiece's data transfer code should be more complete
 			% Gamepieces should automatically fix themselves upon being 'placed'
 		% Add Gametokens and save code for that
-		% Fix database backup system
-			% If the databases don't exist, then create them via some template
 		% If the game lacks a PATCHDATA database in "user://", then copy the provided one
 			% Rely on PATCHDATA for balancing and forwards compatibility but not for assets/code
 				% Maybe use PATCHDATA for asset/code pointers/paths? Seems more like a .PCK thing
 	% Fix/expand the pause menu
 		% This includes the inventory GUI and backend
+	% Add tools for multiplayer connectivity
 
 
 General Commentary:
-	> Code that is reused often, or is otherwise bulky, should be moved to "global" classes.
-	> That way, I don't have to worry about if the code is duplicating functions, enums, etc.
-	> Only issue then would be too many "global" (autoload) classes.
+	> Code that is "global" goes into the "global" folder, and should have "global" in its name.
+		> Exception: if the global class is part of an addon.
+		> Issue: There may soon be too many "global" classes. Solution: merge them.
 	
 	> Functions must be separated with 2 blank lines, uninterrupted.
-	> Comments preceeding a function shoukd explain as if it is the class documentation
+	> Comments preceeding a function should explain as if it is the class documentation
 	> Comments within a function should explain 'why' or 'how' rather than 'what' or 'where'
 		> "this line solves an edge case related to char *"  >  [var v = 2] "this line sets v to 2"
 			> I (jan Wiwijen) don't follow my own rules. This is a bad thing.
@@ -99,17 +96,7 @@ General Commentary:
 	> All assets not made for this project need proper credit (CC-BY-4.0, SIL), or to be PD/CC-0.
 		> FilmCow's sound pack license is beyond the limit of restrictiveness. Avoid using.
 	
-	> We're skipping the proper drop of the previous pre-alpha, as a lot of development ...
-	... went into lore, concepts, and other repos. And downloading assets. So much scrolling.
-	... and also I don't want to.
-	
-	> It turns out that ALL the work I put into planning a new navigation system ...
-	> ... the baking, parsing, running, etc...
-	> ... it wasn't *useless* per se, but I could just use the navmesh? At least for now?
-	> That's right, new to Godot 4.2+, the navmesh easy bake button.
-	
-	> The name "For The Longest Time" is rejected for pre-Alpha 5 due to lack of thematic accuracy. 
-	> To avoid confusion, the name may not be reused for any pre-Alphas.
+	> The name "For The Longest Time" may not be reused for any pre-Alpha or Alpha stable releases.
 	> It may be reused for Betas, or patches, but ideally use for neither.
 	
 	> DO NOT mess with GLoot code during or after pre-Alpha 6 except to make the editor not crash
