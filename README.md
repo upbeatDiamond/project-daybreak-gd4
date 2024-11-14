@@ -24,6 +24,7 @@ Explicitly designed based off of 2 franchises, one about phones and one about ca
 - [Donations](#donations)
 - [Credits](#credits)
 - [Contributing](#contributing)
+- [Extra](#extra)
 
 
 ## Setup <a id="setup"></a>
@@ -66,3 +67,8 @@ Features code and assets from many artists, including but not limited to:
 ## Contributing <a id="contributing"></a>
 
 [Contribution guidelines for this project](docs/CONTRIBUTING.md)
+
+## Extra <a id="extra"></a>
+
+License links:
+- [CC-BY-SA 4.0 license terms](https://creativecommons.org/licenses/by-sa/4.0/)
