@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dcjtwxnm4ya4v"
-path="res://.godot/imported/tree_stump.png-cfe871a2972523ab94cb338e6d633df2.ctex"
+uid="uid://cyajxufdrb6oa"
+path="res://.godot/imported/Birdee.png-c3f326e0fda2d0b2292d55a67e10046f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/props/tree_stump.png"
-dest_files=["res://.godot/imported/tree_stump.png-cfe871a2972523ab94cb338e6d633df2.ctex"]
+source_file="res://assets/textures/mon/battle/Birdee.png"
+dest_files=["res://.godot/imported/Birdee.png-c3f326e0fda2d0b2292d55a67e10046f.ctex"]
 
 [params]
 

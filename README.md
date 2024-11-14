@@ -57,7 +57,7 @@ Features code and assets from many artists, including but not limited to:
 
 
 
-### Art/Graphics
+### Art / Graphics
 
 - upbeatDiamond
 - isaiah658 (https://opengameart.org/content/50-monsters-pack-2d) (CC0)
@@ -69,7 +69,12 @@ Features code and assets from many artists, including but not limited to:
 - Rae Karen Hauck (https://commons.wikimedia.org/wiki/File:Sunrise_Virginia_Beach.jpg) (CC0)
 - Dungeon Crawl Stone Soup team, including Chris Hamons (https://opengameart.org/content/dungeon-crawl-32x32-tiles , https://crawl.develz.org/wordpress/) (CC0)
 - megupets (http://www.megupets.com/espinis/) (CC0)
-
+- ermizidis.stan (https://opengameart.org/content/simple-rpg-gui) (CC0)
+- surt, usr_share (https://opengameart.org/content/some-other-8-bit-vertical-shooter-assets) (CC0)
+- ARoachIFoundOnMyPillow (https://opengameart.org/content/16x16-food) (CC0) (not yet in files?)
+- Emcee Flesher (https://opengameart.org/content/16x16-fantasy-rpg-trash-mobs-animated) (CC0) (not yet in files?)
+- AntumDeluge (https://opengameart.org/content/fog-animation) (CC0)
+- ArMM1998 (https://opengameart.org/content/zelda-like-tilesets-and-sprites) (CC0)
 
 
 ### Fonts
@@ -79,12 +84,13 @@ Features code and assets from many artists, including but not limited to:
 - 
 
 
-### Music
+### Music / Ambiance
 
-- upbeatDiamond
+- upbeatDiamond (CC-BY-SA 4.0)
 - mannikim (https://mannikim.itch.io/singles-random-stuff-vol-1) (CC-BY-SA 4.0)
 	- .../mannikim/iwgfabimbi_loopable.ogg is modified from .../mannikim/iwgfabimbi.ogg
-
+- Zane Little (https://opengameart.org/content/modern-ringtone-chirptone) (CC0)
+- DaGameKnower (https://opengameart.org/content/creepy-ambient-noise-sound-effect) (CC0)
 
 
 ### Sounds
