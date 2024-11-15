@@ -30,7 +30,7 @@ var jump_speed = 5.0
 var run_speed = 8.0
 @export var treat_as_player := false
 @export var is_local_player := false
-var tag = ""
+@export var tag = ""
 
 const LandingDustEffect = preload("res://overworld/landing_dust_effect.tscn")
 
@@ -61,7 +61,7 @@ enum TraversalMode
 	STANDING, 	# 🧍‍♀️ 
 	WALKING, 	# 🚶‍♀️ 
 	RUNNING, 	# 🏃‍♂️ 
-	TRUDGING, 	# Did you know you can put emojis in comments? Sure, it's text, but woah it renders!
+	TRUDGING, 	# Did you know comments can have emojis? It may be text, but woah it renders!
 	SLIDING, 	# 🧊 
 	SPINNING, 	# 🔄
 	SWIMMING, 	# 🏊‍♂️ 
@@ -69,7 +69,7 @@ enum TraversalMode
 	BICYCLING, 	# 🚲 
 }
 
-@export var current_map := -1	# depricated, please ask the local map for its ID
+var current_map := -1	# depricated, overwritten by code, do not trust
 @export var current_position := Vector2i(0,0):
 	set( pos ): 
 		shift_to_target(pos)
@@ -286,36 +286,70 @@ func _update_monster():
 
 
 func update_sprites():
+	
+	# tag = monster's tag, for semantic calling on generic sprites
 	var tag = GlobalDatabase.fetch_dex_from_index(monster.species, ["tag"]).pop_front()
-	if tag == null:
-		tag = "default"
 	if tag is Dictionary:
 		tag = tag["tag"]
+	if tag == null or tag == "":
+		tag = "default"
 	
 	_update_sprites(tag)
-
-
-func _update_sprites(tag:String):
 	
-	gfx.find_child("SpriteAccent").texture = null
-	gfx.find_child("SpriteBase").texture = null
-	gfx.find_child("SpriteClothes").texture = null
+	# Guard clause before de-genericizing the gamepiece
+	if self.tag == null:
+		return
+	tag = self.tag # set tag to that of the gamepiece
+	
+	_update_sprites(tag, false)
+	# Overwrite previous changes, but only where a replacement layer exists
+
+
+func _update_sprites(tag:String, clear_prev:=true):
+	
+	# Guard clause, avoid wasting time on failed cases
+	# (slightly increases delay on successful cases?)
+	if tag == null or tag.strip_edges() == "":
+		return
+	
+	# Clear Prev marks whether the sprite is extending a previous load,
+	# or regenerating from scratch. The former removes the default dress,
+	# and the latter adds character-specific dress (if coded correctly).
+	if clear_prev:
+		gfx.find_child("SpriteAccent").texture = null
+		gfx.find_child("SpriteBase").texture = null
+		gfx.find_child("SpriteClothes").texture = null
 	
 	var addr_accent = str("res://assets/textures/mon/overworld/", tag ,"/accent.png")
 	var addr_base = str("res://assets/textures/mon/overworld/", tag ,"/base.png")
 	var addr_dress = str("res://assets/textures/mon/overworld/", tag ,"/dress.png")
+	
+	# Check the accent layer, which includes patterns, markings, hair, etc.
+	# This is first alphabetically; order shouldn't matter greatly
 	if FileAccess.file_exists(addr_accent):
 		var sprite_accent = load(addr_accent)
 		if sprite_accent != null:
 			gfx.find_child("SpriteAccent").texture = sprite_accent
 	else:
 		print( addr_accent, " not found! gp line 303 - accent ", tag )
+	
+	# Check the base layer, which includes most of the body, ideally
+	# This is second alphabetically; order shouldn't matter greatly
 	if FileAccess.file_exists(addr_base):
 		var sprite_base = load(addr_base)
 		if sprite_base != null:
 			gfx.find_child("SpriteBase").texture = sprite_base
 	else:
 		print( addr_base, " not found! gp line 308 - base ", tag )
+		if tag != "default" and clear_prev:
+			_update_sprites("default") 
+			# If the current tag cannot be found, the sprite has to be made visible.
+			# Therefore, set it to the default tag, which should exist.
+			# If the default tag does not exist, either this is an unstable branch...
+			# ... or we have much bigger problems than fetching a single sprite.
+	
+	# Check the dress layer, which includes clothing.
+	# This is third alphabetically; order shouldn't matter greatly
 	if FileAccess.file_exists(addr_dress):
 		var sprite_dress = load(addr_dress)
 		if sprite_dress != null:

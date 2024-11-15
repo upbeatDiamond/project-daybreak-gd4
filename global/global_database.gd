@@ -122,7 +122,9 @@ func exists_monster( monster ) -> bool:
 func load_monster( umid:int ) -> Monster:
 	var mon = Monster.new()
 	
-	return database_to_game(mon, tkpv_monster, db_name_user_stage, table_name_monster, str("umid = ", umid))
+	mon = database_to_game(mon, tkpv_monster, db_name_user_stage, table_name_monster, str("umid = ", umid))
+	
+	return mon
 
 
 func game_to_database(thing:Object, tablekey_propval:Dictionary, target_db_path:String, \
@@ -278,6 +280,10 @@ func load_player_data():
 	pass
 
 
+"""
+	Returns a list of all matching monsters.
+	Realistically, you only need the first entry, so use [0] or pop_front.
+"""
 func fetch_dex_from_index(species:int, row_array:Array[String]=["tag"]) -> Array:
 	db = SQLite.new()
 	db.path = db_name_patch_base

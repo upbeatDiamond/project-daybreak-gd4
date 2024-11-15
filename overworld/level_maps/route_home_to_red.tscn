@@ -900,12 +900,20 @@ conditions = {
 
 [node name="GamepieceGrassy" parent="." instance=ExtResource("15_n1kcy")]
 position = Vector2(-64, 512)
+unique_id = 2
 umid = 2
 
 [node name="GamepieceWatery" parent="." instance=ExtResource("15_n1kcy")]
 position = Vector2(-48, 512)
+unique_id = 3
 umid = 3
 
 [node name="GamepieceFirey" parent="." instance=ExtResource("15_n1kcy")]
 position = Vector2(-32, 512)
+unique_id = 4
 umid = 4
+
+[node name="GamepieceTutorial" parent="." instance=ExtResource("15_n1kcy")]
+position = Vector2(576, 544)
+unique_id = 260
+umid = 260
