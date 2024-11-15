@@ -880,7 +880,7 @@ conditions = {
 "ch1_dismiss_player": "== 0"
 }
 
-[node name="CutsceneTriggerEntry2" parent="Triggers" instance=ExtResource("12_0nmor")]
+[node name="CutsceneTriggerWalkBack" parent="Triggers" instance=ExtResource("12_0nmor")]
 position = Vector2(144, 832)
 scale = Vector2(4, 1)
 screenplay = "ch1_encounter_first"
@@ -889,7 +889,7 @@ conditions = {
 "ch1_dismiss_player": "== 1"
 }
 
-[node name="CutsceneTriggerEntry3" parent="Triggers" instance=ExtResource("12_0nmor")]
+[node name="CutsceneTriggerApproach" parent="Triggers" instance=ExtResource("12_0nmor")]
 position = Vector2(112, 608)
 scale = Vector2(6, 1)
 screenplay = "ch1_encounter_first"

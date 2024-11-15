@@ -128,12 +128,13 @@ func _ready():
 		monster = Monster.new()
 		monster.umid = _umid
 	
+	GlobalDatabase.update_gamepiece(self)
 	_update_monster()
 	kill_imposters()
 	
 	GlobalRuntime.pause_gameworld.connect( _on_gameworld_pause )
 	GlobalRuntime.unpause_gameworld.connect( _on_gameworld_unpause )
-	print("GP: I think I'm at ", current_position, "")
+	print("GP: I think I'm at ", current_position, " as ", tag)
 
 
 func _process(_delta):

@@ -79,6 +79,7 @@ var tkpv_monster = {
 var tkpv_gamepiece = {
 	"gpid": 	 		{"property": "unique_id", 			"fallback": -1},
 	"umid": 	 		{"property": "umid", 				"fallback": -1},
+	"tag": 		 		{"property": "tag", 				"fallback": "Steve?" },
 	"move_queue": 	 	{"property": "move_queue", 			"fallback": []},
 	"position_known": 	{"property": "position_is_known", 	"fallback": false},
 	"target_position": 	{"property": "target_position", 	"fallback": Vector2(0,0) },
@@ -247,6 +248,12 @@ func load_gamepiece( umid:int ) -> Gamepiece:
 	gamepiece.umid = umid
 	database_to_game(gamepiece, tkpv_gamepiece, db_name_user_stage, "gamepiece", str(" UMID = ", umid ) )
 	database_to_game(gamepiece.monster, tkpv_monster, db_name_user_stage, "monster", str(" UMID = ", umid ) )
+	return gamepiece
+
+
+func update_gamepiece( gamepiece:Gamepiece ) -> Gamepiece:
+	database_to_game(gamepiece, tkpv_gamepiece, db_name_user_stage, "gamepiece", str(" UMID = ", gamepiece.umid ) )
+	database_to_game(gamepiece.monster, tkpv_monster, db_name_user_stage, "monster", str(" UMID = ", gamepiece.umid ) )
 	return gamepiece
 
 
