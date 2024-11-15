@@ -66,7 +66,6 @@ var relationships = {}
 var activity_heap = {}
 
 
-# Called when the node enters the scene tree for the first time.
 func _init():
 	p_factor_base.resize( GlobalMonster.PersonalityFactor.size() );
 	p_factor_offset.resize( GlobalMonster.PersonalityFactor.size() );
@@ -131,7 +130,13 @@ func save_data():
 # Read this monster from disk, or a database, ...
 # ... by feeding the results of global/singleton into unpackData
 func load_data():
-	GlobalDatabase.load_monster(self);
+	var load = GlobalDatabase.load_monster(umid);
+	var dumb_node =  Node.new() # does nothing, used to compare properties
+	for property in load.get_property_list():
+		if property in dumb_node.get_property_list():
+			# Skip Node properties, only copy Gamepiece properties
+			continue
+		self.set( property["name"], load.get(property["name"]) )
 
 
 func get_active_techniques():

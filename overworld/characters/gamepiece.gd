@@ -124,7 +124,11 @@ func _ready():
 	update_anim_tree()
 	
 	if monster == null:
+		var _umid = umid
 		monster = Monster.new()
+		monster.umid = _umid
+	
+	_update_monster()
 	
 	GlobalRuntime.pause_gameworld.connect( _on_gameworld_pause )
 	GlobalRuntime.unpause_gameworld.connect( _on_gameworld_unpause )
@@ -140,7 +144,6 @@ func _process(_delta):
 		elif was_moving == true: # implied: is_moving is false
 			update_anim_tree()
 			was_moving = false
-	
 
 
 func _on_gameworld_pause():
@@ -259,6 +262,7 @@ func _peek_exterior_collision(direction:Vector2):
 		return true
 	return false
 
+
 """
 	Check for entering an event; used for redundancy & access of other classes.
 	
@@ -270,6 +274,14 @@ func _check_interior_event_collision():
 		if overlap.is_in_group("event_interior") and overlap.has_method("run_event"):
 			overlap.run_event(self)
 	pass
+
+
+func _update_monster():
+	var mon = GlobalDatabase.load_monster( umid )
+	if mon:
+		monster = mon
+	
+	_update_sprites()
 
 
 func _update_sprites():

@@ -54,6 +54,7 @@ Features code and assets from many artists, including but not limited to:
 - Jan Thomä (https://github.com/derkork/godot-safe-resource-loader/) (MIT license)
 - QueenChristina (https://github.com/QueenChristina/gd_dialog) (MIT license)
 - godotrecipes (https://github.com/godotrecipes/2d_grid_movement/) (MIT license)
+- food-please, NathanLovato, et al. as GDquest (https://github.com/food-please/godot4-open-rpg) (MIT license)
 
 
 
@@ -75,6 +76,7 @@ Features code and assets from many artists, including but not limited to:
 - Emcee Flesher (https://opengameart.org/content/16x16-fantasy-rpg-trash-mobs-animated) (CC0) (not yet in files?)
 - AntumDeluge (https://opengameart.org/content/fog-animation) (CC0)
 - ArMM1998 (https://opengameart.org/content/zelda-like-tilesets-and-sprites) (CC0)
+- drummyfish (https://opengameart.org/content/top-down-rpg-mockup-scene) (CC0)
 
 
 ### Fonts

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=4 uid="uid://bbsa442x4jkgr"]
+[gd_scene load_steps=22 format=4 uid="uid://bbsa442x4jkgr"]
 
 [ext_resource type="Script" path="res://overworld/level_maps/level_map.gd" id="1_wg0ev"]
 [ext_resource type="PackedScene" uid="uid://bh1lpfwqyuqvt" path="res://overworld/props/ledge.tscn" id="2_hf63k"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" path="res://overworld/props/warp_anchor.gd" id="9_ykrbc"]
 [ext_resource type="PackedScene" uid="uid://bx61t5b2ntp6r" path="res://overworld/buildings/house_2x3.tscn" id="10_m3vie"]
 [ext_resource type="PackedScene" uid="uid://bmqnf3wsehu3h" path="res://overworld/cutscene_trigger.tscn" id="12_0nmor"]
+[ext_resource type="PackedScene" uid="uid://dsk04vtyuk6hu" path="res://overworld/characters/gamepiece.tscn" id="15_n1kcy"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_jqqqx"]
 vertices = PackedVector2Array(58.5, -63.5, 61.5, -48.5, 61.5, -44.5, 53.5, -44.5, -7.5, -47.5, -1.5, -51.5, 18.5, -59.5, 58.5, -79.5, 65.5, -79.5, 65.5, -48.5, 53.5, -40.5, 21.5, -40.5, 21.5, -32.5, 17.5, -32.5, -1.5, -40.5, 17.5, -12.5, 13.5, -12.5, 2.5, -32.5, 13.5, 3.5, 2.5, 3.5, -1.5, -32.5, -1.5, -59.5, 18.5, -98.5, 25.5, -98.5, 25.5, -63.5, -17.5, -40.5, -14.5, -47.5, -17.5, -55.5, -14.5, -52.5, -6.5, -55.5, -7.5, -52.5, -6.5, -51.5)
@@ -896,3 +897,15 @@ scene = "Approach"
 conditions = {
 "ch1_dismiss_player": ">= 1"
 }
+
+[node name="GamepieceGrassy" parent="." instance=ExtResource("15_n1kcy")]
+position = Vector2(-64, 512)
+umid = 1
+
+[node name="GamepieceWatery" parent="." instance=ExtResource("15_n1kcy")]
+position = Vector2(-48, 512)
+umid = 2
+
+[node name="GamepieceFirey" parent="." instance=ExtResource("15_n1kcy")]
+position = Vector2(-32, 512)
+umid = 3

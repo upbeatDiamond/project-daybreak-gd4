@@ -656,7 +656,7 @@ _data = {
 collision_layer = 2
 script = ExtResource("1_6lhpg")
 unique_id = 0
-umid = 0
+umid = 1
 
 [node name="Controller" type="Node" parent="."]
 script = ExtResource("3_wmhfs")

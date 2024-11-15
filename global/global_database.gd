@@ -119,6 +119,12 @@ func exists_monster( monster ) -> bool:
 	return false
 
 
+func load_monster( umid:int ) -> Monster:
+	var mon = Monster.new()
+	
+	return database_to_game(mon, tkpv_monster, db_name_user_stage, table_name_monster, str("umid = ", umid))
+
+
 func game_to_database(thing:Object, tablekey_propval:Dictionary, target_db_path:String, \
 target_table_name:String, _query_conditions:String=""  ):
 	
