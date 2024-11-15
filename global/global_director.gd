@@ -46,10 +46,13 @@ func _process(delta: float) -> void:
 func _load_screenplay(file_name: String, block:String="") -> void:
 	await clyde.load_dialogue(file_name, block)
 	
-	if !clyde.variable_changed.get_connections().has(_on_variable_changed):
-		clyde.variable_changed.connect(_on_variable_changed)
-	if !clyde.event_triggered.get_connections().has(_on_event_triggered):
-		clyde.event_triggered.connect(_on_event_triggered)
+	for connection in clyde.variable_changed.get_connections():
+		clyde.variable_changed.disconnect(connection.callable)
+	clyde.variable_changed.connect(_on_variable_changed)
+	
+	for connection in clyde.event_triggered.get_connections():
+		clyde.event_triggered.disconnect(connection.callable)
+	clyde.event_triggered.connect(_on_event_triggered)
 	
 	# setup external variable proxies. This will allow the dialogue to
 	# access external variables and update them
