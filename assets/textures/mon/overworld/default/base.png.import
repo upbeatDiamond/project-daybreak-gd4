@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cucjxqfyrqjh"
-path="res://.godot/imported/human_palette_hair_white.png-f70deed3807c7f129424b9a657723629.ctex"
+uid="uid://c0cvt47853u7j"
+path="res://.godot/imported/base.png-f19a910212e2526e9473e492cba95943.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/mon/overworld/human_adult/human_palette_hair_white.png"
-dest_files=["res://.godot/imported/human_palette_hair_white.png-f70deed3807c7f129424b9a657723629.ctex"]
+source_file="res://assets/textures/mon/overworld/default/base.png"
+dest_files=["res://.godot/imported/base.png-f19a910212e2526e9473e492cba95943.ctex"]
 
 [params]
 

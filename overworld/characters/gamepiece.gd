@@ -282,16 +282,20 @@ func _update_monster():
 	if mon:
 		monster = mon
 	
-	_update_sprites()
+	update_sprites()
 
 
-func _update_sprites():
-	
+func update_sprites():
 	var tag = GlobalDatabase.fetch_dex_from_index(monster.species, ["tag"]).pop_front()
 	if tag == null:
-		return
+		tag = "default"
 	if tag is Dictionary:
 		tag = tag["tag"]
+	
+	_update_sprites(tag)
+
+
+func _update_sprites(tag:String):
 	
 	gfx.find_child("SpriteAccent").texture = null
 	gfx.find_child("SpriteBase").texture = null
@@ -305,19 +309,19 @@ func _update_sprites():
 		if sprite_accent != null:
 			gfx.find_child("SpriteAccent").texture = sprite_accent
 	else:
-		print( addr_accent, " not found! gp line 303" )
+		print( addr_accent, " not found! gp line 303 - accent ", tag )
 	if FileAccess.file_exists(addr_base):
 		var sprite_base = load(addr_base)
 		if sprite_base != null:
 			gfx.find_child("SpriteBase").texture = sprite_base
 	else:
-		print( addr_base, " not found! gp line 308" )
+		print( addr_base, " not found! gp line 308 - base ", tag )
 	if FileAccess.file_exists(addr_dress):
 		var sprite_dress = load(addr_dress)
 		if sprite_dress != null:
 			gfx.find_child("SpriteClothes").texture = sprite_dress
 	else:
-		print( addr_dress, " not found! gp line 315" )
+		print( addr_dress, " not found! gp line 315 - dress ", tag )
 
 
 # Not the same as move, used for in-map teleportation.

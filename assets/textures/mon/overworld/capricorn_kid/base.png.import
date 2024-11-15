@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cm344lv46gvy"
-path="res://.godot/imported/human_palette_shiny.png-ff1a8013c882a6d6edc9b450cdbaf38b.ctex"
+uid="uid://bt2kilh0cbjaw"
+path="res://.godot/imported/base.png-43561a4e2192ef616b3dc4981766ea6c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/mon/overworld/human_adult/human_palette_shiny.png"
-dest_files=["res://.godot/imported/human_palette_shiny.png-ff1a8013c882a6d6edc9b450cdbaf38b.ctex"]
+source_file="res://assets/textures/mon/overworld/capricorn_kid/base.png"
+dest_files=["res://.godot/imported/base.png-43561a4e2192ef616b3dc4981766ea6c.ctex"]
 
 [params]
 
