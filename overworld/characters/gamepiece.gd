@@ -129,6 +129,7 @@ func _ready():
 		monster.umid = _umid
 	
 	_update_monster()
+	kill_imposters()
 	
 	GlobalRuntime.pause_gameworld.connect( _on_gameworld_pause )
 	GlobalRuntime.unpause_gameworld.connect( _on_gameworld_unpause )
@@ -292,19 +293,31 @@ func _update_sprites():
 	if tag is Dictionary:
 		tag = tag["tag"]
 	
+	gfx.find_child("SpriteAccent").texture = null
+	gfx.find_child("SpriteBase").texture = null
+	gfx.find_child("SpriteClothes").texture = null
+	
 	var addr_accent = str("res://assets/textures/mon/overworld/", tag ,"/accent.png")
 	var addr_base = str("res://assets/textures/mon/overworld/", tag ,"/base.png")
 	var addr_dress = str("res://assets/textures/mon/overworld/", tag ,"/dress.png")
-	var sprite_base = load(addr_base)
-	var sprite_accent = load(addr_accent)
-	var sprite_dress = load(addr_dress)
-	if sprite_base != null:
-		gfx.find_child("SpriteBase").texture = sprite_base
-	if sprite_accent != null:
-		gfx.find_child("SpriteAccent").texture = sprite_accent
-	if sprite_dress != null:
-		gfx.find_child("SpriteClothes").texture = sprite_dress
-	pass
+	if FileAccess.file_exists(addr_accent):
+		var sprite_accent = load(addr_accent)
+		if sprite_accent != null:
+			gfx.find_child("SpriteAccent").texture = sprite_accent
+	else:
+		print( addr_accent, " not found! gp line 303" )
+	if FileAccess.file_exists(addr_base):
+		var sprite_base = load(addr_base)
+		if sprite_base != null:
+			gfx.find_child("SpriteBase").texture = sprite_base
+	else:
+		print( addr_base, " not found! gp line 308" )
+	if FileAccess.file_exists(addr_dress):
+		var sprite_dress = load(addr_dress)
+		if sprite_dress != null:
+			gfx.find_child("SpriteClothes").texture = sprite_dress
+	else:
+		print( addr_dress, " not found! gp line 315" )
 
 
 # Not the same as move, used for in-map teleportation.

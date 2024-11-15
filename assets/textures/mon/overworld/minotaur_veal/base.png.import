@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b1qfpv3rdvfxg"
-path="res://.godot/imported/scorpgrass_base.png-c00527f179d3d9cb2d5b1e6f7fe3e042.ctex"
+uid="uid://cc4xe2b6vr5oa"
+path="res://.godot/imported/base.png-dc8ab2cf82aac60e8d4e6a00a46c5558.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/mon/overworld/scorpgrass_base.png"
-dest_files=["res://.godot/imported/scorpgrass_base.png-c00527f179d3d9cb2d5b1e6f7fe3e042.ctex"]
+source_file="res://assets/textures/mon/overworld/minotaur_veal/base.png"
+dest_files=["res://.godot/imported/base.png-dc8ab2cf82aac60e8d4e6a00a46c5558.ctex"]
 
 [params]
 
