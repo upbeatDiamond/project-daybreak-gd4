@@ -18,6 +18,7 @@ var iconsets : Dictionary
 var prev_line_type := "line"
 var next_line : Dictionary
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	reset_clyde()
@@ -68,9 +69,11 @@ func run_screenplay(file_name: String, block:String="") -> void:
 	#	GlobalRuntime.scene_manager.dialog_box.
 	pass
 
+
 func _start_current_screenplay():
 	unpaused_prior = GlobalRuntime.gameworld_input_enabled(false)
 	GlobalRuntime.scene_manager.dialog_box.start_dialog( get_next_line() )
+
 
 func get_next_line() -> Dictionary:
 	next_line = clyde.get_content()
@@ -97,13 +100,16 @@ func get_next_line() -> Dictionary:
 	
 	return next_line
 
+
 func _continue_current_screenplay():
 	
 	pass
 
+
 func choose_dialog_option(id:int):
 	clyde.choose(id)
 	pass
+
 
 func _end_current_screenplay():
 	GlobalRuntime.gameworld_input_enabled( unpaused_prior )
@@ -227,23 +233,13 @@ Info:
 	Please credit me if you use! Thank you! <3
 """
 
-#extends Node
-
 signal screen_shake
 
-#@export var dialog_file = "res://dialog/data/Dialogue.json"
 @export var voices_file = "res://dialog/data/Voices.json"
 
-# database of all dialogues and voices, as JSON
-#var db_dialog 
+# database of all voices, as JSON
 var db_voices
 var END_DIALOG_ID = "end" # The dialog next_id that will end the dialog, reserved keyword.
-var data = {} # TODO: keep data here, but move actionHandler # In game global data, used for conditionals in dialog
-
-var player_name = "Bobby" # TODO: move to Player stats
-
-## Called when the node enters the scene tree for the first time.
-#func _ready():
 
 
 # Loads a file as JSON, returns JSON
@@ -280,7 +276,8 @@ signal unpause
 
 var talking = false: get = get_state_talking, set = set_state_talking
 var is_cutscene_playing = false: get = get_state_cutscene, set = set_state_cutscene
-	
+
+
 func set_state_talking(is_talking):
 	talking = is_talking
 	if is_talking:
@@ -288,24 +285,25 @@ func set_state_talking(is_talking):
 	elif not is_paused():
 		# This check is necessary in case, for example, talking and cutscene both occur asynch.
 		emit_signal("unpause")
-	
+
+
 func get_state_talking():
 	return talking
-	
+
+
 func set_state_cutscene(_is_cutscene_playing):
 	is_cutscene_playing = _is_cutscene_playing
 	if _is_cutscene_playing:
 		emit_signal("pause")
 	elif not is_paused():
 		emit_signal("unpause")
-	
+
+
 func get_state_cutscene():
 	return is_cutscene_playing
-	
+
+
 # Returns whether game is paused. Manually setting how nodes react to this setting
 # allows greater control than get_tree().paused = true
 func is_paused():
 	return talking or is_cutscene_playing
-
-#func get_next_line():
-	#pass
