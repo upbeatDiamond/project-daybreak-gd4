@@ -917,3 +917,9 @@ umid = 4
 position = Vector2(576, 544)
 unique_id = 260
 umid = 260
+
+[node name="GamepieceScientist" parent="." instance=ExtResource("15_n1kcy")]
+position = Vector2(560, 544)
+unique_id = 260
+umid = 260
+tag = "scientist_sunny"
