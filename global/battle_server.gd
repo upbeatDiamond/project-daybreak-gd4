@@ -94,6 +94,7 @@ func new_battle_dummy() -> BattleSession:
 	#team_away.battlers.append(_fighter)
 	
 	var battle = BattleSession.new(team_home, team_away)
+	GlobalRuntime.scene_manager.mount_battle(battle)
 	mount_battle(battle)
 	
 	return battle

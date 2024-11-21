@@ -98,10 +98,11 @@ func _init():
 	GlobalRuntime.save_data.connect( save_gamepiece )
 	monster = Monster.new()
 	monster.umid = umid
-
+	
 
 func _ready():
 	add_to_group("gamepiece")
+	controller.set_script(load("res://overworld/characters/gamepiece_controller_player.gd"))
 	
 	# "animation_tree" serves as a canary for overall loading issues.
 	if animation_tree == null:
@@ -135,6 +136,9 @@ func _ready():
 	GlobalRuntime.pause_gameworld.connect( _on_gameworld_pause )
 	GlobalRuntime.unpause_gameworld.connect( _on_gameworld_unpause )
 	print("GP: I think I'm at ", current_position, " as ", tag)
+	if tag == "player" or monster.umid <= 1:
+		treat_as_player = true
+		#is_local_player = false
 
 
 func _process(_delta):

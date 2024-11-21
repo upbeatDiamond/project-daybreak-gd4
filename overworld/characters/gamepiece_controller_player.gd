@@ -27,8 +27,6 @@ func _ready() -> void:
 	if not Engine.is_editor_hint():
 		assert(gamepiece, "Gamepiece '%s' must be a child of a Gamepiece to function! Is '%s'" 
 			% [name, get_parent().get_class()] )
-	
-	
 
 
 func _get_configuration_warnings() -> PackedStringArray:
@@ -97,7 +95,9 @@ func _autonav_next_move() -> Vector2:
 func _handle_movement_direction() -> Vector2:
 	match nav_mode:
 		NavigationMode.KEYBOARD_LOCAL:
-			return Input.get_vector("player_left", "player_right", "player_up", "player_down")
+			if gamepiece.treat_as_player:
+				return Input.get_vector("player_left", "player_right", "player_up", "player_down")
+			return Vector2(0,0)
 		NavigationMode.AUTONAV:
 			var autonav  = await _autonav_next_move()
 			return autonav
@@ -112,6 +112,10 @@ func _handle_movement_running() -> bool:
 			return false
 	return false
 
+
+func set_autonav(target_pos:Vector2):
+	target_position = target_pos
+	nav_mode = NavigationMode.AUTONAV
 
 
 func handle_movement_input():

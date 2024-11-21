@@ -23,20 +23,13 @@ var next_line : Dictionary
 func _ready() -> void:
 	reset_clyde()
 	# TODO: Store in global variables, so load only once per file (not each instance of Dialog)
-	#db_dialog = LoadFile(dialog_file) #GlobalDialog.db_dialog
 	db_voices = load_file(voices_file)
-	pass # Replace with function body.
 
 
 func reset_clyde():
 	clyde = ClydeDialogue.new()
 	
 	clyde.dialogue_folder = "res://screenplays/clyde"
-	
-	#clyde.load_resource(resource, block)
-	
-	# Call get content to return the next dialogue line
-	#clyde.get_content()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -55,8 +48,8 @@ func _load_screenplay(file_name: String, block:String="") -> void:
 		clyde.event_triggered.disconnect(connection.callable)
 	clyde.event_triggered.connect(_on_event_triggered)
 	
-	# setup external variable proxies. This will allow the dialogue to
-	# access external variables and update them
+	## Setup external variable proxies. This will allow the dialogue to
+	## access external variables and update them.
 	clyde.on_external_variable_fetch(_on_external_variable_fetch)
 	clyde.on_external_variable_update(_on_external_variable_update)
 	
@@ -96,7 +89,6 @@ func get_next_line() -> Dictionary:
 	( next_line.get("speaker") == null or next_line.get("speaker") == "" ) and \
 	( next_line.get("text") == null or next_line.get("text") == "" ) :
 		return get_next_line()
-		
 	
 	return next_line
 
@@ -172,7 +164,6 @@ func get_key_value( key:String ):
 	if key_values.has(key):
 		return key_values[key]
 	return GlobalDatabase.load_keyval(key)
-	#return null
 
 
 func set_key_value( key:String, value ):
@@ -193,32 +184,36 @@ func do_string(do:String):
 	var d = parameters[0]
 	
 	match d:
-		"walk_at": #navigate to anchor
+		"walk_at", "walk_pt": #navigate to anchor
 			pass
 		"walk_pos": #navigate to coordinate
 			return ev_walk_pos(parameters[1], parameters[2], parameters[3])
-			pass
+		"battle":
+			return ev_battle()
 	pass
 
 
-# Parameters:
-# duration - length in seconds to wait for
+## Parameters:
+## duration - length in seconds to wait for
 func ev_wait( parameters ):
 	if parameters.has("duration"):
 		await get_tree().create_timer( parameters["duration"] ).timeout
-		
 
-# Parameters:
-# duration - length in seconds to wait for
+
+## Parameters:
+## duration - length in seconds to wait for
 func ev_walk_pos( gp:String, x, y ):
-	
 	for piece in get_tree().get_nodes_in_group("gamepiece"):
 		if (piece as Gamepiece).tag == gp:
 			piece.find_child("*ontrol*").target_position = Vector2(str(x).to_int(), str(y).to_int())
 			piece.find_child("*ontrol*").set("nav_mode", 2)
 		pass
-	
 	pass
+
+
+func ev_battle():
+	var sess = BattleServer.new_battle_dummy();
+	sess.start_battle();
 
 
 """

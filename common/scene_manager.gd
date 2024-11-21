@@ -15,6 +15,8 @@ var scenes_waiting : Array
 @onready var player_menu = $Menu
 @onready var dialog_box = $DialogUI/Dialog
 
+var interfaces = [ activity_interface_wrapper, battle_interface, world_interface, player_viewport ]
+
 
 signal fade_out_finished
 signal fade_in_finished
@@ -58,20 +60,33 @@ func map_rid_for_gamepiece(_gamepiece:Gamepiece):
 
 
 func switch_to_interface( interface:InterfaceOptions ):
+	
+	for face in interfaces:
+		face.process_mode = Node.PROCESS_MODE_DISABLED
+	
 	match interface:
 		InterfaceOptions.ACTIVITY:
-			world_interface.process_mode = Node.PROCESS_MODE_DISABLED
+			#world_interface.process_mode = Node.PROCESS_MODE_DISABLED
 			activity_interface_wrapper.process_mode = Node.PROCESS_MODE_INHERIT
 			activity_interface_wrapper.scale = Vector2(1,1)
 			activity_interface_wrapper.position = Vector2(0,0)
 			activity_interface_wrapper.visible = true
 			pass
+		InterfaceOptions.BATTLE:
+			#world_interface.process_mode = Node.PROCESS_MODE_DISABLED
+			battle_interface.process_mode = Node.PROCESS_MODE_INHERIT
+			#activity_interface_wrapper.scale = Vector2(1,1)
+			#activity_interface_wrapper.position = Vector2(0,0)
+			battle_interface.visible = true
+			$InterfaceBattle.grab_focus()
+			pass
 		_: # Default:
-			world_interface.process_mode = Node.PROCESS_MODE_INHERIT
+			#world_interface.process_mode = Node.PROCESS_MODE_INHERIT
 			activity_interface_wrapper.process_mode = Node.PROCESS_MODE_DISABLED
 			activity_interface_wrapper.scale = Vector2(0.001,0.001)
 			activity_interface_wrapper.position = Vector2(-2048,-2048)
 			activity_interface_wrapper.visible = false
+			$PlayerCamView.grab_focus()
 			pass
 	pass
 
@@ -153,15 +168,10 @@ func mount_cinematic( cine:Control ):
 	pass
 
 
-func mount_battle( cine:Control ):
-	
-	# I assume this works as a check for if the cine & scene manager co-exist
-	if not cine.is_inside_tree():
-		battle_interface.add_child( cine )
+func mount_battle( battle:BattleSession ):
 	switch_to_interface( SceneManager.InterfaceOptions.BATTLE )
-	await (cine as Cinematic).cinematic_finished
-	for child in activity_interface.get_children():
-		child.queue_free()
+	if battle != null:
+		await (battle as BattleSession).session_completed
 	switch_to_interface( SceneManager.InterfaceOptions.WORLD )
 	$PlayerCamView.grab_focus()
 	pass

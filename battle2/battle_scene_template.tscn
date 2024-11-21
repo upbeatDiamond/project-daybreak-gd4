@@ -1,8 +1,7 @@
-[gd_scene load_steps=34 format=3 uid="uid://du2ixlhac4t4l"]
+[gd_scene load_steps=33 format=3 uid="uid://du2ixlhac4t4l"]
 
 [ext_resource type="Script" path="res://battle2/battle_client_gui.gd" id="1_ji70w"]
 [ext_resource type="Texture2D" uid="uid://cavfvlp1urksj" path="res://assets/textures/battle/field_bg_test.png" id="2_q6hy3"]
-[ext_resource type="Texture2D" uid="uid://dr3rodg82l1kb" path="res://z_recyclebin/battle_gui_template_whatWillDo.png" id="3_crvj0"]
 [ext_resource type="Texture2D" uid="uid://clj13bdpagwf1" path="res://assets/textures/monsters/zoonami_kackaburr_front.png" id="4_2jdcp"]
 [ext_resource type="Texture2D" uid="uid://diuc2tklu4voo" path="res://assets/textures/battle/btn_action_default.png" id="4_tii0e"]
 [ext_resource type="PackedScene" uid="uid://ctmlfxu76ehfd" path="res://battle2/stat_tracker.tscn" id="5_brxnf"]
@@ -39,6 +38,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -896.0
+offset_bottom = -452.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ji70w")
@@ -53,11 +54,6 @@ grow_vertical = 2
 texture = ExtResource("2_q6hy3")
 expand_mode = 2
 stretch_mode = 5
-
-[node name="BattleGuiTemplateWhatWillDo" type="Sprite2D" parent="."]
-z_index = -1
-position = Vector2(128, 96)
-texture = ExtResource("3_crvj0")
 
 [node name="MonAvatars" type="Control" parent="."]
 anchors_preset = 0

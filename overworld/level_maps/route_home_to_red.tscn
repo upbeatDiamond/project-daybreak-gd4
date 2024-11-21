@@ -17,7 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://dsk04vtyuk6hu" path="res://overworld/characters/gamepiece.tscn" id="15_n1kcy"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_jqqqx"]
-vertices = PackedVector2Array(58.5, -63.5, 61.5, -48.5, 61.5, -44.5, 53.5, -44.5, -7.5, -47.5, -1.5, -51.5, 18.5, -59.5, 58.5, -79.5, 65.5, -79.5, 65.5, -48.5, 53.5, -40.5, 21.5, -40.5, 21.5, -32.5, 17.5, -32.5, -1.5, -40.5, 17.5, -12.5, 13.5, -12.5, 2.5, -32.5, 13.5, 3.5, 2.5, 3.5, -1.5, -32.5, -1.5, -59.5, 18.5, -98.5, 25.5, -98.5, 25.5, -63.5, -17.5, -40.5, -14.5, -47.5, -17.5, -55.5, -14.5, -52.5, -6.5, -55.5, -7.5, -52.5, -6.5, -51.5)
+vertices = PackedVector2Array(55.5, -67.5, 58.5, -52.5, 58.5, -48.5, 50.5, -48.5, -10.5, -51.5, -4.5, -55.5, 15.5, -63.5, 55.5, -83.5, 62.5, -83.5, 62.5, -52.5, 50.5, -44.5, 18.5, -44.5, 18.5, -36.5, 14.5, -36.5, -4.5, -44.5, 14.5, -16.5, 10.5, -16.5, -0.5, -36.5, 10.5, -0.5, -0.5, -0.5, -4.5, -36.5, -4.5, -63.5, 15.5, -98.5, 22.5, -98.5, 22.5, -67.5, -20.0234, -44.5, -17.5, -51.5, -19.8672, -59.5, -17.5, -56.5, -9.5, -59.5, -10.5, -56.5, -9.5, -55.5)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5, 6), PackedInt32Array(0, 7, 8, 9, 1), PackedInt32Array(3, 10, 11, 4), PackedInt32Array(4, 11, 12, 13, 14), PackedInt32Array(13, 15, 16, 17, 14), PackedInt32Array(16, 18, 19, 17), PackedInt32Array(17, 20, 14), PackedInt32Array(5, 21, 6), PackedInt32Array(6, 22, 23, 24), PackedInt32Array(4, 14, 25, 26), PackedInt32Array(26, 25, 27, 28), PackedInt32Array(28, 27, 29, 30), PackedInt32Array(30, 29, 31, 4), PackedInt32Array(4, 31, 5), PackedInt32Array(6, 24, 0)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-21, 7, 73, 7, 65, -99, -20, -99)])
 parsed_collision_mask = 4278190081
@@ -774,7 +774,7 @@ map_index = 2048
 [node name="Board" type="Node2D" parent="." groups=["navigation_polygon_source"]]
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Board"]
-position = Vector2(80, 960)
+position = Vector2(104, 992)
 scale = Vector2(8, 8)
 navigation_polygon = SubResource("NavigationPolygon_jqqqx")
 
@@ -902,21 +902,25 @@ conditions = {
 position = Vector2(-64, 512)
 unique_id = 2
 umid = 2
+tag = "starter_grass_sunny"
 
 [node name="GamepieceWatery" parent="." instance=ExtResource("15_n1kcy")]
 position = Vector2(-48, 512)
 unique_id = 3
 umid = 3
+tag = "starter_water_sunny"
 
 [node name="GamepieceFirey" parent="." instance=ExtResource("15_n1kcy")]
 position = Vector2(-32, 512)
 unique_id = 4
 umid = 4
+tag = "starter_fire_sunny"
 
 [node name="GamepieceTutorial" parent="." instance=ExtResource("15_n1kcy")]
 position = Vector2(576, 544)
 unique_id = 260
 umid = 260
+tag = "tutorial_beast"
 
 [node name="GamepieceScientist" parent="." instance=ExtResource("15_n1kcy")]
 position = Vector2(560, 544)
