@@ -1,0 +1,46 @@
+[gd_scene load_steps=2 format=3 uid="uid://cbnapsi3sixkn"]
+
+[ext_resource type="PackedScene" uid="uid://ctmlfxu76ehfd" path="res://battle2/stat_tracker.tscn" id="1_r1nso"]
+
+[node name="StatTrackerFlipped" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -165.0
+offset_bottom = -172.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="StatTracker" parent="." instance=ExtResource("1_r1nso")]
+layout_mode = 1
+offset_right = -84.0
+offset_bottom = -19.0
+
+[node name="TopText" parent="StatTracker" index="0"]
+offset_left = 6.0
+offset_right = 94.0
+
+[node name="MeterFrame" parent="StatTracker" index="1"]
+offset_left = 91.0
+offset_right = 182.0
+scale = Vector2(-1, 1)
+
+[node name="SpiritCounter" parent="StatTracker/MeterFrame" index="3"]
+offset_left = 83.0
+offset_right = 147.0
+scale = Vector2(-1, 1)
+
+[node name="HealthCounter" parent="StatTracker/MeterFrame" index="4"]
+offset_left = 83.0
+offset_right = 147.0
+scale = Vector2(-1, 1)
+
+[node name="IconHPFS" parent="StatTracker/MeterFrame" index="5"]
+offset_left = 19.0
+offset_right = 30.0
+scale = Vector2(-1, 1)
+
+[editable path="StatTracker"]

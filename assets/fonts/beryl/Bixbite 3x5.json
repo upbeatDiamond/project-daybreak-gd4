@@ -1,0 +1,41 @@
+{
+	"$baseURI": "https://yal.cc/r/20/pixelfont/",
+	"$version": "1.0",
+	"in-glyphs": [
+		"0123456789/.-"
+	],
+	"glyph-color": "black",
+	"in-kerning": [
+		". 7 -1"
+	],
+	"glyph-width": 3,
+	"glyph-height": 5,
+	"glyph-ofs-x": 0,
+	"glyph-ofs-y": 0,
+	"glyph-sep-x": 1,
+	"glyph-sep-y": 1,
+	"glyph-base-x": 0,
+	"glyph-baseline": 3,
+	"glyph-spacing": 1,
+	"font-is-mono": false,
+	"font-em-square": 1024,
+	"font-line-gap": 0,
+	"font-ascend": 768,
+	"font-descend": -256,
+	"font-px-size": 128,
+	"contour-type": "pixel",
+	"font-type": "ttf",
+	"font-name": "Bixbite 3x5",
+	"font-author": "",
+	"font-copy": "",
+	"font-version": "Version 1.0",
+	"font-desc": "",
+	"font-license": "",
+	"font-license-url": "",
+	"font-sample-text": "",
+	"font-preview-text": [
+		"0123456789",
+		"99.99999999",
+		""
+	]
+}

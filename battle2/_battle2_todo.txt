@@ -1,0 +1,19 @@
+To add/modify:
+	
+	Mechanical
+		* Add keyboard controls to the GUI
+		* Work on battle action submission clarification, such as choosing who to target
+		* Add code to make actions actually do something
+			* Maybe have the submit buttons create the final action based on the current GUI user
+			* Make the submit clarify button do something
+	
+	Visual
+		* Add cursor/highlighting to the GUI
+		* Fix whatever happened to the fonts (⍼ is not aliased to Lv)
+		* Add animations
+			* Starting battle
+			* Entering battle later
+			* Hurt
+			* Attack
+
+	* A whole lot of safety checks and failsafes

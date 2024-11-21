@@ -1,0 +1,41 @@
+{
+	"$baseURI": "https://yal.cc/r/20/pixelfont/",
+	"$version": "1.0",
+	"in-glyphs": [
+		"⍼Æ♀♂⚥→←↑↓♠♥",
+		"♦♣"
+	],
+	"glyph-color": "black",
+	"in-kerning": [
+		""
+	],
+	"glyph-width": 7,
+	"glyph-height": 7,
+	"glyph-ofs-x": 0,
+	"glyph-ofs-y": 0,
+	"glyph-sep-x": 1,
+	"glyph-sep-y": 1,
+	"glyph-base-x": 0,
+	"glyph-baseline": 6,
+	"glyph-spacing": 1,
+	"font-is-mono": false,
+	"font-em-square": 1024,
+	"font-line-gap": 0,
+	"font-ascend": 768,
+	"font-descend": -256,
+	"font-px-size": 128,
+	"contour-type": "pixel",
+	"font-type": "ttf",
+	"font-name": "Beryl 7x7 Kerned",
+	"font-author": "upbeatDiamond",
+	"font-copy": "(C) 2024",
+	"font-version": "Version 1.0",
+	"font-desc": "",
+	"font-license": "Beryl 4x7 Kerned by upbeatDiamond is marked with CC0 1.0 (cc)(0)",
+	"font-license-url": "",
+	"font-sample-text": "",
+	"font-preview-text": [
+		"⍼Æ♀♂⚥→←↑↓♠♥",
+		"♦♣   "
+	]
+}

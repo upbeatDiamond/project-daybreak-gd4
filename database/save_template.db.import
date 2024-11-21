@@ -3,11 +3,12 @@
 importer="db.importer.wowzers"
 type="Database"
 uid="uid://cp2vlv2x4b1pa"
-valid=false
+path="res://.godot/imported/save_template.db-d3d97009f6fcb63fbd63cc1ed2da7294.res"
 
 [deps]
 
 source_file="res://database/save_template.db"
+dest_files=["res://.godot/imported/save_template.db-d3d97009f6fcb63fbd63cc1ed2da7294.res"]
 
 [params]
 

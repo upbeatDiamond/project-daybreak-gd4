@@ -26,7 +26,8 @@ const TTL_RESET := 4 - 1
 enum InterfaceOptions
 {
 	WORLD, # For the Overworld
-	ACTIVITY # For more complex menus, as well as games
+	ACTIVITY, # For more complex menus, as well as games
+	BATTLE, # For battles
 }
 
 
@@ -152,6 +153,18 @@ func mount_cinematic( cine:Control ):
 	pass
 
 
+func mount_battle( cine:Control ):
+	
+	# I assume this works as a check for if the cine & scene manager co-exist
+	if not cine.is_inside_tree():
+		battle_interface.add_child( cine )
+	switch_to_interface( SceneManager.InterfaceOptions.BATTLE )
+	await (cine as Cinematic).cinematic_finished
+	for child in activity_interface.get_children():
+		child.queue_free()
+	switch_to_interface( SceneManager.InterfaceOptions.WORLD )
+	$PlayerCamView.grab_focus()
+	pass
 
 
 func update_preload_portals( ttl_decrement : int = 1 ):

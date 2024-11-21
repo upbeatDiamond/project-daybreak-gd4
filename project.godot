@@ -30,6 +30,7 @@ GlobalGamepieceTransfer="*res://global/global_gamepiece_transfer.gd"
 GlobalDayCycle="*res://global/global_day_cycle.gd"
 GlobalDirector="*res://global/global_director.gd"
 CommandServer="*res://addons/command-terminal/src/CommandServer.gd"
+BattleServer="*res://global/battle_server.gd"
 
 [display]
 
