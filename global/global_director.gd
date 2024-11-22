@@ -190,6 +190,9 @@ func do_string(do:String):
 			return ev_walk_pos(parameters[1], parameters[2], parameters[3])
 		"battle":
 			return ev_battle()
+		"async":
+			#return ev_async( do.replace(d, "") )
+			pass
 	pass
 
 
@@ -214,6 +217,10 @@ func ev_walk_pos( gp:String, x, y ):
 func ev_battle():
 	var sess = BattleServer.new_battle_dummy();
 	sess.start_battle();
+
+
+func ev_async():
+	pass
 
 
 """

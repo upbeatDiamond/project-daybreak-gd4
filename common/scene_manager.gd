@@ -61,19 +61,19 @@ func map_rid_for_gamepiece(_gamepiece:Gamepiece):
 
 func switch_to_interface( interface:InterfaceOptions ):
 	
-	for face in interfaces:
-		face.process_mode = Node.PROCESS_MODE_DISABLED
+	#for face in interfaces:
+	#	face.process_mode = Node.PROCESS_MODE_DISABLED
 	
 	match interface:
 		InterfaceOptions.ACTIVITY:
-			#world_interface.process_mode = Node.PROCESS_MODE_DISABLED
+			world_interface.process_mode = Node.PROCESS_MODE_DISABLED
 			activity_interface_wrapper.process_mode = Node.PROCESS_MODE_INHERIT
 			activity_interface_wrapper.scale = Vector2(1,1)
 			activity_interface_wrapper.position = Vector2(0,0)
 			activity_interface_wrapper.visible = true
 			pass
 		InterfaceOptions.BATTLE:
-			#world_interface.process_mode = Node.PROCESS_MODE_DISABLED
+			world_interface.process_mode = Node.PROCESS_MODE_DISABLED
 			battle_interface.process_mode = Node.PROCESS_MODE_INHERIT
 			#activity_interface_wrapper.scale = Vector2(1,1)
 			#activity_interface_wrapper.position = Vector2(0,0)
@@ -81,7 +81,7 @@ func switch_to_interface( interface:InterfaceOptions ):
 			$InterfaceBattle.grab_focus()
 			pass
 		_: # Default:
-			#world_interface.process_mode = Node.PROCESS_MODE_INHERIT
+			world_interface.process_mode = Node.PROCESS_MODE_INHERIT
 			activity_interface_wrapper.process_mode = Node.PROCESS_MODE_DISABLED
 			activity_interface_wrapper.scale = Vector2(0.001,0.001)
 			activity_interface_wrapper.position = Vector2(-2048,-2048)

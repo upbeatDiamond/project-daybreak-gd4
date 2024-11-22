@@ -57,7 +57,7 @@ func _on_play_pressed():
 	if scene_enabled:
 		
 		if not GlobalDatabase.load_keyval("intro_dream_complete"):
-			#GlobalRuntime.scene_manager.mount_cinematic(play_cutscene.instantiate());
+			GlobalRuntime.scene_manager.mount_cinematic(play_cutscene.instantiate());
 			pass
 		
 		GlobalRuntime.clean_up_descent( self )

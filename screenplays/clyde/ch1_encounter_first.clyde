@@ -20,8 +20,7 @@
 
 == Its
 
-!do: walk_pos scientist_sunny 200 880
-!do: walk_pos player 200 880
+!do: walk_pos scientist_sunny 256 592
 :Professor Olearia steps towards you from the fog.
 !do: Brad, this isn't the junior chamber of commerce!
 Olearia: Ah, hello there. Odd weather we're having, right? Must be a trickster's spell or something. 
