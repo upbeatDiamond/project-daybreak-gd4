@@ -12,7 +12,8 @@
 A top-down RPG with turn-based battle mechanics, in a world where monsters live together
 A project to practice Godot, SQLite, localization, etc.
 
-All code is derived from MIT licensed repos, or more permissive, with a , which is minimal and being phased out.
+All code is derived from MIT licensed repos, or more permissive, with the 
+exception of tutorial and generated code, which is minimal and being phased out.
 If you wish to contribute, tell me explicitly and clearly how you want to be credited.
 
 Explicitly designed based off of 2 franchises, one about phones and one about capsules.
@@ -35,7 +36,8 @@ WIP!
 
 WIP!
 
-Donations are not set up because taxes are scary, and this project has only recently been receiving eyes (hello reader!).
+Donations are not set up because taxes are scary, 
+and this project has only recently been receiving eyes (hello reader!).
 
 ## Credits <a id="credits"></a>
 
@@ -44,12 +46,12 @@ Features code and assets from many artists, including but not limited to:
 ### Code
 - 20milliliter (https://github.com/20milliliter/command-terminal) (MIT license)
 - Arkeve (https://github.com/arkeve/Godot-Pokemon)
-- GDquest; by food-please, NathanLovato, et al. (https://github.com/food-please/godot4-open-rpg) (MIT license)
+- GDquest (https://github.com/food-please/godot4-open-rpg) (MIT license)
 - godotrecipes (https://github.com/godotrecipes/2d_grid_movement/) (MIT license)
 - Jan Thomä (https://github.com/derkork/godot-safe-resource-loader/) (MIT license)
 - KoBeWi (https://github.com/KoBeWi/Godot-Palette-Swap-Shader) (MIT license)
 - Peter Kish (https://github.com/peter-kish/gloot) (MIT license)
-- Piet Bronders & Jeroen De Geeter as 2shady4u (https://github.com/2shady4u/godot-sqlite) (MIT license)
+- 2shady4u (Piet Bronders & Jeroen De Geeter) (https://github.com/2shady4u/godot-sqlite) (MIT license)
 - QueenChristina (https://github.com/QueenChristina/gd_dialog) (MIT license)
 - Savo Vuksan (https://github.com/SavoVuksan/EasyMenus) (MIT license)
 - upbeatDiamond
