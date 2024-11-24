@@ -821,47 +821,50 @@ position = Vector2(16, 512)
 [node name="TallGrass5" parent="Objects/Y-Sort" instance=ExtResource("7_n5ydw")]
 position = Vector2(0, 512)
 
-[node name="Rock" parent="Objects/Y-Sort" instance=ExtResource("16_i8ay2")]
-position = Vector2(96, 648)
+[node name="Rock" parent="Objects/Y-Sort" groups=["navigation_polygon_source"] instance=ExtResource("16_i8ay2")]
+position = Vector2(104, 864)
 
-[node name="Rock2" parent="Objects/Y-Sort" instance=ExtResource("16_i8ay2")]
+[node name="Rock2" parent="Objects/Y-Sort" groups=["navigation_polygon_source"] instance=ExtResource("16_i8ay2")]
 position = Vector2(160, 648)
 
-[node name="Rock3" parent="Objects/Y-Sort" instance=ExtResource("16_i8ay2")]
+[node name="Rock3" parent="Objects/Y-Sort" groups=["navigation_polygon_source"] instance=ExtResource("16_i8ay2")]
 position = Vector2(176, 664)
 
-[node name="Rock4" parent="Objects/Y-Sort" instance=ExtResource("16_i8ay2")]
+[node name="Rock4" parent="Objects/Y-Sort" groups=["navigation_polygon_source"] instance=ExtResource("16_i8ay2")]
 position = Vector2(192, 664)
 
-[node name="Rock5" parent="Objects/Y-Sort" instance=ExtResource("16_i8ay2")]
+[node name="Rock5" parent="Objects/Y-Sort" groups=["navigation_polygon_source"] instance=ExtResource("16_i8ay2")]
 position = Vector2(208, 680)
 
-[node name="Rock6" parent="Objects/Y-Sort" instance=ExtResource("16_i8ay2")]
+[node name="Rock6" parent="Objects/Y-Sort" groups=["navigation_polygon_source"] instance=ExtResource("16_i8ay2")]
 position = Vector2(96, 728)
 
-[node name="Rock7" parent="Objects/Y-Sort" instance=ExtResource("16_i8ay2")]
-position = Vector2(112, 648)
+[node name="Rock7" parent="Objects/Y-Sort" groups=["navigation_polygon_source"] instance=ExtResource("16_i8ay2")]
+position = Vector2(112, 664)
 
-[node name="Rock8" parent="Objects/Y-Sort" instance=ExtResource("16_i8ay2")]
-position = Vector2(96, 664)
+[node name="Rock8" parent="Objects/Y-Sort" groups=["navigation_polygon_source"] instance=ExtResource("16_i8ay2")]
+position = Vector2(192, 600)
 
-[node name="Rock9" parent="Objects/Y-Sort" instance=ExtResource("16_i8ay2")]
+[node name="Rock9" parent="Objects/Y-Sort" groups=["navigation_polygon_source"] instance=ExtResource("16_i8ay2")]
 position = Vector2(96, 680)
 
-[node name="Rock10" parent="Objects/Y-Sort" instance=ExtResource("16_i8ay2")]
+[node name="Rock10" parent="Objects/Y-Sort" groups=["navigation_polygon_source"] instance=ExtResource("16_i8ay2")]
 position = Vector2(176, 824)
 
-[node name="Rock11" parent="Objects/Y-Sort" instance=ExtResource("16_i8ay2")]
+[node name="Rock11" parent="Objects/Y-Sort" groups=["navigation_polygon_source"] instance=ExtResource("16_i8ay2")]
 position = Vector2(80, 696)
 
-[node name="Rock12" parent="Objects/Y-Sort" instance=ExtResource("16_i8ay2")]
+[node name="Rock12" parent="Objects/Y-Sort" groups=["navigation_polygon_source"] instance=ExtResource("16_i8ay2")]
 position = Vector2(208, 696)
 
-[node name="Rock13" parent="Objects/Y-Sort" instance=ExtResource("16_i8ay2")]
+[node name="Rock13" parent="Objects/Y-Sort" groups=["navigation_polygon_source"] instance=ExtResource("16_i8ay2")]
 position = Vector2(64, 696)
 
-[node name="Rock14" parent="Objects/Y-Sort" instance=ExtResource("16_i8ay2")]
+[node name="Rock14" parent="Objects/Y-Sort" groups=["navigation_polygon_source"] instance=ExtResource("16_i8ay2")]
 position = Vector2(160, 696)
+
+[node name="Rock15" parent="Objects/Y-Sort" groups=["navigation_polygon_source"] instance=ExtResource("16_i8ay2")]
+position = Vector2(144, 648)
 
 [node name="Fog" type="Sprite2D" parent="."]
 z_index = 2
@@ -936,7 +939,7 @@ conditions = {
 }
 
 [node name="CutsceneTriggerApproach" parent="Triggers" instance=ExtResource("12_0nmor")]
-position = Vector2(112, 608)
+position = Vector2(112, 640)
 scale = Vector2(6, 1)
 screenplay = "ch1_encounter_first"
 scene = "Approach"
@@ -963,13 +966,13 @@ umid = 4
 tag = "starter_fire_sunny"
 
 [node name="GamepieceTutorial" parent="." instance=ExtResource("15_n1kcy")]
-position = Vector2(576, 544)
+position = Vector2(408, 616)
 unique_id = 260
 umid = 260
 tag = "tutorial_beast"
 
 [node name="GamepieceScientist" parent="." instance=ExtResource("15_n1kcy")]
-position = Vector2(560, 544)
+position = Vector2(392, 616)
 unique_id = 260
 umid = 260
 tag = "scientist_sunny"

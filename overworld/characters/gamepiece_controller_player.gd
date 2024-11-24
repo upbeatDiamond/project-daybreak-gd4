@@ -165,7 +165,8 @@ func handle_movement_input():
 		gamepiece.position_stabilized = true
 		gamepiece.queue_movement( movement )
 		gamepiece.update_anim_tree()
-		print("GPC: I think I'm at ", gamepiece.current_position, "")
+		print("GPC: I think I, ", gamepiece.tag, 
+				" am at ", gamepiece.current_position, "")
 
 
 func handle_map_change( map:String, silent:bool=false ):

@@ -1,7 +1,5 @@
 extends Node
 
-signal _event_complete
-
 var clyde : ClydeDialogue
 var unpaused_prior := true
 var is_running_event := false
@@ -182,9 +180,9 @@ func do_string(do:String):
 	var async = false
 	
 	if d == "async":
-		_event_complete.emit()
 		async = true
 		parameters = parameters.slice(1) # Pop out front, discard
+		d = parameters[0]
 	else:
 		is_running_event = true
 	
@@ -192,16 +190,15 @@ func do_string(do:String):
 		"walk_at", "walk_pt": #navigate to anchor
 			pass
 		"walk_pos": #navigate to coordinate
-			await ev_walk_pos(parameters[1], parameters[2], parameters[3])
+			if async:
+				ev_walk_pos(parameters[1], parameters[2], parameters[3])
+			else:
+				await ev_walk_pos(parameters[1], parameters[2], parameters[3])
 		"battle":
 			ev_battle()
-		"async":
-			#return ev_async( do.replace(d, "") )
 			pass
 	pass
 	
-	if not async:
-		_event_complete.emit()
 	is_running_event = false
 
 #
