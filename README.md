@@ -74,6 +74,7 @@ Features code and assets from many artists, including but not limited to:
 - Henrique Lazarini as 7Soul1 (https://opengameart.org/content/496-pixel-art-icons-for-medievalfantasy-rpg) (CC0)
 - isaiah658 (https://opengameart.org/content/50-monsters-pack-2d) (CC0)
 - Kenney (https://kenney.nl) (CC0)
+- Luis Zuno (https://opengameart.org/content/rpg-town-pixel-art-assets) (CC0)
 - megupets (http://www.megupets.com/espinis/) (CC0)
 - Rae Karen Hauck (https://commons.wikimedia.org/wiki/File:Sunrise_Virginia_Beach.jpg) (CC0)
 - Shepardskin (https://opengameart.org/users/shepardskin)
