@@ -1,8 +1,9 @@
-[gd_scene load_steps=41 format=3 uid="uid://dsk04vtyuk6hu"]
+[gd_scene load_steps=42 format=3 uid="uid://dsk04vtyuk6hu"]
 
 [ext_resource type="Script" path="res://overworld/characters/gamepiece.gd" id="1_6sn36"]
 [ext_resource type="Shader" path="res://addons/palette_swap/PaletteSwap.gdshader" id="2_45ku8"]
 [ext_resource type="Script" path="res://overworld/characters/gamepiece_controller_player.gd" id="2_xqie8"]
+[ext_resource type="Texture2D" uid="uid://bcqeytc8gx7n6" path="res://assets/textures/shadow_1x2.png" id="3_as813"]
 [ext_resource type="Texture2D" uid="uid://bch2pvuu2u4qm" path="res://assets/textures/mon/overworld/human_adult/base.png" id="3_jcyox"]
 [ext_resource type="Material" uid="uid://cgic7oddr34y" path="res://overworld/characters/gamepiece_palette.tres" id="5_5hb6f"]
 [ext_resource type="Texture2D" uid="uid://dch2u5eg2nv60" path="res://assets/textures/mon/overworld/human_adult/accent.png" id="5_h8kjf"]
@@ -198,7 +199,9 @@ collision_mask = 3
 [node name="GFX" type="Marker2D" parent="."]
 
 [node name="Shadow" type="Sprite2D" parent="GFX"]
-visible = false
+self_modulate = Color(1, 1, 1, 0.501961)
+position = Vector2(8, 7)
+texture = ExtResource("3_as813")
 
 [node name="SpriteBase" type="Sprite2D" parent="GFX"]
 material = SubResource("ShaderMaterial_il7i3")

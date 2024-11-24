@@ -1,4 +1,4 @@
-class_name Combatant
+class_name CombatantX
 extends Node
 
 

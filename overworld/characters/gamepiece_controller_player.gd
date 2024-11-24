@@ -7,6 +7,8 @@ var input_cooldown := 0.0
 var is_rendered := false
 var target_position = Vector2(0,0)
 
+const MOVE_QUEUE_CAPACITY := 3
+
 enum NavigationMode{
 	KEYBOARD_LOCAL = 0,
 	KEYBOARD_STREAMED,
@@ -39,8 +41,7 @@ func _get_configuration_warnings() -> PackedStringArray:
 func _process(_delta):
 	#super._process(_delta)
 	if gamepiece.is_node_ready():
-		gamepiece.umid = 0
-		if not is_rendered:
+		if not is_rendered and gamepiece.umid == 0:
 			var palette_base_path = str("res://assets/textures/monsters/overworld/human/human_palette_",GlobalDatabase.load_keyval("player_sprite_base_palette"),".png")
 			var palette_accent_path = str("res://assets/textures/monsters/overworld/human/human_palette_hair_",GlobalDatabase.load_keyval("player_sprite_accent_palette"),".png")
 			if FileAccess.file_exists(palette_accent_path):
@@ -53,7 +54,8 @@ func _process(_delta):
 
 
 func _physics_process(_delta):
-	if GlobalRuntime.gameworld_input_stopped || gamepiece.is_paused:
+	if nav_mode == NavigationMode.KEYBOARD_LOCAL and \
+		(GlobalRuntime.gameworld_input_stopped or gamepiece.is_paused):
 		return
 	elif gamepiece.move_queue.size() <= 1 && gamepiece.is_moving == false && input_cooldown <= 0:
 		handle_movement_input()
@@ -95,6 +97,8 @@ func _autonav_next_move() -> Vector2:
 func _handle_movement_direction() -> Vector2:
 	match nav_mode:
 		NavigationMode.KEYBOARD_LOCAL:
+			if gamepiece.move_queue.size() > MOVE_QUEUE_CAPACITY:
+				gamepiece.move_queue = gamepiece.move_queue.slice(gamepiece.move_queue.size() - MOVE_QUEUE_CAPACITY)
 			if gamepiece.treat_as_player:
 				return Input.get_vector("player_left", "player_right", "player_up", "player_down")
 			return Vector2(0,0)
@@ -119,49 +123,50 @@ func set_autonav(target_pos:Vector2):
 
 
 func handle_movement_input():
-	if !gamepiece.is_paused and !GlobalRuntime.gameworld_input_stopped:
-		var input_direction = await _handle_movement_direction()#Input.get_vector("player_left", "player_right", "player_up", "player_down")
+	#if !gamepiece.is_paused and !GlobalRuntime.gameworld_input_stopped:
+	## ^ This should already be checked by the caller.
+	var input_direction = await _handle_movement_direction()#Input.get_vector("player_left", "player_right", "player_up", "player_down")
+	
+	if input_direction == Vector2.ZERO:
+		return
+	
+	# This section deals with some diagonal inputs contextually
+	# If x and y are not equal, choose the greater.
+	# Else, change direction so the character moves zig-zag
+	# Else, follow the direction the character is facing, if X and Y are 0 or NaN.
+	if (abs(input_direction.x) > abs(input_direction.y)):
+		input_direction = Vector2(sign(input_direction.x), 0)
+	elif (abs(input_direction.x) < abs(input_direction.y)):
+		input_direction = Vector2(0, sign(input_direction.y))
+	elif ( abs(gamepiece.facing_direction.x) > 0 ):
+		input_direction = Vector2(0, sign(input_direction.y))
+	elif ( abs(gamepiece.facing_direction.x) > 0 ):
+		input_direction = Vector2(sign(input_direction.x), 0)
 		
-		if input_direction == Vector2.ZERO:
-			return
-		
-		# This section deals with some diagonal inputs contextually
-		# If x and y are not equal, choose the greater.
-		# Else, change direction so the character moves zig-zag
-		# Else, follow the direction the character is facing, if X and Y are 0 or NaN.
-		if (abs(input_direction.x) > abs(input_direction.y)):
-			input_direction = Vector2(sign(input_direction.x), 0)
-		elif (abs(input_direction.x) < abs(input_direction.y)):
-			input_direction = Vector2(0, sign(input_direction.y))
-		elif ( abs(gamepiece.facing_direction.x) > 0 ):
-			input_direction = Vector2(0, sign(input_direction.y))
-		elif ( abs(gamepiece.facing_direction.x) > 0 ):
-			input_direction = Vector2(sign(input_direction.x), 0)
-			
-		# Zig-zag?
-		if (input_direction.x != 0) && (input_direction.y != 0) && (input_direction != Vector2.ZERO):
-			input_direction = Vector2( sign(input_direction.x)*abs(gamepiece.facing_direction.y), sign(input_direction.y)*abs(gamepiece.facing_direction.x));
-		
-		
-		var movement := Movement.new( input_direction )
-		
+	# Zig-zag?
+	if (input_direction.x != 0) && (input_direction.y != 0) && (input_direction != Vector2.ZERO):
+		input_direction = Vector2( sign(input_direction.x)*abs(gamepiece.facing_direction.y), sign(input_direction.y)*abs(gamepiece.facing_direction.x));
+	
+	
+	var movement := Movement.new( input_direction )
+	
+	gamepiece.facing_direction = input_direction;
+	
+	var is_running = _handle_movement_running()#Input.is_action_pressed("ui_fast")
+	if is_running:
+		movement.method = gamepiece.TraversalMode.RUNNING
+	elif Vector2i(gamepiece.facing_direction) != movement.to_facing_vector2i():
+		movement.method = gamepiece.TraversalMode.STANDING
+		input_cooldown = INPUT_COOLDOWN_DEFAULT
+	else:
+		movement.method = gamepiece.TraversalMode.WALKING
+	
+	if input_direction != Vector2.ZERO:
 		gamepiece.facing_direction = input_direction;
-		
-		var is_running = _handle_movement_running()#Input.is_action_pressed("ui_fast")
-		if is_running:
-			movement.method = gamepiece.TraversalMode.RUNNING
-		elif Vector2i(gamepiece.facing_direction) != movement.to_facing_vector2i():
-			movement.method = gamepiece.TraversalMode.STANDING
-			input_cooldown = INPUT_COOLDOWN_DEFAULT
-		else:
-			movement.method = gamepiece.TraversalMode.WALKING
-		
-		if input_direction != Vector2.ZERO:
-			gamepiece.facing_direction = input_direction;
-			gamepiece.position_stabilized = true
-			gamepiece.queue_movement( movement )
-			gamepiece.update_anim_tree()
-			print("GPC: I think I'm at ", gamepiece.current_position, "")
+		gamepiece.position_stabilized = true
+		gamepiece.queue_movement( movement )
+		gamepiece.update_anim_tree()
+		print("GPC: I think I'm at ", gamepiece.current_position, "")
 
 
 func handle_map_change( map:String, silent:bool=false ):
