@@ -130,13 +130,13 @@ func save_data():
 # Read this monster from disk, or a database, ...
 # ... by feeding the results of global/singleton into unpackData
 func load_data():
-	var load = GlobalDatabase.load_monster(umid);
+	var _load = GlobalDatabase.load_monster(umid);
 	var dumb_node =  Node.new() # does nothing, used to compare properties
-	for property in load.get_property_list():
+	for property in _load.get_property_list():
 		if property in dumb_node.get_property_list():
 			# Skip Node properties, only copy Gamepiece properties
 			continue
-		self.set( property["name"], load.get(property["name"]) )
+		self.set( property["name"], _load.get(property["name"]) )
 
 
 func get_active_techniques():

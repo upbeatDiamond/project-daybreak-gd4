@@ -131,8 +131,8 @@ func set_hp(health) -> int:
 	return monster.set_health(health)
 
 
-func set_max_hp(max:int):
-	return monster.set_max_health(max)
+func set_max_hp(maximum:int):
+	return monster.set_max_health(maximum)
 
 
 func get_fs():
@@ -149,8 +149,8 @@ func set_fs(fs):
 	return monster.set_spirit(fs)
 
 
-func set_max_fs(max:int):
-	return monster.set_max_spirit(max)# monster.max_spirit
+func set_max_fs(maximum:int):
+	return monster.set_max_spirit(maximum)# monster.max_spirit
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -53,16 +53,20 @@ func _ready():
 	dialog_UI.hide()
 	text_dialog.set_visible_characters(0)
 
+
 func _input(event):
-	if talking and event.is_action_pressed("ui_accept"):
+	if talking and event.is_action_pressed("ui_accept") \
+			and not GlobalDirector.is_running_event:
 		continue_dialog()
+
 
 func start_dialog(line:Dictionary):
 	GlobalDirector.talking = true
 	talking = true
 	set_curr(line)
 	timer.start()
-	
+
+
 func end_dialog():
 	timer.stop()
 	GlobalDirector.talking = false
@@ -70,8 +74,8 @@ func end_dialog():
 	GlobalDirector._end_current_screenplay()
 	#unfocus_all()
 	dialog_UI.hide()
-	
-	
+
+
 # Set curr_dialog_node by text id, the current dialog to display.
 func set_curr(line:Dictionary):
 	if line["type"] == GlobalDirector.END_DIALOG_ID:
@@ -108,13 +112,15 @@ func set_curr(line:Dictionary):
 		# Currently, executes actions at start of dialog, but after initialization of dialog.
 		for act in curr_dialog_node.action:
 			GlobalDirector.execute(act)
-		
+
+
 # Resizes dialog UI to fit content.
 func resize_control_nodes():
 		# Godot's quirky hacky workaround: Hide and reshow to resize control node
 		# for case when previous content was very long, but current content short.
 		dialog_UI.hide()
 		dialog_UI.show()
+
 
 func continue_dialog():
 	# Case 1: text was mid printing, so we want to skip text animation and show rest of text
@@ -134,7 +140,7 @@ func continue_dialog():
 			else:
 				if curr_dialog_node.choices.size() == 0:
 					# - (B) We need to move to next_id if no choices
-					set_curr(GlobalDirector.get_next_line())
+					set_curr(await GlobalDirector.get_next_line())
 				else:
 					# - (C) Show choices if there are choces
 					choices.show()
@@ -142,10 +148,12 @@ func continue_dialog():
 			# Needed for when new text appears after choices.
 			timer.start()
 
+
 # Returns whether there is still text to show in the current box.
 func text_not_all_visible() -> bool:
 	return text_dialog.visible_characters < text_dialog.text.length() \
 			and text_dialog.visible_characters != -1
+
 
 # Show choices if all text shown and at end of texts [no more text after].
 func show_choices():
@@ -154,31 +162,20 @@ func show_choices():
 		choices.show()
 		focus_first_choice()
 
+
 # Focus on first button choice if exists.
 func focus_first_choice():
 	var choices_container = choices.get_child(0)
 	if choices_container.get_child_count() > 0:
 		choices_container.get_child(0).call_deferred("grab_focus")
 
-## CHEAP DIRTY GROSS FUNCTION!
-#func unfocus_all():
-	#var choices_container = choices.get_child(0)
-	#if choices_container.get_child_count() > 0:
-		#var children = choices_container.get_children()
-		#for child in children:
-			#child.call_deferred("release_focus")
-	#var children = choices.get_children()
-	#for child in children:
-		#child.call_deferred("release_focus")
-	#for child in self.get_children():
-		#child.call_deferred("release_focus")
-
 
 # Player chooses a choice, then go to next dialog id accordingly.
 func _on_choice_selected(id:int):
 	timer.start()
 	GlobalDirector.choose_dialog_option(id)
-	set_curr(GlobalDirector.get_next_line())
+	set_curr(await GlobalDirector.get_next_line())
+
 
 #======================================Text===================================
 func _on_timer_timeout():
@@ -199,6 +196,7 @@ func _on_timer_timeout():
 			# Indicate can move to next text, if no choices to make right now.
 			next_icon.show()
 		timer.stop()
+
 
 ###############################################################################
 # TODO: connect set text speed to in game menu settings w/ hslider

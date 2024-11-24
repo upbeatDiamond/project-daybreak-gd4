@@ -61,7 +61,7 @@ func _ready():
 	link_buttons()
 
 
-func _input(ie:InputEvent) -> void:
+func _input(_ie:InputEvent) -> void:
 	#TODO make input select things
 	pass
 

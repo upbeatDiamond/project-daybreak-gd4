@@ -2,12 +2,13 @@
 
 extends Node
 
+const BATTLE_GUI_PATH = "/root/SceneManager/InterfaceBattle/SubViewport/BattleGUI"
 var current_battle : BattleSession = null
 var battle_gui : BattleClientGUI
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	battle_gui = get_node("/root/TestBuddy/BattleGUI") as BattleClientGUI
+	battle_gui = get_node(BATTLE_GUI_PATH) as BattleClientGUI
 	pass # Replace with function body.
 
 
@@ -45,7 +46,6 @@ func new_battle_dummy() -> BattleSession:
 	_fighter.set_fs( _fighter.get_max_fs() )
 	_fighter.moves.append_array(_moves)
 	team_away.battlers[BattleTeam.FieldPos.ACTIVE_LEFT] = _fighter
-	BattleTeam.FieldPos.ACTIVE_LEFT
 	
 	_moves = [BattleMove.new("Bite", 3, 1), BattleMove.new("Sting", 4, 1), 
 				BattleMove.new("Sap Strength", 2, -2), BattleMove.new("Paper Cut", 2)]

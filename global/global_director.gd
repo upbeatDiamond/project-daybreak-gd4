@@ -1,8 +1,10 @@
 extends Node
 
+signal _event_complete
+
 var clyde : ClydeDialogue
 var unpaused_prior := true
-
+var is_running_event := false
 
 var key_values := {}
 var registered_things := {}	# Stores actor ids, referenced by (key)name
@@ -30,11 +32,6 @@ func reset_clyde():
 	clyde = ClydeDialogue.new()
 	
 	clyde.dialogue_folder = "res://screenplays/clyde"
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
 
 
 func _load_screenplay(file_name: String, block:String="") -> void:
@@ -65,7 +62,7 @@ func run_screenplay(file_name: String, block:String="") -> void:
 
 func _start_current_screenplay():
 	unpaused_prior = GlobalRuntime.gameworld_input_enabled(false)
-	GlobalRuntime.scene_manager.dialog_box.start_dialog( get_next_line() )
+	GlobalRuntime.scene_manager.dialog_box.start_dialog( await get_next_line() )
 
 
 func get_next_line() -> Dictionary:
@@ -73,8 +70,8 @@ func get_next_line() -> Dictionary:
 	
 	if next_line["type"] == "line" and next_line.has("speaker") \
 	and next_line["speaker"] == "!do" and next_line.has("text"):
-		do_string(next_line["text"])
-		return get_next_line()
+		await do_string(next_line["text"])
+		return await get_next_line()
 	
 	if next_line.has("speaker"):
 		if next_line["speaker"] == null:
@@ -88,7 +85,7 @@ func get_next_line() -> Dictionary:
 	if next_line["type"] == "line" and \
 	( next_line.get("speaker") == null or next_line.get("speaker") == "" ) and \
 	( next_line.get("text") == null or next_line.get("text") == "" ) :
-		return get_next_line()
+		return await get_next_line()
 	
 	return next_line
 
@@ -179,21 +176,52 @@ func set_key_value( key:String, value ):
 	Runs a string as an action command, as a Clyde hack.
 """
 func do_string(do:String):
-	do = do + " "
+	do = str(do + " ").to_lower()
 	var parameters = do.split(" ")
 	var d = parameters[0]
+	var async = false
+	
+	if d == "async":
+		_event_complete.emit()
+		async = true
+		parameters = parameters.slice(1) # Pop out front, discard
+	else:
+		is_running_event = true
 	
 	match d:
 		"walk_at", "walk_pt": #navigate to anchor
 			pass
 		"walk_pos": #navigate to coordinate
-			return ev_walk_pos(parameters[1], parameters[2], parameters[3])
+			await ev_walk_pos(parameters[1], parameters[2], parameters[3])
 		"battle":
-			return ev_battle()
+			ev_battle()
 		"async":
 			#return ev_async( do.replace(d, "") )
 			pass
 	pass
+	
+	if not async:
+		_event_complete.emit()
+	is_running_event = false
+
+#
+#func _do_string_async(do:String):
+	#do = str(do + " ").to_lower()
+	#var parameters = do.split(" ")
+	#var d = parameters[0]
+	#
+	#match d:
+		#"walk_at", "walk_pt": #navigate to anchor
+			#pass
+		#"walk_pos": #navigate to coordinate
+			#ev_walk_pos(parameters[1], parameters[2], parameters[3])
+			#return 
+		#"battle":
+			#return ev_battle()
+		#"async":
+			##return ev_async( do.replace(d, "") )
+			#pass
+	#pass
 
 
 ## Parameters:
@@ -206,12 +234,22 @@ func ev_wait( parameters ):
 ## Parameters:
 ## duration - length in seconds to wait for
 func ev_walk_pos( gp:String, x, y ):
+	var walking_pieces = []
+	
 	for piece in get_tree().get_nodes_in_group("gamepiece"):
 		if (piece as Gamepiece).tag == gp:
 			piece.find_child("*ontrol*").target_position = Vector2(str(x).to_int(), str(y).to_int())
 			piece.find_child("*ontrol*").set("nav_mode", 2)
-		pass
-	pass
+			walking_pieces.append(piece)
+	
+	await get_tree().process_frame
+	await get_tree().process_frame
+	
+	for piece in walking_pieces:
+		if piece.is_moving or piece.was_moving:
+			await piece.gamepiece_stopped_signal
+	
+	return walking_pieces
 
 
 func ev_battle():

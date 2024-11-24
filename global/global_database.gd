@@ -389,8 +389,6 @@ func reset_save_file() -> void:
 	var db_reset = SQLite.new(); db_reset.path = db_name_user_reset; db_reset.open_db()
 	#var db_commit = SQLite.new(); db_commit.path = db_name_user_commit; db_commit.open_db()
 	
-	var success
-	
 	#var globalized_backup_path = ProjectSettings.globalize_path(db_name_user_backup) + ".db"
 	#var globalized_commit_path = ProjectSettings.globalize_path(db_name_user_commit) + ".db"
 	var globalized_commit_path = ProjectSettings.globalize_path(db_name_user_commit) + ".db"
@@ -398,7 +396,7 @@ func reset_save_file() -> void:
 	if FileAccess.file_exists( db_name_user_commit + ".db" ):
 		OS.move_to_trash( globalized_commit_path )
 	
-	success = db_reset.query("VACUUM INTO \"" + globalized_commit_path + "\"")
+	var success = db_reset.query("VACUUM INTO \"" + globalized_commit_path + "\"")
 	
 	db_reset.close_db()
 	#db_commit.close_db()

@@ -9,6 +9,11 @@ signal gamepiece_stopped_signal
 signal gamepiece_entering_door_signal
 signal gamepiece_entered_door_signal
 
+
+signal gamepiece_moved( direction:Vector2, global_endpoint:Vector2, mode:TraversalMode )
+signal gamepiece_moving( direction:Vector2, global_endpoint:Vector2, mode:TraversalMode )
+
+
 # -1 = invalid / unset
 # 0 = player 1
 # 0-255 = reserved for players, in case of future multiplayer version
@@ -89,11 +94,6 @@ var move_queue :Array[Movement] = []
 # The 'soul' of the gamepiece.
 # The gamepiece is but a vehicle to the spirit (that which stores name, stats, species, etc)
 
-
-signal gamepiece_moved( direction:Vector2, global_endpoint:Vector2, mode:TraversalMode )
-signal gamepiece_moving( direction:Vector2, global_endpoint:Vector2, mode:TraversalMode )
-
-
 func _init():
 	GlobalRuntime.save_data.connect( save_gamepiece )
 	monster = Monster.new()
@@ -150,6 +150,10 @@ func _process(_delta):
 		elif was_moving == true: # implied: is_moving is false
 			update_anim_tree()
 			was_moving = false
+	if is_moving and not was_moving:
+		gamepiece_moving_signal.emit()
+	elif not was_moving and not is_moving:
+		gamepiece_stopped_signal.emit()
 
 
 func _on_gameworld_pause():
@@ -293,28 +297,28 @@ func _update_monster():
 func update_sprites():
 	
 	# tag = monster's tag, for semantic calling on generic sprites
-	var tag = GlobalDatabase.fetch_dex_from_index(monster.species, ["tag"]).pop_front()
-	if tag is Dictionary:
-		tag = tag["tag"]
-	if tag == null or tag == "":
-		tag = "default"
+	var _tag = GlobalDatabase.fetch_dex_from_index(monster.species, ["tag"]).pop_front()
+	if _tag is Dictionary:
+		_tag = _tag["tag"]
+	if _tag == null or _tag == "":
+		_tag = "default"
 	
-	_update_sprites(tag)
+	_update_sprites(_tag)
 	
 	# Guard clause before de-genericizing the gamepiece
 	if self.tag == null:
 		return
-	tag = self.tag # set tag to that of the gamepiece
+	_tag = self.tag # set tag to that of the specific character
 	
-	_update_sprites(tag, false)
+	_update_sprites(_tag, false)
 	# Overwrite previous changes, but only where a replacement layer exists
 
 
-func _update_sprites(tag:String, clear_prev:=true):
+func _update_sprites(_tag:String, clear_prev:=true):
 	
 	# Guard clause, avoid wasting time on failed cases
 	# (slightly increases delay on successful cases?)
-	if tag == null or tag.strip_edges() == "":
+	if _tag == null or _tag.strip_edges() == "":
 		return
 	
 	# Clear Prev marks whether the sprite is extending a previous load,
@@ -325,9 +329,9 @@ func _update_sprites(tag:String, clear_prev:=true):
 		gfx.find_child("SpriteBase").texture = null
 		gfx.find_child("SpriteClothes").texture = null
 	
-	var addr_accent = str("res://assets/textures/mon/overworld/", tag ,"/accent.png")
-	var addr_base = str("res://assets/textures/mon/overworld/", tag ,"/base.png")
-	var addr_dress = str("res://assets/textures/mon/overworld/", tag ,"/dress.png")
+	var addr_accent = str("res://assets/textures/mon/overworld/", _tag ,"/accent.png")
+	var addr_base = str("res://assets/textures/mon/overworld/", _tag ,"/base.png")
+	var addr_dress = str("res://assets/textures/mon/overworld/", _tag ,"/dress.png")
 	
 	# Check the accent layer, which includes patterns, markings, hair, etc.
 	# This is first alphabetically; order shouldn't matter greatly
@@ -336,7 +340,7 @@ func _update_sprites(tag:String, clear_prev:=true):
 		if sprite_accent != null:
 			gfx.find_child("SpriteAccent").texture = sprite_accent
 	else:
-		print( addr_accent, " not found! gp line 303 - accent ", tag )
+		print( addr_accent, " not found! gp line 303 - accent ", _tag )
 	
 	# Check the base layer, which includes most of the body, ideally
 	# This is second alphabetically; order shouldn't matter greatly
@@ -345,8 +349,8 @@ func _update_sprites(tag:String, clear_prev:=true):
 		if sprite_base != null:
 			gfx.find_child("SpriteBase").texture = sprite_base
 	else:
-		print( addr_base, " not found! gp line 308 - base ", tag )
-		if tag != "default" and clear_prev:
+		print( addr_base, " not found! gp line 308 - base ", _tag )
+		if _tag != "default" and clear_prev:
 			_update_sprites("default") 
 			# If the current tag cannot be found, the sprite has to be made visible.
 			# Therefore, set it to the default tag, which should exist.
@@ -360,7 +364,7 @@ func _update_sprites(tag:String, clear_prev:=true):
 		if sprite_dress != null:
 			gfx.find_child("SpriteClothes").texture = sprite_dress
 	else:
-		print( addr_dress, " not found! gp line 315 - dress ", tag )
+		print( addr_dress, " not found! gp line 315 - dress ", _tag )
 
 
 # Not the same as move, used for in-map teleportation.

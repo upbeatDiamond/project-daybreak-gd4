@@ -82,6 +82,7 @@ text = "Name"
 [node name="Margin" type="MarginContainer" parent="HBox"]
 layout_mode = 2
 script = ExtResource("8")
+node_path = NodePath("..")
 
 [node name="TextBox" type="PanelContainer" parent="."]
 layout_mode = 2

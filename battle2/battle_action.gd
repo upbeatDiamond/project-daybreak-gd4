@@ -34,7 +34,7 @@ var action_priority := {
 }
 
 # Used to prevent act_type and action_core from overwriting the other
-var _mutex_open := true
+#var _mutex_open := true
 
 var act_type:ActionType = ActionType.PASS
 

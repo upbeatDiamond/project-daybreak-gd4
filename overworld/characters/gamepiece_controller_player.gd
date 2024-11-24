@@ -1,13 +1,11 @@
 extends Node
 
 var gamepiece : Gamepiece
-var INPUT_COOLDOWN_DEFAULT:float = 6.5;
+const INPUT_COOLDOWN_DEFAULT:float = 6.5;
 var input_cooldown := 0.0
 @onready var navigation_agent_2d : NavigationAgent2D
 var is_rendered := false
 var target_position = Vector2(0,0)
-
-const MOVE_QUEUE_CAPACITY := 3
 
 enum NavigationMode{
 	KEYBOARD_LOCAL = 0,
@@ -16,7 +14,7 @@ enum NavigationMode{
 }
 
 var nav_mode := NavigationMode.KEYBOARD_LOCAL
-
+const MOVE_QUEUE_CAPACITY := 3
 
 func _ready() -> void:
 	if gamepiece == null:
@@ -49,7 +47,7 @@ func _process(_delta):
 			if FileAccess.file_exists(palette_base_path):
 				gamepiece.find_child("SpriteBase").material.set_shader_parameter("palette", load(palette_base_path))
 			is_rendered = true
-			gamepiece._check_interior_event_collision()
+		gamepiece._check_interior_event_collision()
 	#print( "controller thinks gp = %d", gamepiece )
 
 
@@ -133,7 +131,8 @@ func handle_movement_input():
 	# This section deals with some diagonal inputs contextually
 	# If x and y are not equal, choose the greater.
 	# Else, change direction so the character moves zig-zag
-	# Else, follow the direction the character is facing, if X and Y are 0 or NaN.
+	# Else, follow the direction the character is facing, 
+	# if X and Y are 0 or NaN.
 	if (abs(input_direction.x) > abs(input_direction.y)):
 		input_direction = Vector2(sign(input_direction.x), 0)
 	elif (abs(input_direction.x) < abs(input_direction.y)):
@@ -145,8 +144,8 @@ func handle_movement_input():
 		
 	# Zig-zag?
 	if (input_direction.x != 0) && (input_direction.y != 0) && (input_direction != Vector2.ZERO):
-		input_direction = Vector2( sign(input_direction.x)*abs(gamepiece.facing_direction.y), sign(input_direction.y)*abs(gamepiece.facing_direction.x));
-	
+		input_direction = Vector2( sign(input_direction.x)*abs(gamepiece.facing_direction.y), 
+								sign(input_direction.y)*abs(gamepiece.facing_direction.x));
 	
 	var movement := Movement.new( input_direction )
 	

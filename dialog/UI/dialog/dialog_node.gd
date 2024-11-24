@@ -104,7 +104,7 @@ func set_default_values():
 # Returns false if no more text to show in this dialogNode.
 func set_next_text_index() -> bool:
 	text_index += 1
-	if text_index == texts.size():
+	if text_index >= texts.size():
 		# No more text to show; move to next dialog id
 		return false
 	# Set current printable text based on text index, current displayed text
