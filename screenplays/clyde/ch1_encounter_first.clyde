@@ -20,11 +20,11 @@
 
 == Its
 
-!do: walk_pos scientist_sunny 200 632
+!do: walk_pos scientist_sunny 356 620
 :Professor Olearia steps towards you from the fog.
 Olearia: Ah, hello there. Odd weather we're having, right? Must be a trickster's spell or something. 
 Olearia: ...
-!do: walk_pos tutorial_beast 216 632
+!do: walk_pos tutorial_beast 388 620
 -> Stand Ground
 
 == Stand Ground
@@ -32,17 +32,15 @@ Olearia: ...
 Olearia: Someone's right behind me, aren't they?
 \?\?\?: Gurrraaahhhh!
 Olearia: Eyikes!
-!do: async walk_pos scientist_sunny 72 552
-!do: async walk_pos starter_water_sunny 168 604
-!do: async walk_pos starter_fire_sunny 168 620
-!do: walk_pos starter_grass_sunny 168 636
--> Prepare Fight
-
-== Prepare Fight
-
+!do: async walk_pos scientist_sunny 40 580
 \?\?\? (Red): We need to stop that beast. If we could fight alongside <player_them>, we might be able to resist...
 \?\?\? (Blue): I guess this is something we do now.
 \?\?\? (Green): We'll give it our all, then!
+!do: async walk_pos starter_water_sunny 168 604
+!do: async walk_pos starter_fire_sunny 168 620
+!do: async walk_pos tutorial_beast 200 632
+!do: walk_pos starter_grass_sunny 168 636
+!do: battle
 
 == Win Fight
 

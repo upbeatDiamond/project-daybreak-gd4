@@ -9,9 +9,9 @@ var registered_things := {}	# Stores actor ids, referenced by (key)name
 var registered_names := {} 	# Stores displayed name, ref'd by keyname
 var registered_alias := {}	# Stores actor pseudonyms
 
-var external_variables := {
-	"player_name": "Steve?"
-}
+#var external_variables := {
+	#"player_name": "Steve?"
+#}
 
 # spritesheet?
 var iconsets : Dictionary
@@ -33,7 +33,7 @@ func reset_clyde():
 
 
 func _load_screenplay(file_name: String, block:String="") -> void:
-	await clyde.load_dialogue(file_name, block)
+	clyde.load_dialogue(file_name, block)
 	
 	for connection in clyde.variable_changed.get_connections():
 		clyde.variable_changed.disconnect(connection.callable)
@@ -103,11 +103,18 @@ func _end_current_screenplay():
 
 
 func _on_variable_changed(key:String, val:Variant, val_prev:Variant):
+	print("Director says '", key, "' tried to change from ", val_prev, "to", val)
 	pass
 
 
 func _on_event_triggered(key: String):
 	print("event: ", key)
+	
+	match key.strip_edges().to_lower():
+		"shake":
+			screen_shake.emit()
+		_:
+			pass
 	pass
 
 
@@ -200,25 +207,6 @@ func do_string(do:String):
 	pass
 	
 	is_running_event = false
-
-#
-#func _do_string_async(do:String):
-	#do = str(do + " ").to_lower()
-	#var parameters = do.split(" ")
-	#var d = parameters[0]
-	#
-	#match d:
-		#"walk_at", "walk_pt": #navigate to anchor
-			#pass
-		#"walk_pos": #navigate to coordinate
-			#ev_walk_pos(parameters[1], parameters[2], parameters[3])
-			#return 
-		#"battle":
-			#return ev_battle()
-		#"async":
-			##return ev_async( do.replace(d, "") )
-			#pass
-	#pass
 
 
 ## Parameters:
@@ -318,10 +306,10 @@ var is_cutscene_playing = false: get = get_state_cutscene, set = set_state_cutsc
 func set_state_talking(is_talking):
 	talking = is_talking
 	if is_talking:
-		emit_signal("pause")
+		pause.emit()
 	elif not is_paused():
 		# This check is necessary in case, for example, talking and cutscene both occur asynch.
-		emit_signal("unpause")
+		unpause.emit()
 
 
 func get_state_talking():
@@ -343,4 +331,4 @@ func get_state_cutscene():
 # Returns whether game is paused. Manually setting how nodes react to this setting
 # allows greater control than get_tree().paused = true
 func is_paused():
-	return talking or is_cutscene_playing
+	return is_cutscene_playing or talking

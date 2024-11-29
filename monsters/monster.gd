@@ -32,7 +32,11 @@ var met_at_level = -1
 
 var health: set = set_health, get = get_health;
 var spirit: set = set_spirit, get = get_spirit;
-
+var speed = 10#:
+	#set(val):
+		#stats_current[ GlobalMonster.BattleStats.SPEED ] = val
+	#get:
+		#return stats_current[ GlobalMonster.BattleStats.SPEED ]
 # May convert to PackedByteArray or Dictionary
 # Represents genetic component to personality
 var p_factor_base = PackedByteArray(); 
@@ -88,6 +92,18 @@ func get_health() -> int:
 # can turn this into a setget
 func set_health( _health:int ):
 	stats_current[ GlobalMonster.BattleStats.HEALTH ] = _health;
+	return stats_current[ GlobalMonster.BattleStats.HEALTH ] # for debug?
+
+# get default health level
+func get_max_health() -> int:
+	var _health = stats_base[ GlobalMonster.BattleStats.HEALTH ];
+	if (_health == null):
+		_health = 0
+	return _health
+
+
+func set_max_health( _max:int ):
+	stats_base[ GlobalMonster.BattleStats.HEALTH ] = _max;
 
 # Separated for future damage animations, or abilities
 func reduce_health( damage ):
@@ -110,6 +126,21 @@ func get_spirit() -> int:
 # can turn this into a setget
 func set_spirit( _spirit:int ):
 	stats_current[ GlobalMonster.BattleStats.SPIRIT ] = _spirit;
+	return stats_current[ GlobalMonster.BattleStats.SPIRIT ] # for debug?
+
+# get default spirit level
+func get_max_spirit() -> int:
+	var _spirit = stats_base[ GlobalMonster.BattleStats.SPIRIT ];
+	if (_spirit == null):
+		_spirit = 0
+	return _spirit
+
+
+func set_max_spirit( _max:int ):
+	stats_base[ GlobalMonster.BattleStats.SPIRIT ] = _max;
+
+
+
 
 # can turn this into a setget
 func get_stat( stat_type:GlobalMonster.BattleStats ):

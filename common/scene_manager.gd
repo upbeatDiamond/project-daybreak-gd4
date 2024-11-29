@@ -78,6 +78,7 @@ func switch_to_interface( interface:InterfaceOptions ):
 			#activity_interface_wrapper.scale = Vector2(1,1)
 			#activity_interface_wrapper.position = Vector2(0,0)
 			battle_interface.visible = true
+			player_viewport.visible = false
 			$InterfaceBattle.grab_focus()
 			pass
 		_: # Default:
@@ -86,6 +87,8 @@ func switch_to_interface( interface:InterfaceOptions ):
 			activity_interface_wrapper.scale = Vector2(0.001,0.001)
 			activity_interface_wrapper.position = Vector2(-2048,-2048)
 			activity_interface_wrapper.visible = false
+			battle_interface.visible = false
+			player_viewport.visible = true
 			$PlayerCamView.grab_focus()
 			pass
 	pass
