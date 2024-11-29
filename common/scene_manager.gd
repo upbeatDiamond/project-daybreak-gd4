@@ -174,7 +174,9 @@ func mount_cinematic( cine:Control ):
 func mount_battle( battle:BattleSession ):
 	switch_to_interface( SceneManager.InterfaceOptions.BATTLE )
 	if battle != null:
+		print("scene manager thinks the battle is ready...")
 		await (battle as BattleSession).session_completed
+	print("scene manager thinks the battle is over...")
 	switch_to_interface( SceneManager.InterfaceOptions.WORLD )
 	$PlayerCamView.grab_focus()
 	pass

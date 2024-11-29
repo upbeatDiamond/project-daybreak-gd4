@@ -95,6 +95,11 @@ func new_battle_dummy() -> BattleSession:
 	
 	var battle = BattleSession.new(team_home, team_away)
 	GlobalRuntime.scene_manager.mount_battle(battle)
+	battle.battle_finished.connect(end_battle)
 	mount_battle(battle)
 	
 	return battle
+
+
+func end_battle( battle:BattleSession, winners:BattleTeam ):
+	battle.session_completed.emit()

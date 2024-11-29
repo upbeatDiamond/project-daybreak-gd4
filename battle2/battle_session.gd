@@ -4,7 +4,7 @@ class_name BattleSession
 
 
 ## For when a winner is decided, not when the session is done running.
-signal battle_finished( winner:BattleTeam )
+signal battle_finished( battle:BattleSession, winners:BattleTeam )
 
 ## For when the session is done running; should be listened to by scene manager
 signal session_completed( winner:BattleTeam )
@@ -117,6 +117,13 @@ func _run_move(action:BattleAction):
 		target.apply_health_change( -action.action_core.damage )
 		print('target ', target, " has ", target.get_hp(), " hp remaining")
 		if not BattleController.is_alive_combatant(target):
+			if team_away.battlers.has(target):
+				battle_finished.emit( self, team_home )
+			elif team_home.battlers.has(target):
+				battle_finished.emit( self, team_away )
+			else:
+				battle_finished.emit( self, null )
+			
 			await _post_summary(str( target, " has fainted!" ))
 			## ^ This line causes issues somehow. I want to rewrite this code again.
 	
