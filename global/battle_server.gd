@@ -37,7 +37,7 @@ func new_battle_dummy() -> BattleSession:
 	var team_home = BattleTeam.new()
 	var team_away = BattleTeam.new()
 	
-	_moves = [BattleMove.new("Sparks", 2, 2), BattleMove.new("Tail Whip", 0), 
+	_moves = [BattleMove.new("Sparks", 4, 2), BattleMove.new("Tail Whip", 0), 
 				BattleMove.new("Headbutt", 5), BattleMove.new("Punch", 3)]
 	_fighter = Combatant.new( battle_gui, team_home, 4, "Taurus" )
 	_fighter.set_max_hp( 28 )
@@ -47,7 +47,7 @@ func new_battle_dummy() -> BattleSession:
 	_fighter.moves.append_array(_moves)
 	team_away.battlers[BattleTeam.FieldPos.ACTIVE_LEFT] = _fighter
 	
-	_moves = [BattleMove.new("Bite", 3, 1), BattleMove.new("Sting", 4, 1), 
+	_moves = [BattleMove.new("Bite", 4, 1), BattleMove.new("Sting", 3, 1), 
 				BattleMove.new("Sap Strength", 2, -2), BattleMove.new("Paper Cut", 2)]
 	_fighter = Combatant.new( battle_gui, team_home, 1, "Scorpio" )
 	_fighter.set_max_hp( 21 )
@@ -58,8 +58,8 @@ func new_battle_dummy() -> BattleSession:
 	team_away.battlers[BattleTeam.FieldPos.ACTIVE_MIDDLE] = _fighter
 	
 	
-	_moves = [BattleMove.new("Water Surge", 4, 3), BattleMove.new("Chomp", 3, 1), 
-				BattleMove.new("Growl", 0, -1), BattleMove.new("Hoof", 3)]
+	_moves = [BattleMove.new("Water Surge", 5, 3), BattleMove.new("Chomp", 3, 1), 
+				BattleMove.new("Growl", 0, -1), BattleMove.new("Hoof", 4)]
 	_fighter = Combatant.new( battle_gui, team_home, 7, "Capricorn" )
 	_fighter.set_max_hp( 23 )
 	_fighter.set_hp( _fighter.get_max_hp() )
@@ -76,8 +76,8 @@ func new_battle_dummy() -> BattleSession:
 	#_fighter.moves.append_array(_moves)
 	#team_away.battlers.append(_fighter)
 	
-	_moves = [BattleMove.new("Crunch", 6), BattleMove.new("Slash", 10), 
-				BattleMove.new("Tackle", 7), BattleMove.new("Howl", 0)]
+	_moves = [BattleMove.new("Crunch", 5), BattleMove.new("Slash", 9), 
+				BattleMove.new("Tackle", 6), BattleMove.new("Howl", 0)]
 	_fighter = Combatant.new( battle_gui, team_home, 229, "Cerberus" )
 	_fighter.set_max_hp( 85 )
 	_fighter.set_hp( _fighter.get_max_hp() )

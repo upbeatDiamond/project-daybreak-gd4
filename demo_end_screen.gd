@@ -124,8 +124,6 @@ func play_next_stage():
 
 func switch_stage(stage:int):
 	
-	
-	
 	# fade out all elements except the background
 	stage_locked = true
 	var survey = self.find_child("Survey", true);
@@ -167,51 +165,49 @@ func switch_stage(stage:int):
 			set_prompt("Those who fought for you bickered, fighting over which one was the best.");
 			pass
 		5:
-			set_prompt("Green: No, that's wrong. \n Blue: It's on you, Girtab.
-Green / Girtab: That's bull! \n Red: I have a name, you know. Arided, back me up.
-Blue / Arided: You can't move any further backwards without stepping on my tail, Nath.
+			set_prompt("Green: No, that's wrong. \nBlue: It's on you, Girtab.
+Green / Girtab: No, that's Bull! \nRed: My name's not Bull, you know that. Arided, back me up.
+Blue / Arided: You can't back up any further without stepping on my tail, Nath.
 ");
 			pass
 		6:
 			set_prompt("Girtab is a scorpion with a flower bud tail. \nHe seems shy and asocial, but will listen to your guidance.\n
-Arided is a capricorn, who seems to be the leader.\n He prefers to diffuse social conflict using humor and quips.\n
-Nath is a bull, who is bold and brash.\n He doesn't like to be told how to fight, butseems to struggle with strategy.");
+Arided is a capricorn, who seems to be the leader. \nHe prefers to diffuse social conflict using humor and quips.\n
+Nath is a bull, who is bold and brash. \nHe doesn't like to be told how to fight, but seems to struggle with strategy.");
 			pass
 		7:
-			set_prompt(str( "The three look at you and ask, 'So? Who's gonna fight with you?'"));
+			set_prompt(str( "The three look at you. Arided asks, 'So? Which of us is gonna fight with you?'"));
 			#revise_gender.set_text( str("My friends would say ", parse_pronoun(), " a ", parse_gender()) )
 			var ability_grid = (self.find_child("Ability", true) as Container)
-			ability_grid.visible = true;
 			(ability_grid.find_child("BtnFire") as Button).pressed.connect(func(): GlobalDatabase.save_keyval("i_choose_you", "Fire"); stage_finished = true)
 			(ability_grid.find_child("BtnGrass") as Button).pressed.connect(func(): GlobalDatabase.save_keyval("i_choose_you", "Grass"); stage_finished = true)
 			(ability_grid.find_child("BtnWater") as Button).pressed.connect(func(): GlobalDatabase.save_keyval("i_choose_you", "Water"); stage_finished = true)
+			ability_grid.visible = true;
+			ability_grid.grab_focus()
 			
 			stage_finished = false;
 			pass
 		8:
 			set_prompt("Excellent. A passcode will generate soon, so you may return to this dream someday");
-			pass
-		9:
-			set_prompt("... just a moment longer ...");
-			#GlobalDatabase.save_keyval("player_palette_base", find_child("Gamepiece").find_child("SpriteBase").material.get_shader_parameter("palette"))
-			#GlobalDatabase.save_keyval("player_palette_accent", find_child("Gamepiece").find_child("SpriteAccent").material.get_shader_parameter("palette"))
-			
 			music_fade_in(3);
 			pass
+		9:
+			set_prompt("Be ready to write it down.");
+			#GlobalDatabase.save_keyval("player_palette_base", find_child("Gamepiece").find_child("SpriteBase").material.get_shader_parameter("palette"))
+			#GlobalDatabase.save_keyval("player_palette_accent", find_child("Gamepiece").find_child("SpriteAccent").material.get_shader_parameter("palette"))
+			self.return_code = compress_progress()
+			pass
 		10:
-			set_prompt("In this world, how could people perceive your abilities?");
-			(self.find_child("Ability", true) as Container).visible = true;
+			set_prompt(str( "Excellent. Your code is: ", return_code) );
 			#stage_finished = false;
 			pass
 		11:
-			set_prompt("There exists exceptional potential within you.");
+			set_prompt(str("So long as you remember this code and your name, ", GlobalDatabase.load_keyval("player_name"), ", you may return someday.") );
 			music_fade_in(4);
 			pass
 		12:
-			set_prompt("Would you like to revise your answers? Once submitted, not all of them can be changed.");
-			(self.find_child("Revise", true) as Container).visible = true;
+			set_prompt(str("Again, that's ", return_code) );
 			music_fade_in(-1);
-			stage_finished = false;
 			pass
 		13:
 			set_prompt(". . .");
@@ -220,7 +216,7 @@ Nath is a bull, who is bold and brash.\n He doesn't like to be told how to fight
 			pass
 		14:
 			set_prompt("Thank you for dreaming with me.");
-			GlobalDatabase.save_keyval("intro_dream_complete", true)
+			GlobalDatabase.save_keyval("demo_complete", true)
 			pass
 		15:
 			stage_finished = false;
@@ -256,10 +252,11 @@ func set_prompt(txt:String):
 
 func compress_progress():
 	
-	var pname = GlobalDatabase.load_keyval("player_name")
-	var data = [0,0,0,0,0,0,0,0] # 8 slots to start, fill each in specific order
+	var pname = str( GlobalDatabase.load_keyval("player_name") )
+	pname = pname.substr( 0, min(16, pname.length() ) )
+	var data = []; data.resize(8)
 	
-	## Fitzpatrick scale, with Emoji range (yellow, FITZ-1-2, FITZ-3, etc)
+	## Fitzpatrick scale, with Emoji range (yellow, FITZ-1-2, FITZ-3, FITZ-4, etc)
 	match GlobalDatabase.load_keyval("player_sprite_base_palette"):
 		"black":
 			data[0] = 6
@@ -272,7 +269,7 @@ func compress_progress():
 		"white":
 			data[0] = 2
 		_:
-			data[0] = 4 # Common color, default in case of null
+			data[0] = 4 # Common color, default in case of null / invalid
 	
 	match GlobalDatabase.load_keyval("player_sprite_accent_palette"):
 		"black":
@@ -286,7 +283,7 @@ func compress_progress():
 		"white":
 			data[1] = 2
 		_:
-			data[1] = 4 # Common color, default in case of null
+			data[1] = 4 # Common color, default in case of null / invalid
 	
 	var genderString : String = str(GlobalDatabase.load_keyval("player_gender"))
 	var genderByte = 0
@@ -328,11 +325,18 @@ func compress_progress():
 	else:
 		battleResult += 3 # 3 or 11
 	
-	var packed = PackedByteArray()
-
-
-
-
+	data [7] = battleResult
+	
+	var packed = PackedByteArray([])
+	packed.resize( data.size() + 4 )
+	for i in range(  data.size()):
+		packed.encode_s8( i, data[i] )
+	packed.encode_s64( data.size(), 20241203 )
+	
+	var encryptor = TrickleDown.new()
+	var shape_in : Array[int] = [ 15, 16,  8,  5, 12, 2, 3, 9, 10, 11, 7, 14, 13, 6, 1, 4,]
+	var shape_out : Array[int] = [ 3, 6, 12, 11, 8, 4, 5, 9, 13, 16, 10, 7, 1, 15, 14, 2, ]
+	return encryptor.encode( shape_in, shape_out, pname, packed.hex_encode().to_lower(), 5 )
 	
 	pass
 
@@ -364,9 +368,9 @@ func music_end():
 	
 	#await GlobalRuntime.scene_manager.fade_out_finished
 	
-	GlobalRuntime.scene_manager.fade_in(0.25)
+	#GlobalRuntime.scene_manager.fade_in(0.25)
 	# ... then end the cinematic.
-	cinematic_finished.emit(self)
+	#cinematic_finished.emit(self)
 	return
 
 

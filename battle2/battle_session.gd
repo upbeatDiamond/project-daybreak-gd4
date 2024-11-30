@@ -117,6 +117,9 @@ func _run_move(action:BattleAction):
 		target.apply_health_change( -action.action_core.damage )
 		print('target ', target, " has ", target.get_hp(), " hp remaining")
 		if not BattleController.is_alive_combatant(target):
+			
+			await get_tree().create_timer(1.5).timeout
+			
 			if team_away.battlers.has(target):
 				battle_finished.emit( self, team_home )
 			elif team_home.battlers.has(target):

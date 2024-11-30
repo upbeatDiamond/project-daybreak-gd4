@@ -63,8 +63,8 @@ text = "Nath, the Firey Bull"
 
 [node name="BtnGrass" type="Button" parent="Survey/Sections/Selection/Ability"]
 layout_mode = 2
-text = "Girtab, the floral scorpion"
+text = "Girtab, the Floral Scorpion"
 
 [node name="BtnWater" type="Button" parent="Survey/Sections/Selection/Ability"]
 layout_mode = 2
-text = "Arided, the aquatic capricorn"
+text = "Arided, the Aquatic Capricorn"

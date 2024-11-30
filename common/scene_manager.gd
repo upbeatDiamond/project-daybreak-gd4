@@ -67,10 +67,12 @@ func switch_to_interface( interface:InterfaceOptions ):
 	match interface:
 		InterfaceOptions.ACTIVITY:
 			world_interface.process_mode = Node.PROCESS_MODE_DISABLED
+			battle_interface.process_mode = Node.PROCESS_MODE_DISABLED
 			activity_interface_wrapper.process_mode = Node.PROCESS_MODE_INHERIT
 			activity_interface_wrapper.scale = Vector2(1,1)
 			activity_interface_wrapper.position = Vector2(0,0)
 			activity_interface_wrapper.visible = true
+			battle_interface.visible = false
 			pass
 		InterfaceOptions.BATTLE:
 			world_interface.process_mode = Node.PROCESS_MODE_DISABLED
@@ -177,8 +179,11 @@ func mount_battle( battle:BattleSession ):
 		print("scene manager thinks the battle is ready...")
 		await (battle as BattleSession).session_completed
 	print("scene manager thinks the battle is over...")
-	switch_to_interface( SceneManager.InterfaceOptions.WORLD )
-	$PlayerCamView.grab_focus()
+	#switch_to_interface( SceneManager.InterfaceOptions.WORLD )
+	#$PlayerCamView.grab_focus()
+	
+	## DEMO ONLY! Please remove!
+	mount_cinematic( load("res://demo_end_screen.tscn").instantiate() )
 	pass
 
 
