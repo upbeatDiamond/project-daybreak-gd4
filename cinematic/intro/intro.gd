@@ -379,14 +379,14 @@ func music_fade_in(layer:int):
 				another_tween = get_tree().create_tween()
 				another_tween.tween_property(music_layers[layer], "volume_db", -10, 2.5)
 				another_tween.play()
-				print( music_layers[layer].volume_db, " vol db ++" )
+				#print( music_layers[layer].volume_db, " vol db ++" )
 		return;
 	
 	if layer < music_layers.size() && music_layers[layer] != null:
 		another_tween = get_tree().create_tween()
 		another_tween.tween_property(music_layers[layer], "volume_db", -10, 2.5)
 		another_tween.play()
-		print( music_layers[layer].volume_db, " vol db +++" )
+		#print( music_layers[layer].volume_db, " vol db +++" )
 		pass
 	
 	pass
@@ -401,14 +401,14 @@ func music_fade_out(layer:int):
 				another_tween = get_tree().create_tween()
 				another_tween.tween_property(music_layers[layer], "volume_db", -80, 1.5)
 				another_tween.play()
-				print( music_layers[layer].volume_db, " vol db --" )
+				#print( music_layers[layer].volume_db, " vol db --" )
 		return;
 	
 	if layer < music_layers.size() && music_layers[layer] != null:
 		another_tween = get_tree().create_tween()
 		another_tween.tween_property(music_layers[layer], "volume_db", -80, 1.5)
 		another_tween.play()
-		print( music_layers[layer].volume_db, " vol db ---" )
+		#print( music_layers[layer].volume_db, " vol db ---" )
 		pass
 	
 	pass

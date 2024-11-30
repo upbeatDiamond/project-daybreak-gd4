@@ -254,7 +254,7 @@ func compress_progress():
 	
 	var pname = str( GlobalDatabase.load_keyval("player_name") )
 	pname = pname.substr( 0, min(16, pname.length() ) )
-	var data = []; data.resize(8)
+	var data = []; data.resize(4)
 	
 	## Fitzpatrick scale, with Emoji range (yellow, FITZ-1-2, FITZ-3, FITZ-4, etc)
 	match GlobalDatabase.load_keyval("player_sprite_base_palette"):
@@ -273,17 +273,17 @@ func compress_progress():
 	
 	match GlobalDatabase.load_keyval("player_sprite_accent_palette"):
 		"black":
-			data[1] = 6
+			data[0] += (6 << 4)
 		"dark":
-			data[1] = 5
+			data[0] += (5 << 4)
 		"shiny":
-			data[1] = 1 # Shiny color
+			data[0] += (1 << 4) # Shiny color
 		"pale":
-			data[1] = 3
+			data[0] += (3 << 4)
 		"white":
-			data[1] = 2
+			data[0] += (2 << 4)
 		_:
-			data[1] = 4 # Common color, default in case of null / invalid
+			data[0] += (4 << 4) # Common color, default in case of null / invalid
 	
 	var genderString : String = str(GlobalDatabase.load_keyval("player_gender"))
 	var genderByte = 0
@@ -304,14 +304,9 @@ func compress_progress():
 	if genderString.contains("N"):
 		genderByte += (1 << 7)
 	
-	data[2] = genderByte
+	data[1] = genderByte
 	
-	var cutsceneCounter = 0
-	# Intro Dream Complete is assumed to be '1' or greater already, so skip.
-	# Knocked is assumed to be 1 specifically, so reuse slot for Ability
-	data [4] = str(GlobalDatabase.load_keyval("ch1_hug_init")).to_int()
-	data [5] = str(GlobalDatabase.load_keyval("ch1_got_spanner")).to_int()
-	data [6] = str(GlobalDatabase.load_keyval("ch1_dismiss_player")).to_int()
+	# Cutscenes are implied to have played. Don't store?
 	
 	match GlobalDatabase.load_keyval("player_ability").strip_edges().to_lower():
 		"strong", "strength":
@@ -323,30 +318,32 @@ func compress_progress():
 	
 	var battleResult = 0
 	if str(GlobalDatabase.load_keyval("battle_tutorial")) == "win":
-		battleResult += (1 << 4) # 1 << 4 = 8
+		battleResult += (1 << 4) # 1 << 4 = 16
 	
 	var chooseYou = str(GlobalDatabase.load_keyval("i_choose_you") ).to_lower().strip_edges()
 	if chooseYou == "fire":
-		battleResult += 1 # 1 or 9
+		battleResult += 1 # 1 or 17
 	elif chooseYou == "grass":
-		battleResult += 2 # 2 or 10
+		battleResult += 2 # 2 or 18
 	else:
-		battleResult += 3 # 3 or 11
+		battleResult += 3 # 3 or 19
 	
-	data [7] = battleResult
+	data[2] = battleResult
 	
 	var packed = PackedByteArray([])
 	packed.resize( data.size() + 4 )
+	var j := 0
 	for i in range(  data.size()):
 		packed.encode_s8( i, data[i] )
-	packed.encode_s64( data.size(), 20241203 )
+		j = i # Cheap hack to test encoding
+	print(packed)
+	packed.encode_s32( j + 1, 20241203 )
+	print(packed)
 	
 	var encryptor = TrickleDown.new()
 	var shape_in : Array[int] = [ 15, 16,  8,  5, 12, 2, 3, 9, 10, 11, 7, 14, 13, 6, 1, 4,]
 	var shape_out : Array[int] = [ 3, 6, 12, 11, 8, 4, 5, 9, 13, 16, 10, 7, 1, 15, 14, 2, ]
 	return encryptor.encode( shape_in, shape_out, pname, packed.hex_encode().to_lower(), 5 )
-	
-	pass
 
 
 """
@@ -374,11 +371,6 @@ func music_end():
 	if ($Background/AudioIntroBrightness as AudioStreamPlayer).playing:
 		await $Background/AudioIntroBrightness.finished
 	
-	#await GlobalRuntime.scene_manager.fade_out_finished
-	
-	#GlobalRuntime.scene_manager.fade_in(0.25)
-	# ... then end the cinematic.
-	#cinematic_finished.emit(self)
 	return
 
 
@@ -391,14 +383,14 @@ func music_fade_in(layer:int):
 				another_tween = get_tree().create_tween()
 				another_tween.tween_property(music_layers[layer], "volume_db", -10, 2.5)
 				another_tween.play()
-				print( music_layers[layer].volume_db, " vol db ++" )
+				#print( music_layers[layer].volume_db, " vol db ++" )
 		return;
 	
 	if layer < music_layers.size() && music_layers[layer] != null:
 		another_tween = get_tree().create_tween()
 		another_tween.tween_property(music_layers[layer], "volume_db", -10, 2.5)
 		another_tween.play()
-		print( music_layers[layer].volume_db, " vol db +++" )
+		#print( music_layers[layer].volume_db, " vol db +++" )
 		pass
 	
 	pass
@@ -413,14 +405,14 @@ func music_fade_out(layer:int):
 				another_tween = get_tree().create_tween()
 				another_tween.tween_property(music_layers[layer], "volume_db", -80, 1.5)
 				another_tween.play()
-				print( music_layers[layer].volume_db, " vol db --" )
+				#print( music_layers[layer].volume_db, " vol db --" )
 		return;
 	
 	if layer < music_layers.size() && music_layers[layer] != null:
 		another_tween = get_tree().create_tween()
 		another_tween.tween_property(music_layers[layer], "volume_db", -80, 1.5)
 		another_tween.play()
-		print( music_layers[layer].volume_db, " vol db ---" )
+		#print( music_layers[layer].volume_db, " vol db ---" )
 		pass
 	
 	pass

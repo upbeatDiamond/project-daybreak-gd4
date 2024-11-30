@@ -15,7 +15,7 @@
 
 class_name TrickleDown
 
-const ALPHABET = "-abcdefghijklmnopqrstuvwxyz.1234567890"
+const ALPHABET = "-abcdefghjklmnpqrtvwyz.1234567890"
 const ALPHA_PAD = "-"
 const INT_MAX = 9223372036854775807
 
