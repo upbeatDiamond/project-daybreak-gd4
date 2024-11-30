@@ -80,3 +80,7 @@ func validate_action_type():
 		_:
 			pass
 	pass
+
+
+func _to_string() -> String:
+	return str(self.action_core)

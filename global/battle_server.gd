@@ -102,4 +102,11 @@ func new_battle_dummy() -> BattleSession:
 
 
 func end_battle( battle:BattleSession, winners:BattleTeam ):
+	
+	## TODO: adapt to work for more battles!
+	if winners == battle.team_home:
+		GlobalDatabase.save_keyval("battle_tutorial", "lose")
+	else:
+		GlobalDatabase.save_keyval("battle_tutorial", "win")
 	battle.session_completed.emit()
+	

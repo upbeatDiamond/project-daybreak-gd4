@@ -22,3 +22,7 @@ static func new_from_index(index) -> BattleMove:
 		push_error("Invalid type for BattleMove.new_from_index(). Must be int or String")
 	
 	return BattleMove.new("Struggle")
+
+
+func _to_string() -> String:
+	return mname
