@@ -131,7 +131,8 @@ func play_next_stage():
 
 func switch_stage(stage:int):
 	
-	
+	grab_focus()
+	grab_click_focus()
 	
 	# fade out all elements except the background
 	stage_locked = true

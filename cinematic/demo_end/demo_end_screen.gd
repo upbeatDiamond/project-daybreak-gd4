@@ -144,7 +144,7 @@ func switch_stage(stage:int):
 	
 	match stage:
 		0:
-			set_prompt(". . .");
+			set_prompt("My sincerest apologies.");
 			music_fade_in(0);
 			pass
 		1:
@@ -179,11 +179,11 @@ Nath is a bull, who is bold and brash. \nHe doesn't like to be told how to fight
 			set_prompt(str( "The three look at you. Arided asks, 'So? Which of us is gonna fight with you?'"));
 			#revise_gender.set_text( str("My friends would say ", parse_pronoun(), " a ", parse_gender()) )
 			var ability_grid = (self.find_child("Ability", true) as Container)
-			(ability_grid.find_child("BtnFire") as Button).pressed.connect(func(): GlobalDatabase.save_keyval("i_choose_you", "Fire"); stage_finished = true)
-			(ability_grid.find_child("BtnGrass") as Button).pressed.connect(func(): GlobalDatabase.save_keyval("i_choose_you", "Grass"); stage_finished = true)
-			(ability_grid.find_child("BtnWater") as Button).pressed.connect(func(): GlobalDatabase.save_keyval("i_choose_you", "Water"); stage_finished = true)
+			(ability_grid.find_child("BtnFire") as Button).pressed.connect(func(): GlobalDatabase.save_keyval("i_choose_you", "fire"); stage_finished = true)
+			(ability_grid.find_child("BtnGrass") as Button).pressed.connect(func(): GlobalDatabase.save_keyval("i_choose_you", "grass"); stage_finished = true)
+			(ability_grid.find_child("BtnWater") as Button).pressed.connect(func(): GlobalDatabase.save_keyval("i_choose_you", "water"); stage_finished = true)
 			ability_grid.visible = true;
-			ability_grid.grab_focus()
+			ability_grid.find_child("Reflect", true).grab_focus()
 			
 			stage_finished = false;
 			pass

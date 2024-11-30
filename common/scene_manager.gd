@@ -184,7 +184,7 @@ func mount_battle( battle:BattleSession ):
 	#$PlayerCamView.grab_focus()
 	
 	## DEMO ONLY! Please remove!
-	mount_cinematic( load("res://demo_end_screen.tscn").instantiate() )
+	mount_cinematic( load("res://cinematic/demo_end/demo_end_screen.tscn").instantiate() )
 	pass
 
 
