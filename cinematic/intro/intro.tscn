@@ -5,10 +5,10 @@
 [ext_resource type="Script" path="res://cinematic/intro/intro.gd" id="1_q0ap4"]
 [ext_resource type="Material" uid="uid://ckdgvek6arg37" path="res://cinematic/intro/intro_bg_shader.tres" id="3_lerru"]
 [ext_resource type="Script" path="res://cinematic/intro/intro_naming.gd" id="3_wq8hc"]
-[ext_resource type="Script" path="res://cinematic/intro/intro_gender.gd" id="4_yr767"]
 [ext_resource type="Texture2D" uid="uid://cglx0sevkcxl4" path="res://assets/textures/intro/bg_transparency_border.png" id="5_c16kf"]
 [ext_resource type="ButtonGroup" uid="uid://bo1fmk10wg36c" path="res://cinematic/intro/button_group_hair.tres" id="5_cajf8"]
 [ext_resource type="Script" path="res://cinematic/intro/intro_form.gd" id="5_f3x64"]
+[ext_resource type="Script" path="res://cinematic/intro/intro_ability.gd" id="7_fkl21"]
 [ext_resource type="Texture2D" uid="uid://bhm2yki7cxvqj" path="res://assets/textures/intro/Hair_blonde.png" id="7_mn4gj"]
 [ext_resource type="PackedScene" uid="uid://dsk04vtyuk6hu" path="res://overworld/characters/gamepiece.tscn" id="7_whbk7"]
 [ext_resource type="ButtonGroup" uid="uid://dulq52iwbwhp3" path="res://cinematic/intro/button_group_skin.tres" id="7_xjh8e"]
@@ -104,7 +104,7 @@ caret_mid_grapheme = true
 visible = false
 layout_mode = 2
 size_flags_horizontal = 4
-script = ExtResource("4_yr767")
+script = ExtResource("7_fkl21")
 
 [node name="Pronoun" type="VBoxContainer" parent="Survey/Sections/Selection/Gender"]
 layout_mode = 2
@@ -419,17 +419,24 @@ text = "Submit"
 
 [node name="Ability" type="HBoxContainer" parent="Survey/Sections/Selection"]
 layout_mode = 2
+script = ExtResource("7_fkl21")
 
-[node name="ReviseName" type="Button" parent="Survey/Sections/Selection/Ability"]
+[node name="Strength" type="Button" parent="Survey/Sections/Selection/Ability"]
 layout_mode = 2
+focus_neighbor_left = NodePath("../Charisma")
+focus_neighbor_right = NodePath("../Wisdom")
 text = "Strength"
 
-[node name="ReviseName2" type="Button" parent="Survey/Sections/Selection/Ability"]
+[node name="Wisdom" type="Button" parent="Survey/Sections/Selection/Ability"]
 layout_mode = 2
+focus_neighbor_left = NodePath("../Strength")
+focus_neighbor_right = NodePath("../Charisma")
 text = "Wisdom"
 
-[node name="ReviseName3" type="Button" parent="Survey/Sections/Selection/Ability"]
+[node name="Charisma" type="Button" parent="Survey/Sections/Selection/Ability"]
 layout_mode = 2
+focus_neighbor_left = NodePath("../Wisdom")
+focus_neighbor_right = NodePath("../Strength")
 text = "Charisma"
 
 [node name="Revise" type="VBoxContainer" parent="Survey/Sections/Selection"]

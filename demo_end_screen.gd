@@ -308,10 +308,18 @@ func compress_progress():
 	
 	var cutsceneCounter = 0
 	# Intro Dream Complete is assumed to be '1' or greater already, so skip.
-	data [3] = str(GlobalDatabase.load_keyval("ch1_knocked")).to_int()
+	# Knocked is assumed to be 1 specifically, so reuse slot for Ability
 	data [4] = str(GlobalDatabase.load_keyval("ch1_hug_init")).to_int()
 	data [5] = str(GlobalDatabase.load_keyval("ch1_got_spanner")).to_int()
 	data [6] = str(GlobalDatabase.load_keyval("ch1_dismiss_player")).to_int()
+	
+	match GlobalDatabase.load_keyval("player_ability").strip_edges().to_lower():
+		"strong", "strength":
+			data[3] = 1
+		"wise", "wisdom":
+			data[3] = 2
+		_:
+			data[3] = 3
 	
 	var battleResult = 0
 	if str(GlobalDatabase.load_keyval("battle_tutorial")) == "win":

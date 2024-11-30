@@ -922,7 +922,7 @@ y_sort_enabled = true
 position = Vector2(256, 256)
 
 [node name="PushBlock" parent="Objects/Y-Sort" instance=ExtResource("8_8vf1f")]
-position = Vector2(-176, -160)
+position = Vector2(-144, -64)
 
 [node name="Player" parent="Objects/Y-Sort" instance=ExtResource("5_17bh2")]
 position = Vector2(-80, -64)
