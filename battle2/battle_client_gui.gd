@@ -194,7 +194,6 @@ func link_buttons():
 
 
 func run_turn(battler:Combatant) -> BattleAction:
-	
 	# Set current focus to the current combatant
 	current_combatant = battler
 	print("My name is ", battler.nickname, "[gui]")
@@ -207,18 +206,24 @@ func run_turn(battler:Combatant) -> BattleAction:
 	
 	for x in range(4):
 		_move = null
-		var move_btn = self.get(str( "bulletin_move_", (x + 1) )).find_child("MoveName")
+		var move_btn = self.get(str( "bulletin_move_", (x + 1) ))
+		var move_btn_name = move_btn.find_child("MoveName")
+		var move_btn_cost = move_btn.find_child("MoveCost")
 		
 		if(battler.moves.size() > x):
 			_move = battler.moves[x]
 		if(_move != null):
 			#self.get(str( "bulletin_move_", (x + 1) )).find_child("MoveName").
-			move_btn.text = _move.mname
-			move_btn.visible = true
+			move_btn_name.text = _move.mname
+			move_btn_cost.text = str("COST: ", _move.energy_cost)
+			move_btn_name.visible = true
+			move_btn_cost.visible = true
 		else:
 			#var move_btn = self.get(str( "bulletin_move_", (x + 1) )).find_child("MoveName")
-			move_btn.text = "0"
-			move_btn.visible = false
+			move_btn_name.text = "0"
+			move_btn_cost.text = "0"
+			move_btn_cost.visible = false
+			move_btn_name.visible = false
 	
 	## We must switch to HOME to enable player to press buttons.
 	switch_ui_mode(IOMode.HOME)
@@ -244,6 +249,7 @@ func switch_ui_mode(_mode:IOMode):
 		IOMode.TEXT:
 			bulletin_bg.visible = true
 			bulletin_txt.visible = true
+			$BulletinBounds/BulletinText/BackButton.grab_focus()
 		IOMode.TEXT_CONTINUE:
 			## TODO: Continue to next block of text
 			var txt = _get_next_summary()
@@ -260,16 +266,20 @@ func switch_ui_mode(_mode:IOMode):
 		IOMode.MOVE:
 			bulletin_bg.visible = true
 			bulletin_move.visible = true
+			$BulletinBounds/BulletinMoves/Move1.grab_focus()
 		IOMode.BAG:
 			bulletin_bg.visible = true
 			bulletin_bag.visible = true
+			$BulletinBounds/BulletinBag/BackButton.grab_focus()
 		IOMode.TEAM:
 			bulletin_bg.visible = true
 			bulletin_team.visible = true
+			$BulletinBounds/BulletinTeam/BackButton.grab_focus()
 		_: # IOMode.HOME:
 			bulletin_bg.visible = true
 			bulletin_home.visible = true
 			enable_buttons.emit()
+			$BulletinBounds/BulletinHome/ButtonPanelBounds/ButtonPanelBox/ButtonAction.grab_focus()
 	
 	pass
 
