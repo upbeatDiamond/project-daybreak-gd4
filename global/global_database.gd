@@ -396,7 +396,7 @@ func reset_save_file() -> void:
 	if FileAccess.file_exists( db_name_user_commit + ".db" ):
 		OS.move_to_trash( globalized_commit_path )
 	
-	var success = db_reset.query("VACUUM INTO \"" + globalized_commit_path + "\"")
+	db_reset.query("VACUUM INTO \"" + globalized_commit_path + "\"")
 	
 	db_reset.close_db()
 	#db_commit.close_db()

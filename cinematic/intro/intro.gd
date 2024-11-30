@@ -203,6 +203,7 @@ func switch_stage(stage:int):
 			pass
 		9:
 			set_prompt("Fascinating. The canvas of life now looks ever more vibrant.");
+			#revise_form.set_text( "I know what I look like." )
 			#GlobalDatabase.save_keyval("player_palette_base", find_child("Gamepiece").find_child("SpriteBase").material.get_shader_parameter("palette"))
 			#GlobalDatabase.save_keyval("player_palette_accent", find_child("Gamepiece").find_child("SpriteAccent").material.get_shader_parameter("palette"))
 			music_fade_in(3);
@@ -211,10 +212,11 @@ func switch_stage(stage:int):
 			set_prompt("In this world, how could people perceive your abilities?");
 			(self.find_child("Ability", true) as Container).visible = true;
 			music_fade_out(5);
-			#stage_finished = false;
+			stage_finished = false;
 			pass
 		11:
 			set_prompt("There exists exceptional potential within you.");
+			revise_ability.set_text( str("I am known for being ", kv_bank["player_ability"]) )
 			music_fade_in(4);
 			pass
 		12:

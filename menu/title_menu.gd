@@ -40,7 +40,7 @@ func _ready():
 	
 	## The following line SHOULD NOT be commented out... however...
 	## ... to debug more efficiently, we will be ignoring this ominous warning.
-	#GlobalDatabase.fetch_save_to_stage()
+	GlobalDatabase.fetch_save_to_stage()
 	GlobalRuntime.scene_manager.append_preload_map( play_scene_path )
 	
 	pass
@@ -52,6 +52,7 @@ func _on_reset_pressed():
 	GlobalDatabase.reset_save_file()
 	GlobalDatabase.fetch_save_to_stage()
 	pass
+
 
 func _on_play_pressed():
 	if scene_enabled:
