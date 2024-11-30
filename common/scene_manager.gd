@@ -81,7 +81,8 @@ func switch_to_interface( interface:InterfaceOptions ):
 			#activity_interface_wrapper.position = Vector2(0,0)
 			battle_interface.visible = true
 			player_viewport.visible = false
-			$InterfaceBattle.grab_focus()
+			activity_interface_wrapper.visible = false
+			battle_interface.find_child("BattleGUI", true).grab_focus()
 			pass
 		_: # Default:
 			world_interface.process_mode = Node.PROCESS_MODE_INHERIT
