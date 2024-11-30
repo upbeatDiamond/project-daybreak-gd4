@@ -154,7 +154,7 @@ func switch_stage(stage:int):
 	
 	match stage:
 		0:
-			set_prompt(". . .");
+			set_prompt(". . . [press enter to continue] . . .");
 			pass
 		1:
 			set_prompt("Let us imagine a world together.");

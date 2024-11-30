@@ -85,14 +85,17 @@ layout_mode = 2
 text = "Play"
 
 [node name="Options" type="Button" parent="Menu/GridContainer/Buttons"]
+visible = false
 layout_mode = 2
 text = "Options"
 
 [node name="Connection" type="Button" parent="Menu/GridContainer/Buttons"]
+visible = false
 layout_mode = 2
 text = "Connection"
 
 [node name="Credits" type="Button" parent="Menu/GridContainer/Buttons"]
+visible = false
 layout_mode = 2
 text = "Credits"
 

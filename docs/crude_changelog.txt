@@ -11,7 +11,7 @@ Noteworthy Additions:
 	+ Added, modified, or replaced maps: 
 		* Red Town
 		* Route for Red / Home
-			+ Added fog
+			+ Added fog, rocks
 		* Home Town
 	+ Added placeholder graphics for ~60 monsters, out of between 150-256 total (1/3rd designed)
 	+ Added more Addons
@@ -19,9 +19,13 @@ Noteworthy Additions:
 		+ ModPlayer
 		+ Clyde Dialogue
 		+ Command Terminal
+		+ Trickle Down
 	+ Added dialogue system (addon?) and cutscene/dialogue triggers
 	+ Added navigation layers to maps, and code to utilize it
 		+ Started merging Player and Mob gamepiece controllers, using a state enum
+	+ Integrated unfinished version of Rize (battle2) module
+	+ Added demo end screen
+	+ Added credits and improved README
 
 
 Noteworthy Subtractions:
@@ -33,7 +37,10 @@ Noteworthy Subtractions:
 Noteworthy Changes:
 	* Intro now plays at the start of the game
 	* Portals can now have execution conditions
-	* Added new tree system to world maps
+	* Added new tree tilemap to world maps
+	* Gamepieces change graphics based on species & character indexes
+		* Requires database to work and be stable
+	
 
 
 To Do List + Constructive Commentary:
