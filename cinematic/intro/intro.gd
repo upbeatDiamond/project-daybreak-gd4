@@ -3,9 +3,14 @@ extends Cinematic
 var progress := 0;
 const INPUT_COOLDOWN_DEFAULT := 10.0;
 const INPUT_COOLDOWN_RATE := 4.0;
+
+
+const STAGE_MAX = 15
+
 var input_cooldown := INPUT_COOLDOWN_DEFAULT / 2;
 var stage_locked := false;
 var stage_finished := true;
+var cine_finished := false;
 @onready var intro_naming  = self.find_child("Naming",  true);
 @onready var intro_gender  = self.find_child("Gender",  true);
 @onready var intro_form    = self.find_child("Form",    true);
@@ -28,6 +33,9 @@ var kv_bank = {};
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
+	size = Vector2(1152, 648)
+	
 	$Background/AudioIntroHeartbeat.set_stream( load("res://assets/music/intro_heartbeat.mp3") )
 	$Background/AudioIntroBrightness.set_stream( load("res://assets/music/intro_brightness.mp3") )
 	$Background/AudioIntroDarkness.set_stream( load("res://assets/music/intro_darkness.mp3") )
@@ -44,9 +52,6 @@ func _ready():
 		pass
 	
 	print( music_layers[0].playing, " is playing?" )
-	
-	#var fly = AnnoyingFly.new()
-	#add_child(fly)
 	
 	self.find_child("Survey", true).modulate= Color(1,1,1,0);
 	self.reflect_kv.connect( self.on_reflect_kv ) #request_kv
@@ -84,25 +89,25 @@ func on_reflect_kv(key, value):
 #		str("INSERT INTO " + table + " (" + columns + ") VALUES (" + binder + ")" ),
 #		attributes );
 
-#func sanitize(txt) -> String:
-#	txt = txt.replace('&', '\\&');
-#	txt = txt.replace(';', '&semi;');
-#	txt = txt.replace('\\&', '&amp;');
-#	txt = txt.replace('"', '&quot');
-#	txt = txt.replace("'", '&apos');
-#	txt = txt.replace('#', '&num');
-#	#txt = txt.replace('', '');
-#	return txt;
-#
-#func desanitize(txt) -> String:
-#	txt = txt.replace('"', '&quot');
-#	txt = txt.replace("'", '&apos');
-#	txt = txt.replace('#', '&num');
-#
-#	txt = txt.replace('&semi;', ';');
-#	txt = txt.replace('&amp;', '&');
-#
-#	return txt;
+func sanitize(txt) -> String:
+	txt = txt.replace('&', '\\&');
+	txt = txt.replace(';', '&semi;');
+	txt = txt.replace('\\&', '&amp;');
+	txt = txt.replace('"', '&quot');
+	txt = txt.replace("'", '&apos');
+	txt = txt.replace('#', '&num');
+	#txt = txt.replace('', '');
+	return txt;
+
+func desanitize(txt) -> String:
+	txt = txt.replace('"', '&quot');
+	txt = txt.replace("'", '&apos');
+	txt = txt.replace('#', '&num');
+
+	txt = txt.replace('&semi;', ';');
+	txt = txt.replace('&amp;', '&');
+
+	return txt;
 
 
 func _physics_process(delta):
@@ -115,7 +120,7 @@ func _physics_process(delta):
 
 
 func play_next_stage():
-	print(input_cooldown);
+	#print(input_cooldown);
 	
 	if input_cooldown <= 0 && !stage_locked && stage_finished:
 		# Move as long as the key/button is pressed.
@@ -124,14 +129,10 @@ func play_next_stage():
 		switch_stage( progress )
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-	#pass
-
-#func tween_sync():
-	#pass
-
 func switch_stage(stage:int):
+	
+	grab_focus()
+	grab_click_focus()
 	
 	# fade out all elements except the background
 	stage_locked = true
@@ -141,15 +142,19 @@ func switch_stage(stage:int):
 	await tween.finished
 	
 	survey.visible = false;
+	find_child("Gamepiece").visible = false;
 	# set all direct children of Selections to invisible
 	
 	for n in (self.find_child("Selection", true) as Container).get_children():
 		n.visible = false;
 		pass
 	
+	if stage > STAGE_MAX:
+		stage = STAGE_MAX
+	
 	match stage:
 		0:
-			set_prompt(". . .");
+			set_prompt(". . . [press enter to continue] . . .");
 			pass
 		1:
 			set_prompt("Let us imagine a world together.");
@@ -172,6 +177,7 @@ func switch_stage(stage:int):
 		5:
 			set_prompt(str( "Ah, ", kv_bank["player_name"] ,", a title with great meaning and power.") );
 			revise_name.set_text( str("My name is ", kv_bank["player_name"]) )
+			GlobalDatabase.save_keyval("player_name", sanitize(kv_bank["player_name"]))
 			music_fade_in(1);
 			pass
 		6:
@@ -184,28 +190,34 @@ func switch_stage(stage:int):
 			pass
 		7:
 			set_prompt(str( "Interesting. This world could always use another ", parse_gender() ," like you."));
-			revise_gender.set_text( str("My friends would say ", parse_pronoun(), " is a ", parse_gender()) )
+			revise_gender.set_text( str("My friends would say ", parse_pronoun(), " a ", parse_gender()) )
 			music_fade_in(2);
 			pass
 		8:
 			set_prompt("In this world, how would people perceive your form?");
-			(self.find_child("FormMeta", true) as Container).visible = true;
+			var form_meta = (self.find_child("FormMeta", true) as Container)
+			form_meta.visible = true;
+			find_child("Gamepiece").visible = true;
 			music_fade_out(4);
 			music_fade_out(5);
 			stage_finished = false;
 			pass
 		9:
 			set_prompt("Fascinating. The canvas of life now looks ever more vibrant.");
+			#revise_form.set_text( "I know what I look like." )
+			#GlobalDatabase.save_keyval("player_palette_base", find_child("Gamepiece").find_child("SpriteBase").material.get_shader_parameter("palette"))
+			#GlobalDatabase.save_keyval("player_palette_accent", find_child("Gamepiece").find_child("SpriteAccent").material.get_shader_parameter("palette"))
 			music_fade_in(3);
 			pass
 		10:
 			set_prompt("In this world, how could people perceive your abilities?");
 			(self.find_child("Ability", true) as Container).visible = true;
 			music_fade_out(5);
-			#stage_finished = false;
+			stage_finished = false;
 			pass
 		11:
 			set_prompt("There exists exceptional potential within you.");
+			revise_ability.set_text( str("I am known for being ", kv_bank["player_ability"]) )
 			music_fade_in(4);
 			pass
 		12:
@@ -221,13 +233,15 @@ func switch_stage(stage:int):
 			pass
 		14:
 			set_prompt("Thank you for imagining with me.");
+			GlobalDatabase.save_keyval("intro_dream_complete", true)
 			pass
 		15:
-			set_prompt("Now I know what kind of monster you are.");
-			music_end()
-			
-			cinematic_finished.emit(self)
 			stage_finished = false;
+			set_prompt("Now I know what kind of monster you are.");
+			#(self.find_child("Prompt", true) as Container).visible = true;
+			
+			cine_finished = true
+			
 			pass
 		_:
 			pass
@@ -238,17 +252,43 @@ func switch_stage(stage:int):
 	survey.visible = true;
 	tween.play();
 	await tween.finished
-	stage_locked = false;
+	
+	if (cine_finished):
+		await music_end()
+	else:
+		stage_locked = false;
 	
 	pass
+
 
 func set_prompt(txt:String):
 	var label = self.find_child("Prompt", true)
 	if label != null:
 		label.text = txt;
 
+
 func parse_pronoun() -> String:
-	return "they"
+	var gendre;
+	if kv_bank.has("player_gender"):
+		gendre = kv_bank["player_gender"]
+		if gendre.contains('c'):
+			return "ey is";
+		elif gendre.contains('m'):
+			if gendre.contains('f'):
+				if gendre.contains('n'):
+					return "he/she is"
+				return "she/he is";
+			elif gendre.contains('n'):
+				return "they are";
+			return "he is";
+		elif gendre.contains('f'):
+			if gendre.contains('n'):
+				return "they are";
+			return "she is";
+		elif gendre.contains('n'):
+			return "they are"
+	return "th3y are"
+
 
 func parse_gender() -> String:
 	var gendre;
@@ -271,6 +311,7 @@ func parse_gender() -> String:
 		elif gendre.contains('N'):
 			return "person"
 	return "kid"
+
 
 func parse_goback():
 	var goback := progress
@@ -295,6 +336,11 @@ func parse_goback():
 	kv_bank.erase("goback")
 	pass
 
+
+"""
+	This function ends the entire Cinematic.
+	The name represents its primary function: playing the closing musical notes
+"""
 func music_end():
 	$Background/AudioIntroHeartbeat.set_stream( load("res://assets/music/intro_heartbeat_end.mp3") )
 	$Background/AudioIntroBrightness.set_stream( load("res://assets/music/intro_brightness_end.mp3") )
@@ -305,7 +351,24 @@ func music_end():
 	for layer in music_layers:
 		layer.play()
 		pass
-	pass
+	
+	# Give the system a moment to adjust
+	await get_tree().physics_frame
+	await get_tree().physics_frame
+	
+	
+	GlobalRuntime.scene_manager.fade_to_black($Background/AudioIntroHeartbeat.stream.get_length())
+	# If the song is not over, wait it out...
+	if ($Background/AudioIntroBrightness as AudioStreamPlayer).playing:
+		await $Background/AudioIntroBrightness.finished
+	
+	#await GlobalRuntime.scene_manager.fade_out_finished
+	
+	GlobalRuntime.scene_manager.fade_in(0.25)
+	# ... then end the cinematic.
+	cinematic_finished.emit(self)
+	return
+
 
 func music_fade_in(layer:int):
 	var another_tween
@@ -316,17 +379,18 @@ func music_fade_in(layer:int):
 				another_tween = get_tree().create_tween()
 				another_tween.tween_property(music_layers[layer], "volume_db", -10, 2.5)
 				another_tween.play()
-				print( music_layers[layer].volume_db, " vol db ++" )
+				#print( music_layers[layer].volume_db, " vol db ++" )
 		return;
 	
 	if layer < music_layers.size() && music_layers[layer] != null:
 		another_tween = get_tree().create_tween()
 		another_tween.tween_property(music_layers[layer], "volume_db", -10, 2.5)
 		another_tween.play()
-		print( music_layers[layer].volume_db, " vol db +++" )
+		#print( music_layers[layer].volume_db, " vol db +++" )
 		pass
 	
 	pass
+
 
 func music_fade_out(layer:int):
 	var another_tween
@@ -337,14 +401,14 @@ func music_fade_out(layer:int):
 				another_tween = get_tree().create_tween()
 				another_tween.tween_property(music_layers[layer], "volume_db", -80, 1.5)
 				another_tween.play()
-				print( music_layers[layer].volume_db, " vol db --" )
+				#print( music_layers[layer].volume_db, " vol db --" )
 		return;
 	
 	if layer < music_layers.size() && music_layers[layer] != null:
 		another_tween = get_tree().create_tween()
 		another_tween.tween_property(music_layers[layer], "volume_db", -80, 1.5)
 		another_tween.play()
-		print( music_layers[layer].volume_db, " vol db ---" )
+		#print( music_layers[layer].volume_db, " vol db ---" )
 		pass
 	
 	pass

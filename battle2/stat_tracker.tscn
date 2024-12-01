@@ -1,0 +1,126 @@
+[gd_scene load_steps=9 format=3 uid="uid://ctmlfxu76ehfd"]
+
+[ext_resource type="FontFile" uid="uid://cn430mfjo173k" path="res://assets/fonts/beryl/Beryl 4x7 Kerned.ttf" id="1_gsn55"]
+[ext_resource type="Script" path="res://battle2/stat_tracker.gd" id="1_nfh4p"]
+[ext_resource type="Texture2D" uid="uid://324bauyfr14l" path="res://assets/textures/battle/meter_stat_frame.png" id="1_q7dck"]
+[ext_resource type="Texture2D" uid="uid://1j1t2knucupm" path="res://assets/textures/battle/meter_stat_bar_empty.png" id="2_0hroa"]
+[ext_resource type="Texture2D" uid="uid://cmolf438f7u5" path="res://assets/textures/battle/meter_stat_bar_high.png" id="2_eqipa"]
+[ext_resource type="Texture2D" uid="uid://gg2wrfp43lxf" path="res://assets/textures/battle/meter_refresh_charged.png" id="2_tqlx7"]
+[ext_resource type="FontFile" uid="uid://dvmc7hdwoxyiu" path="res://assets/fonts/beryl/Bixbite 3x5.ttf" id="6_px7ck"]
+[ext_resource type="Texture2D" uid="uid://b2glwovi34rio" path="res://assets/textures/battle/meter_stat_hpfs.png" id="7_m82tn"]
+
+[node name="StatTracker" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -165.0
+offset_bottom = -172.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nfh4p")
+
+[node name="TopText" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 88.0
+offset_bottom = 8.0
+
+[node name="NameField" type="Label" parent="TopText"]
+layout_mode = 0
+offset_left = 4.0
+offset_right = 65.0
+offset_bottom = 8.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_gsn55")
+theme_override_font_sizes/font_size = 8
+text = "WWWWWWWWWW♀"
+
+[node name="LevelField" type="Label" parent="TopText"]
+visible = false
+layout_mode = 0
+offset_left = 59.0
+offset_right = 82.0
+offset_bottom = 8.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_gsn55")
+theme_override_font_sizes/font_size = 8
+text = "⍼99"
+horizontal_alignment = 2
+
+[node name="MeterFrame" type="TextureRect" parent="."]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 91.0
+offset_bottom = 19.0
+texture = ExtResource("1_q7dck")
+stretch_mode = 2
+
+[node name="HealthBar" type="TextureProgressBar" parent="MeterFrame"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 1.0
+offset_right = 83.0
+offset_bottom = 5.0
+value = 100.0
+rounded = true
+texture_under = ExtResource("2_0hroa")
+texture_progress = ExtResource("2_eqipa")
+
+[node name="SpiritBar" type="TextureProgressBar" parent="MeterFrame"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 10.0
+offset_right = 83.0
+offset_bottom = 14.0
+scale = Vector2(1, -1)
+value = 25.0
+rounded = true
+texture_under = ExtResource("2_0hroa")
+texture_progress = ExtResource("2_eqipa")
+
+[node name="RechargeGem" type="TextureRect" parent="MeterFrame"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 2.0
+offset_right = 8.0
+offset_bottom = 9.0
+texture = ExtResource("2_tqlx7")
+stretch_mode = 2
+
+[node name="SpiritCounter" type="Label" parent="MeterFrame"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 3.0
+offset_right = 83.0
+offset_bottom = 11.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("6_px7ck")
+theme_override_font_sizes/font_size = 8
+text = "100/100"
+horizontal_alignment = 1
+
+[node name="HealthCounter" type="Label" parent="MeterFrame"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = -3.0
+offset_right = 83.0
+offset_bottom = 5.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("6_px7ck")
+theme_override_font_sizes/font_size = 8
+text = "100/100"
+horizontal_alignment = 1
+
+[node name="IconHPFS" type="TextureRect" parent="MeterFrame"]
+layout_mode = 0
+offset_left = 8.0
+offset_right = 19.0
+offset_bottom = 11.0
+texture = ExtResource("7_m82tn")
+stretch_mode = 2

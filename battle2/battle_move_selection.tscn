@@ -1,0 +1,68 @@
+[gd_scene load_steps=6 format=3 uid="uid://cunug3ulskkrr"]
+
+[ext_resource type="Texture2D" uid="uid://t17itgf3ewhc" path="res://assets/textures/battle/move_select_battle_bg_tint.png" id="1_7ydmp"]
+[ext_resource type="Texture2D" uid="uid://bg7rvjdxc04lh" path="res://assets/textures/battle/move_select_battle_reference.png" id="1_8o2j0"]
+[ext_resource type="Script" path="res://battle2/battle_btn_submit.gd" id="1_kjutg"]
+[ext_resource type="FontFile" uid="uid://cn430mfjo173k" path="res://assets/fonts/beryl/Beryl 4x7 Kerned.ttf" id="2_3mr3y"]
+[ext_resource type="Texture2D" uid="uid://dmukf8qvcuc1n" path="res://assets/textures/battle/move_select_battle_bg.png" id="2_kyv6y"]
+
+[node name="Move" type="TextureButton"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -145.0
+offset_bottom = -174.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("1_7ydmp")
+texture_pressed = ExtResource("2_kyv6y")
+texture_hover = ExtResource("2_kyv6y")
+texture_disabled = ExtResource("1_7ydmp")
+texture_focused = ExtResource("2_kyv6y")
+script = ExtResource("1_kjutg")
+
+[node name="MoveSelectBattleReference" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(61, 11)
+texture = ExtResource("1_8o2j0")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 122.0
+offset_bottom = 22.0
+texture = ExtResource("2_kyv6y")
+stretch_mode = 2
+
+[node name="MoveName" type="Label" parent="."]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 4.0
+offset_right = 90.0
+offset_bottom = 27.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_3mr3y")
+theme_override_font_sizes/font_size = 8
+text = "1234567890123456"
+
+[node name="MoveCost" type="Label" parent="."]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 13.0
+offset_right = 69.0
+offset_bottom = 21.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_3mr3y")
+theme_override_font_sizes/font_size = 8
+text = "COST:999"
+
+[node name="MoveCategory" type="Label" parent="."]
+layout_mode = 0
+offset_left = 66.0
+offset_top = 13.0
+offset_right = 110.0
+offset_bottom = 21.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_3mr3y")
+theme_override_font_sizes/font_size = 8
+text = "-special-"

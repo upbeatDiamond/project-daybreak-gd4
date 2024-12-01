@@ -1,0 +1,571 @@
+[gd_scene load_steps=33 format=3 uid="uid://du2ixlhac4t4l"]
+
+[ext_resource type="Script" path="res://battle2/battle_client_gui.gd" id="1_ji70w"]
+[ext_resource type="Texture2D" uid="uid://cavfvlp1urksj" path="res://assets/textures/battle/field_bg_test.png" id="2_q6hy3"]
+[ext_resource type="Texture2D" uid="uid://clj13bdpagwf1" path="res://assets/textures/monsters/zoonami_kackaburr_front.png" id="4_2jdcp"]
+[ext_resource type="Texture2D" uid="uid://diuc2tklu4voo" path="res://assets/textures/battle/btn_action_default.png" id="4_tii0e"]
+[ext_resource type="PackedScene" uid="uid://ctmlfxu76ehfd" path="res://battle2/stat_tracker.tscn" id="5_brxnf"]
+[ext_resource type="FontFile" uid="uid://6far6bu3fh5" path="res://assets/fonts/pixeloid/PixeloidSans-mLxMm.ttf" id="5_c3dar"]
+[ext_resource type="Texture2D" uid="uid://bh6fy8mv3m73g" path="res://assets/textures/battle/btn_team_default.png" id="6_86jxn"]
+[ext_resource type="Texture2D" uid="uid://c6c6h1xu5dx4l" path="res://assets/textures/battle/frame_bulletin_paper.png" id="6_vd5wc"]
+[ext_resource type="Texture2D" uid="uid://cy41mgmt6htb6" path="res://assets/textures/battle/btn_bag_default.png" id="7_sdgxm"]
+[ext_resource type="Texture2D" uid="uid://bexv6kceonbhv" path="res://assets/textures/battle/btn_rest_default.png" id="8_jttud"]
+[ext_resource type="Texture2D" uid="uid://socgmnbamaxw" path="res://assets/textures/battle/btn_action_hover.png" id="10_huofu"]
+[ext_resource type="Texture2D" uid="uid://4vvoedge7o0b" path="res://assets/textures/battle/btn_action_disabled.png" id="11_lsk0u"]
+[ext_resource type="Texture2D" uid="uid://d261xas11vknx" path="res://assets/textures/battle/btn_action_clicked.png" id="11_maqon"]
+[ext_resource type="Texture2D" uid="uid://ocqhjhhth3ml" path="res://assets/textures/battle/btn_team_clicked.png" id="11_qk6y7"]
+[ext_resource type="Texture2D" uid="uid://cl1lfppavr0oq" path="res://assets/textures/battle/btn_action_highlight.png" id="12_balye"]
+[ext_resource type="PackedScene" uid="uid://cbnapsi3sixkn" path="res://battle2/stat_tracker_flipped.tscn" id="12_koyua"]
+[ext_resource type="Texture2D" uid="uid://bbk4k2f0qi73u" path="res://assets/textures/battle/btn_team_hover.png" id="12_pky23"]
+[ext_resource type="Texture2D" uid="uid://kvcalcmrd507" path="res://assets/textures/battle/btn_team_highlight.png" id="13_1ihik"]
+[ext_resource type="Texture2D" uid="uid://icoo52py8rk3" path="res://assets/textures/battle/btn_team_disabled.png" id="13_4acte"]
+[ext_resource type="Script" path="res://battle2/battle_btn_mode.gd" id="15_77ih8"]
+[ext_resource type="Texture2D" uid="uid://pum6imkctxpw" path="res://assets/textures/battle/btn_bag_clicked.png" id="19_461ij"]
+[ext_resource type="Texture2D" uid="uid://1yech2uxhal" path="res://assets/textures/battle/btn_bag_hover.png" id="20_ff5xd"]
+[ext_resource type="Texture2D" uid="uid://c5j3482js7x1t" path="res://assets/textures/battle/btn_rest_clicked.png" id="21_ooaoy"]
+[ext_resource type="Texture2D" uid="uid://bvly3j4457iy3" path="res://assets/textures/battle/btn_bag_disabled.png" id="21_p7rhv"]
+[ext_resource type="Texture2D" uid="uid://6c1ja4yyu77s" path="res://assets/textures/battle/btn_rest_hover.png" id="22_1ahdv"]
+[ext_resource type="Texture2D" uid="uid://cy50sfhfixqq2" path="res://assets/textures/battle/btn_rest_disabled.png" id="22_rrf11"]
+[ext_resource type="Texture2D" uid="uid://b5s1xjy8vgtad" path="res://assets/textures/battle/btn_bag_highlight.png" id="22_xiaap"]
+[ext_resource type="Texture2D" uid="uid://nor3qeiew8ob" path="res://assets/textures/battle/btn_rest_highlight.png" id="23_vttc0"]
+[ext_resource type="Texture2D" uid="uid://0l6m4eltx26u" path="res://assets/textures/monsters/zoonami_kackaburr_back.png" id="29_ybced"]
+[ext_resource type="PackedScene" uid="uid://cunug3ulskkrr" path="res://battle2/battle_move_selection.tscn" id="30_g8y3c"]
+[ext_resource type="Texture2D" uid="uid://cygk70c0dvaek" path="res://assets/textures/battle/btn_move_back.png" id="31_l7sx1"]
+[ext_resource type="Script" path="res://battle2/battle_btn_submit.gd" id="31_u132n"]
+
+[node name="BattleGUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -896.0
+offset_bottom = -452.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ji70w")
+
+[node name="BG" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_q6hy3")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="MonAvatars" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DistantMons" type="Control" parent="MonAvatars"]
+anchors_preset = 0
+offset_top = 9.0
+offset_right = 40.0
+offset_bottom = 49.0
+
+[node name="MonDistantLeft" type="TextureRect" parent="MonAvatars/DistantMons"]
+layout_mode = 0
+offset_left = 84.0
+offset_right = 148.0
+offset_bottom = 64.0
+texture = ExtResource("4_2jdcp")
+expand_mode = 1
+
+[node name="MonDistantMiddle" type="TextureRect" parent="MonAvatars/DistantMons"]
+layout_mode = 0
+offset_left = 138.0
+offset_right = 202.0
+offset_bottom = 64.0
+texture = ExtResource("4_2jdcp")
+expand_mode = 1
+
+[node name="MonDistantRight" type="TextureRect" parent="MonAvatars/DistantMons"]
+layout_mode = 0
+offset_left = 192.0
+offset_right = 256.0
+offset_bottom = 64.0
+texture = ExtResource("4_2jdcp")
+expand_mode = 1
+
+[node name="LocalMons" type="Control" parent="MonAvatars"]
+anchors_preset = 0
+offset_top = 3.0
+offset_right = 40.0
+offset_bottom = 43.0
+
+[node name="MonLocalLeft" type="TextureRect" parent="MonAvatars/LocalMons"]
+layout_mode = 0
+offset_top = 72.0
+offset_right = 64.0
+offset_bottom = 136.0
+texture = ExtResource("29_ybced")
+expand_mode = 1
+
+[node name="MonLocalMiddle" type="TextureRect" parent="MonAvatars/LocalMons"]
+layout_mode = 0
+offset_left = 54.0
+offset_top = 72.0
+offset_right = 118.0
+offset_bottom = 136.0
+texture = ExtResource("29_ybced")
+expand_mode = 1
+
+[node name="MonLocalRight" type="TextureRect" parent="MonAvatars/LocalMons"]
+layout_mode = 0
+offset_left = 108.0
+offset_top = 72.0
+offset_right = 172.0
+offset_bottom = 136.0
+texture = ExtResource("29_ybced")
+expand_mode = 1
+
+[node name="Trackers" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DistantTrackers" type="Control" parent="Trackers"]
+anchors_preset = 0
+offset_left = -1.0
+offset_right = 39.0
+offset_bottom = 40.0
+
+[node name="StatTracker" parent="Trackers/DistantTrackers" instance=ExtResource("5_brxnf")]
+layout_mode = 1
+offset_left = 3.0
+offset_top = 4.0
+offset_right = -37.0
+offset_bottom = -36.0
+
+[node name="StatTracker2" parent="Trackers/DistantTrackers" instance=ExtResource("5_brxnf")]
+layout_mode = 1
+offset_left = 3.0
+offset_top = 26.0
+offset_right = 3.0
+offset_bottom = 26.0
+
+[node name="StatTracker3" parent="Trackers/DistantTrackers" instance=ExtResource("5_brxnf")]
+layout_mode = 1
+offset_left = 3.0
+offset_top = 48.0
+offset_right = -37.0
+offset_bottom = 8.0
+
+[node name="LocalTrackers" type="Control" parent="Trackers"]
+anchors_preset = 0
+offset_left = 1.0
+offset_top = 9.0
+offset_right = 41.0
+offset_bottom = 49.0
+
+[node name="StatTrackerFlipped" parent="Trackers/LocalTrackers" instance=ExtResource("12_koyua")]
+layout_mode = 1
+offset_left = 204.0
+offset_top = 71.0
+offset_right = 164.0
+offset_bottom = 31.0
+
+[node name="StatTrackerFlipped2" parent="Trackers/LocalTrackers" instance=ExtResource("12_koyua")]
+layout_mode = 1
+offset_left = 204.0
+offset_top = 93.0
+offset_right = 164.0
+offset_bottom = 53.0
+
+[node name="StatTrackerFlipped3" parent="Trackers/LocalTrackers" instance=ExtResource("12_koyua")]
+layout_mode = 1
+offset_left = 204.0
+offset_top = 115.0
+offset_right = 164.0
+offset_bottom = 75.0
+
+[node name="BulletinBG" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -56.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("6_vd5wc")
+
+[node name="BulletinBounds" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(256, 56)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -56.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 7
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 7
+theme_override_constants/margin_bottom = 4
+
+[node name="BulletinHome" type="Control" parent="BulletinBounds"]
+visible = false
+layout_mode = 2
+
+[node name="TextBounds" type="MarginContainer" parent="BulletinBounds/BulletinHome"]
+layout_mode = 2
+offset_right = 242.0
+offset_bottom = 48.0
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="TextDisplay" type="RichTextLabel" parent="BulletinBounds/BulletinHome/TextBounds"]
+layout_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_colors/selection_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("5_c3dar")
+theme_override_font_sizes/normal_font_size = 9
+text = "What will Maddie do?"
+
+[node name="ButtonPanelBounds" type="MarginContainer" parent="BulletinBounds/BulletinHome"]
+layout_mode = 2
+offset_right = 242.0
+offset_bottom = 48.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = -16
+
+[node name="ButtonPanelBox" type="HBoxContainer" parent="BulletinBounds/BulletinHome/ButtonPanelBounds"]
+custom_minimum_size = Vector2(100, 48)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 10
+
+[node name="ButtonAction" type="TextureButton" parent="BulletinBounds/BulletinHome/ButtonPanelBounds/ButtonPanelBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_left = NodePath("../ButtonRest")
+focus_neighbor_right = NodePath("../ButtonTeam")
+texture_normal = ExtResource("4_tii0e")
+texture_pressed = ExtResource("11_maqon")
+texture_hover = ExtResource("10_huofu")
+texture_disabled = ExtResource("11_lsk0u")
+texture_focused = ExtResource("12_balye")
+script = ExtResource("15_77ih8")
+mode = 4
+
+[node name="ButtonTeam" type="TextureButton" parent="BulletinBounds/BulletinHome/ButtonPanelBounds/ButtonPanelBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_left = NodePath("../ButtonAction")
+focus_neighbor_right = NodePath("../ButtonBag")
+texture_normal = ExtResource("6_86jxn")
+texture_pressed = ExtResource("11_qk6y7")
+texture_hover = ExtResource("12_pky23")
+texture_disabled = ExtResource("13_4acte")
+texture_focused = ExtResource("13_1ihik")
+script = ExtResource("15_77ih8")
+mode = 6
+
+[node name="ButtonBag" type="TextureButton" parent="BulletinBounds/BulletinHome/ButtonPanelBounds/ButtonPanelBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_left = NodePath("../ButtonTeam")
+focus_neighbor_right = NodePath("../ButtonRest")
+texture_normal = ExtResource("7_sdgxm")
+texture_pressed = ExtResource("19_461ij")
+texture_hover = ExtResource("20_ff5xd")
+texture_disabled = ExtResource("21_p7rhv")
+texture_focused = ExtResource("22_xiaap")
+script = ExtResource("15_77ih8")
+mode = 5
+
+[node name="ButtonRest" type="TextureButton" parent="BulletinBounds/BulletinHome/ButtonPanelBounds/ButtonPanelBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_left = NodePath("../ButtonBag")
+focus_neighbor_right = NodePath("../ButtonAction")
+texture_normal = ExtResource("8_jttud")
+texture_pressed = ExtResource("21_ooaoy")
+texture_hover = ExtResource("22_1ahdv")
+texture_disabled = ExtResource("22_rrf11")
+texture_focused = ExtResource("23_vttc0")
+script = ExtResource("31_u132n")
+gui_mode_exclusive = 3
+
+[node name="Printout" type="RichTextLabel" parent="BulletinBounds/BulletinHome/ButtonPanelBounds/ButtonPanelBox"]
+visible = false
+custom_minimum_size = Vector2(134, 56)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "But they can't use it the way it is now!"
+scroll_active = false
+
+[node name="BulletinText" type="Control" parent="BulletinBounds"]
+visible = false
+layout_mode = 2
+
+[node name="TextBounds" type="MarginContainer" parent="BulletinBounds/BulletinText"]
+layout_mode = 2
+offset_right = 242.0
+offset_bottom = 48.0
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="TextDisplay" type="RichTextLabel" parent="BulletinBounds/BulletinText/TextBounds"]
+layout_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_colors/selection_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("5_c3dar")
+theme_override_font_sizes/normal_font_size = 9
+text = "Ipsum Lorem!"
+
+[node name="BackButton" type="TextureButton" parent="BulletinBounds/BulletinText"]
+self_modulate = Color(1, 1, 1, 0.0392157)
+layout_mode = 0
+offset_left = -1.0
+offset_top = 2.0
+offset_right = 243.0
+offset_bottom = 46.0
+texture_normal = ExtResource("31_l7sx1")
+texture_pressed = ExtResource("31_l7sx1")
+texture_hover = ExtResource("31_l7sx1")
+texture_disabled = ExtResource("31_l7sx1")
+texture_focused = ExtResource("31_l7sx1")
+stretch_mode = 0
+script = ExtResource("15_77ih8")
+mode = 2
+
+[node name="BulletinMoves" type="Control" parent="BulletinBounds"]
+layout_mode = 2
+
+[node name="Move1" parent="BulletinBounds/BulletinMoves" instance=ExtResource("30_g8y3c")]
+layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = -1.0
+offset_top = 2.0
+offset_right = 105.0
+offset_bottom = 24.0
+focus_neighbor_left = NodePath("../Move2")
+focus_neighbor_top = NodePath("../Move3")
+focus_neighbor_right = NodePath("../Move2")
+focus_neighbor_bottom = NodePath("../Move3")
+battle_act_type = 4
+battle_act_index = 0
+
+[node name="Move2" parent="BulletinBounds/BulletinMoves" instance=ExtResource("30_g8y3c")]
+layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 110.0
+offset_top = 2.0
+offset_right = 217.0
+offset_bottom = 24.0
+focus_neighbor_left = NodePath("../Move1")
+focus_neighbor_top = NodePath("../Move4")
+focus_neighbor_right = NodePath("../BackButton")
+focus_neighbor_bottom = NodePath("../Move4")
+battle_act_type = 4
+battle_act_index = 1
+
+[node name="Move3" parent="BulletinBounds/BulletinMoves" instance=ExtResource("30_g8y3c")]
+layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = -1.0
+offset_top = 24.0
+offset_right = 105.0
+offset_bottom = 48.0
+focus_neighbor_left = NodePath("../Move4")
+focus_neighbor_top = NodePath("../Move1")
+focus_neighbor_right = NodePath("../Move4")
+focus_neighbor_bottom = NodePath("../Move1")
+battle_act_type = 4
+battle_act_index = 2
+
+[node name="Move4" parent="BulletinBounds/BulletinMoves" instance=ExtResource("30_g8y3c")]
+layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 110.0
+offset_top = 24.0
+offset_right = 217.0
+offset_bottom = 48.0
+focus_neighbor_left = NodePath("../Move3")
+focus_neighbor_top = NodePath("../Move2")
+focus_neighbor_right = NodePath("../BackButton")
+focus_neighbor_bottom = NodePath("../Move2")
+battle_act_type = 4
+battle_act_index = 3
+
+[node name="BackButton" type="TextureButton" parent="BulletinBounds/BulletinMoves"]
+layout_mode = 0
+offset_left = 221.0
+offset_top = 2.0
+offset_right = 261.0
+offset_bottom = 46.0
+focus_neighbor_left = NodePath("../Move4")
+focus_neighbor_top = NodePath("../Move2")
+texture_normal = ExtResource("31_l7sx1")
+texture_pressed = ExtResource("31_l7sx1")
+texture_hover = ExtResource("31_l7sx1")
+texture_disabled = ExtResource("31_l7sx1")
+texture_focused = ExtResource("31_l7sx1")
+script = ExtResource("15_77ih8")
+mode = 3
+
+[node name="BulletinTeam" type="Control" parent="BulletinBounds"]
+visible = false
+layout_mode = 2
+
+[node name="BackButton" type="TextureButton" parent="BulletinBounds/BulletinTeam"]
+layout_mode = 0
+offset_left = 221.0
+offset_top = 2.0
+offset_right = 261.0
+offset_bottom = 46.0
+texture_normal = ExtResource("31_l7sx1")
+texture_pressed = ExtResource("31_l7sx1")
+texture_hover = ExtResource("31_l7sx1")
+texture_disabled = ExtResource("31_l7sx1")
+texture_focused = ExtResource("31_l7sx1")
+script = ExtResource("15_77ih8")
+mode = 3
+
+[node name="BulletinBag" type="Control" parent="BulletinBounds"]
+visible = false
+layout_mode = 2
+
+[node name="BackButton" type="TextureButton" parent="BulletinBounds/BulletinBag"]
+layout_mode = 0
+offset_left = 221.0
+offset_top = 2.0
+offset_right = 261.0
+offset_bottom = 46.0
+texture_normal = ExtResource("31_l7sx1")
+texture_pressed = ExtResource("31_l7sx1")
+texture_hover = ExtResource("31_l7sx1")
+texture_disabled = ExtResource("31_l7sx1")
+texture_focused = ExtResource("31_l7sx1")
+script = ExtResource("15_77ih8")
+mode = 3
+
+[node name="BulletinCursor" type="Control" parent="BulletinBounds"]
+visible = false
+layout_mode = 2
+mouse_filter = 1
+
+[node name="BulletinTarget" type="Control" parent="BulletinBounds"]
+visible = false
+layout_mode = 2
+
+[node name="TargetGrid" type="GridContainer" parent="BulletinBounds/BulletinTarget"]
+layout_mode = 2
+offset_left = 20.0
+offset_right = 221.0
+offset_bottom = 69.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/h_separation = 3
+theme_override_constants/v_separation = 1
+columns = 3
+
+[node name="TargetDistantLeft" type="TextureButton" parent="BulletinBounds/BulletinTarget/TargetGrid"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("4_tii0e")
+texture_pressed = ExtResource("11_maqon")
+texture_hover = ExtResource("10_huofu")
+texture_disabled = ExtResource("11_lsk0u")
+texture_focused = ExtResource("12_balye")
+script = ExtResource("31_u132n")
+
+[node name="TargetDistantMiddle" type="TextureButton" parent="BulletinBounds/BulletinTarget/TargetGrid"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("4_tii0e")
+texture_pressed = ExtResource("11_maqon")
+texture_hover = ExtResource("10_huofu")
+texture_disabled = ExtResource("11_lsk0u")
+texture_focused = ExtResource("12_balye")
+script = ExtResource("15_77ih8")
+mode = 6
+
+[node name="TargetDistantRight" type="TextureButton" parent="BulletinBounds/BulletinTarget/TargetGrid"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("4_tii0e")
+texture_pressed = ExtResource("11_maqon")
+texture_hover = ExtResource("10_huofu")
+texture_disabled = ExtResource("11_lsk0u")
+texture_focused = ExtResource("12_balye")
+script = ExtResource("15_77ih8")
+mode = 6
+
+[node name="TargetLocalLeft" type="TextureButton" parent="BulletinBounds/BulletinTarget/TargetGrid"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("4_tii0e")
+texture_pressed = ExtResource("11_maqon")
+texture_hover = ExtResource("10_huofu")
+texture_disabled = ExtResource("11_lsk0u")
+texture_focused = ExtResource("12_balye")
+script = ExtResource("15_77ih8")
+mode = 6
+
+[node name="TargetLocalMiddle" type="TextureButton" parent="BulletinBounds/BulletinTarget/TargetGrid"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("4_tii0e")
+texture_pressed = ExtResource("11_maqon")
+texture_hover = ExtResource("10_huofu")
+texture_disabled = ExtResource("11_lsk0u")
+texture_focused = ExtResource("12_balye")
+script = ExtResource("15_77ih8")
+mode = 6
+
+[node name="TargetLocalRight" type="TextureButton" parent="BulletinBounds/BulletinTarget/TargetGrid"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("4_tii0e")
+texture_pressed = ExtResource("11_maqon")
+texture_hover = ExtResource("10_huofu")
+texture_disabled = ExtResource("11_lsk0u")
+texture_focused = ExtResource("12_balye")
+script = ExtResource("15_77ih8")
+mode = 6
+
+[node name="BackButton" type="TextureButton" parent="BulletinBounds/BulletinTarget"]
+layout_mode = 0
+offset_left = 221.0
+offset_top = 2.0
+offset_right = 261.0
+offset_bottom = 46.0
+texture_normal = ExtResource("31_l7sx1")
+texture_pressed = ExtResource("31_l7sx1")
+texture_hover = ExtResource("31_l7sx1")
+texture_disabled = ExtResource("31_l7sx1")
+texture_focused = ExtResource("31_l7sx1")
+script = ExtResource("15_77ih8")
+mode = 2

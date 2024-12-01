@@ -23,6 +23,11 @@ func _ready():
 	print( str("pronoun_m -- ",pronoun_m) );
 	pass # Replace with function body.
 
+func on_become_visible():
+	if self.visible:
+		pronoun_n.grab_focus()
+	pass
+
 func on_reflect_pressed(_h:=true):
 	var gender = ''
 	var gclass = ''
@@ -51,6 +56,7 @@ func on_reflect_pressed(_h:=true):
 func store_gender( gender ):
 	if reflect_target != null && reflect_target.has_method( 'on_reflect_kv' ):
 		reflect_target.on_reflect_kv("player_gender", gender);
+	GlobalDatabase.save_keyval("player_gender", gender)
 	pass
 
 func set_reflect_target(n:Node):

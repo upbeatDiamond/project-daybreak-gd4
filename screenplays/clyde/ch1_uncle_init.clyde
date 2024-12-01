@@ -1,0 +1,7 @@
+Uncle: Hey! 
+: He muttered something under his breath.
+Uncle: Phew. Hah. My spanner got jammed. Huff. I want to talk to Prof. Olearia to get it fixed. 
+Uncle: I'm getting old, kid. Could you bring it to him?
+Uncle: Go up North for me. Starspeed, kid.
+: You got a spanner!
+{ set @ch1_got_spanner = 1 }

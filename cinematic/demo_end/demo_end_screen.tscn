@@ -1,0 +1,83 @@
+[gd_scene load_steps=5 format=3 uid="uid://dnke0ad1w4jd6"]
+
+[ext_resource type="Script" path="res://cinematic/demo_end/demo_end_screen.gd" id="1_5gepg"]
+[ext_resource type="Material" uid="uid://ckdgvek6arg37" path="res://cinematic/intro/intro_bg_shader.tres" id="2_n2j4i"]
+[ext_resource type="Texture2D" uid="uid://8a8c4ay4r0vt" path="res://assets/textures/intro/final_frontier.png" id="3_y8x0a"]
+[ext_resource type="Script" path="res://cinematic/demo_end/demo_ability.gd" id="4_0fv34"]
+
+[node name="Node2D" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5gepg")
+
+[node name="Background" type="TextureRect" parent="."]
+texture_repeat = 2
+material = ExtResource("2_n2j4i")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_y8x0a")
+expand_mode = 2
+stretch_mode = 1
+
+[node name="AudioIntroHeartbeat" type="AudioStreamPlayer" parent="Background"]
+
+[node name="AudioIntroBrightness" type="AudioStreamPlayer" parent="Background"]
+
+[node name="AudioIntroDarkness" type="AudioStreamPlayer" parent="Background"]
+
+[node name="AudioIntroTheremin" type="AudioStreamPlayer" parent="Background"]
+
+[node name="AudioIntroNewAge" type="AudioStreamPlayer" parent="Background"]
+
+[node name="Survey" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Sections" type="VBoxContainer" parent="Survey"]
+layout_mode = 2
+
+[node name="Prompt" type="Label" parent="Survey/Sections"]
+layout_mode = 2
+text = "Let us imagine a world together."
+
+[node name="Selection" type="PanelContainer" parent="Survey/Sections"]
+layout_mode = 2
+
+[node name="Ability" type="HBoxContainer" parent="Survey/Sections/Selection"]
+layout_mode = 2
+script = ExtResource("4_0fv34")
+
+[node name="BtnFire" type="Button" parent="Survey/Sections/Selection/Ability"]
+layout_mode = 2
+focus_neighbor_right = NodePath("../BtnGrass")
+text = "Nath, the Firey Bull"
+
+[node name="BtnGrass" type="Button" parent="Survey/Sections/Selection/Ability"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../BtnFire")
+focus_neighbor_right = NodePath("../BtnWater")
+text = "Girtab, the Floral Scorpion"
+
+[node name="BtnWater" type="Button" parent="Survey/Sections/Selection/Ability"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../BtnGrass")
+focus_neighbor_right = NodePath("../Reflect")
+text = "Arided, the Aquatic Capricorn"
+
+[node name="Reflect" type="Button" parent="Survey/Sections/Selection/Ability"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../BtnWater")
+toggle_mode = true
+text = "[submit]"

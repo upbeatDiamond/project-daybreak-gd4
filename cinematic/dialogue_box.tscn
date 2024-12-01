@@ -1,0 +1,64 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwbmckf1cnuk3"]
+
+[ext_resource type="Texture2D" uid="uid://bkt4yv7ec04t8" path="res://icon.svg" id="2_6m0tj"]
+[ext_resource type="Texture2D" uid="uid://dumalq4el7tfd" path="res://assets/textures/gui/dialogue_box.png" id="2_skgmg"]
+
+[node name="DialogBox" type="Control"]
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -128.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_skgmg")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Background/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 33
+
+[node name="Avatar" type="TextureRect" parent="Background/HBoxContainer/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("2_6m0tj")
+expand_mode = 3
+
+[node name="TextBoxes" type="VBoxContainer" parent="Background/HBoxContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="NameBox" type="RichTextLabel" parent="Background/HBoxContainer/TextBoxes"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+text = "John Smith"
+fit_content = true
+
+[node name="TextBox" type="RichTextLabel" parent="Background/HBoxContainer/TextBoxes"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_vertical = 3
+text = "h^!yyyyyyyy yyyyyyyyyyy yyyyyyyyyyy yyyyyyyyyyy yyyyyyyyyyy yyyyyyyyyyy yyyyyyyyyyy yyyyyyyyyyy yyyyyyyyyyy yyyyyyyyyyy yyyyyyyyyyy yyyyyyyyyyy yyyyyyyyyyy yyyyyyyyyyy yyyyyyyyyyy yyyyyyyyyyy yyyyyyyyyyy yyyyyyyyyyy yyyyyyyyyyy yyyyyyyyyyy"
+scroll_active = false
+
+[node name="Speaker" type="AudioStreamPlayer" parent="."]

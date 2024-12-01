@@ -13,6 +13,7 @@ var debug_please_remove:=[1,3,2]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
 	if GlobalRuntime.scene_manager != null:
 		GlobalRuntime.scene_manager.update_preload_portals()
 		establish_ysort()
@@ -73,6 +74,7 @@ func place_gamepieces( gamepieces:Array ):
 		current_gamepieces.append(piece)
 		
 		ysort.add_child(piece)
+		piece.add_to_group("gamepiece")
 		
 		piece.global_position = piece.current_position
 		print("placing gamepiece at co-ord ~ ", piece.global_position, piece.current_position)

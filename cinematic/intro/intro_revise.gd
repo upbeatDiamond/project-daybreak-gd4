@@ -19,21 +19,26 @@ func _ready():
 	revise_name.connect('pressed', self.on_revise_name);
 	pass # Replace with function body.
 
+
 func on_revise_ability(_h:=true):
 	store_goback( "ability" )
 	pass
+
 
 func on_revise_form(_h:=true):
 	store_goback( "form" )
 	pass
 
+
 func on_revise_gender(_h:=true):
 	store_goback( "gender" )
 	pass
 
+
 func on_revise_name(_h:=true):
 	store_goback( "name" )
 	pass
+
 
 func on_reflect_pressed(_h:=true):
 	var gclass = 'goforth'
@@ -41,13 +46,16 @@ func on_reflect_pressed(_h:=true):
 	store_goback( str(gclass) )
 	pass
 
+
 func store_goback( goback ):
 	if reflect_target != null && reflect_target.has_method( 'on_reflect_kv' ):
 		reflect_target.on_reflect_kv("goback", goback);
 	pass
 
+
 func set_reflect_target(n:Node):
 	reflect_target = n;
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):

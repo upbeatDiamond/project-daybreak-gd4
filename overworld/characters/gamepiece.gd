@@ -9,6 +9,11 @@ signal gamepiece_stopped_signal
 signal gamepiece_entering_door_signal
 signal gamepiece_entered_door_signal
 
+
+signal gamepiece_moved( direction:Vector2, global_endpoint:Vector2, mode:TraversalMode )
+signal gamepiece_moving( direction:Vector2, global_endpoint:Vector2, mode:TraversalMode )
+
+
 # -1 = invalid / unset
 # 0 = player 1
 # 0-255 = reserved for players, in case of future multiplayer version
@@ -25,9 +30,12 @@ signal gamepiece_entered_door_signal
 		return umid
 
 var move_speed:float
-@export var walk_speed = 5.0
-@export var jump_speed = 5.0
-@export var run_speed = 12.0
+var walk_speed = 5.0
+var jump_speed = 5.0
+var run_speed = 8.0
+@export var treat_as_player := false
+@export var is_local_player := false
+@export var tag = ""
 
 const LandingDustEffect = preload("res://overworld/landing_dust_effect.tscn")
 
@@ -47,7 +55,7 @@ var is_moving = false;	# true if currently tweening a traversal (walking, runnin
 var was_moving = false;	# true if animation for an 'is_moving' action would still be playing
 var position_is_known = true;	# false if the gamepiece needs a new position calculated.
 var position_stabilized = false;	#current_position == global_position; or, "has been placed yet"
-var facing_direction = Vector2(0,0):	# Used for animation state
+@export var facing_direction = Vector2(0,-1):	# Used for animation state
 	set(value):
 		facing_direction = value
 
@@ -58,7 +66,7 @@ enum TraversalMode
 	STANDING, 	# 🧍‍♀️ 
 	WALKING, 	# 🚶‍♀️ 
 	RUNNING, 	# 🏃‍♂️ 
-	TRUDGING, 	# Did you know you can put emojis in comments? Sure, it's text, but woah it renders!
+	TRUDGING, 	# Did you know comments can have emojis? It may be text, but woah it renders!
 	SLIDING, 	# 🧊 
 	SPINNING, 	# 🔄
 	SWIMMING, 	# 🏊‍♂️ 
@@ -66,7 +74,7 @@ enum TraversalMode
 	BICYCLING, 	# 🚲 
 }
 
-@export var current_map := -1	# depricated, please ask the local map for its ID
+var current_map := -1	# depricated, overwritten by code, do not trust
 @export var current_position := Vector2i(0,0):
 	set( pos ): 
 		shift_to_target(pos)
@@ -86,19 +94,15 @@ var move_queue :Array[Movement] = []
 # The 'soul' of the gamepiece.
 # The gamepiece is but a vehicle to the spirit (that which stores name, stats, species, etc)
 
-
-signal gamepiece_moved( direction:Vector2, global_endpoint:Vector2, mode:TraversalMode )
-signal gamepiece_moving( direction:Vector2, global_endpoint:Vector2, mode:TraversalMode )
-
-
 func _init():
 	GlobalRuntime.save_data.connect( save_gamepiece )
 	monster = Monster.new()
 	monster.umid = umid
-
+	
 
 func _ready():
 	add_to_group("gamepiece")
+	controller.set_script(load("res://overworld/characters/gamepiece_controller_player.gd"))
 	
 	# "animation_tree" serves as a canary for overall loading issues.
 	if animation_tree == null:
@@ -106,21 +110,35 @@ func _ready():
 		get_parent().remove_child( self )
 		return
 	
+	if facing_direction == null:
+		facing_direction = Vector2(0,1)
+	
 	animation_state = animation_tree["parameters/playback"]
 	my_camera = (self.find_child("Camera", true) as Camera2D)
 	
 	is_moving = false
-	$GFX/Sprite.visible = true
+	$GFX/SpriteBase.visible = true
+	$GFX/SpriteAccent.visible = true
+	$GFX/SpriteClothes.visible = true
 	GlobalRuntime.snap_to_grid( position )
 	animation_tree.active = true
 	update_anim_tree()
 	
 	if monster == null:
+		var _umid = umid
 		monster = Monster.new()
+		monster.umid = _umid
+	
+	GlobalDatabase.update_gamepiece(self)
+	_update_monster()
+	kill_imposters()
 	
 	GlobalRuntime.pause_gameworld.connect( _on_gameworld_pause )
 	GlobalRuntime.unpause_gameworld.connect( _on_gameworld_unpause )
-	print("GP: I think I'm at ", current_position, "")
+	print("GP: I think I'm at ", current_position, " as ", tag)
+	if tag == "player" or monster.umid <= 1:
+		treat_as_player = true
+		#is_local_player = false
 
 
 func _process(_delta):
@@ -132,6 +150,10 @@ func _process(_delta):
 		elif was_moving == true: # implied: is_moving is false
 			update_anim_tree()
 			was_moving = false
+	if is_moving and not was_moving:
+		gamepiece_moving_signal.emit()
+	elif not was_moving and not is_moving:
+		gamepiece_stopped_signal.emit()
 
 
 func _on_gameworld_pause():
@@ -160,10 +182,10 @@ func update_rays( direction : Vector2 ):
 	
 	event_ray.target_position = direction * GlobalRuntime.DEFAULT_TILE_SIZE
 	event_ray.force_raycast_update()
+	event_ray.clear_exceptions()
 
 
 func move( direction ):
-	
 	if direction is Movement:
 		traversal_mode = direction.method
 		direction = direction.to_cell_vector2f()
@@ -174,12 +196,7 @@ func move( direction ):
 		return
 	facing_direction = direction
 	
-	update_rays(direction)
-	
-	if event_ray.is_colliding():
-		var colliding_with = event_ray.get_collider()
-		if colliding_with.is_in_group("event_exterior") and colliding_with.has_method("run_event"):
-			colliding_with.run_event( self )
+	_check_exterior_event_collision(direction)
 	
 	if !block_ray.is_colliding():
 		
@@ -224,9 +241,131 @@ func move( direction ):
 	is_moving = false
 	traversal_mode = TraversalMode.STANDING
 	
+	_check_interior_event_collision()
+
+
+"""
+	Check for touching the surface of an adjecent object/cell
+	
+	parameters:
+		direction - the predicted direction of the object collided with
+"""
+func _check_exterior_event_collision(direction:Vector2):
+	update_rays(direction)
+	
+	while event_ray.is_colliding():
+		var colliding_with = event_ray.get_collider()
+		if colliding_with.is_in_group("event_exterior") and colliding_with.has_method("run_event"):
+			colliding_with.run_event( self )
+		if colliding_with is CollisionObject2D:
+			event_ray.add_exception(colliding_with)
+			print(colliding_with)
+		await get_tree().process_frame
+	pass
+
+
+func _peek_exterior_collision(direction:Vector2):
+	update_rays(direction)
+	await get_tree().process_frame
+	
+	if block_ray.is_colliding():
+		return true
+	return false
+
+
+"""
+	Check for entering an event; used for redundancy & access of other classes.
+	
+	parameters:
+		direction - the predicted direction of the object collided with
+"""
+func _check_interior_event_collision():
 	for overlap in get_overlapping_areas():
 		if overlap.is_in_group("event_interior") and overlap.has_method("run_event"):
 			overlap.run_event(self)
+	pass
+
+
+func _update_monster():
+	var mon = GlobalDatabase.load_monster( umid )
+	if mon:
+		monster = mon
+	
+	update_sprites()
+
+
+func update_sprites():
+	
+	# tag = monster's tag, for semantic calling on generic sprites
+	var _tag = GlobalDatabase.fetch_dex_from_index(monster.species, ["tag"]).pop_front()
+	if _tag is Dictionary:
+		_tag = _tag["tag"]
+	if _tag == null or _tag == "":
+		_tag = "default"
+	
+	_update_sprites(_tag)
+	
+	# Guard clause before de-genericizing the gamepiece
+	if self.tag == null:
+		return
+	_tag = self.tag # set tag to that of the specific character
+	
+	_update_sprites(_tag, false)
+	# Overwrite previous changes, but only where a replacement layer exists
+
+
+func _update_sprites(_tag:String, clear_prev:=true):
+	
+	# Guard clause, avoid wasting time on failed cases
+	# (slightly increases delay on successful cases?)
+	if _tag == null or _tag.strip_edges() == "":
+		return
+	
+	# Clear Prev marks whether the sprite is extending a previous load,
+	# or regenerating from scratch. The former removes the default dress,
+	# and the latter adds character-specific dress (if coded correctly).
+	if clear_prev:
+		gfx.find_child("SpriteAccent").texture = null
+		gfx.find_child("SpriteBase").texture = null
+		gfx.find_child("SpriteClothes").texture = null
+	
+	var addr_accent = str("res://assets/textures/mon/overworld/", _tag ,"/accent.png")
+	var addr_base = str("res://assets/textures/mon/overworld/", _tag ,"/base.png")
+	var addr_dress = str("res://assets/textures/mon/overworld/", _tag ,"/dress.png")
+	
+	# Check the accent layer, which includes patterns, markings, hair, etc.
+	# This is first alphabetically; order shouldn't matter greatly
+	if FileAccess.file_exists(addr_accent):
+		var sprite_accent = load(addr_accent)
+		if sprite_accent != null:
+			gfx.find_child("SpriteAccent").texture = sprite_accent
+	else:
+		print( addr_accent, " not found! gp line 303 - accent ", _tag )
+	
+	# Check the base layer, which includes most of the body, ideally
+	# This is second alphabetically; order shouldn't matter greatly
+	if FileAccess.file_exists(addr_base):
+		var sprite_base = load(addr_base)
+		if sprite_base != null:
+			gfx.find_child("SpriteBase").texture = sprite_base
+	else:
+		print( addr_base, " not found! gp line 308 - base ", _tag )
+		if _tag != "default" and clear_prev:
+			_update_sprites("default") 
+			# If the current tag cannot be found, the sprite has to be made visible.
+			# Therefore, set it to the default tag, which should exist.
+			# If the default tag does not exist, either this is an unstable branch...
+			# ... or we have much bigger problems than fetching a single sprite.
+	
+	# Check the dress layer, which includes clothing.
+	# This is third alphabetically; order shouldn't matter greatly
+	if FileAccess.file_exists(addr_dress):
+		var sprite_dress = load(addr_dress)
+		if sprite_dress != null:
+			gfx.find_child("SpriteClothes").texture = sprite_dress
+	else:
+		print( addr_dress, " not found! gp line 315 - dress ", _tag )
+
 
 # Not the same as move, used for in-map teleportation.
 func shift_to_target( target:Vector2i ):
@@ -251,7 +390,7 @@ func queue_movement( movement:Movement ):
 func resync_position():
 	if collision == null:
 		return
-	print("gp ", umid, "/", unique_id, " global position ~ ", current_position)
+	#print("gp ", umid, "/", unique_id, " global position ~ ", current_position)
 	
 	var collision_gp = collision.global_position
 	var gfx_gp = collision.global_position - (GlobalRuntime.DEFAULT_TILE_OFFSET)
@@ -318,6 +457,8 @@ func set_teleport(loci: Vector2i, direction: Vector2i, map:="", anchor_name:="",
 	controller.finalize_map_change( pause_prior, silent )
 
 
+# Among Us reference?
+# Remove or modify other gamepieces which are too similar, to halt player cloning
 func kill_imposters():
 	var other_pieces = get_tree().get_nodes_in_group("gamepiece")
 	for piece in other_pieces:

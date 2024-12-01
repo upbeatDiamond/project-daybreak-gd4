@@ -8,9 +8,18 @@ var scenes_waiting : Array
 
 @onready var activity_interface_wrapper = $InterfaceActivityWrapper
 @onready var activity_interface = $InterfaceActivityWrapper/InterfaceActivity
-@onready var world_interface = $InterfaceWorld
+@onready var battle_interface = $InterfaceBattle ##TODO: integrate!
+@onready var player_viewport = $PlayerCamView
+@onready var world_interface = $PlayerCamView/SubViewport/InterfaceWorld
 @onready var screen_transition = $ScreenTransition
 @onready var player_menu = $Menu
+@onready var dialog_box = $DialogUI/Dialog
+
+var interfaces = [ activity_interface_wrapper, battle_interface, world_interface, player_viewport ]
+
+
+signal fade_out_finished
+signal fade_in_finished
 
 # Keep the -1, it's a mnemonic.
 # The number preceding the '-1' is the number of levels you can access before an item expires.
@@ -19,7 +28,8 @@ const TTL_RESET := 4 - 1
 enum InterfaceOptions
 {
 	WORLD, # For the Overworld
-	ACTIVITY # For more complex menus, as well as games
+	ACTIVITY, # For more complex menus, as well as games
+	BATTLE, # For battles
 }
 
 
@@ -50,13 +60,29 @@ func map_rid_for_gamepiece(_gamepiece:Gamepiece):
 
 
 func switch_to_interface( interface:InterfaceOptions ):
+	
+	#for face in interfaces:
+	#	face.process_mode = Node.PROCESS_MODE_DISABLED
+	
 	match interface:
 		InterfaceOptions.ACTIVITY:
 			world_interface.process_mode = Node.PROCESS_MODE_DISABLED
+			battle_interface.process_mode = Node.PROCESS_MODE_DISABLED
 			activity_interface_wrapper.process_mode = Node.PROCESS_MODE_INHERIT
 			activity_interface_wrapper.scale = Vector2(1,1)
 			activity_interface_wrapper.position = Vector2(0,0)
 			activity_interface_wrapper.visible = true
+			battle_interface.visible = false
+			pass
+		InterfaceOptions.BATTLE:
+			world_interface.process_mode = Node.PROCESS_MODE_DISABLED
+			battle_interface.process_mode = Node.PROCESS_MODE_INHERIT
+			#activity_interface_wrapper.scale = Vector2(1,1)
+			#activity_interface_wrapper.position = Vector2(0,0)
+			battle_interface.visible = true
+			player_viewport.visible = false
+			activity_interface_wrapper.visible = false
+			battle_interface.find_child("BattleGUI", true).grab_focus()
 			pass
 		_: # Default:
 			world_interface.process_mode = Node.PROCESS_MODE_INHERIT
@@ -64,6 +90,9 @@ func switch_to_interface( interface:InterfaceOptions ):
 			activity_interface_wrapper.scale = Vector2(0.001,0.001)
 			activity_interface_wrapper.position = Vector2(-2048,-2048)
 			activity_interface_wrapper.visible = false
+			battle_interface.visible = false
+			player_viewport.visible = true
+			$PlayerCamView.grab_focus()
 			pass
 	pass
 
@@ -122,13 +151,41 @@ func append_preload_map( map:String ):
 
 
 func get_overworld_root():
-	var children = $InterfaceWorld.get_children()
+	var children = world_interface.get_children()
 	
 	# Because I am lazy and prefer crashing from memleaks than crashing from null pointers.
 	if children == null or children.size() < 1:
-		$InterfaceWorld.add_child( Node2D.new() )
+		world_interface.add_child( Node2D.new() )
 	
-	return $InterfaceWorld.get_children().back()
+	return world_interface.get_children().back()
+
+
+func mount_cinematic( cine:Control ):
+	
+	# I assume this works as a check for if the cine & scene manager co-exist
+	if not cine.is_inside_tree():
+		activity_interface.add_child( cine )
+	switch_to_interface( SceneManager.InterfaceOptions.ACTIVITY )
+	await (cine as Cinematic).cinematic_finished
+	for child in activity_interface.get_children():
+		child.queue_free()
+	switch_to_interface( SceneManager.InterfaceOptions.WORLD )
+	$PlayerCamView.grab_focus()
+	pass
+
+
+func mount_battle( battle:BattleSession ):
+	switch_to_interface( SceneManager.InterfaceOptions.BATTLE )
+	if battle != null:
+		print("scene manager thinks the battle is ready...")
+		await (battle as BattleSession).session_completed
+	print("scene manager thinks the battle is over...")
+	#switch_to_interface( SceneManager.InterfaceOptions.WORLD )
+	#$PlayerCamView.grab_focus()
+	
+	## DEMO ONLY! Please remove!
+	mount_cinematic( load("res://cinematic/demo_end/demo_end_screen.tscn").instantiate() )
+	pass
 
 
 func update_preload_portals( ttl_decrement : int = 1 ):
@@ -176,6 +233,8 @@ func fade_to_black( duration:=0.25 ) -> bool:
 		await move_tween.finished
 	print("darkness color ++> ", blackness.color, blackness.modulate)
 	
+	fade_out_finished.emit();
+	
 	return true
 
 
@@ -194,4 +253,6 @@ func fade_in( duration:=0.75 ):
 			Color.TRANSPARENT, duration ).set_trans(Tween.TRANS_LINEAR)
 		await move_tween.finished
 	print("darkness color ++> ", blackness.color, blackness.modulate)
+	
+	fade_in_finished.emit();
 	pass

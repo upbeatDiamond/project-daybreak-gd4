@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://iuiv2o8vi4qq"]
+
+[ext_resource type="Texture2D" uid="uid://bcqeytc8gx7n6" path="res://assets/textures/shadow_1x2.png" id="1_cc7iw"]
+[ext_resource type="Texture2D" uid="uid://b1ruaj3gguvdd" path="res://assets/textures/props/cracked_rock.png" id="1_dd6x0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3848c"]
+size = Vector2(16, 16)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(8, 0)
+shape = SubResource("RectangleShape2D_3848c")
+
+[node name="Shadow1x2" type="Sprite2D" parent="Area2D"]
+self_modulate = Color(1, 1, 1, 0.501961)
+position = Vector2(8, 0)
+texture = ExtResource("1_cc7iw")
+
+[node name="CrackedRock" type="Sprite2D" parent="Area2D"]
+position = Vector2(8, -2)
+texture = ExtResource("1_dd6x0")

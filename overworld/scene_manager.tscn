@@ -1,21 +1,61 @@
-[gd_scene load_steps=5 format=3 uid="uid://cxo7qpniggd1g"]
+[gd_scene load_steps=7 format=3 uid="uid://cxo7qpniggd1g"]
 
 [ext_resource type="Script" path="res://common/scene_manager.gd" id="1_whyfs"]
 [ext_resource type="PackedScene" uid="uid://dploeuvc2gd6p" path="res://menu/title_menu.tscn" id="2_6kute"]
 [ext_resource type="PackedScene" uid="uid://cpjyc350pwf57" path="res://player/player_menu.tscn" id="3_atd50"]
 [ext_resource type="PackedScene" uid="uid://cy5r6u8b3aan2" path="res://overworld/level_maps/home_town_home.tscn" id="3_huq3u"]
+[ext_resource type="PackedScene" uid="uid://du2ixlhac4t4l" path="res://battle2/battle_scene_template.tscn" id="5_4t6kl"]
+[ext_resource type="PackedScene" uid="uid://cix5cxli0bhmt" path="res://dialog/UI/UI.tscn" id="5_5gkbf"]
 
 [node name="SceneManager" type="Node2D"]
 script = ExtResource("1_whyfs")
 
-[node name="InterfaceWorld" type="Node" parent="."]
+[node name="PlayerCamView" type="SubViewportContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="TitleScreen" parent="InterfaceWorld" instance=ExtResource("2_6kute")]
+[node name="SubViewport" type="SubViewport" parent="PlayerCamView"]
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="InterfaceWorld" type="Node" parent="PlayerCamView/SubViewport"]
+
+[node name="TitleScreen" parent="PlayerCamView/SubViewport/InterfaceWorld" instance=ExtResource("2_6kute")]
 play_scene = ExtResource("3_huq3u")
 
 [node name="InterfaceActivityWrapper" type="Node2D" parent="."]
 
 [node name="InterfaceActivity" type="Node" parent="InterfaceActivityWrapper"]
+
+[node name="InterfaceBattle" type="SubViewportContainer" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 125.0
+offset_right = 1277.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="InterfaceBattle"]
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(846, 648)
+size_2d_override = Vector2i(256, 196)
+size_2d_override_stretch = true
+render_target_update_mode = 0
+
+[node name="BattleGUI" parent="InterfaceBattle/SubViewport" instance=ExtResource("5_4t6kl")]
+offset_right = 0.0
+offset_bottom = 0.0
 
 [node name="Menu" parent="." instance=ExtResource("3_atd50")]
 
@@ -29,3 +69,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(10, 10)
+
+[node name="DialogUI" parent="." instance=ExtResource("5_5gkbf")]
+
+[editable path="DialogUI"]

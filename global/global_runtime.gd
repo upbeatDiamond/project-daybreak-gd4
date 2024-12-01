@@ -13,9 +13,9 @@ var multiplayer_enabled: bool
 @export var combat_screen : Node
 @export var scene_transition_player : Node
 
-@onready var scene_manager := get_node(^"/root/SceneManager")
+@onready var scene_manager : SceneManager = get_node(^"/root/SceneManager")
 
-@export var overworld_root_path := ^"/root/SceneManager/InterfaceWorld" :
+@export var overworld_root_path := ^"/root/SceneManager/PlayerCamView/SubViewport/InterfaceWorld" :
 	get:
 		return overworld_root_path
 	set(value):
@@ -66,6 +66,15 @@ func _input(event):
 	if event.is_action_pressed("game_pause"):
 		gamepieces_set_paused( !gameworld_is_paused )
 	pass
+
+
+"""
+	returns prior state of boolean
+"""
+func gameworld_input_enabled( value:bool ) -> bool:
+	var _ret = not gameworld_input_stopped
+	gameworld_input_stopped = not value
+	return _ret
 
 
 func gamepieces_set_paused( value:bool ):

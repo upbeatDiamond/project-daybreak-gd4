@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cix5cxli0bhmt"]
+
+[ext_resource type="PackedScene" path="res://UI/dialog/dialog.tscn" id="1"]
+[ext_resource type="Script" path="res://UI/UI.gd" id="4"]
+
+[node name="UI" type="CanvasLayer"]
+layer = 2
+script = ExtResource("4")
+
+[node name="Dialog" parent="." instance=ExtResource("1")]

@@ -4,9 +4,10 @@ extends Control
 # tracks whether buttons can do things, and might be used for sound logic later
 var scene_enabled = true
 
-var play_scene_path = "res://overworld/level_maps/red_town.tscn"
+const play_scene_path = "res://overworld/level_maps/red_town.tscn"
+const play_cutscene_path = "res://cinematic/intro/intro.tscn"
 
-@export var play_scene = preload("res://overworld/level_maps/red_town.tscn") :
+@export var play_scene = preload(play_scene_path) :
 	get:
 		return play_scene
 	set( value ):
@@ -18,6 +19,19 @@ var play_scene_path = "res://overworld/level_maps/red_town.tscn"
 			play_scene = null
 		else:
 			play_scene = get_node(value)
+
+@export var play_cutscene = preload(play_cutscene_path) :
+	get:
+		return play_cutscene
+	set( value ):
+		if value is PackedScene:
+			play_cutscene = value
+		elif value is String and value.contains("res://"):
+			play_cutscene = load(value)
+		elif value == null:
+			play_cutscene = null
+		else:
+			play_cutscene = get_node(value)
 
 @export var options_menu = preload("res://menu/options_menu.tscn")
 @export var credits_menu = preload("res://menu/options_menu.tscn")
@@ -32,15 +46,28 @@ func _ready():
 	pass
 
 
+func _on_reset_pressed():
+	print("reset pressed! Please clone database to save folder! Thanks!")
+	
+	GlobalDatabase.reset_save_file()
+	GlobalDatabase.fetch_save_to_stage()
+	pass
+
+
 func _on_play_pressed():
 	if scene_enabled:
+		
+		if not GlobalDatabase.load_keyval("intro_dream_complete"):
+			GlobalDatabase.reset_save_file()
+			GlobalRuntime.scene_manager.mount_cinematic(play_cutscene.instantiate());
+			pass
 		
 		GlobalRuntime.clean_up_descent( self )
 		
 		if GlobalDatabase.can_recover_last_state():
-			print( "can recover, I think!" )
+			print( GlobalDatabase.load_keyval("player_name"), " can recover, I think!" )
 			await GlobalDatabase.save_keyval("test_worked;(&)\\", true)
-			print(GlobalDatabase.load_keyval("test_worked;(&)\\"))
+			print("kv test_worked: ", GlobalDatabase.load_keyval("test_worked;(&)\\"))
 			GlobalDatabase.recover_last_state()
 		else:
 			print( "cannot recover..." )
@@ -61,6 +88,9 @@ func _on_options_pressed():
 
 
 func _on_connection_pressed():
+	
+	GlobalDirector.run_screenplay("ch1_wakeup")
+	
 	pass
 
 

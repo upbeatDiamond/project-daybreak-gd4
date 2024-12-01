@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cgic7oddr34y"]
+
+[ext_resource type="Shader" path="res://addons/palette_swap/PaletteSwap.gdshader" id="1_ca1ht"]
+
+[resource]
+shader = ExtResource("1_ca1ht")
+shader_parameter/skip_first_row = true
+shader_parameter/use_palette_alpha = false
+shader_parameter/fps = 6.0

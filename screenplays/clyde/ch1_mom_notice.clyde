@@ -1,0 +1,15 @@
+: Creak!
+Mom: 
+	Ah, ... the floor creaked, so you're awake.
+	When you get a chance, come outside.
+	I've been working on something and I need someone to try it. 
+
++ Me?
+	You: ...? #curious
+	Mom: Yes, you.
+	You: ... #blush
++ Uncle?
+	You: ...? #curious
+	Mom: And no, it can't be your uncle.
+	You: ... #unamused
+{ set @ch1_knocked = 2 }

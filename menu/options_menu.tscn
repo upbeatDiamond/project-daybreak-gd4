@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://0ntbq04ld1ky"]
 
 [ext_resource type="Script" path="res://menu/options_menu.gd" id="1_0d1qd"]
-[ext_resource type="Texture2D" uid="uid://d3kv0l1wrshm0" path="res://assets/textures/menu/title_screen_panorama.png" id="2_qau6u"]
+[ext_resource type="Texture2D" uid="uid://b8jpwlhpnoum6" path="res://assets/textures/menu/title_screen_background.png" id="2_bchnb"]
 
 [node name="OptionsScreen" type="Control"]
 layout_mode = 3
@@ -19,7 +19,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_qau6u")
+texture = ExtResource("2_bchnb")
 expand_mode = 3
 stretch_mode = 5
 
@@ -30,13 +30,16 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+current_tab = 0
 
 [node name="TabConfig" type="TabBar" parent="OptionTabs"]
 layout_mode = 2
+metadata/_tab_index = 0
 
 [node name="TabConfig2" type="TabBar" parent="OptionTabs"]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 1
 
 [node name="Back" type="Button" parent="."]
 layout_mode = 0

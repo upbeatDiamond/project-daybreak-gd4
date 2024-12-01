@@ -1,0 +1,51 @@
+--
+--
+-- This is a sample dialogue.
+--
+
+: A light fog covers the terrain; the change in weather feels palpable. You see three figures ahead of you, hiding next to the lab.
+\?\?\? (Green): Leave while you still can!
+{ set @ch1_dismiss_player = 1 }
+
+== Walk Back
+
+\?\?\? (Blue): Wait, we need help! Don't leave yet!
+{ set @ch1_dismiss_player = 2 }
+
+== Approach
+
+:You step forward and hear footsteps to your right. Two eyes seem to gleam at you from within the fog. 
+:It continues walking towards you, slowly, continuously.
+-> Its
+
+== Its
+
+!do: walk_pos scientist_sunny 356 620
+:Professor Olearia steps towards you from the fog.
+Olearia: Ah, hello there. Odd weather we're having, right? Must be a trickster's spell or something. 
+Olearia: ...
+!do: walk_pos tutorial_beast 388 620
+-> Stand Ground
+
+== Stand Ground
+
+Olearia: Someone's right behind me, aren't they?
+\?\?\?: Gurrraaahhhh!
+Olearia: Eyikes!
+!do: async walk_pos scientist_sunny 40 580
+\?\?\? (Red): We need to stop that beast. If we could fight alongside <player_them>, we might be able to resist...
+\?\?\? (Blue): I guess this is something we do now.
+\?\?\? (Green): We'll give it our all, then!
+!do: async walk_pos starter_water_sunny 168 604
+!do: async walk_pos starter_fire_sunny 168 620
+!do: async walk_pos tutorial_beast 200 632
+!do: walk_pos starter_grass_sunny 168 636
+!do: battle
+
+== Win Fight
+
+{ set @ch1_finished_encounter = 1 }
+
+== Lose Fight
+
+{ set @ch1_finished_encounter = 1 }

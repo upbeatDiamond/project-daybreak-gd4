@@ -1,0 +1,13 @@
+[remap]
+
+importer="db.importer.wowzers"
+type="Database"
+uid="uid://c2221s5wudeeb"
+valid=false
+
+[deps]
+
+source_file="res://database/patchdata.db"
+
+[params]
+

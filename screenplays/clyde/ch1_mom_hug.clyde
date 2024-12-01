@@ -1,0 +1,7 @@
+: You open the door, and your mother swoops her arms and scoops you into a hug.
+Mom: The something is a hug!
+Mom: Happy 18th! Oh, %@player_name%, I can't believe you've made it this far. 
+Mom: You were so little just the other day.
+Mom: Your uncle is outside. I think he needs some help fixing a project.
+Mom: I need to get back to the oven before lunch starts burning.
+{ set @ch1_hug_init = 1 }
