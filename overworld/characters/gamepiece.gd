@@ -244,12 +244,10 @@ func move( direction ):
 	_check_interior_event_collision()
 
 
-"""
-	Check for touching the surface of an adjecent object/cell
-	
-	parameters:
-		direction - the predicted direction of the object collided with
-"""
+##	Check for touching the surface of an adjecent object/cell
+##	
+##	parameters:
+##		direction - the predicted direction of the object collided with
 func _check_exterior_event_collision(direction:Vector2):
 	update_rays(direction)
 	
@@ -273,12 +271,10 @@ func _peek_exterior_collision(direction:Vector2):
 	return false
 
 
-"""
-	Check for entering an event; used for redundancy & access of other classes.
-	
-	parameters:
-		direction - the predicted direction of the object collided with
-"""
+## Check for entering an event; used for redundancy & access of other classes.
+##	
+##	parameters:
+##		direction - the predicted direction of the object collided with
 func _check_interior_event_collision():
 	for overlap in get_overlapping_areas():
 		if overlap.is_in_group("event_interior") and overlap.has_method("run_event"):
@@ -367,12 +363,11 @@ func _update_sprites(_tag:String, clear_prev:=true):
 		print( addr_dress, " not found! gp line 315 - dress ", _tag )
 
 
-# Not the same as move, used for in-map teleportation.
+##	Not the same as move, used for in-map teleportation.
 func shift_to_target( target:Vector2i ):
 	var new_position = GlobalRuntime.snap_to_grid_corner_f( target )
 	self.global_position = new_position
 	resync_position()
-	
 	
 	#if collision != null:
 	#	collision.global_position = GlobalRuntime.snap_to_grid_center_f( target )

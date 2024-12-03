@@ -4,43 +4,20 @@ I'm jan Wiwijen (jan Opitamon), and today I'll be discussing a pre-alpha version
 January - March, September, but mostly December 2024
 
 Codename: Project Daybreak
-Update: Pre-alpha 6, "Paperback Writer"
-TL;DR: Rapid half-baked polishing; stitching the pieces together.
+Update: Pre-alpha 7/8,
+TL;DR: 
 
 Noteworthy Additions:
-	+ Added, modified, or replaced maps: 
-		* Red Town
-		* Route for Red / Home
-			+ Added fog, rocks
-		* Home Town
-	+ Added placeholder graphics for ~60 monsters, out of between 150-256 total (1/3rd designed)
-	+ Added more Addons
-		+ Safe Resource Loader
-		+ ModPlayer
-		+ Clyde Dialogue
-		+ Command Terminal
-		+ Trickle Down
-	+ Added dialogue system (addon?) and cutscene/dialogue triggers
-	+ Added navigation layers to maps, and code to utilize it
-		+ Started merging Player and Mob gamepiece controllers, using a state enum
-	+ Integrated unfinished version of Rize (battle2) module
-	+ Added demo end screen
-	+ Added credits and improved README
+	+ 
 
 
 Noteworthy Subtractions:
-	- Removed unused code and scenes from multiple addons
-	- Redacted most of the 'director' folder
-	- Removed or relocated push blocks
+	- 
 
 
 Noteworthy Changes:
-	* Intro now plays at the start of the game
-	* Portals can now have execution conditions
-	* Added new tree tilemap to world maps
-	* Gamepieces change graphics based on species & character indexes
-		* Requires database to work and be stable
-	
+	* 
+
 
 
 To Do List + Constructive Commentary:
@@ -54,7 +31,8 @@ To Do List + Constructive Commentary:
 		... and is overall more robust. Not either/or, but both of these things.
 	% Add credits scroll for all code/addons, music, and sprites that can be sourced.
 	% Make playable the Mayhem/Raze demo, and integrate into the unified demo
-	% Add overworld sprites for Mom, Scientist, Starters, and Barney for the upcoming demo
+		% Or rather, rewrite it.
+	% Add overworld sprites for Mom, Scientist, Starters, and Barney for the upcoming demos
 	% Fix and finish the failsafe map's generation code, otherwise it's not very safe
 		% Make the shader actually do something, and put it in a nicer folder
 	% Have ledge ensure Gamepieces don't stack on top of eachother by using raycasting.
