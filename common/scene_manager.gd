@@ -40,6 +40,8 @@ enum GameIOState {
 	BATTLE,
 }
 
+const STATES_TOGGLE_PLAYER_MENU := [GameIOState.WORLD, GameIOState.WORLD_MENU]
+
 
 
 signal fade_out_finished
