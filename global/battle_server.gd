@@ -27,6 +27,7 @@ func mount_battle(battle):
 	add_child(battle)
 	current_battle = battle
 	print("Server adopted a battle")
+	GlobalRuntime._switch_io_state(GlobalRuntime.GameIOState.BATTLE)
 
 
 func new_battle_dummy() -> BattleSession:
