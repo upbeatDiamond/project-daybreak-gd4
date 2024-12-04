@@ -17,6 +17,30 @@ var scenes_waiting : Array
 
 var interfaces = [ activity_interface_wrapper, battle_interface, world_interface, player_viewport ]
 
+enum GameIOState {
+	TITLE_MENU,
+	TITLE_MENU_OPTIONS,
+	TITLE_MENU_CONNECTION,
+	TITLE_MENU_CREDITS,
+	TITLE_MENU_QUIT,
+	WORLD,
+	WORLD_TRANSITION, ## For pausing menu access; should activate interact on finish
+	WORLD_DIALOG,
+	WORLD_MENU,
+	WORLD_MENU_JOURNAL,
+	WORLD_MENU_PARTY,
+	WORLD_MENU_INVENTORY,
+	WORLD_MENU_APP,
+	WORLD_MENU_PROFILE,
+	WORLD_MENU_CAMP,
+	WORLD_MENU_SETTINGS,
+	WORLD_MENU_SAVE,
+	WORLD_MENU_EXIT,
+	WORLD_MENU_QUIT,
+	BATTLE,
+}
+
+
 
 signal fade_out_finished
 signal fade_in_finished
