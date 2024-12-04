@@ -66,6 +66,8 @@ enum GameIOState {
 	CINEMATIC_STARTED,
 	CINEMATIC_QUEUE_WORLD,
 	CINEMATIC_ENDED,
+	WORLD_PAUSED,
+	PAUSED_DEBUG, ## Avoid using! For debug purposes!
 }
 
 const STATES_WORLD_VISIBLE := [
@@ -76,6 +78,7 @@ const STATES_WORLD_VISIBLE := [
 	GameIOState.WORLD_MENU_SAVE,
 	GameIOState.WORLD_MENU_EXIT,
 	GameIOState.WORLD_MENU_QUIT,
+	GameIOState.WORLD_PAUSED,
 ]
 const STATES_TITLESCREEN := [
 	GameIOState.TITLE_MENU,
@@ -85,11 +88,12 @@ const STATES_TITLESCREEN := [
 	GameIOState.TITLE_MENU_QUIT,
 ]
 const STATES_BATTLE := [
-	GameIOState.BATTLE
+	GameIOState.BATTLE,
 ]
 const STATES_WORLD_QUEUED := [
 	GameIOState.CINEMATIC_QUEUE_WORLD,
-	GameIOState.CINEMATIC_ENDED
+	GameIOState.CINEMATIC_ENDED,
+	GameIOState.WORLD_PAUSED,
 ]
 const STATES_ACTIVITY := [
 	GameIOState.ACTIVITY
@@ -107,13 +111,13 @@ const STATES_ANYONE_CAN_MOVE := [
 	GameIOState.WORLD_DIALOG,
 ]
 const STATES_DIALOG_ENABLED := [
-	GameIOState.WORLD
+	GameIOState.WORLD,
 ]
 const STATES_PLAYER_INTERACT_ON_EXIT := [
-	GameIOState.WORLD_TRANSITION
+	GameIOState.WORLD_TRANSITION,
 ]
 const STATES_DIALOG_ACTIVE := [
-	GameIOState.WORLD_DIALOG
+	GameIOState.WORLD_DIALOG,
 ]
 
 ## Prior : { Next : Redirect }
@@ -129,8 +133,8 @@ const STATE_TRANSITION_EXCEPTIONS := {
 		},
 	GameIOState.WORLD : {
 		GameIOState.CINEMATIC_STARTED : GameIOState.CINEMATIC_QUEUE_WORLD,
+		GameIOState.PAUSED_DEBUG : GameIOState.WORLD_PAUSED
 		},
-	
 }
 
 
@@ -162,8 +166,9 @@ func clean_up_descent( target_node : Node ):
 
 
 func _input(event):
-	if event.is_action_pressed("game_pause"):
-		gamepieces_set_paused( !gamepieces_paused )
+	#if event.is_action_pressed("game_pause"):
+		#gamepieces_set_paused( !gamepieces_paused ) 
+		## use GameIOState.PAUSED_DEBUG if this is restored
 	if event.is_action_pressed("debug_print"):
 		print( GameIOState.find_key(current_io_state), " is the IO state?" )
 	pass

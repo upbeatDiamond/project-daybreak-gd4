@@ -64,6 +64,8 @@ func switch_to_interface( interface:InterfaceOptions ):
 	#for face in interfaces:
 	#	face.process_mode = Node.PROCESS_MODE_DISABLED
 	
+	world_camera_host.enabled = false
+	
 	match interface:
 		InterfaceOptions.ACTIVITY:
 			world_interface.process_mode = Node.PROCESS_MODE_DISABLED
@@ -92,6 +94,7 @@ func switch_to_interface( interface:InterfaceOptions ):
 			activity_interface_wrapper.visible = false
 			battle_interface.visible = false
 			player_viewport.visible = true
+			world_camera_host.enabled = true
 			$PlayerCamView.grab_focus()
 			pass
 	pass
