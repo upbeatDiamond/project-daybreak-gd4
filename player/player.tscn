@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://db8npf25b22jx"]
+[gd_scene load_steps=46 format=3 uid="uid://db8npf25b22jx"]
 
 [ext_resource type="Script" path="res://overworld/characters/gamepiece.gd" id="1_6lhpg"]
 [ext_resource type="Shader" path="res://addons/palette_swap/PaletteSwap.gdshader" id="3_4kwqf"]
@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://di2n8vqtpbief" path="res://assets/textures/mon/overworld/human_adult/palette_accent_common.png" id="6_r6k5l"]
 [ext_resource type="Texture2D" uid="uid://dch2u5eg2nv60" path="res://assets/textures/mon/overworld/human_adult/accent.png" id="7_eqgx1"]
 [ext_resource type="Texture2D" uid="uid://ce8fkya72xm21" path="res://assets/textures/mon/overworld/human_adult/dress.png" id="8_heyg8"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="9_t7urd"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="10_7rlct"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v1cr0"]
 size = Vector2(16, 16)
@@ -25,6 +27,12 @@ shader_parameter/skip_first_row = true
 shader_parameter/use_palette_alpha = false
 shader_parameter/fps = 6.0
 shader_parameter/palette = ExtResource("6_r6k5l")
+
+[sub_resource type="Resource" id="Resource_xe1na"]
+script = ExtResource("10_7rlct")
+duration = 1.0
+transition = 0
+ease = 2
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bqt0l"]
 animation = &"idle_down"
@@ -680,6 +688,8 @@ collide_with_areas = true
 [node name="GFX" type="Marker2D" parent="."]
 
 [node name="Camera" type="Camera2D" parent="GFX"]
+visible = false
+enabled = false
 zoom = Vector2(2.5, 2.5)
 position_smoothing_enabled = true
 
@@ -695,7 +705,6 @@ vframes = 4
 frame = 7
 
 [node name="SpriteAccent" type="Sprite2D" parent="GFX"]
-visible = false
 material = SubResource("ShaderMaterial_gb16k")
 position = Vector2(8, 0)
 texture = ExtResource("7_eqgx1")
@@ -704,12 +713,17 @@ vframes = 4
 frame = 7
 
 [node name="SpriteClothes" type="Sprite2D" parent="GFX"]
-visible = false
 position = Vector2(8, 0)
 texture = ExtResource("8_heyg8")
 hframes = 7
 vframes = 4
 frame = 7
+
+[node name="PhantomCamera2D" type="Node2D" parent="GFX"]
+script = ExtResource("9_t7urd")
+zoom = Vector2(2.5, 2.5)
+tween_resource = SubResource("Resource_xe1na")
+tween_on_load = false
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource("AnimationNodeStateMachine_wral1")

@@ -31,6 +31,7 @@ GlobalDayCycle="*res://global/global_day_cycle.gd"
 GlobalDirector="*res://global/global_director.gd"
 CommandServer="*res://addons/command-terminal/src/CommandServer.gd"
 BattleServer="*res://global/battle_server.gd"
+PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
 
 [display]
 
@@ -42,7 +43,7 @@ project/assembly_name="ProjectDaybreakGD4"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/clyde/plugin.cfg", "res://addons/db_import/plugin.cfg", "res://addons/godot-sqlite/plugin.cfg")
+enabled=PackedStringArray("res://addons/clyde/plugin.cfg", "res://addons/db_import/plugin.cfg", "res://addons/godot-sqlite/plugin.cfg", "res://addons/godot_state_charts/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
 
 [filesystem]
 

@@ -1,7 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://cxo7qpniggd1g"]
+[gd_scene load_steps=9 format=3 uid="uid://cxo7qpniggd1g"]
 
 [ext_resource type="Script" path="res://common/scene_manager.gd" id="1_whyfs"]
 [ext_resource type="PackedScene" uid="uid://dploeuvc2gd6p" path="res://menu/title_menu.tscn" id="2_6kute"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="2_7644i"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="2_pj548"]
 [ext_resource type="PackedScene" uid="uid://cpjyc350pwf57" path="res://player/player_menu.tscn" id="3_atd50"]
 [ext_resource type="PackedScene" uid="uid://cy5r6u8b3aan2" path="res://overworld/level_maps/home_town_home.tscn" id="3_huq3u"]
 [ext_resource type="PackedScene" uid="uid://du2ixlhac4t4l" path="res://battle2/battle_scene_template.tscn" id="5_4t6kl"]
@@ -9,6 +11,9 @@
 
 [node name="SceneManager" type="Node2D"]
 script = ExtResource("1_whyfs")
+
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("2_pj548")
 
 [node name="PlayerCamView" type="SubViewportContainer" parent="."]
 anchors_preset = 15
@@ -24,6 +29,16 @@ handle_input_locally = false
 canvas_item_default_texture_filter = 0
 size = Vector2i(1152, 648)
 render_target_update_mode = 4
+
+[node name="WorldCamera" type="Camera2D" parent="PlayerCamView/SubViewport"]
+visible = false
+enabled = false
+zoom = Vector2(2.5, 2.5)
+
+[node name="PhantomCameraHost" type="Node" parent="PlayerCamView/SubViewport/WorldCamera"]
+process_priority = 300
+process_physics_priority = 300
+script = ExtResource("2_7644i")
 
 [node name="InterfaceWorld" type="Node" parent="PlayerCamView/SubViewport"]
 

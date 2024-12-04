@@ -14,6 +14,7 @@ var scenes_waiting : Array
 @onready var screen_transition = $ScreenTransition
 @onready var player_menu = $Menu
 @onready var dialog_box = $DialogUI/Dialog
+@onready var world_camera_host = $PlayerCamView/SubViewport/WorldCamera
 
 var interfaces = [ activity_interface_wrapper, battle_interface, world_interface, player_viewport ]
 
