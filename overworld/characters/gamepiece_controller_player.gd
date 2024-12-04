@@ -53,7 +53,7 @@ func _process(_delta):
 
 func _physics_process(_delta):
 	if nav_mode == NavigationMode.KEYBOARD_LOCAL and \
-		(GlobalRuntime.gameworld_input_stopped or gamepiece.is_paused):
+		(GlobalRuntime.gamepiece_input_ignored or gamepiece.is_paused):
 		return
 	elif gamepiece.move_queue.size() <= 1 && gamepiece.is_moving == false && input_cooldown <= 0:
 		handle_movement_input()
@@ -121,7 +121,7 @@ func set_autonav(target_pos:Vector2):
 
 
 func handle_movement_input():
-	#if !gamepiece.is_paused and !GlobalRuntime.gameworld_input_stopped:
+	#if !gamepiece.is_paused and !GlobalRuntime.gamepiece_input_ignored:
 	## ^ This should already be checked by the caller.
 	var input_direction = await _handle_movement_direction()#Input.get_vector("player_left", "player_right", "player_up", "player_down")
 	

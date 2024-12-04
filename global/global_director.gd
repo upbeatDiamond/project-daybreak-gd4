@@ -1,7 +1,7 @@
 extends Node
 
 var clyde : ClydeDialogue
-var unpaused_prior := true
+var state_prior := GlobalRuntime.GameIOState.WORLD
 var is_running_event := false
 
 var key_values := {}
@@ -28,7 +28,6 @@ func _ready() -> void:
 
 func reset_clyde():
 	clyde = ClydeDialogue.new()
-	
 	clyde.dialogue_folder = "res://screenplays/clyde"
 
 
@@ -53,13 +52,11 @@ func _load_screenplay(file_name: String, block:String="") -> void:
 func run_screenplay(file_name: String, block:String="") -> void:
 	_load_screenplay(file_name, block)
 	_start_current_screenplay()
-	#while clyde.get_content() != null:
-	#	GlobalRuntime.scene_manager.dialog_box.
 	pass
 
 
 func _start_current_screenplay():
-	unpaused_prior = GlobalRuntime.gameworld_input_enabled(false)
+	state_prior = GlobalRuntime._switch_io_state(GlobalRuntime.GameIOState.WORLD_DIALOG)
 	GlobalRuntime.scene_manager.dialog_box.start_dialog( await get_next_line() )
 
 
@@ -99,7 +96,8 @@ func choose_dialog_option(id:int):
 
 
 func _end_current_screenplay():
-	GlobalRuntime.gameworld_input_enabled( unpaused_prior )
+	print( GlobalRuntime.GameIOState.find_key(state_prior), ", Wowza!" )
+	GlobalRuntime._switch_io_state( state_prior )
 
 
 func _on_variable_changed(key:String, val:Variant, val_prev:Variant):

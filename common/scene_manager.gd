@@ -18,33 +18,6 @@ var scenes_waiting : Array
 
 var interfaces = [ activity_interface_wrapper, battle_interface, world_interface, player_viewport ]
 
-enum GameIOState {
-	TITLE_MENU,
-	TITLE_MENU_OPTIONS,
-	TITLE_MENU_CONNECTION,
-	TITLE_MENU_CREDITS,
-	TITLE_MENU_QUIT,
-	WORLD,
-	WORLD_TRANSITION, ## For pausing menu access; should activate interact on finish
-	WORLD_DIALOG,
-	WORLD_MENU,
-	WORLD_MENU_JOURNAL,
-	WORLD_MENU_PARTY,
-	WORLD_MENU_INVENTORY,
-	WORLD_MENU_APP,
-	WORLD_MENU_PROFILE,
-	WORLD_MENU_CAMP,
-	WORLD_MENU_SETTINGS,
-	WORLD_MENU_SAVE,
-	WORLD_MENU_EXIT,
-	WORLD_MENU_QUIT,
-	BATTLE,
-}
-
-const STATES_TOGGLE_PLAYER_MENU := [GameIOState.WORLD, GameIOState.WORLD_MENU]
-
-
-
 signal fade_out_finished
 signal fade_in_finished
 
@@ -161,6 +134,7 @@ func change_map( map_template ):
 		GlobalRuntime.clean_up_node_descent( child )
 	
 	world_interface.add_child( next_map ) #.instantiate()
+	GlobalRuntime._switch_io_state(GlobalRuntime.GameIOState.WORLD)
 	pass
 
 
@@ -193,10 +167,12 @@ func mount_cinematic( cine:Control ):
 	if not cine.is_inside_tree():
 		activity_interface.add_child( cine )
 	switch_to_interface( SceneManager.InterfaceOptions.ACTIVITY )
+	var prior_state = GlobalRuntime._switch_io_state(GlobalRuntime.GameIOState.ACTIVITY)
 	await (cine as Cinematic).cinematic_finished
 	for child in activity_interface.get_children():
 		child.queue_free()
-	switch_to_interface( SceneManager.InterfaceOptions.WORLD )
+	switch_to_interface( SceneManager.InterfaceOptions.WORLD ) # redundant?
+	GlobalRuntime._switch_io_state( prior_state )
 	$PlayerCamView.grab_focus()
 	pass
 

@@ -5,8 +5,8 @@ const DEFAULT_TILE_SIZE := 16
 const DEFAULT_TILE_OFFSET := Vector2.ONE * floor(  (GlobalRuntime.DEFAULT_TILE_SIZE + 1)/2.0 )
 const DEFAULT_TILE_OFFSET_INT := Vector2i( DEFAULT_TILE_OFFSET )
 
-var gameworld_input_stopped: bool	# Can the player move the characters/world?
-var gameworld_is_paused: bool		# Can the characters/world move around on their own?
+var gamepiece_input_ignored: bool	# Can the player move the characters/world?
+var gamepieces_paused: bool		# Can the characters/world move around on their own?
 var player_menu_enabled: bool		# Can the player open their menu?
 var multiplayer_enabled: bool
 
@@ -39,6 +39,78 @@ signal unpause_gameworld
 signal save_data
 
 
+
+enum GameIOState {
+	TITLE_MENU,
+	TITLE_MENU_OPTIONS,
+	TITLE_MENU_CONNECTION,
+	TITLE_MENU_CREDITS,
+	TITLE_MENU_QUIT,
+	WORLD,
+	WORLD_TRANSITION, ## Restrict menu access & activate 'interact' on finish
+	WORLD_DIALOG,
+	WORLD_MENU,
+	WORLD_MENU_JOURNAL,
+	WORLD_MENU_PARTY,
+	WORLD_MENU_INVENTORY,
+	WORLD_MENU_APP,
+	WORLD_MENU_PROFILE,
+	WORLD_MENU_CAMP,
+	WORLD_MENU_SETTINGS,
+	WORLD_MENU_SAVE,
+	WORLD_MENU_EXIT,
+	WORLD_MENU_QUIT,
+	BATTLE,
+	ACTIVITY,
+}
+
+const STATES_WORLD_VISIBLE := [
+	GameIOState.WORLD, 
+	GameIOState.WORLD_TRANSITION, ## For pausing menu access; should activate interact on finish
+	GameIOState.WORLD_DIALOG,
+	GameIOState.WORLD_MENU,
+	GameIOState.WORLD_MENU_SAVE,
+	GameIOState.WORLD_MENU_EXIT,
+	GameIOState.WORLD_MENU_QUIT,
+]
+const STATES_TITLESCREEN := [
+	GameIOState.TITLE_MENU,
+	GameIOState.TITLE_MENU_OPTIONS,
+	GameIOState.TITLE_MENU_CONNECTION,
+	GameIOState.TITLE_MENU_CREDITS,
+	GameIOState.TITLE_MENU_QUIT,
+]
+const STATES_BATTLE := [
+	GameIOState.BATTLE
+]
+const STATES_ACTIVITY := [
+	GameIOState.ACTIVITY
+]
+const STATES_TOGGLE_PLAYER_MENU := [
+	GameIOState.WORLD, 
+	GameIOState.WORLD_MENU
+]
+const STATES_PLAYER_CAN_MOVE := [
+	GameIOState.WORLD
+]
+const STATES_ANYONE_CAN_MOVE := [
+	GameIOState.WORLD,
+	GameIOState.WORLD_TRANSITION,
+	GameIOState.WORLD_DIALOG,
+]
+const STATES_DIALOG_ENABLED := [
+	GameIOState.WORLD
+]
+const STATES_PLAYER_INTERACT_ON_EXIT := [
+	GameIOState.WORLD_TRANSITION
+]
+const STATES_DIALOG_ACTIVE := [
+	GameIOState.WORLD_DIALOG
+]
+
+var current_io_state := GameIOState.TITLE_MENU
+
+
 func _ready():
 	#scene_root_node = get_node(scene_root_path)
 	pass
@@ -64,30 +136,31 @@ func clean_up_descent( target_node : Node ):
 
 func _input(event):
 	if event.is_action_pressed("game_pause"):
-		gamepieces_set_paused( !gameworld_is_paused )
+		gamepieces_set_paused( !gamepieces_paused )
 	pass
 
 
-"""
-	returns prior state of boolean
-"""
+
+##  Returns prior state of boolean
 func gameworld_input_enabled( value:bool ) -> bool:
-	var _ret = not gameworld_input_stopped
-	gameworld_input_stopped = not value
+	print("DEPRICATED FUNCTIONALITY! GAMEPIECE IGNORE INPUT => STATE TRANSITION")
+	var _ret = not gamepiece_input_ignored
+	gamepiece_input_ignored = not value
 	return _ret
 
 
 func gamepieces_set_paused( value:bool ):
+	print("DEPRICATED FUNCTIONALITY! GAMEPIECE SET PAUSED => STATE TRANSITION")
 	if value and multiplayer_enabled:
 		## TODO: If online multiplayer, don't pause the whole world, just this session's player.
 		pause_gameworld.emit()
-		#gameworld_is_paused
+		#gamepieces_paused
 	elif value:
 		pause_gameworld.emit()
-		gameworld_is_paused = true
+		gamepieces_paused = true
 	else:
 		unpause_gameworld.emit()
-		gameworld_is_paused = false
+		gamepieces_paused = false
 
 
 # Queues deletion of a node and all of its child nodes
@@ -196,3 +269,19 @@ func start_combat(combat_actors):
 
 func complete_combat():
 	pass
+
+
+func _switch_io_state(new_state:GameIOState) -> GameIOState:
+	var prior_state = current_io_state
+	current_io_state = new_state
+	
+	if current_io_state in STATES_WORLD_VISIBLE:
+		scene_manager.switch_to_interface(scene_manager.InterfaceOptions.WORLD)
+	elif current_io_state in STATES_BATTLE:
+		scene_manager.switch_to_interface(scene_manager.InterfaceOptions.BATTLE)
+	
+	gamepieces_paused = not (current_io_state in STATES_ANYONE_CAN_MOVE)
+	gamepiece_input_ignored = not (current_io_state in STATES_PLAYER_CAN_MOVE)
+	player_menu_enabled = current_io_state in STATES_TOGGLE_PLAYER_MENU
+	
+	return prior_state

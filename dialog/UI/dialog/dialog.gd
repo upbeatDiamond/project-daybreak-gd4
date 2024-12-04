@@ -61,6 +61,7 @@ func _input(event):
 
 
 func start_dialog(line:Dictionary):
+	GlobalRuntime._switch_io_state(GlobalRuntime.GameIOState.WORLD_DIALOG)
 	GlobalDirector.talking = true
 	talking = true
 	set_curr(line)
