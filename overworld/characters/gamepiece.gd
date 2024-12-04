@@ -115,7 +115,7 @@ func _ready():
 	animation_state = animation_tree["parameters/playback"]
 	my_camera = (self.find_child("PhantomCamera", true) as PhantomCamera2D)
 	my_camera.tween_resource = PhantomCameraTween.new()
-	my_camera.tween_resource.duration = GlobalRuntime.CAMERA_TWEEN_DURATION
+	my_camera.tween_resource.duration = 0
 	
 	is_moving = false
 	$GFX/SpriteBase.visible = true
@@ -142,7 +142,7 @@ func _ready():
 		#is_local_player = false
 
 
-func _process(_delta):
+func _process(_delta):	
 	if not is_paused:
 		if move_queue.size() > 0 && is_moving == false:
 			move( (move_queue.pop_front() as Movement) )
@@ -152,6 +152,7 @@ func _process(_delta):
 			update_anim_tree()
 			was_moving = false
 	if is_moving and not was_moving:
+		my_camera.tween_duration = GlobalRuntime.CAMERA_TWEEN_DURATION
 		gamepiece_moving_signal.emit()
 	elif not was_moving and not is_moving:
 		gamepiece_stopped_signal.emit()
@@ -429,6 +430,8 @@ func set_teleport(loci: Vector2i, direction: Vector2i, map:="", anchor_name:="",
 	
 	var pause_prior: bool 
 	pause_prior = await controller.handle_map_change( map, silent )
+	var camera_tween_prior = my_camera.tween_duration
+	my_camera.tween_duration = 0
 	
 	var map_root = GlobalRuntime.scene_manager.get_overworld_root()
 	var anchor_container
@@ -450,8 +453,9 @@ func set_teleport(loci: Vector2i, direction: Vector2i, map:="", anchor_name:="",
 	
 	print("teleport: gx %d, gy %d, x %d, y %d"%[global_position.x,global_position.y,loci.x,loci.y])
 	
+	if GlobalRuntime.scene_manager.phantom_camera_host._active_pcam_2d == my_camera:
+		GlobalRuntime.scene_manager.phantom_camera_host._prev_active_pcam_2d_transform.origin = global_position
 	my_camera.tween_resource.duration = GlobalRuntime.CAMERA_TWEEN_DURATION
-	
 	controller.finalize_map_change( pause_prior, silent )
 
 

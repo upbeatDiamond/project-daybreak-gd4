@@ -177,6 +177,8 @@ func handle_map_change( map:String, silent:bool=false ):
 		print("not silent warp!")
 		await GlobalRuntime.scene_manager.fade_to_black()
 	
+	GlobalRuntime.scene_manager.phantom_camera_host._prev_active_pcam_2d_transform.origin = gamepiece.global_position
+	
 	if GlobalRuntime.scene_manager.get_map_index(map) != null:
 		GlobalGamepieceTransfer.submit_gamepiece( gamepiece, \
 			GlobalRuntime.scene_manager.get_map_index(map) )

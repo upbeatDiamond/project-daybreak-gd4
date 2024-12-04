@@ -67,7 +67,8 @@ func place_gamepieces( gamepieces:Array ):
 			and piece.monster.equals( old_piece.monster ):
 				#is_dirty = true
 				if old_piece != null:
-					(old_piece as Node).get_parent().remove_child(old_piece)
+					if (old_piece as Node).get_parent() != null:
+						(old_piece as Node).get_parent().remove_child(old_piece)
 					GlobalRuntime.clean_up_node_descent( old_piece )
 					current_gamepieces.remove_at( current_gamepieces.find(old_piece) )
 		
@@ -111,7 +112,7 @@ func pack_up():
 	# Please replace this with a signal.
 	# EDIT TO ABOVE COMMENTS: Untagged out to see what happens. Doesn't break yet but... eh....????
 	
-	GlobalGamepieceTransfer.save_map_gamepieces( self )
+	await GlobalGamepieceTransfer.save_map_gamepieces( self )
 	
 	for child in childs:
 		if child is Gamepiece:
@@ -120,4 +121,5 @@ func pack_up():
 		else:
 			childs.append_array( child.get_children() )
 	
-	pass
+	if get_tree().root == GlobalRuntime.scene_manager.get_tree().root:
+		GlobalRuntime.clean_up_node_descent( self )

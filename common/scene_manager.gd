@@ -14,7 +14,8 @@ var scenes_waiting : Array
 @onready var screen_transition = $ScreenTransition
 @onready var player_menu = $Menu
 @onready var dialog_box = $DialogUI/Dialog
-@onready var world_camera_host = $PlayerCamView/SubViewport/WorldCamera
+@onready var world_camera = $PlayerCamView/SubViewport/WorldCamera
+@onready var phantom_camera_host = $PlayerCamView/SubViewport/WorldCamera/PhantomCameraHost
 
 var interfaces = [ activity_interface_wrapper, battle_interface, world_interface, player_viewport ]
 
@@ -64,7 +65,7 @@ func switch_to_interface( interface:InterfaceOptions ):
 	#for face in interfaces:
 	#	face.process_mode = Node.PROCESS_MODE_DISABLED
 	
-	world_camera_host.enabled = false
+	world_camera.enabled = false
 	
 	match interface:
 		InterfaceOptions.ACTIVITY:
@@ -94,7 +95,7 @@ func switch_to_interface( interface:InterfaceOptions ):
 			activity_interface_wrapper.visible = false
 			battle_interface.visible = false
 			player_viewport.visible = true
-			world_camera_host.enabled = true
+			world_camera.enabled = true
 			$PlayerCamView.grab_focus()
 			pass
 	pass
@@ -133,8 +134,8 @@ func change_map( map_template ):
 		
 	for child in old_children:
 		if child is LevelMap:
-			child.pack_up()
-		GlobalRuntime.clean_up_node_descent( child )
+			await child.pack_up()
+		#GlobalRuntime.clean_up_node_descent( child )
 	
 	world_interface.add_child( next_map ) #.instantiate()
 	GlobalRuntime._switch_io_state(GlobalRuntime.GameIOState.WORLD)

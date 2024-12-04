@@ -196,8 +196,8 @@ func pop_out_gamepiece( umid:int, gp_id:int=-1, check_table:=false ) -> Gamepiec
 
 
 func save_map_gamepieces( _map:LevelMap ):
-	_save_map_placed_gamepieces(_map)
-	_save_map_stored_gamepieces(_map.map_index)
+	await _save_map_placed_gamepieces(_map)
+	await _save_map_stored_gamepieces(_map.map_index)
 
 
 func _save_map_stored_gamepieces( _map_id:int ):
@@ -209,8 +209,10 @@ func _save_map_stored_gamepieces( _map_id:int ):
 
 func _save_map_placed_gamepieces( _map:LevelMap ):
 	for piece in _map.current_gamepieces:
-		if piece is Gamepiece:
+		if is_instance_valid(piece) and piece is Gamepiece: # Check for if freed before saving
 			GlobalDatabase.save_gamepiece( piece as Gamepiece )
+		elif not is_instance_valid(piece):
+			print("PIECE ALREADY FREED")
 	
 	pass
 

@@ -846,7 +846,7 @@ position = Vector2(112, 664)
 position = Vector2(192, 600)
 
 [node name="Rock9" parent="Objects/Y-Sort" groups=["navigation_polygon_source"] instance=ExtResource("16_i8ay2")]
-position = Vector2(96, 680)
+position = Vector2(208, 808)
 
 [node name="Rock10" parent="Objects/Y-Sort" groups=["navigation_polygon_source"] instance=ExtResource("16_i8ay2")]
 position = Vector2(176, 824)
