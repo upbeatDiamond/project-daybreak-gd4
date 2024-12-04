@@ -4,6 +4,7 @@ extends Node
 const DEFAULT_TILE_SIZE := 16
 const DEFAULT_TILE_OFFSET := Vector2.ONE * floor(  (GlobalRuntime.DEFAULT_TILE_SIZE + 1)/2.0 )
 const DEFAULT_TILE_OFFSET_INT := Vector2i( DEFAULT_TILE_OFFSET )
+const CAMERA_TWEEN_DURATION := 1.0
 
 var gamepiece_input_ignored: bool	# Can the player move the characters/world?
 var gamepieces_paused: bool		# Can the characters/world move around on their own?
@@ -62,6 +63,9 @@ enum GameIOState {
 	WORLD_MENU_QUIT,
 	BATTLE,
 	ACTIVITY,
+	CINEMATIC_STARTED,
+	CINEMATIC_QUEUE_WORLD,
+	CINEMATIC_ENDED,
 }
 
 const STATES_WORLD_VISIBLE := [
@@ -82,6 +86,10 @@ const STATES_TITLESCREEN := [
 ]
 const STATES_BATTLE := [
 	GameIOState.BATTLE
+]
+const STATES_WORLD_QUEUED := [
+	GameIOState.CINEMATIC_QUEUE_WORLD,
+	GameIOState.CINEMATIC_ENDED
 ]
 const STATES_ACTIVITY := [
 	GameIOState.ACTIVITY
@@ -108,11 +116,30 @@ const STATES_DIALOG_ACTIVE := [
 	GameIOState.WORLD_DIALOG
 ]
 
+## Prior : { Next : Redirect }
+const STATE_TRANSITION_EXCEPTIONS := {
+	GameIOState.CINEMATIC_STARTED : { 
+		GameIOState.WORLD : GameIOState.CINEMATIC_QUEUE_WORLD,
+		GameIOState.CINEMATIC_ENDED : GameIOState.WORLD # World is default exit?
+		},
+	GameIOState.CINEMATIC_QUEUE_WORLD : {
+		GameIOState.WORLD : GameIOState.CINEMATIC_QUEUE_WORLD,
+		GameIOState.CINEMATIC_STARTED : GameIOState.CINEMATIC_QUEUE_WORLD,
+		GameIOState.CINEMATIC_ENDED : GameIOState.WORLD
+		},
+	GameIOState.WORLD : {
+		GameIOState.CINEMATIC_STARTED : GameIOState.CINEMATIC_QUEUE_WORLD,
+		},
+	
+}
+
+
 var current_io_state := GameIOState.TITLE_MENU
 
 
 func _ready():
 	#scene_root_node = get_node(scene_root_path)
+	_switch_io_state(current_io_state)
 	pass
 
 
@@ -137,6 +164,8 @@ func clean_up_descent( target_node : Node ):
 func _input(event):
 	if event.is_action_pressed("game_pause"):
 		gamepieces_set_paused( !gamepieces_paused )
+	if event.is_action_pressed("debug_print"):
+		print( GameIOState.find_key(current_io_state), " is the IO state?" )
 	pass
 
 
@@ -275,13 +304,22 @@ func _switch_io_state(new_state:GameIOState) -> GameIOState:
 	var prior_state = current_io_state
 	current_io_state = new_state
 	
-	if current_io_state in STATES_WORLD_VISIBLE:
-		scene_manager.switch_to_interface(scene_manager.InterfaceOptions.WORLD)
-	elif current_io_state in STATES_BATTLE:
-		scene_manager.switch_to_interface(scene_manager.InterfaceOptions.BATTLE)
+	if STATE_TRANSITION_EXCEPTIONS.has(prior_state) and \
+			STATE_TRANSITION_EXCEPTIONS[prior_state].has(new_state):
+		current_io_state = STATE_TRANSITION_EXCEPTIONS[prior_state][new_state]
+	
+	if scene_manager.is_node_ready():
+		if prior_state in STATES_WORLD_QUEUED or current_io_state in STATES_WORLD_VISIBLE:
+			scene_manager.switch_to_interface(scene_manager.InterfaceOptions.WORLD)
+		elif current_io_state in STATES_BATTLE:
+			scene_manager.switch_to_interface(scene_manager.InterfaceOptions.BATTLE)
+		else:
+			scene_manager.switch_to_interface(scene_manager.InterfaceOptions.ACTIVITY)
 	
 	gamepieces_paused = not (current_io_state in STATES_ANYONE_CAN_MOVE)
 	gamepiece_input_ignored = not (current_io_state in STATES_PLAYER_CAN_MOVE)
 	player_menu_enabled = current_io_state in STATES_TOGGLE_PLAYER_MENU
+	
+	
 	
 	return prior_state

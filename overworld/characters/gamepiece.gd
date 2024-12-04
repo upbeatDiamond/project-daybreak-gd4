@@ -48,7 +48,7 @@ const LandingDustEffect = preload("res://overworld/landing_dust_effect.tscn")
 @onready var collision : CollisionShape2D = $Collision
 @onready var controller = $Controller
 @onready var move_tween : Tween
-@onready var my_camera = (self.find_child("Camera", true) as Camera2D)
+@onready var my_camera : PhantomCamera2D = null
 
 var is_paused = false;	# true if cannot act; this shouldn't be set by Gamepiece OR its controller
 var is_moving = false;	# true if currently tweening a traversal (walking, running, jumping, etc)
@@ -98,7 +98,6 @@ func _init():
 	GlobalRuntime.save_data.connect( save_gamepiece )
 	monster = Monster.new()
 	monster.umid = umid
-	
 
 func _ready():
 	add_to_group("gamepiece")
@@ -114,7 +113,9 @@ func _ready():
 		facing_direction = Vector2(0,1)
 	
 	animation_state = animation_tree["parameters/playback"]
-	my_camera = (self.find_child("Camera", true) as Camera2D)
+	my_camera = (self.find_child("PhantomCamera", true) as PhantomCamera2D)
+	my_camera.tween_resource = PhantomCameraTween.new()
+	my_camera.tween_resource.duration = GlobalRuntime.CAMERA_TWEEN_DURATION
 	
 	is_moving = false
 	$GFX/SpriteBase.visible = true
@@ -442,12 +443,14 @@ func set_teleport(loci: Vector2i, direction: Vector2i, map:="", anchor_name:="",
 		direction = anchor.facing_direction
 	print("anchor detail: ", anchor, " :+ name: ", anchor_name)
 	
+	my_camera.tween_resource.duration = 0
+	
 	shift_to_target( loci )
 	facing_direction = Vector2( direction.x, direction.y )
 	
 	print("teleport: gx %d, gy %d, x %d, y %d"%[global_position.x,global_position.y,loci.x,loci.y])
 	
-	my_camera.reset_smoothing()
+	my_camera.tween_resource.duration = GlobalRuntime.CAMERA_TWEEN_DURATION
 	
 	controller.finalize_map_change( pause_prior, silent )
 

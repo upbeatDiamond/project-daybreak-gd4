@@ -439,7 +439,7 @@ func recover_last_state() -> String:
 	await overworld.place_gamepieces( [gp_player] )
 	gp_player.visible = true
 	gp_player.unique_id = 0
-	gp_player.my_camera.reset_smoothing()
+	#gp_player.my_camera.tween_resource.duration = 0#my_camera.reset_smoothing()
 	for child in gp_player.get_children():
 		if child is Node2D:
 			child.visible = true

@@ -687,12 +687,6 @@ collide_with_areas = true
 
 [node name="GFX" type="Marker2D" parent="."]
 
-[node name="Camera" type="Camera2D" parent="GFX"]
-visible = false
-enabled = false
-zoom = Vector2(2.5, 2.5)
-position_smoothing_enabled = true
-
 [node name="Shadow" type="Sprite2D" parent="GFX"]
 visible = false
 
@@ -719,11 +713,12 @@ hframes = 7
 vframes = 4
 frame = 7
 
-[node name="PhantomCamera2D" type="Node2D" parent="GFX"]
+[node name="PhantomCamera" type="Node2D" parent="GFX"]
 script = ExtResource("9_t7urd")
+priority = 1
+follow_mode = 1
 zoom = Vector2(2.5, 2.5)
 tween_resource = SubResource("Resource_xe1na")
-tween_on_load = false
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource("AnimationNodeStateMachine_wral1")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://dsk04vtyuk6hu"]
+[gd_scene load_steps=45 format=3 uid="uid://dsk04vtyuk6hu"]
 
 [ext_resource type="Script" path="res://overworld/characters/gamepiece.gd" id="1_6sn36"]
 [ext_resource type="Shader" path="res://addons/palette_swap/PaletteSwap.gdshader" id="2_45ku8"]
@@ -8,6 +8,8 @@
 [ext_resource type="Material" uid="uid://cgic7oddr34y" path="res://overworld/characters/gamepiece_palette.tres" id="5_5hb6f"]
 [ext_resource type="Texture2D" uid="uid://dch2u5eg2nv60" path="res://assets/textures/mon/overworld/human_adult/accent.png" id="5_h8kjf"]
 [ext_resource type="Texture2D" uid="uid://ce8fkya72xm21" path="res://assets/textures/mon/overworld/human_adult/dress.png" id="6_1ioaa"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="9_rqsd5"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="10_y6gw8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v1cr0"]
 size = Vector2(16, 16)
@@ -17,6 +19,12 @@ shader = ExtResource("2_45ku8")
 shader_parameter/skip_first_row = true
 shader_parameter/use_palette_alpha = false
 shader_parameter/fps = 1.0
+
+[sub_resource type="Resource" id="Resource_qd36o"]
+script = ExtResource("10_y6gw8")
+duration = 1.0
+transition = 0
+ease = 2
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bqt0l"]
 animation = &"idle_down"
@@ -223,6 +231,12 @@ position = Vector2(8, 0)
 texture = ExtResource("6_1ioaa")
 hframes = 7
 vframes = 4
+
+[node name="PhantomCamera" type="Node2D" parent="GFX"]
+script = ExtResource("9_rqsd5")
+zoom = Vector2(2.5, 2.5)
+tween_resource = SubResource("Resource_qd36o")
+tween_on_load = false
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource("AnimationNodeStateMachine_qeq4y")

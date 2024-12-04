@@ -167,12 +167,12 @@ func mount_cinematic( cine:Control ):
 	if not cine.is_inside_tree():
 		activity_interface.add_child( cine )
 	switch_to_interface( SceneManager.InterfaceOptions.ACTIVITY )
-	var prior_state = GlobalRuntime._switch_io_state(GlobalRuntime.GameIOState.ACTIVITY)
+	var prior_state = GlobalRuntime._switch_io_state(GlobalRuntime.GameIOState.CINEMATIC_STARTED)
 	await (cine as Cinematic).cinematic_finished
 	for child in activity_interface.get_children():
 		child.queue_free()
 	switch_to_interface( SceneManager.InterfaceOptions.WORLD ) # redundant?
-	GlobalRuntime._switch_io_state( prior_state )
+	GlobalRuntime._switch_io_state( GlobalRuntime.GameIOState.CINEMATIC_ENDED )
 	$PlayerCamView.grab_focus()
 	pass
 
