@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cxo7qpniggd1g"]
+[gd_scene load_steps=11 format=3 uid="uid://cxo7qpniggd1g"]
 
 [ext_resource type="Script" path="res://common/scene_manager.gd" id="1_whyfs"]
 [ext_resource type="PackedScene" uid="uid://dploeuvc2gd6p" path="res://menu/title_menu.tscn" id="2_6kute"]
@@ -6,6 +6,8 @@
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="2_pj548"]
 [ext_resource type="PackedScene" uid="uid://cpjyc350pwf57" path="res://player/player_menu.tscn" id="3_atd50"]
 [ext_resource type="PackedScene" uid="uid://cy5r6u8b3aan2" path="res://overworld/level_maps/home_town_home.tscn" id="3_huq3u"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="3_ra5wt"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="4_cqy6a"]
 [ext_resource type="PackedScene" uid="uid://du2ixlhac4t4l" path="res://battle2/battle_scene_template.tscn" id="5_4t6kl"]
 [ext_resource type="PackedScene" uid="uid://cix5cxli0bhmt" path="res://dialog/UI/UI.tscn" id="5_5gkbf"]
 
@@ -14,6 +16,79 @@ script = ExtResource("1_whyfs")
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("2_pj548")
+
+[node name="Root" type="Node" parent="StateChart"]
+script = ExtResource("3_ra5wt")
+initial_state = NodePath("Title")
+
+[node name="Activity" type="Node" parent="StateChart/Root"]
+script = ExtResource("4_cqy6a")
+
+[node name="Battle" type="Node" parent="StateChart/Root"]
+script = ExtResource("4_cqy6a")
+
+[node name="Title" type="Node" parent="StateChart/Root"]
+script = ExtResource("3_ra5wt")
+initial_state = NodePath("Home")
+
+[node name="Home" type="Node" parent="StateChart/Root/Title"]
+script = ExtResource("4_cqy6a")
+
+[node name="Options" type="Node" parent="StateChart/Root/Title"]
+script = ExtResource("4_cqy6a")
+
+[node name="Connection" type="Node" parent="StateChart/Root/Title"]
+script = ExtResource("4_cqy6a")
+
+[node name="Credits" type="Node" parent="StateChart/Root/Title"]
+script = ExtResource("4_cqy6a")
+
+[node name="Quit" type="Node" parent="StateChart/Root/Title"]
+script = ExtResource("4_cqy6a")
+
+[node name="World" type="Node" parent="StateChart/Root"]
+script = ExtResource("3_ra5wt")
+initial_state = NodePath("Dialog")
+
+[node name="Default" type="Node" parent="StateChart/Root/World"]
+script = ExtResource("4_cqy6a")
+
+[node name="Dialog" type="Node" parent="StateChart/Root/World"]
+script = ExtResource("4_cqy6a")
+
+[node name="Transition" type="Node" parent="StateChart/Root/World"]
+script = ExtResource("4_cqy6a")
+
+[node name="Menu" type="Node" parent="StateChart/Root/World"]
+script = ExtResource("3_ra5wt")
+initial_state = NodePath("Journal")
+
+[node name="Home" type="Node" parent="StateChart/Root/World/Menu"]
+script = ExtResource("4_cqy6a")
+
+[node name="Journal" type="Node" parent="StateChart/Root/World/Menu"]
+script = ExtResource("4_cqy6a")
+
+[node name="Party" type="Node" parent="StateChart/Root/World/Menu"]
+script = ExtResource("4_cqy6a")
+
+[node name="Inventory" type="Node" parent="StateChart/Root/World/Menu"]
+script = ExtResource("4_cqy6a")
+
+[node name="App" type="Node" parent="StateChart/Root/World/Menu"]
+script = ExtResource("4_cqy6a")
+
+[node name="Profile" type="Node" parent="StateChart/Root/World/Menu"]
+script = ExtResource("4_cqy6a")
+
+[node name="Camp" type="Node" parent="StateChart/Root/World/Menu"]
+script = ExtResource("4_cqy6a")
+
+[node name="Settings" type="Node" parent="StateChart/Root/World/Menu"]
+script = ExtResource("4_cqy6a")
+
+[node name="Quit" type="Node" parent="StateChart/Root/World/Menu"]
+script = ExtResource("4_cqy6a")
 
 [node name="PlayerCamView" type="SubViewportContainer" parent="."]
 anchors_preset = 15
