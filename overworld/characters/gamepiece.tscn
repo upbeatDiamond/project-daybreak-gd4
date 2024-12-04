@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://overworld/characters/gamepiece.gd" id="1_6sn36"]
 [ext_resource type="Shader" path="res://addons/palette_swap/PaletteSwap.gdshader" id="2_45ku8"]
-[ext_resource type="Script" path="res://overworld/characters/gamepiece_controller_player.gd" id="2_xqie8"]
+[ext_resource type="Script" path="res://overworld/characters/gamepiece_controller.gd" id="2_xqie8"]
 [ext_resource type="Texture2D" uid="uid://bcqeytc8gx7n6" path="res://assets/textures/shadow_1x2.png" id="3_as813"]
 [ext_resource type="Texture2D" uid="uid://bch2pvuu2u4qm" path="res://assets/textures/mon/overworld/human_adult/base.png" id="3_jcyox"]
 [ext_resource type="Material" uid="uid://cgic7oddr34y" path="res://overworld/characters/gamepiece_palette.tres" id="5_5hb6f"]

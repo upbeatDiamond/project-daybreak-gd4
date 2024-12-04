@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://brspmfwmrki6i"]
 
-[ext_resource type="Script" path="res://overworld/characters/gamepiece_controller_player.gd" id="1_i23bk"]
+[ext_resource type="Script" path="res://overworld/characters/gamepiece_controller.gd" id="1_i23bk"]
 
 [node name="Node" type="Node"]
 script = ExtResource("1_i23bk")

@@ -101,7 +101,7 @@ func _init():
 
 func _ready():
 	add_to_group("gamepiece")
-	controller.set_script(load("res://overworld/characters/gamepiece_controller_player.gd"))
+	controller.set_script(load("res://overworld/characters/gamepiece_controller.gd"))
 	
 	# "animation_tree" serves as a canary for overall loading issues.
 	if animation_tree == null:
