@@ -5,7 +5,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ewm0l"]
 size = Vector2(16, 16)
 
-[node name="Portal" type="Area2D" groups=["event_exterior", "portals"]]
+[node name="Portal" type="Area2D" groups=["event_on_touch", "portals"]]
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("1_y3akn")

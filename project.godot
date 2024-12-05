@@ -51,9 +51,10 @@ import/blender/enabled=false
 
 [global_group]
 
-event_exterior="Activates by a gamepiece bumping or touching; needs to have a run_event( gamepiece:Gamepiece ) function to avoid crashes"
-event_interior="Activates by a gamepiece entering or overlapping; needs to have a run_event( gamepiece:Gamepiece ) function to avoid crashes"
 gamepiece=""
+event_on_touch="Activates by a gamepiece bumping or touching; needs to have a run_event( gamepiece:Gamepiece ) function to avoid crashes"
+event_on_interact="run_event(...) runs when a gamepiece interacts with it, which should be triggered by the gamepiece"
+event_on_entry="Activates by a gamepiece entering or overlapping; needs to have a run_event( gamepiece:Gamepiece ) function to avoid crashes"
 
 [input]
 
