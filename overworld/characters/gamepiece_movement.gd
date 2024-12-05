@@ -17,7 +17,9 @@ var direction:Direction
 var method:Gamepiece.TraversalMode
 
 
-func _init( vector:=Vector2i(0,0), _method:=Gamepiece.TraversalMode.WALKING ):
+func _init( vector=Vector2i(0,0), _method:=Gamepiece.TraversalMode.WALKING ):
+	if vector is Vector2:
+		vector = Vector2i( int(vector.x), int(vector.y) )
 	method = _method
 	
 	if abs(vector.x) == abs(vector.y):

@@ -1,4 +1,4 @@
-extends Area2D
+extends StaticBody2D
 class_name Gamepiece
 
 # 4th lineage player script, but with player stuff (and commented out code) scooped out...
@@ -41,7 +41,7 @@ const LandingDustEffect = preload("res://overworld/landing_dust_effect.tscn")
 
 @onready var animation_tree = $AnimationTree
 @onready var animation_state #= animation_tree["parameters/playback"]
-@onready var block_ray : RayCast2D = $Collision/BlockingRayCast2D
+#@onready var block_ray : RayCast2D = $Collision/BlockingRayCast2D
 @onready var event_ray : RayCast2D = $Collision/EventRayCast2D
 @onready var gfx = $GFX
 @onready var shadow = $GFX/Shadow
@@ -94,10 +94,12 @@ var move_queue :Array[Movement] = []
 # The 'soul' of the gamepiece.
 # The gamepiece is but a vehicle to the spirit (that which stores name, stats, species, etc)
 
+
 func _init():
 	GlobalRuntime.save_data.connect( save_gamepiece )
 	monster = Monster.new()
 	monster.umid = umid
+
 
 func _ready():
 	add_to_group("gamepiece")
@@ -179,8 +181,8 @@ func set_umid(new_umid:int):
 
 
 func update_rays( direction : Vector2 ):
-	block_ray.target_position = direction * GlobalRuntime.DEFAULT_TILE_SIZE
-	block_ray.force_raycast_update()
+	#block_ray.target_position = direction * GlobalRuntime.DEFAULT_TILE_SIZE
+	#block_ray.force_raycast_update()
 	
 	event_ray.target_position = direction * GlobalRuntime.DEFAULT_TILE_SIZE
 	event_ray.force_raycast_update()
@@ -188,26 +190,35 @@ func update_rays( direction : Vector2 ):
 
 
 func move( direction ):
-	if direction is Movement:
-		traversal_mode = direction.method
-		direction = direction.to_cell_vector2f()
-	elif direction is Vector2i:
-		direction = Vector2( direction.x, direction.y )
-	
-	if direction == Vector2.ZERO:
+	if (direction is Vector2 and direction == Vector2.ZERO) or \
+		(direction is Vector2i and direction == Vector2i.ZERO):
 		return
+	if not direction is Movement:
+		direction = Movement.new(direction, traversal_mode)
+	
+	traversal_mode = direction.method
+	direction = direction.to_cell_vector2f()
+	
 	facing_direction = direction
 	
-	_check_exterior_event_collision(direction)
+	#_check_exterior_event_collision(direction)
+	#var gfx_pos_prior = gfx.global_position
+	var scaled_direction = GlobalRuntime.snap_to_grid_corner_f(direction * GlobalRuntime.DEFAULT_TILE_SIZE)
+	#var test_transform = self.global_transform
+	#test_transform.x.x = 0.8
+	#test_transform.y.y = 0.8
+	#test_transform.origin += (GlobalRuntime.DEFAULT_TILE_OFFSET * (1 - 0.8) )
+	var would_collide = _peek_exterior_collision(direction)
 	
-	if !block_ray.is_colliding():
+	
+	if not would_collide: 
 		
 		var colliding_within
 		if event_ray.is_colliding():
 			colliding_within = event_ray.get_collider()
 		
 		var new_position = GlobalRuntime.snap_to_grid(collision.position + \
-			(direction * GlobalRuntime.DEFAULT_TILE_SIZE) )
+			scaled_direction )
 		
 		# Before this match is run, try looking for materials that change the...
 		# ... character's speed/animation, and change the traversal mode to match.
@@ -240,22 +251,28 @@ func move( direction ):
 		colliding_within.is_in_group("event_interior") and \
 		colliding_within.has_method("run_event"):
 			colliding_within.run_event( self )
+	else:
+	#if would_collide:
+		print("I don't think I can move to there...", scaled_direction + global_position, 
+				" % ", scaled_direction, "\n\t\ttrans ", self.transform, ";", self.global_transform)
 	is_moving = false
 	traversal_mode = TraversalMode.STANDING
 	
-	_check_interior_event_collision()
+	## Used to check for event after moving... is it actually used/useful?
+	#var normalized_direction = direction.normalized() * GlobalRuntime.DEFAULT_TILE_SIZE
+	_check_touch_event_collision(direction)
 
 
 ##	Check for touching the surface of an adjecent object/cell
 ##	
 ##	parameters:
 ##		direction - the predicted direction of the object collided with
-func _check_exterior_event_collision(direction:Vector2):
+func _check_touch_event_collision(direction:Vector2):
 	update_rays(direction)
 	
 	while event_ray.is_colliding():
 		var colliding_with = event_ray.get_collider()
-		if colliding_with.is_in_group("event_exterior") and colliding_with.has_method("run_event"):
+		if colliding_with.is_in_group("event_on_touch") and colliding_with.has_method("run_event"):
 			colliding_with.run_event( self )
 		if colliding_with is CollisionObject2D:
 			event_ray.add_exception(colliding_with)
@@ -265,23 +282,12 @@ func _check_exterior_event_collision(direction:Vector2):
 
 
 func _peek_exterior_collision(direction:Vector2):
-	update_rays(direction)
-	await get_tree().process_frame
-	
-	if block_ray.is_colliding():
-		return true
-	return false
-
-
-## Check for entering an event; used for redundancy & access of other classes.
-##	
-##	parameters:
-##		direction - the predicted direction of the object collided with
-func _check_interior_event_collision():
-	for overlap in get_overlapping_areas():
-		if overlap.is_in_group("event_interior") and overlap.has_method("run_event"):
-			overlap.run_event(self)
-	pass
+	var scaled_direction = GlobalRuntime.snap_to_grid_corner_f(direction * GlobalRuntime.DEFAULT_TILE_SIZE)
+	var test_transform = self.global_transform
+	test_transform.x.x = 0.8
+	test_transform.y.y = 0.8
+	test_transform.origin += (GlobalRuntime.DEFAULT_TILE_OFFSET * (1 - 0.8) )
+	return test_move( test_transform, scaled_direction, null, 0 )
 
 
 func _update_monster():

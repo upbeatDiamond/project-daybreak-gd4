@@ -47,7 +47,7 @@ func _process(_delta):
 			if FileAccess.file_exists(palette_base_path):
 				gamepiece.find_child("SpriteBase").material.set_shader_parameter("palette", load(palette_base_path))
 			is_rendered = true
-		gamepiece._check_interior_event_collision()
+		#gamepiece._check_collision_on_move_end()
 	#print( "controller thinks gp = %d", gamepiece )
 
 
@@ -147,6 +147,7 @@ func handle_movement_input():
 		input_direction = Vector2( sign(input_direction.x)*abs(gamepiece.facing_direction.y), 
 								sign(input_direction.y)*abs(gamepiece.facing_direction.x));
 	
+	print("GPC: Input direction = ", input_direction)
 	var movement := Movement.new( input_direction )
 	
 	gamepiece.facing_direction = input_direction;
