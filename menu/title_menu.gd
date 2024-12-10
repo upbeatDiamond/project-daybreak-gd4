@@ -43,6 +43,8 @@ func _ready():
 	#GlobalDatabase.fetch_save_to_stage()
 	GlobalRuntime.scene_manager.append_preload_map( play_scene_path )
 	
+	$Menu/GridContainer/Buttons/Play.grab_click_focus()
+	
 	pass
 
 

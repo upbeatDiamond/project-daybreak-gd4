@@ -67,7 +67,7 @@ render_target_update_mode = 0
 offset_right = 0.0
 offset_bottom = 0.0
 
-[node name="Menu" parent="." instance=ExtResource("3_atd50")]
+[node name="PlayerMenu" parent="." instance=ExtResource("3_atd50")]
 
 [node name="ScreenTransition" type="CanvasLayer" parent="."]
 

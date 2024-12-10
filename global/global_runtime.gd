@@ -11,6 +11,9 @@ var gamepieces_paused: bool		# Can the characters/world move around on their own
 var player_menu_enabled: bool		# Can the player open their menu?
 var multiplayer_enabled: bool
 
+const META_INPUT_COOLDOWN_RESET := 0.5
+var meta_input_cooldown := 0.0
+
 @export var combat_screen : Node
 @export var scene_transition_player : Node
 
@@ -70,6 +73,8 @@ enum GameIOState {
 	PAUSED_DEBUG, ## Avoid using! For debug purposes!
 	CINEMATIC_QUEUE_BATTLE,
 	WORLD_DIALOG_QUEUE_BATTLE,
+	WORLD_DIALOG_ENDED, ## Unused?
+	WORLD_MENU_CLOSE,
 }
 
 const STATES_WORLD_VISIBLE := [
@@ -165,6 +170,24 @@ func _ready():
 	pass
 
 
+func _process(_delta: float) -> void:
+	
+	if Input.is_action_pressed("menu") and meta_input_cooldown > 0:
+		meta_input_cooldown = max( meta_input_cooldown, META_INPUT_COOLDOWN_RESET )
+	
+	if meta_input_cooldown > 0:
+		meta_input_cooldown = meta_input_cooldown - _delta
+		if meta_input_cooldown > 0:
+			return
+	
+	if Input.is_action_pressed("menu"):
+		meta_input_cooldown = max( meta_input_cooldown, META_INPUT_COOLDOWN_RESET )
+		print(STATES_TOGGLE_PLAYER_MENU)
+		if STATES_TOGGLE_PLAYER_MENU.find( current_io_state ) >= 0 :
+			_switch_io_state( STATES_TOGGLE_PLAYER_MENU[ STATES_TOGGLE_PLAYER_MENU.find(current_io_state) - 1] )
+	pass
+
+
 # Cleans up all children of a node, and their children, and their children, etc
 func clean_up_descent( target_node : Node ):
 	var mark_for_deletion : Array = target_node.get_children()
@@ -188,7 +211,7 @@ func _input(event):
 		#gamepieces_set_paused( !gamepieces_paused ) 
 		## use GameIOState.PAUSED_DEBUG if this is restored
 	if event.is_action_pressed("debug_print"):
-		print( GameIOState.find_key(current_io_state), " is the IO state?" )
+		print( current_io_state, "/", GameIOState.find_key(current_io_state), " is the IO state?" )
 	pass
 
 
@@ -343,6 +366,12 @@ func _switch_io_state(new_state:GameIOState) -> GameIOState:
 	gamepiece_input_ignored = not (current_io_state in STATES_PLAYER_CAN_MOVE)
 	player_menu_enabled = current_io_state in STATES_TOGGLE_PLAYER_MENU
 	
+	if scene_manager != null and scene_manager.player_menu:
+		scene_manager.player_menu.screen_selected = PlayerMenu.ScreenListing.CLOSED
+		match current_io_state:
+			GameIOState.WORLD_MENU:
+				scene_manager.player_menu.visible = true
+				scene_manager.player_menu.screen_selected = PlayerMenu.ScreenListing.PAUSE_MENU
 	
 	
 	return prior_state

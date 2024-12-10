@@ -12,7 +12,7 @@ var scenes_waiting : Array
 @onready var player_viewport = $PlayerCamView
 @onready var world_interface = $PlayerCamView/SubViewport/InterfaceWorld
 @onready var screen_transition = $ScreenTransition
-@onready var player_menu = $Menu
+@onready var player_menu = $PlayerMenu
 @onready var dialog_box = $DialogUI/Dialog
 @onready var world_camera = $PlayerCamView/SubViewport/WorldCamera
 @onready var phantom_camera_host = $PlayerCamView/SubViewport/WorldCamera/PhantomCameraHost
