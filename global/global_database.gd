@@ -29,17 +29,12 @@ const DB_PATH_USER_BACKUP := "user://database/save_backup"
 ## Reset is to be used if the prior three are all absent.
 const DB_PATH_USER_TEMPLATE := "res://database/save_template"
 
-## VVVV Comments to be removed: move this stuff to the config file VVVV
-## I know it's fun to delete commented code after 1 upload, but this is new upcoming code...
-## Yeah, yeah, "YAGNI". But I will need, if not this, then something similar.
-## Stores metadata, settings, preferences, and any data persistant between resets.
-#var db_path_system := "user://database/system_db"
-
-var table_name_monster := "monster"
-var table_name_user_monster := "monster"
-var table_name_user_gamepiece := "gamepiece"
-var table_name_keyval := "variables"
-var table_name_species := "species"
+## TODO: make uppercase + update names!
+const table_name_monster := "monster"
+const table_name_user_monster := "monster"
+const table_name_user_gamepiece := "gamepiece"
+const table_name_keyval := "variables"
+const table_name_species := "species"
 #var table_name_player := "person"
 #var table_name_relationship := "character"
 
