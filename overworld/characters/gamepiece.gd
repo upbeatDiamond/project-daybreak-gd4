@@ -282,11 +282,12 @@ func _check_touch_event_collision(direction:Vector2):
 
 
 func _peek_exterior_collision(direction:Vector2):
+	const TEST_TRANSFORM_RESCALE := 0.8
 	var scaled_direction = GlobalRuntime.snap_to_grid_corner_f(direction * GlobalRuntime.DEFAULT_TILE_SIZE)
 	var test_transform = self.global_transform
-	test_transform.x.x = 0.8
-	test_transform.y.y = 0.8
-	test_transform.origin += (GlobalRuntime.DEFAULT_TILE_OFFSET * (1 - 0.8) )
+	test_transform.x.x = TEST_TRANSFORM_RESCALE
+	test_transform.y.y = TEST_TRANSFORM_RESCALE
+	test_transform.origin += (GlobalRuntime.DEFAULT_TILE_OFFSET * (1 - TEST_TRANSFORM_RESCALE) )
 	return test_move( test_transform, scaled_direction, null, 0 )
 
 
