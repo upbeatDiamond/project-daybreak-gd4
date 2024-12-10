@@ -11,7 +11,7 @@ var gamepieces_paused: bool		# Can the characters/world move around on their own
 var player_menu_enabled: bool		# Can the player open their menu?
 var multiplayer_enabled: bool
 
-const META_INPUT_COOLDOWN_RESET := 0.5
+const META_INPUT_COOLDOWN_RESET := 0.05
 var meta_input_cooldown := 0.0
 
 @export var combat_screen : Node
@@ -62,7 +62,7 @@ enum GameIOState {
 	WORLD_MENU_CAMP,
 	WORLD_MENU_SETTINGS,
 	WORLD_MENU_SAVE,
-	WORLD_MENU_EXIT,
+	WORLD_MENU_CLOSE,
 	WORLD_MENU_QUIT,
 	BATTLE,
 	ACTIVITY,
@@ -74,7 +74,6 @@ enum GameIOState {
 	CINEMATIC_QUEUE_BATTLE,
 	WORLD_DIALOG_QUEUE_BATTLE,
 	WORLD_DIALOG_ENDED, ## Unused?
-	WORLD_MENU_CLOSE,
 }
 
 const STATES_WORLD_VISIBLE := [
@@ -83,7 +82,7 @@ const STATES_WORLD_VISIBLE := [
 	GameIOState.WORLD_DIALOG,
 	GameIOState.WORLD_MENU,
 	GameIOState.WORLD_MENU_SAVE,
-	GameIOState.WORLD_MENU_EXIT,
+	GameIOState.WORLD_MENU_CLOSE,
 	GameIOState.WORLD_MENU_QUIT,
 	GameIOState.WORLD_PAUSED,
 ]
@@ -158,6 +157,9 @@ const STATE_TRANSITION_EXCEPTIONS := {
 		GameIOState.WORLD : GameIOState.BATTLE,
 		GameIOState.WORLD_DIALOG : GameIOState.WORLD_DIALOG_QUEUE_BATTLE,
 		},
+	GameIOState.WORLD_MENU : {
+		GameIOState.WORLD_MENU_CLOSE: GameIOState.WORLD
+	}
 }
 
 
@@ -365,13 +367,5 @@ func _switch_io_state(new_state:GameIOState) -> GameIOState:
 	gamepieces_paused = not (current_io_state in STATES_ANYONE_CAN_MOVE)
 	gamepiece_input_ignored = not (current_io_state in STATES_PLAYER_CAN_MOVE)
 	player_menu_enabled = current_io_state in STATES_TOGGLE_PLAYER_MENU
-	
-	if scene_manager != null and scene_manager.player_menu:
-		scene_manager.player_menu.screen_selected = PlayerMenu.ScreenListing.CLOSED
-		match current_io_state:
-			GameIOState.WORLD_MENU:
-				scene_manager.player_menu.visible = true
-				scene_manager.player_menu.screen_selected = PlayerMenu.ScreenListing.PAUSE_MENU
-	
 	
 	return prior_state

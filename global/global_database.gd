@@ -515,17 +515,16 @@ func commit_save_from_active() -> bool:
 	
 	success = db_commit.query("VACUUM INTO \"" + globalized_backup_path + "\"")
 	
+	db_commit.close_db()
 	# If the VACUUM INTO Backup did not work, then DO NOT then delete the Commit version.
 	# This is why we have three copies, so we can delete one and still be able to recover.
 	if success:
 		print("commit => backup succeeded")
-		db_commit.close_db()
 		if FileAccess.file_exists(DB_PATH_USER_COMMIT + ".db" ):
 			OS.move_to_trash( globalized_commit_path )
 			print("db commit trashed")
 		else:
 			print("db commit not trashed //")
-		
 		
 		success = db_active.query("VACUUM INTO \"" + globalized_commit_path + "\"")
 		
@@ -535,9 +534,8 @@ func commit_save_from_active() -> bool:
 			print("stage => commit failed")
 	else:
 		print("commit => backup failed")
+		
 	
-	
-	db_commit.close_db()
 	db_active.close_db()
 	
 	return success
