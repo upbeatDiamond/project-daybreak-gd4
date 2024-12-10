@@ -43,7 +43,7 @@ project/assembly_name="ProjectDaybreakGD4"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/clyde/plugin.cfg", "res://addons/db_import/plugin.cfg", "res://addons/godot-sqlite/plugin.cfg", "res://addons/godot_state_charts/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
+enabled=PackedStringArray("res://addons/clyde/plugin.cfg", "res://addons/db_import/plugin.cfg", "res://addons/godot-sqlite/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
 
 [filesystem]
 
