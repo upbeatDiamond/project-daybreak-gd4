@@ -789,7 +789,7 @@ tile_set = SubResource("TileSet_d1g0t")
 
 [node name="Objects" type="Node" parent="." groups=["navigation_polygon_source"]]
 
-[node name="Ledge" parent="Objects" groups=["event_on_touch"] instance=ExtResource("2_hf63k")]
+[node name="Ledge" parent="Objects" instance=ExtResource("2_hf63k")]
 position = Vector2(272, 432)
 length = 4
 
@@ -901,7 +901,7 @@ facing_direction = Vector2i(0, 1)
 
 [node name="Triggers" type="Node" parent="."]
 
-[node name="Portal" parent="Triggers" groups=["event_on_touch"] instance=ExtResource("4_q6ugm")]
+[node name="Portal" parent="Triggers" instance=ExtResource("4_q6ugm")]
 position = Vector2(128, 896)
 scale = Vector2(8, 8)
 map = "res://overworld/level_maps/home_town.tscn"
@@ -913,7 +913,7 @@ conditions = {
 "ch1_finished_encounter": ">= 1"
 }
 
-[node name="Portal2" parent="Triggers" groups=["event_on_touch"] instance=ExtResource("4_q6ugm")]
+[node name="Portal2" parent="Triggers" instance=ExtResource("4_q6ugm")]
 position = Vector2(592, 320)
 scale = Vector2(4, 4)
 map = "res://overworld/level_maps/red_town.tscn"
@@ -921,7 +921,7 @@ target_anchor_name = "ToRouteHome"
 target_facing = Vector2i(0, -1)
 portal_id = 2
 
-[node name="CutsceneTriggerEntry" parent="Triggers" instance=ExtResource("12_0nmor")]
+[node name="CutsceneTriggerEntry" parent="Triggers" groups=["event_on_entry"] instance=ExtResource("12_0nmor")]
 position = Vector2(144, 736)
 scale = Vector2(4, 1)
 screenplay = "ch1_encounter_first"
@@ -929,7 +929,7 @@ conditions = {
 "ch1_dismiss_player": "== 0"
 }
 
-[node name="CutsceneTriggerWalkBack" parent="Triggers" instance=ExtResource("12_0nmor")]
+[node name="CutsceneTriggerWalkBack" parent="Triggers" groups=["event_on_entry"] instance=ExtResource("12_0nmor")]
 position = Vector2(144, 832)
 scale = Vector2(4, 1)
 screenplay = "ch1_encounter_first"
@@ -938,7 +938,7 @@ conditions = {
 "ch1_dismiss_player": "== 1"
 }
 
-[node name="CutsceneTriggerApproach" parent="Triggers" instance=ExtResource("12_0nmor")]
+[node name="CutsceneTriggerApproach" parent="Triggers" groups=["event_on_entry"] instance=ExtResource("12_0nmor")]
 position = Vector2(112, 640)
 scale = Vector2(6, 1)
 screenplay = "ch1_encounter_first"
