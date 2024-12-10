@@ -29,120 +29,160 @@ theme_override_constants/separation = 1
 
 [node name="Slot6" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot7" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot8" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot9" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot10" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot11" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot12" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot13" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot14" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot15" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot16" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot17" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot18" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot19" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot20" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot21" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot22" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot23" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot24" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot25" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot26" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot27" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot28" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot29" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot30" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot31" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot32" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot33" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot34" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot35" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot36" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot37" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot38" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot39" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot40" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot2" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot3" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot4" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null
 
 [node name="Slot5" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
 layout_mode = 2
+texture_normal = null

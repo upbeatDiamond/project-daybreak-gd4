@@ -789,10 +789,10 @@ tile_set = ExtResource("2_85iav")
 
 [node name="Objects" type="Node" parent="." groups=["navigation_polygon_source"]]
 
-[node name="PushBlock" parent="Objects" groups=["event_on_touch"] instance=ExtResource("5_byyr8")]
+[node name="PushBlock" parent="Objects" instance=ExtResource("5_byyr8")]
 position = Vector2(128, 208)
 
-[node name="NorthPortal" parent="Objects" groups=["event_on_touch"] instance=ExtResource("5_j4sa5")]
+[node name="NorthPortal" parent="Objects" instance=ExtResource("5_j4sa5")]
 position = Vector2(208, -32)
 scale = Vector2(4, 4)
 map = "res://overworld/level_maps/route_home_to_red.tscn"
@@ -801,7 +801,7 @@ target_position = Vector2i(80, 640)
 target_facing = Vector2i(0, -1)
 portal_id = 1
 
-[node name="HomePortal" parent="Objects" groups=["event_on_touch"] instance=ExtResource("5_j4sa5")]
+[node name="HomePortal" parent="Objects" instance=ExtResource("5_j4sa5")]
 position = Vector2(112, 272)
 map = "res://overworld/level_maps/home_town_home.tscn"
 target_anchor_name = "MainEntrance"

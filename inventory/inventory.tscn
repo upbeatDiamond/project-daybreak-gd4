@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://b2olg0a74vtmh"]
 
 [ext_resource type="Script" path="res://inventory/inventory_display.gd" id="1_ht7p8"]
-[ext_resource type="Texture2D" uid="uid://b1en86lay4y7l" path="res://icon.svg" id="1_ltoqc"]
+[ext_resource type="Texture2D" uid="uid://bkt4yv7ec04t8" path="res://icon.svg" id="1_ltoqc"]
 [ext_resource type="Texture2D" uid="uid://ba8hyj0ftagx2" path="res://assets/textures/gui/book_bg.png" id="2_7wfaa"]
 [ext_resource type="PackedScene" uid="uid://cremvdxvlgaus" path="res://inventory/inventory_list.tscn" id="2_e0egu"]
 
