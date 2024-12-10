@@ -1,38 +1,35 @@
 extends Node
 
-# Contains code relating to SQLite bindings
-# This class is dedicated to the fetching and manipulation of database contents
+## Contains code relating to SQLite bindings
+## This class is dedicated to the fetching and manipulation of database contents
 
-# We're going to need a lot of refactoring to account for changes in not only gameplay plans ...
-# ... but also data being split across multiple tables.
-
-
-#const BattleAI = preload("res://battle/monster_battle_ai.gd")
+## We're going to need a lot of refactoring to account for changes in not only gameplay plans ...
+## ... but also data being split across multiple tables.
 
 var db : SQLite = null
 
 const verbosity_level : int = SQLite.VERBOSE
 
-# Used for balance patches and backwards compatibility with future monster additions
-# Please copy this file to user:// upon not finding one in user://
-var db_name_patch_base := "res://database/patchdata"
+## Used for balance patches and backwards compatibility with future monster additions
+## Please copy this file to user:// upon not finding one in user://
+const DB_PATH_PATCH_TEMPLATE := "res://database/patchdata"
+const DB_PATH_PATCH_USER := "user://database/patchdata"
 
-# 3 Databases intended to be used for save file security.
-# Active updates as you play, but some players might not want to autosave.
-var db_name_user_active := "user://database/save_active"
-# Stable is created when the player manually hits the 'save' button
-var db_name_user_commit := "user://database/save_stable"
-# Backup is intended to avoid any corruption errors, but so far doesn't do much.
-var db_name_user_backup := "user://database/save_backup"
-# Reset is to be used if the prior three are all absent.
-var db_name_user_reset := "res://database/save_template"
+## 3 Databases intended to be used for save file security.
+## Active updates as you play, but some players might not want to autosave.
+const DB_PATH_USER_ACTIVE := "user://database/save_active"
+## Stable is created when the player manually hits the 'save' button
+const DB_PATH_USER_COMMIT := "user://database/save_stable"
+## Backup is intended to avoid any corruption errors, but so far doesn't do much.
+const DB_PATH_USER_BACKUP := "user://database/save_backup"
+## Reset is to be used if the prior three are all absent.
+const DB_PATH_USER_TEMPLATE := "res://database/save_template"
 
 ## I know it's fun to delete commented code after 1 upload, but this is new upcoming code...
 ## Yeah, yeah, "YAGNI". But I will need, if not this, then something similar.
 
 ## Stores metadata, settings, preferences, and any data persistant between resets.
-#var db_name_system := "user://database/system_db"
-
+#var db_path_system := "user://database/system_db"
 
 var table_name_monster := "monster"
 var table_name_user_monster := "monster"
@@ -97,7 +94,9 @@ var tkpv_level_map = {
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	_regenerate_user_database_folder() 
+	## ^ Called every session, to ensure the game has PatchData to work with.
+	## This should allow games to be moddable to some extent.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -109,7 +108,7 @@ func exists_monster( monster ) -> bool:
 	var row_array = ["name"]
 	
 	db = SQLite.new()
-	db.path = db_name_user_active
+	db.path = DB_PATH_USER_ACTIVE
 	db.open_db()
 	
 	var query_result = db.select_rows( table_name_monster, str("umid = ", monster.umid), row_array );
@@ -123,7 +122,8 @@ func exists_monster( monster ) -> bool:
 func load_monster( umid:int ) -> Monster:
 	var mon = Monster.new()
 	
-	mon = database_to_game(mon, tkpv_monster, db_name_user_active, table_name_monster, str("umid = ", umid))
+	mon = database_to_game(mon, tkpv_monster, DB_PATH_USER_ACTIVE, 
+			table_name_monster, str("umid = ", umid))
 	
 	return mon
 
@@ -219,7 +219,7 @@ target_table_name:String, query_conditions:String ):
 
 # To be called by GlobalMonsterSpawner
 func store_monster( monster ):
-	game_to_database( monster, tkpv_monster, db_name_user_active, table_name_monster, \
+	game_to_database( monster, tkpv_monster, DB_PATH_USER_ACTIVE, table_name_monster, \
 	str("UMID = ", monster.umid) )
 
 
@@ -232,28 +232,28 @@ func save_monster( monster ):
 
 # Contains code to save monster character to database
 func update_monster( monster ):
-	database_to_game( monster, tkpv_monster, db_name_user_active, table_name_monster, \
+	database_to_game( monster, tkpv_monster, DB_PATH_USER_ACTIVE, table_name_monster, \
 	str("UMID = ", monster.umid) )
 
 
 func save_gamepiece( gamepiece:Gamepiece ):
 	var umid = gamepiece.umid
-	game_to_database(gamepiece, tkpv_gamepiece, db_name_user_active, "gamepiece", str(" UMID = ", umid )  )
-	game_to_database(gamepiece.monster, tkpv_monster, db_name_user_active, "monster", str(" UMID = ", umid )  )
+	game_to_database(gamepiece, tkpv_gamepiece, DB_PATH_USER_ACTIVE, "gamepiece", str(" UMID = ", umid )  )
+	game_to_database(gamepiece.monster, tkpv_monster, DB_PATH_USER_ACTIVE, "monster", str(" UMID = ", umid )  )
 
 
 func load_gamepiece( umid:int ) -> Gamepiece:
 	var gamepiece = Gamepiece.new()
 	gamepiece.monster = Monster.new()
 	gamepiece.umid = umid
-	database_to_game(gamepiece, tkpv_gamepiece, db_name_user_active, "gamepiece", str(" UMID = ", umid ) )
-	database_to_game(gamepiece.monster, tkpv_monster, db_name_user_active, "monster", str(" UMID = ", umid ) )
+	database_to_game(gamepiece, tkpv_gamepiece, DB_PATH_USER_ACTIVE, "gamepiece", str(" UMID = ", umid ) )
+	database_to_game(gamepiece.monster, tkpv_monster, DB_PATH_USER_ACTIVE, "monster", str(" UMID = ", umid ) )
 	return gamepiece
 
 
 func update_gamepiece( gamepiece:Gamepiece ) -> Gamepiece:
-	database_to_game(gamepiece, tkpv_gamepiece, db_name_user_active, "gamepiece", str(" UMID = ", gamepiece.umid ) )
-	database_to_game(gamepiece.monster, tkpv_monster, db_name_user_active, "monster", str(" UMID = ", gamepiece.umid ) )
+	database_to_game(gamepiece, tkpv_gamepiece, DB_PATH_USER_ACTIVE, "gamepiece", str(" UMID = ", gamepiece.umid ) )
+	database_to_game(gamepiece.monster, tkpv_monster, DB_PATH_USER_ACTIVE, "monster", str(" UMID = ", gamepiece.umid ) )
 	return gamepiece
 
 
@@ -262,7 +262,7 @@ func load_gamepieces_for_map( map_id ) -> Array[Gamepiece]:
 									"current_direction", "current_action"];
 	
 	db = SQLite.new()
-	db.path = db_name_user_active
+	db.path = DB_PATH_USER_ACTIVE
 	db.open_db()
 	
 	var fetched : Array = db.select_rows( table_name_user_gamepiece, str("current_map = ", map_id), selected_columns )
@@ -293,7 +293,7 @@ func load_player_data():
 """
 func fetch_dex_from_index(species:int, row_array:Array[String]=["tag"]) -> Array:
 	db = SQLite.new()
-	db.path = db_name_patch_base
+	db.path = DB_PATH_PATCH_TEMPLATE
 	db.open_db()
 	
 	var query_result = db.select_rows( table_name_species, str("species_ID = ", species), row_array );
@@ -307,7 +307,7 @@ func save_keyval(_key:String, _val):
 	_key = cheap_sanitize(_key)
 	
 	db = SQLite.new()
-	db.path = db_name_user_active
+	db.path = DB_PATH_USER_ACTIVE
 	db.open_db()
 	var query_template = str( "INSERT OR REPLACE INTO ", table_name_keyval, " ( key, value ) " )
 	query_template = str(query_template, " values ( ?, ? )" )
@@ -321,7 +321,7 @@ func load_keyval(_key:String, _val=null):
 	_key = cheap_sanitize(_key)
 	
 	db = SQLite.new()
-	db.path = db_name_user_active
+	db.path = DB_PATH_USER_ACTIVE
 	db.open_db()
 	
 	var query_conditions = str("key = '", _key, "'") 
@@ -331,7 +331,6 @@ func load_keyval(_key:String, _val=null):
 	if fetched.size() > 0:
 		_val = fetched.front()["value"]
 	return _val
-	#return fetched.front()["value"]
 
 
 # Used for save/load_keyval, to avoid escaping strings too early
@@ -359,12 +358,12 @@ func load_map_link_data():
 func load_level_map( map:int ):
 	var dummy_map := LevelMap.new()
 	dummy_map.map_index = (map as GlobalGamepieceTransfer.MapIndex)
-	return database_to_game(dummy_map, tkpv_level_map, db_name_user_active, "level_map", str("map_id = ", map) )
+	return database_to_game(dummy_map, tkpv_level_map, DB_PATH_USER_ACTIVE, "level_map", str("map_id = ", map) )
 
 
 # Saves which file path correlates to the level map index
 func save_level_map( map:LevelMap ):
-	game_to_database(map, tkpv_level_map, db_name_user_active, "level_map", str("map_id = ", map.map_index) )
+	game_to_database(map, tkpv_level_map, DB_PATH_USER_ACTIVE, "level_map", str("map_id = ", map.map_index) )
 	pass
 
 
@@ -386,22 +385,15 @@ func can_recover_last_state() -> bool:
 
 
 func reset_save_file() -> void:
+	var db_reset = SQLite.new(); db_reset.path = DB_PATH_USER_TEMPLATE; db_reset.open_db()
+	#var db_commit = SQLite.new(); db_commit.path = DB_PATH_USER_COMMIT; db_commit.open_db()
 	
-	var directory_check = DirAccess.open("user://database")
-	if directory_check == null:
-		directory_check = DirAccess.get_open_error()
-		DirAccess.make_dir_absolute("user://database")
+	var globalized_active_path = ProjectSettings.globalize_path(DB_PATH_USER_ACTIVE) + ".db"
+	var globalized_commit_path = ProjectSettings.globalize_path(DB_PATH_USER_COMMIT) + ".db"
 	
-	var db_reset = SQLite.new(); db_reset.path = db_name_user_reset; db_reset.open_db()
-	#var db_commit = SQLite.new(); db_commit.path = db_name_user_commit; db_commit.open_db()
-	
-	#var globalized_backup_path = ProjectSettings.globalize_path(db_name_user_backup) + ".db"
-	var globalized_active_path = ProjectSettings.globalize_path(db_name_user_active) + ".db"
-	var globalized_commit_path = ProjectSettings.globalize_path(db_name_user_commit) + ".db"
-	
-	if FileAccess.file_exists( db_name_user_commit + ".db" ):
+	if FileAccess.file_exists( DB_PATH_USER_COMMIT + ".db" ):
 		OS.move_to_trash( globalized_commit_path )
-	if FileAccess.file_exists( db_name_user_active + ".db" ):
+	if FileAccess.file_exists( DB_PATH_USER_ACTIVE + ".db" ):
 		OS.move_to_trash( globalized_active_path )
 	
 	db_reset.query("VACUUM INTO \"" + globalized_commit_path + "\"")
@@ -411,8 +403,26 @@ func reset_save_file() -> void:
 	#db_commit.close_db()
 
 
+func _regenerate_user_database_folder():
+	## Ensures there is a 'database' folder in the user save file
+	var directory_check = DirAccess.open("user://database")
+	if directory_check == null:
+		directory_check = DirAccess.get_open_error() 
+		## ^ Supposed to check to see if file can be made, but why bother?
+		DirAccess.make_dir_absolute("user://database")
+	
+	## Ensures there is a 'patchdata' database in the user save file
+	var patchdata_check = FileAccess.file_exists(DB_PATH_PATCH_USER)
+	if patchdata_check == false:
+		var db_patch = SQLite.new(); db_patch.path = DB_PATH_PATCH_TEMPLATE; db_patch.open_db()
+		var globalized_patch_path = ProjectSettings.globalize_path(DB_PATH_PATCH_USER) + ".db"
+		db_patch.query("VACUUM INTO \"" + globalized_patch_path + "\"")
+		db_patch.close_db()
+	pass
+
+
 func does_save_exist() -> bool:
-	return FileAccess.file_exists(str(db_name_user_active, ".db"))
+	return FileAccess.file_exists(str(DB_PATH_USER_ACTIVE, ".db"))
 
 
 # Loads the player, and the last map the player was known to be in, and returns the map path
@@ -462,16 +472,16 @@ func load_global_data():
 
 
 func fetch_save_to_stage():
-	var db_commit = SQLite.new(); db_commit.path = db_name_user_commit; db_commit.open_db()
-	var db_backup = SQLite.new(); db_backup.path = db_name_user_backup; db_backup.open_db()
+	var db_commit = SQLite.new(); db_commit.path = DB_PATH_USER_COMMIT; db_commit.open_db()
+	var db_backup = SQLite.new(); db_backup.path = DB_PATH_USER_BACKUP; db_backup.open_db()
 	
 	var success
 	
-	#var globalized_backup_path = ProjectSettings.globalize_path(db_name_user_backup) + ".db"
-	#var globalized_commit_path = ProjectSettings.globalize_path(db_name_user_commit) + ".db"
-	var globalized_stage_path = ProjectSettings.globalize_path(db_name_user_active) + ".db"
+	#var globalized_backup_path = ProjectSettings.globalize_path(DB_PATH_USER_BACKUP) + ".db"
+	#var globalized_commit_path = ProjectSettings.globalize_path(DB_PATH_USER_COMMIT) + ".db"
+	var globalized_stage_path = ProjectSettings.globalize_path(DB_PATH_USER_ACTIVE) + ".db"
 	
-	if FileAccess.file_exists( db_name_user_active + ".db" ):
+	if FileAccess.file_exists( DB_PATH_USER_ACTIVE + ".db" ):
 		OS.move_to_trash( globalized_stage_path )
 	
 	success = db_commit.query("VACUUM INTO \"" + globalized_stage_path + "\"")
@@ -489,19 +499,19 @@ func fetch_save_to_stage():
 
 
 func commit_save_from_active() -> bool:
-	var db_active = SQLite.new(); db_active.path = db_name_user_active; db_active.open_db()
-	var db_commit = SQLite.new(); db_commit.path = db_name_user_commit; db_commit.open_db()
+	var db_active = SQLite.new(); db_active.path = DB_PATH_USER_ACTIVE; db_active.open_db()
+	var db_commit = SQLite.new(); db_commit.path = DB_PATH_USER_COMMIT; db_commit.open_db()
 	
-	var globalized_backup_path = ProjectSettings.globalize_path(db_name_user_backup) + ".db"
-	var globalized_commit_path = ProjectSettings.globalize_path(db_name_user_commit) + ".db"
+	var globalized_backup_path = ProjectSettings.globalize_path(DB_PATH_USER_BACKUP) + ".db"
+	var globalized_commit_path = ProjectSettings.globalize_path(DB_PATH_USER_COMMIT) + ".db"
 	
 	var success : bool
 	
-	if FileAccess.file_exists( db_name_user_backup + ".db" ):
+	if FileAccess.file_exists( DB_PATH_USER_BACKUP + ".db" ):
 		OS.move_to_trash( globalized_backup_path )
 		print("db backup trashed")
 	else:
-		print("db backup not trashed // ", db_name_user_backup, " ", globalized_backup_path)
+		print("db backup not trashed // ", DB_PATH_USER_BACKUP, " ", globalized_backup_path)
 	
 	success = db_commit.query("VACUUM INTO \"" + globalized_backup_path + "\"")
 	
@@ -510,7 +520,7 @@ func commit_save_from_active() -> bool:
 	if success:
 		print("commit => backup succeeded")
 		db_commit.close_db()
-		if FileAccess.file_exists(db_name_user_commit + ".db" ):
+		if FileAccess.file_exists(DB_PATH_USER_COMMIT + ".db" ):
 			OS.move_to_trash( globalized_commit_path )
 			print("db commit trashed")
 		else:
@@ -560,3 +570,53 @@ func validate_umid( umid:int=0 ) -> int:
 	#
 	
 	return umid
+
+func load_inventory( umid:int=0, compartment:int=-1 ) -> Array:
+	
+	## Create database variable, open it for the user save data.
+	db = SQLite.new()
+	db.path = DB_PATH_USER_ACTIVE
+	db.open_db()
+	
+	## Get all items listed for the selected user, then close the database.
+	var query_conditions : String = str("umid = '", umid, "'") 
+	var fetched:Array = db.select_rows( "inventory", query_conditions, ["item", "quantity"] )
+	db.close_db()
+	
+	## Using the same database interface, open Patch Data
+	db.path = DB_PATH_PATCH_USER
+	db.open_db()
+	
+	## If the compartment number is valid, cull irrelevant entries from the list of available items
+	if compartment >= 0 and compartment < Inventory.Categories.MAX:
+		query_conditions = str("bag_slot = '", compartment, "'") 
+	else:
+		query_conditions = "true"
+	var item_templates:Array = db.select_rows( "item", query_conditions, 
+			["id", "tr_key", "sprite", "tr_key_detail", "stack_size"] )
+	db.close_db()
+	
+	## Reformat the item templates from Patch Data to be easier to iterate through
+	var templates := {}
+	for item in item_templates:
+		templates[ item["id"] ] = { 
+			"tr_key" : item["tr_key"],
+			"tr_key_detail" : item["tr_key_detail"],
+			"sprite_path" : item["sprite"],
+			"stack_size" : item["stack_size"]
+		}
+	
+	var filtered = []
+	
+	## If the fetched row has an item in the appropriate bag slot, give it the translation key and
+	## prepare to submit it to the function caller.
+	for row in fetched:
+		if row["item"] in templates.keys():
+			var item = templates[row["item"]]
+			row["tr_key"] = item["tr_key"]
+			row["tr_key_detail"] = item["tr_key_detail"]
+			row["sprite_path"] = item["sprite_path"]
+			row["stack_size"] = item["stack_size"]
+			filtered.append(row)
+	
+	return filtered
