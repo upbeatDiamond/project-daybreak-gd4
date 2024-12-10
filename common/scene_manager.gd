@@ -165,7 +165,7 @@ func get_overworld_root():
 	return world_interface.get_children().back()
 
 
-func mount_cinematic( cine:Control ):
+func mount_cinematic( cine:Control):
 	
 	# I assume this works as a check for if the cine & scene manager co-exist
 	if not cine.is_inside_tree():
@@ -178,6 +178,19 @@ func mount_cinematic( cine:Control ):
 	switch_to_interface( SceneManager.InterfaceOptions.WORLD ) # redundant?
 	GlobalRuntime._switch_io_state( GlobalRuntime.GameIOState.CINEMATIC_ENDED )
 	$PlayerCamView.grab_focus()
+	pass
+
+
+func mount_activity( activity:Control, state:GlobalRuntime.GameIOState ):
+	## I assume this works as a check for if the activity & scene manager co-exist
+	for child in activity_interface.get_children():
+		activity_interface.remove_child(child)
+		GlobalRuntime.clean_up_node_descent(child)
+	
+	if not activity.is_inside_tree():
+		activity_interface.add_child( activity )
+	
+	## There should be more stuff here, no?
 	pass
 
 
