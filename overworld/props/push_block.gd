@@ -77,6 +77,6 @@ func resync_position():
 	pass
 
 
-func _on_area_entered(area):
-	if area is Gamepiece or area.is_in_group("gamepiece"):
-		run_event( area )
+func _on_body_entered(body):
+	if body is Gamepiece or body.is_in_group("gamepiece"):
+		run_event( body )

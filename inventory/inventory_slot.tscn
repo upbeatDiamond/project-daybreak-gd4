@@ -1,0 +1,72 @@
+[gd_scene load_steps=4 format=3 uid="uid://4v1f27fm1r4"]
+
+[ext_resource type="Texture2D" uid="uid://c3hi8hd0ljkrv" path="res://assets/textures/inventory/move_select_battle_bg.png" id="1_e1nma"]
+[ext_resource type="Texture2D" uid="uid://bkt4yv7ec04t8" path="res://icon.svg" id="2_gkexx"]
+[ext_resource type="Script" path="res://inventory/inventory_slot.gd" id="3_v2wt7"]
+
+[node name="Slot" type="TextureButton"]
+custom_minimum_size = Vector2(15, 15)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -125.0
+offset_right = -157.0
+offset_bottom = -295.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("1_e1nma")
+texture_pressed = ExtResource("2_gkexx")
+texture_focused = ExtResource("2_gkexx")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("3_v2wt7")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+visible = false
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_e1nma")
+region_rect = Rect2(0, 0, 111, 22)
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -11.0
+offset_right = 97.0
+offset_bottom = 11.0
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Name" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 8
+text = "..."
+
+[node name="Count" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -21.0
+offset_top = -6.0
+offset_bottom = 6.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 8
+text = "x0"

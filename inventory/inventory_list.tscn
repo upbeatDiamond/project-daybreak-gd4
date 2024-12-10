@@ -1,0 +1,148 @@
+[gd_scene load_steps=3 format=3 uid="uid://cremvdxvlgaus"]
+
+[ext_resource type="Script" path="res://inventory/inventory_list.gd" id="1_2c7dk"]
+[ext_resource type="PackedScene" uid="uid://4v1f27fm1r4" path="res://inventory/inventory_slot.tscn" id="1_6alu1"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2c7dk")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+follow_focus = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 1
+
+[node name="Slot6" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot7" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot8" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot9" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot10" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot11" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot12" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot13" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot14" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot15" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot16" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot17" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot18" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot19" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot20" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot21" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot22" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot23" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot24" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot25" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot26" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot27" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot28" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot29" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot30" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot31" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot32" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot33" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot34" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot35" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot36" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot37" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot38" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot39" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot40" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot2" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot3" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot4" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
+
+[node name="Slot5" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6alu1")]
+layout_mode = 2
