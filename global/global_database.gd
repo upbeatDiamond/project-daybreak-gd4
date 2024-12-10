@@ -10,6 +10,10 @@ var db : SQLite = null
 
 const verbosity_level : int = SQLite.VERBOSE
 
+## Increment based on current date whenever format changes, Beta or higher.
+## Also increment beforehand for funsies, I guess?
+const VERSION_CODE := 20241210
+
 ## Used for balance patches and backwards compatibility with future monster additions
 ## Please copy this file to user:// upon not finding one in user://
 const DB_PATH_PATCH_TEMPLATE := "res://database/patchdata"
@@ -25,9 +29,9 @@ const DB_PATH_USER_BACKUP := "user://database/save_backup"
 ## Reset is to be used if the prior three are all absent.
 const DB_PATH_USER_TEMPLATE := "res://database/save_template"
 
+## VVVV Comments to be removed: move this stuff to the config file VVVV
 ## I know it's fun to delete commented code after 1 upload, but this is new upcoming code...
 ## Yeah, yeah, "YAGNI". But I will need, if not this, then something similar.
-
 ## Stores metadata, settings, preferences, and any data persistant between resets.
 #var db_path_system := "user://database/system_db"
 
