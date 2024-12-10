@@ -1,14 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://cpjyc350pwf57"]
+[gd_scene load_steps=9 format=3 uid="uid://cpjyc350pwf57"]
 
 [ext_resource type="Script" path="res://player/player_menu.gd" id="1_5rlhg"]
 [ext_resource type="Texture2D" uid="uid://dwvr10slisk7o" path="res://assets/textures/menu/gui_woodengem_frame.png" id="1_x08vi"]
 [ext_resource type="Script" path="res://player/submenu_selection.gd" id="3_1w4mh"]
 [ext_resource type="Texture2D" uid="uid://bryctcvhwj6rh" path="res://assets/textures/menu/selection_arrow.png" id="3_a8ymm"]
-[ext_resource type="Script" path="res://menu/ctrl_inventory_stacked_friendly.gd" id="5_bb31o"]
-[ext_resource type="Texture2D" uid="uid://cr17q6mvvkai1" path="res://assets/textures/items/blue_jewel.png" id="6_57npq"]
-[ext_resource type="Script" path="res://addons/gloot/core/inventory_stacked.gd" id="7_0loov"]
-[ext_resource type="Resource" uid="uid://b4k68yn0si4th" path="res://item_protoset_json_test.tres" id="8_8qyui"]
-[ext_resource type="Script" path="res://addons/gloot/core/inventory_item.gd" id="9_7l1du"]
+[ext_resource type="Texture2D" uid="uid://ct6ptpfyfeupq" path="res://assets/textures/menu/selection_arrow_transparent.png" id="3_dnjwy"]
+[ext_resource type="Script" path="res://player/player_menu_itemlist.gd" id="4_s2ji6"]
 [ext_resource type="Texture2D" uid="uid://mxsw3tbuu4em" path="res://assets/textures/mask_face_01.png" id="10_tjj3u"]
 [ext_resource type="Script" path="res://menu/exit_btn.gd" id="11_fvbtw"]
 
@@ -39,6 +36,35 @@ patch_margin_top = 16
 patch_margin_right = 16
 patch_margin_bottom = 16
 metadata/_edit_use_anchors_ = true
+
+[node name="ItemList" type="ItemList" parent="Control/PauseRect"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 496.0
+offset_bottom = 624.0
+item_count = 10
+item_0/text = "Journal"
+item_0/icon = ExtResource("3_dnjwy")
+item_1/text = "Party"
+item_1/icon = ExtResource("3_dnjwy")
+item_2/text = "Inventory"
+item_2/icon = ExtResource("3_dnjwy")
+item_3/text = "Pager"
+item_3/icon = ExtResource("3_dnjwy")
+item_4/text = "Profile"
+item_4/icon = ExtResource("3_dnjwy")
+item_5/text = "Camp"
+item_5/icon = ExtResource("3_dnjwy")
+item_6/text = "Settings"
+item_6/icon = ExtResource("3_dnjwy")
+item_7/text = "Save"
+item_7/icon = ExtResource("3_dnjwy")
+item_8/text = "Close Menu"
+item_8/icon = ExtResource("3_dnjwy")
+item_9/text = "Quit to Title"
+item_9/icon = ExtResource("3_dnjwy")
+script = ExtResource("4_s2ji6")
 
 [node name="PausedList" type="VBoxContainer" parent="Control/PauseRect"]
 layout_mode = 1
@@ -181,20 +207,10 @@ size_flags_horizontal = 3
 
 [node name="InventoryList" type="Control" parent="Control/InventoryGUI/InventoryListCol"]
 layout_mode = 2
-script = ExtResource("5_bb31o")
-progress_bar_visible = false
-label_visible = false
-inventory_path = NodePath("InventoryCore")
-default_item_icon = ExtResource("6_57npq")
 
 [node name="InventoryCore" type="Node" parent="Control/InventoryGUI/InventoryListCol/InventoryList"]
-script = ExtResource("7_0loov")
-item_protoset = ExtResource("8_8qyui")
 
 [node name="Node" type="Node" parent="Control/InventoryGUI/InventoryListCol/InventoryList/InventoryCore"]
-script = ExtResource("9_7l1du")
-protoset = ExtResource("8_8qyui")
-prototype_id = "stick"
 
 [node name="InventoryExitBtn" type="TextureButton" parent="Control/InventoryGUI/InventoryListCol"]
 layout_mode = 2
