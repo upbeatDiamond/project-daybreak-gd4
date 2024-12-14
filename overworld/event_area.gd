@@ -27,7 +27,8 @@ var activation_mode := ActivationMode.ACTIVE_ON_ENTER
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	body_entered.connect(_on_body_entered)
+	if body_entered.get_connections().size() <= 0:
+		body_entered.connect(_on_body_entered)
 	pass # Replace with function body.
 
 
