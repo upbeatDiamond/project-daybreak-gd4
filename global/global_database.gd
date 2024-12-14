@@ -402,7 +402,15 @@ func reset_save_file() -> void:
 	db_reset.query("VACUUM INTO \"" + globalized_active_path + "\"")
 	
 	db_reset.close_db()
-	#db_commit.close_db()
+	
+	var config = ConfigFile.new()
+	var rand_hex = Crypto.new().generate_random_bytes(4).hex_encode()
+	config.load(CONFIG_FILE_PATH)
+	config.set_value("save", "current", rand_hex)
+	if config.has_section(rand_hex):
+		config.erase_section(rand_hex) ## In case of random number collision
+	config.set_value(rand_hex, "player_umid", 0)
+	config.save(CONFIG_FILE_PATH)
 
 
 func _regenerate_user_database_folder():
@@ -547,6 +555,13 @@ func commit_save_from_active() -> bool:
 	db_active.close_db()
 	
 	return success
+
+
+func is_gamepiece_player(gamepiece:Gamepiece):
+	var config = ConfigFile.new(); config.load(CONFIG_FILE_PATH)
+	var player_umid = config.get_value( config.get_value("save", "current"), "player_umid" )
+	
+	return gamepiece.umid == str(player_umid).to_int()
 
 
 func db_wrap(thing):

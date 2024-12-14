@@ -119,6 +119,10 @@ func _ready():
 	my_camera.tween_resource = PhantomCameraTween.new()
 	my_camera.tween_resource.duration = 0
 	
+	if GlobalDatabase.is_gamepiece_player(self):
+		my_camera.priority = 1
+		my_camera.follow_mode = PhantomCamera2D.FollowMode.GLUED
+	
 	is_moving = false
 	$GFX/SpriteBase.visible = true
 	$GFX/SpriteAccent.visible = true
@@ -214,6 +218,7 @@ func move( direction ):
 	if not would_collide: 
 		
 		var colliding_within
+		update_rays(direction)
 		if event_ray.is_colliding():
 			colliding_within = event_ray.get_collider()
 		
@@ -248,7 +253,7 @@ func move( direction ):
 		resync_position()
 		
 		if colliding_within != null and \
-		colliding_within.is_in_group("event_interior") and \
+		colliding_within.is_in_group("event_on_entry") and \
 		colliding_within.has_method("run_event"):
 			colliding_within.run_event( self )
 	else:
