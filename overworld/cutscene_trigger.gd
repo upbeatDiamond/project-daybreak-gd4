@@ -15,12 +15,6 @@ extends EventArea
 
 
 
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	
@@ -45,9 +39,9 @@ func run_event( gamepiece:Gamepiece ):
 	if not _match_conditions():
 		return
 	
-	var areas = get_overlapping_areas()
-	if (gamepiece not in areas) or not enabled:
-		return
+	#var areas = get_overlapping_bodies()
+	#if (activation_mode == ActivationMode.ACTIVE_ON_ENTER) and (gamepiece not in areas or not enabled):
+		#return
 	
 	if one_shot:
 		enabled = false

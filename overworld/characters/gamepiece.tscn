@@ -229,7 +229,9 @@ hframes = 7
 vframes = 4
 
 [node name="PhantomCamera" type="Node2D" parent="GFX"]
+top_level = true
 script = ExtResource("9_rqsd5")
+follow_mode = 1
 zoom = Vector2(2.5, 2.5)
 tween_resource = SubResource("Resource_qd36o")
 tween_on_load = false

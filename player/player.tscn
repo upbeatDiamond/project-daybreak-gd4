@@ -709,6 +709,7 @@ vframes = 4
 frame = 7
 
 [node name="PhantomCamera" type="Node2D" parent="GFX"]
+top_level = true
 script = ExtResource("9_t7urd")
 priority = 1
 follow_mode = 1
