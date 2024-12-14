@@ -18,13 +18,12 @@ extends EventArea
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	
-	#if enabled and one_shot and active_on_enter:
-		#var areas = get_overlapping_areas()
-		#for area in areas:
-			#if area is Gamepiece:
-				#run_event( area )
-	#el
-	if one_shot and not enabled:
+	if enabled and one_shot and active_on_enter:
+		var areas = get_overlapping_bodies()
+		for area in areas:
+			if area is Gamepiece:
+				run_event( area )
+	elif one_shot and not enabled:
 		self.queue_free()
 	pass
 
