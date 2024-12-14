@@ -122,6 +122,7 @@ func _ready():
 	if GlobalDatabase.is_gamepiece_player(self):
 		my_camera.priority = 1
 		my_camera.follow_mode = PhantomCamera2D.FollowMode.GLUED
+		my_camera.follow_target = gfx
 	
 	is_moving = false
 	$GFX/SpriteBase.visible = true
