@@ -8,31 +8,29 @@ Update: Pre-alpha 7/8,
 TL;DR: 
 
 Noteworthy Additions:
-	+ 
+	+ Replaced player menu GUI
+		+ Replaced inventory GUI
 
 
 Noteworthy Subtractions:
-	- 
+	- Removed multiple addons, which shouldn't be noticable for the player
 
 
 Noteworthy Changes:
-	* 
+	* Game now runs on a state chart system
 
 
 
 To Do List + Constructive Commentary:
-	% Merge the Mob, Experimental, and Mouse Follow controllers into one big NPC controller
-		% Tried, needs testing
 	% Repair/polish intro cinematic sequence
 		% Save player data to player monster database entry
 		% Fix ability entry, and make relevant to demo
-	% Replace the remaining detectable Arkeve tutorial code.
-		% Revise ALL tutorial based code until it both can't be detected as plagiarism...
+	% Revise ALL tutorial based code until it both can't be detected as plagiarism...
 		... and is overall more robust. Not either/or, but both of these things.
 	% Add credits scroll for all code/addons, music, and sprites that can be sourced.
 	% Make playable the Mayhem/Raze demo, and integrate into the unified demo
 		% Or rather, rewrite it.
-	% Add overworld sprites for Mom, Scientist, Starters, and Barney for the upcoming demos
+	% Add overworld sprites for Mom, and Barney for the upcoming demos
 	% Fix and finish the failsafe map's generation code, otherwise it's not very safe
 		% Make the shader actually do something, and put it in a nicer folder
 	% Have ledge ensure Gamepieces don't stack on top of eachother by using raycasting.
@@ -47,9 +45,6 @@ To Do List + Constructive Commentary:
 			% Gamepiece's data transfer code should be more complete
 			% Gamepieces should automatically fix themselves upon being 'placed'
 		% Add Gametokens and save code for that
-		% If the game lacks a PATCHDATA database in "user://", then copy the provided one
-			% Rely on PATCHDATA for balancing and forwards compatibility but not for assets/code
-				% Maybe use PATCHDATA for asset/code pointers/paths? Seems more like a .PCK thing
 	% Fix/expand the pause menu
 		% This includes the inventory GUI and backend
 	% Add tools for multiplayer connectivity
@@ -83,8 +78,3 @@ General Commentary:
 	
 	> The name "For The Longest Time" may not be reused for any pre-Alpha or Alpha stable releases.
 	> It may be reused for Betas, or patches, but ideally use for neither.
-	
-	> DO NOT mess with GLoot code during or after pre-Alpha 6 except to make the editor not crash
-		> The addon needs a lot of refactoring to be made efficient
-			> Or do mess with it, over at the GLoot repo
-		> This does not mean "don't use GLoot", but leave the code alone. Use func calls.
