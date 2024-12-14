@@ -17,14 +17,35 @@ enum Operator{
 @export var conditions : Dictionary = {}
 
 
+enum ActivationMode {
+	ACTIVE_ON_ENTER,
+	ACTIVE_ON_INTERACT,
+	ACTIVE_ON_TOUCH,
+}
+
+var activation_mode := ActivationMode.ACTIVE_ON_ENTER
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	body_entered.connect(_on_body_entered)
 	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	pass
+
+
+func _on_body_entered(body:PhysicsBody2D):
+	if activation_mode == ActivationMode.ACTIVE_ON_ENTER and \
+			(body is Gamepiece or body.get_groups().has("gamepiece")):
+		print("Body entered! ", body)
+		run_event(body)
+	pass
+	
+
+func run_event(gamepiece:Gamepiece):
+	assert(false, "Run Event is an abstract class! Implement elsewhere!")
 
 
 ## True if fulfilled
