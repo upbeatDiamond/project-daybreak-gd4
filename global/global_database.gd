@@ -42,7 +42,7 @@ const table_name_species := "species"
 # Table_col : [ obj property name, fallback ]
 # ALT- tblcol : [ [obj property name, property index/modifier], fallback ]
 # Any property name that includes brackets should be split off and parsed.
-var tkpv_monster = {
+const tkpv_monster = {
 	"status_effects": 	 { "fallback": "" },
 	"franchise_ID": 	 { "fallback": 0 },
 	"species_ID": 		 { "property": "species", "fallback": -1 },
@@ -72,7 +72,7 @@ var tkpv_monster = {
 	"name": 			 { "property": "birth_name", "fallback":  "John Smith"},
 }
 
-var tkpv_gamepiece = {
+const tkpv_gamepiece = {
 	"gpid": 	 		{"property": "unique_id", 			"fallback": -1},
 	"umid": 	 		{"property": "umid", 				"fallback": -1},
 	"tag": 		 		{"property": "tag", 				"fallback": "Steve?" },
@@ -86,10 +86,13 @@ var tkpv_gamepiece = {
 	"current_direction":	{"property": "facing_direction", 	"fallback": Vector2i(0,1)},
 }
 
-var tkpv_level_map = {
+const tkpv_level_map = {
 	"map_id": {"property":"map_index", "fallback":-1},
 	"map_path": {"property":"scene_file_path", "fallback":""},
 }
+
+const CONFIG_FILE_PATH := "user://config.cfg"
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -409,6 +412,12 @@ func _regenerate_user_database_folder():
 		directory_check = DirAccess.get_open_error() 
 		## ^ Supposed to check to see if file can be made, but why bother?
 		DirAccess.make_dir_absolute("user://database")
+	
+	## If there is no config file, make it.
+	var config_file = FileAccess.file_exists(CONFIG_FILE_PATH)
+	if config_file == null:
+		config_file = ConfigFile.new()
+		config_file.save(CONFIG_FILE_PATH)
 	
 	## Ensures there is a 'patchdata' database in the user save file
 	var patchdata_check = FileAccess.file_exists(DB_PATH_PATCH_USER)
