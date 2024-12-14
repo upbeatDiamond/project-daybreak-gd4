@@ -143,6 +143,7 @@ func _ready():
 	
 	GlobalRuntime.pause_gameworld.connect( _on_gameworld_pause )
 	GlobalRuntime.unpause_gameworld.connect( _on_gameworld_unpause )
+	position_stabilized = true
 	print("GP: I think I'm at ", current_position, " as ", tag)
 	if tag == "player" or monster.umid <= 1:
 		treat_as_player = true
