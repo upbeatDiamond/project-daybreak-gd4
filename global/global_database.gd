@@ -404,12 +404,12 @@ func reset_save_file() -> void:
 	db_reset.close_db()
 	
 	var config = ConfigFile.new()
-	var rand_hex = Crypto.new().generate_random_bytes(4).hex_encode()
+	var rand_name = str("save", Crypto.new().generate_random_bytes(1).hex_encode() )
 	config.load(CONFIG_FILE_PATH)
-	config.set_value("save", "current", rand_hex)
-	if config.has_section(rand_hex):
-		config.erase_section(rand_hex) ## In case of random number collision
-	config.set_value(rand_hex, "player_umid", 0)
+	config.set_value("save", "current", rand_name)
+	if config.has_section(rand_name):
+		config.erase_section(rand_name) ## In case of random number collision
+	config.set_value(rand_name, "player_umid", 0)
 	config.save(CONFIG_FILE_PATH)
 
 
@@ -422,10 +422,11 @@ func _regenerate_user_database_folder():
 		DirAccess.make_dir_absolute("user://database")
 	
 	## If there is no config file, make it.
-	var config_file = FileAccess.file_exists(CONFIG_FILE_PATH)
-	if config_file == null:
-		config_file = ConfigFile.new()
-		config_file.save(CONFIG_FILE_PATH)
+	var config_file = ConfigFile.new()
+	config_file.load(CONFIG_FILE_PATH)
+	config_file.set_value("meta", "config_version", VERSION_CODE)
+	config_file.save(CONFIG_FILE_PATH)
+	
 	
 	## Ensures there is a 'patchdata' database in the user save file
 	var patchdata_check = FileAccess.file_exists(DB_PATH_PATCH_USER)
@@ -558,10 +559,14 @@ func commit_save_from_active() -> bool:
 
 
 func is_gamepiece_player(gamepiece:Gamepiece):
-	var config = ConfigFile.new(); config.load(CONFIG_FILE_PATH)
-	var player_umid = config.get_value( config.get_value("save", "current"), "player_umid" )
-	
+	var player_umid = value_from_config_save( "player_umid" )
 	return gamepiece.umid == str(player_umid).to_int()
+
+
+func value_from_config_save(key:String):
+	var config = ConfigFile.new(); config.load(CONFIG_FILE_PATH)
+	var player_umid = config.get_value( config.get_value("save", "current"), key )
+	return 
 
 
 func db_wrap(thing):
