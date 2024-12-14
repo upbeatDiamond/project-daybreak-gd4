@@ -522,25 +522,3 @@ func transfer_data_from_gp(gamepiece:Gamepiece):
 	if gamepiece.controller != null:
 		controller.set_script( gamepiece.controller.get_script() )
 	pass
-
-
-static func gamepiece_from_walker( walker:GamepieceWalker ) -> Gamepiece:
-	var model_gamepiece = load("res://overworld/characters/gamepiece.tscn") as PackedScene
-	var new_gamepiece = model_gamepiece.instantiate() as Gamepiece
-	new_gamepiece.monster = walker.monster
-	new_gamepiece.find_child("Controller").set_script( walker.controller )
-	if walker.current_position_is_known:
-		new_gamepiece.position = walker.current_position
-	else:
-		#TODO: Replace this else statement with position estimation code
-		new_gamepiece.position = walker.current_position
-	
-	return new_gamepiece
-
-
-static func walker_from_gamepiece( gamepiece:Gamepiece ) -> GamepieceWalker:
-	
-	var walker = GamepieceWalker.new( gamepiece.monster, gamepiece.controller.get_script(), \
-		gamepiece.get_current_map_id(), gamepiece.target_map, gamepiece.target_position )
-	
-	return walker
