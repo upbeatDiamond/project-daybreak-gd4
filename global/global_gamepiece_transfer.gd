@@ -208,6 +208,13 @@ func _save_map_stored_gamepieces( _map_id:int ):
 
 
 func _save_map_placed_gamepieces( _map:LevelMap ):
+	
+	for gp in GlobalRuntime.scene_manager.get_tree().get_nodes_in_group("gamepiece"):
+		if is_instance_valid(gp) and gp is Gamepiece: # Check for if freed before saving
+			GlobalDatabase.save_gamepiece( gp as Gamepiece )
+		elif not is_instance_valid(gp):
+			print("PIECE ALREADY FREED")
+	
 	for piece in _map.current_gamepieces:
 		if is_instance_valid(piece) and piece is Gamepiece: # Check for if freed before saving
 			GlobalDatabase.save_gamepiece( piece as Gamepiece )
