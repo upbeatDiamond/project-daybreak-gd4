@@ -82,12 +82,10 @@ func place_gamepieces( gamepieces:Array ):
 	return 0
 
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	#print(get_anchor_container())
 	pass
-
 
 
 func populate_with_gamepieces():

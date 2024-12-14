@@ -10,11 +10,8 @@ enum Direction{
 	WEST,
 }
 
-# enum for how fast you're moving / on what terrain
-#var Method := Gamepiece.TraversalMode
-
 var direction:Direction
-var method:Gamepiece.TraversalMode
+var method:Gamepiece.TraversalMode # how fast you're moving / on what terrain
 
 
 func _init( vector=Vector2i(0,0), _method:=Gamepiece.TraversalMode.WALKING ):
