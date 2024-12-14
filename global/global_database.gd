@@ -8,7 +8,7 @@ extends Node
 
 var db : SQLite = null
 
-const verbosity_level : int = SQLite.VERBOSE
+const VERBOSITY_LEVEL : int = SQLite.VERBOSE
 
 ## Increment based on current date whenever format changes, Beta or higher.
 ## Also increment beforehand for funsies, I guess?
@@ -30,19 +30,16 @@ const DB_PATH_USER_BACKUP := "user://database/save_backup"
 const DB_PATH_USER_TEMPLATE := "res://database/save_template"
 
 ## TODO: make uppercase + update names!
-const table_name_monster := "monster"
-const table_name_user_monster := "monster"
-const table_name_user_gamepiece := "gamepiece"
-const table_name_keyval := "variables"
-const table_name_species := "species"
-#var table_name_player := "person"
-#var table_name_relationship := "character"
+const TABLE_NAME_MONSTER := "monster"
+const TABLE_NAME_GAMEPIECE := "gamepiece"
+const TABLE_NAME_KEYVAL := "variables"
+const TABLE_NAME_SPECIES := "species"
 
 # Enums with Table = Key, Property = Value
 # Table_col : [ obj property name, fallback ]
 # ALT- tblcol : [ [obj property name, property index/modifier], fallback ]
 # Any property name that includes brackets should be split off and parsed.
-const tkpv_monster = {
+const TKPV_MONSTER = {
 	"status_effects": 	 { "fallback": "" },
 	"franchise_ID": 	 { "fallback": 0 },
 	"species_ID": 		 { "property": "species", "fallback": -1 },
@@ -72,7 +69,7 @@ const tkpv_monster = {
 	"name": 			 { "property": "birth_name", "fallback":  "John Smith"},
 }
 
-const tkpv_gamepiece = {
+const TKPV_GAMEPIECE = {
 	"gpid": 	 		{"property": "unique_id", 			"fallback": -1},
 	"umid": 	 		{"property": "umid", 				"fallback": -1},
 	"tag": 		 		{"property": "tag", 				"fallback": "Steve?" },
@@ -86,7 +83,7 @@ const tkpv_gamepiece = {
 	"current_direction":	{"property": "facing_direction", 	"fallback": Vector2i(0,1)},
 }
 
-const tkpv_level_map = {
+const TKPV_LEVEL_MAP = {
 	"map_id": {"property":"map_index", "fallback":-1},
 	"map_path": {"property":"scene_file_path", "fallback":""},
 }
@@ -113,7 +110,7 @@ func exists_monster( monster ) -> bool:
 	db.path = DB_PATH_USER_ACTIVE
 	db.open_db()
 	
-	var query_result = db.select_rows( table_name_monster, str("umid = ", monster.umid), row_array );
+	var query_result = db.select_rows( TABLE_NAME_MONSTER, str("umid = ", monster.umid), row_array );
 	db.close_db()
 	
 	if (query_result is Array && query_result.size() > 0):
@@ -124,8 +121,8 @@ func exists_monster( monster ) -> bool:
 func load_monster( umid:int ) -> Monster:
 	var mon = Monster.new()
 	
-	mon = database_to_game(mon, tkpv_monster, DB_PATH_USER_ACTIVE, 
-			table_name_monster, str("umid = ", umid))
+	mon = database_to_game(mon, TKPV_MONSTER, DB_PATH_USER_ACTIVE, 
+			TABLE_NAME_MONSTER, str("umid = ", umid))
 	
 	return mon
 
@@ -166,6 +163,7 @@ target_table_name:String, _query_conditions:String=""  ):
 		pass
 	
 	db = SQLite.new()
+	db.verbosity_level = VERBOSITY_LEVEL
 	db.path = target_db_path
 	db.open_db()
 	var pre_bind = GlobalRuntime.multiply_string(" ? ", cols.size(), "," )
@@ -185,6 +183,7 @@ target_table_name:String, query_conditions:String ):
 	var selected_columns : Array = tablekey_propval.keys()
 	
 	db = SQLite.new()
+	db.verbosity_level = VERBOSITY_LEVEL
 	db.path = target_db_path
 	db.open_db()
 	
@@ -221,7 +220,7 @@ target_table_name:String, query_conditions:String ):
 
 # To be called by GlobalMonsterSpawner
 func store_monster( monster ):
-	game_to_database( monster, tkpv_monster, DB_PATH_USER_ACTIVE, table_name_monster, \
+	game_to_database( monster, TKPV_MONSTER, DB_PATH_USER_ACTIVE, TABLE_NAME_MONSTER, \
 	str("UMID = ", monster.umid) )
 
 
@@ -234,28 +233,28 @@ func save_monster( monster ):
 
 # Contains code to save monster character to database
 func update_monster( monster ):
-	database_to_game( monster, tkpv_monster, DB_PATH_USER_ACTIVE, table_name_monster, \
+	database_to_game( monster, TKPV_MONSTER, DB_PATH_USER_ACTIVE, TABLE_NAME_MONSTER, \
 	str("UMID = ", monster.umid) )
 
 
 func save_gamepiece( gamepiece:Gamepiece ):
 	var umid = gamepiece.umid
-	game_to_database(gamepiece, tkpv_gamepiece, DB_PATH_USER_ACTIVE, "gamepiece", str(" UMID = ", umid )  )
-	game_to_database(gamepiece.monster, tkpv_monster, DB_PATH_USER_ACTIVE, "monster", str(" UMID = ", umid )  )
+	game_to_database(gamepiece, TKPV_GAMEPIECE, DB_PATH_USER_ACTIVE, "gamepiece", str(" UMID = ", umid )  )
+	game_to_database(gamepiece.monster, TKPV_MONSTER, DB_PATH_USER_ACTIVE, "monster", str(" UMID = ", umid )  )
 
 
 func load_gamepiece( umid:int ) -> Gamepiece:
 	var gamepiece = Gamepiece.new()
 	gamepiece.monster = Monster.new()
 	gamepiece.umid = umid
-	database_to_game(gamepiece, tkpv_gamepiece, DB_PATH_USER_ACTIVE, "gamepiece", str(" UMID = ", umid ) )
-	database_to_game(gamepiece.monster, tkpv_monster, DB_PATH_USER_ACTIVE, "monster", str(" UMID = ", umid ) )
+	database_to_game(gamepiece, TKPV_GAMEPIECE, DB_PATH_USER_ACTIVE, "gamepiece", str(" UMID = ", umid ) )
+	database_to_game(gamepiece.monster, TKPV_MONSTER, DB_PATH_USER_ACTIVE, "monster", str(" UMID = ", umid ) )
 	return gamepiece
 
 
 func update_gamepiece( gamepiece:Gamepiece ) -> Gamepiece:
-	database_to_game(gamepiece, tkpv_gamepiece, DB_PATH_USER_ACTIVE, "gamepiece", str(" UMID = ", gamepiece.umid ) )
-	database_to_game(gamepiece.monster, tkpv_monster, DB_PATH_USER_ACTIVE, "monster", str(" UMID = ", gamepiece.umid ) )
+	database_to_game(gamepiece, TKPV_GAMEPIECE, DB_PATH_USER_ACTIVE, "gamepiece", str(" UMID = ", gamepiece.umid ) )
+	database_to_game(gamepiece.monster, TKPV_MONSTER, DB_PATH_USER_ACTIVE, "monster", str(" UMID = ", gamepiece.umid ) )
 	return gamepiece
 
 
@@ -267,14 +266,13 @@ func load_gamepieces_for_map( map_id ) -> Array[Gamepiece]:
 	db.path = DB_PATH_USER_ACTIVE
 	db.open_db()
 	
-	var fetched : Array = db.select_rows( table_name_user_gamepiece, str("current_map = ", map_id), selected_columns )
+	var fetched : Array = db.select_rows( TABLE_NAME_GAMEPIECE, str("current_map = ", map_id), selected_columns )
 	var gamepiece_array : Array[Gamepiece] = []
 	var gamepiece
 	
 	# For each table row, use it to build a gamepiece
 	for piece_summary in fetched:
 		gamepiece = load_gamepiece( piece_summary["umid"] )
-		#set_gamepiece_summary( gamepiece, piece_summary );
 		gamepiece_array.append( gamepiece )
 	
 	db.close_db()
@@ -298,7 +296,7 @@ func fetch_dex_from_index(species:int, row_array:Array[String]=["tag"]) -> Array
 	db.path = DB_PATH_PATCH_TEMPLATE
 	db.open_db()
 	
-	var query_result = db.select_rows( table_name_species, str("species_ID = ", species), row_array );
+	var query_result = db.select_rows( TABLE_NAME_SPECIES, str("species_ID = ", species), row_array );
 	db.close_db()
 	return query_result
 
@@ -311,7 +309,7 @@ func save_keyval(_key:String, _val):
 	db = SQLite.new()
 	db.path = DB_PATH_USER_ACTIVE
 	db.open_db()
-	var query_template = str( "INSERT OR REPLACE INTO ", table_name_keyval, " ( key, value ) " )
+	var query_template = str( "INSERT OR REPLACE INTO ", TABLE_NAME_KEYVAL, " ( key, value ) " )
 	query_template = str(query_template, " values ( ?, ? )" )
 	print(query_template)
 	var _success = db.query_with_bindings( query_template, [ _key, db_wrap(_val)] );
@@ -327,7 +325,7 @@ func load_keyval(_key:String, _val=null):
 	db.open_db()
 	
 	var query_conditions = str("key = '", _key, "'") 
-	var fetched:Array = db.select_rows( table_name_keyval, query_conditions, ["key", "value"] )
+	var fetched:Array = db.select_rows( TABLE_NAME_KEYVAL, query_conditions, ["key", "value"] )
 	db.close_db()
 	
 	if fetched.size() > 0:
@@ -360,12 +358,12 @@ func load_map_link_data():
 func load_level_map( map:int ):
 	var dummy_map := LevelMap.new()
 	dummy_map.map_index = (map as GlobalGamepieceTransfer.MapIndex)
-	return database_to_game(dummy_map, tkpv_level_map, DB_PATH_USER_ACTIVE, "level_map", str("map_id = ", map) )
+	return database_to_game(dummy_map, TKPV_LEVEL_MAP, DB_PATH_USER_ACTIVE, "level_map", str("map_id = ", map) )
 
 
 # Saves which file path correlates to the level map index
 func save_level_map( map:LevelMap ):
-	game_to_database(map, tkpv_level_map, DB_PATH_USER_ACTIVE, "level_map", str("map_id = ", map.map_index) )
+	game_to_database(map, TKPV_LEVEL_MAP, DB_PATH_USER_ACTIVE, "level_map", str("map_id = ", map.map_index) )
 	pass
 
 
@@ -494,8 +492,6 @@ func fetch_save_to_stage():
 	
 	var success
 	
-	#var globalized_backup_path = ProjectSettings.globalize_path(DB_PATH_USER_BACKUP) + ".db"
-	#var globalized_commit_path = ProjectSettings.globalize_path(DB_PATH_USER_COMMIT) + ".db"
 	var globalized_stage_path = ProjectSettings.globalize_path(DB_PATH_USER_ACTIVE) + ".db"
 	
 	if FileAccess.file_exists( DB_PATH_USER_ACTIVE + ".db" ):
@@ -551,7 +547,6 @@ func commit_save_from_active() -> bool:
 			print("stage => commit failed")
 	else:
 		print("commit => backup failed")
-		
 	
 	db_active.close_db()
 	

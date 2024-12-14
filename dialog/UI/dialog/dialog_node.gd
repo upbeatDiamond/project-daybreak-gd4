@@ -17,8 +17,8 @@ Info:
 extends Node
 class_name DialogNode
 
-const PAUSE_CHAR := "|" 	# Character to replace with a pause.
-const NAME_CHAR := "&"		# Character to replace with player name.
+#const PAUSE_CHAR := "|" 	# Character to replace with a pause.
+#const NAME_CHAR := "&"		# Character to replace with player name.
 
 var id := ""				# Current dialog id
 var next_id := "end"		# Next dialog id following this. Defaults to end dialog.
@@ -118,7 +118,7 @@ func set_next_text_index() -> bool:
 func convert_printable(text):
 	# (A) Replace NAME_CHAR with name
 	var printable = text
-	printable = printable.replace(NAME_CHAR, GlobalDirector.player_name)
+	#printable = printable.replace(NAME_CHAR, GlobalDirector.player_name)
 	
 	# (B) Get indexes (text character) just before which to pause, with value of how 
 	# long to pause for (count of how many PAUSE_CHAR).
@@ -143,7 +143,7 @@ func convert_printable(text):
 			#pause_counts[curr_pause_index - num_newline_sofar] += 1
 		#printable_stripped_bbcode.erase(curr_pause_index, PAUSE_CHAR.length())
 	
-	printable = printable.replace(PAUSE_CHAR, "")
+	#printable = printable.replace(PAUSE_CHAR, "")
 	printable_label.queue_free()
 	return printable
 

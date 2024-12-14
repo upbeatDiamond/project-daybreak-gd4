@@ -1,9 +1,8 @@
 @tool
 extends Area2D
 
-const granularity := 1
-const jump_height := 2.0 # Height expressed in number of tiles; float in case half-tiles are needed
-const landing_dust_effect = 0
+const JUMP_HEIGHT := 2.0 # Height expressed in number of tiles; float in case half-tiles are needed
+const LANDING_DUST_EFFECT = 0 # Should be pointer to graphics; leftover
 @export var pointing_direction := Vector2(0,1):
 	set(dir):
 		if abs(dir.x) > abs(dir.y):
@@ -115,7 +114,7 @@ func run_event( area ):
 
 
 func _parabola_jump( progress, start, end, thing ) -> Vector2:
-	var h = jump_height * GlobalRuntime.DEFAULT_TILE_SIZE
+	var h = JUMP_HEIGHT * GlobalRuntime.DEFAULT_TILE_SIZE
 	progress = clamp(progress, 0.0, 1.0)
 	
 	# Remember, high Y on Desmos is 'up', but when porting to Godot, Y = 'down', thus...

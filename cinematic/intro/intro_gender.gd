@@ -19,7 +19,6 @@ var reflect_target : Node;
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	btn_reflect.connect('toggled', self.on_reflect_pressed);
-	#name_edit.connect('text_submitted', self.on_text_submitted);
 	print( str("pronoun_m -- ",pronoun_m) );
 	pass # Replace with function body.
 

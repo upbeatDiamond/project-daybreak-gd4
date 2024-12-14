@@ -9,17 +9,13 @@ const Y_SORT_FOLDER_NAME:="Y-Sort"
 @export var map_index := ( -1 as GlobalGamepieceTransfer.MapIndex ) 
 var current_gamepieces:=[Gamepiece]
 
-var debug_please_remove:=[1,3,2]
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	
 	if GlobalRuntime.scene_manager != null:
 		GlobalRuntime.scene_manager.update_preload_portals()
 		establish_ysort()
 		rehouse_gamepieces()
 		populate_with_gamepieces()
-	print(debug_please_remove[1], get("debug_please_remove[1]"))
 	print("Hoi! It's me! A Level Map!!!!")
 	pass
 
@@ -55,17 +51,14 @@ func rehouse_gamepieces():
 func place_gamepieces( gamepieces:Array ):
 	establish_ysort()
 	var ysort = get_node_or_null( ^"Objects/Y-Sort" )
-	#var is_dirty:bool
 	
 	# Now that the Y-Sort is almost guaranteed to exist, put any characters in there.
 	# BUT JUST IN CASE, keep using the "get_node_or_null" and keep track of the null errors.
 	for piece in gamepieces:
 		piece.current_map = map_index
-		#is_dirty = false
 		for old_piece in current_gamepieces:
 			if (old_piece is Gamepiece) and (piece is Gamepiece) and (piece.monster != null)\
 			and piece.monster.equals( old_piece.monster ):
-				#is_dirty = true
 				if old_piece != null:
 					if (old_piece as Node).get_parent() != null:
 						(old_piece as Node).get_parent().remove_child(old_piece)
@@ -82,16 +75,8 @@ func place_gamepieces( gamepieces:Array ):
 	return 0
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	#print(get_anchor_container())
-	pass
-
-
 func populate_with_gamepieces():
 	var gamepieces = GlobalGamepieceTransfer.eject_gamepieces_for_map(map_index)
-	#for piece in gamepieces:
-	#	add_child(piece)
 	
 	place_gamepieces( gamepieces )
 	pass

@@ -51,7 +51,6 @@ var techniques_active = [];
 
 var status_conditions = {}
 
-
 # The state the stats should be reset to upon healing
 # Might be split into IVs, AV/EVs, and Species Strengths
 # Called 'max' in the database, in comparison to HP
@@ -73,7 +72,7 @@ var activity_heap = {}
 func _init():
 	p_factor_base.resize( GlobalMonster.PersonalityFactor.size() );
 	p_factor_offset.resize( GlobalMonster.PersonalityFactor.size() );
-	techniques_active.resize( GlobalMonster.max_battle_techniques );
+	techniques_active.resize( GlobalMonster.MAX_BATTLE_TECHNIQUES );
 	stats_base.resize( GlobalMonster.BattleStats.size() );
 	stats_current.resize( GlobalMonster.BattleStats.size() );
 	pass # Replace with function body.
@@ -82,6 +81,7 @@ func _init():
 func get_current_stat():
 	pass
 
+
 # get current health level
 func get_health() -> int:
 	var _health = stats_current[ GlobalMonster.BattleStats.HEALTH ];
@@ -89,10 +89,12 @@ func get_health() -> int:
 		_health = 0
 	return _health
 
+
 # can turn this into a setget
 func set_health( _health:int ):
 	stats_current[ GlobalMonster.BattleStats.HEALTH ] = _health;
 	return stats_current[ GlobalMonster.BattleStats.HEALTH ] # for debug?
+
 
 # get default health level
 func get_max_health() -> int:
@@ -105,16 +107,20 @@ func get_max_health() -> int:
 func set_max_health( _max:int ):
 	stats_base[ GlobalMonster.BattleStats.HEALTH ] = _max;
 
+
 # Separated for future damage animations, or abilities
 func reduce_health( damage ):
 	set_health( get_health() - damage );
+
 
 # Separated for future healing animations, or abilities
 func increase_health( healing ):
 	set_health( get_health() + healing );
 
+
 func change_base_health( change ):
 	stats_base[ GlobalMonster.BattleStats.HEALTH ] += change;
+
 
 # Deprecated due to get_stat, but don't remove yet
 func get_spirit() -> int:
@@ -138,8 +144,6 @@ func get_max_spirit() -> int:
 
 func set_max_spirit( _max:int ):
 	stats_base[ GlobalMonster.BattleStats.SPIRIT ] = _max;
-
-
 
 
 # can turn this into a setget
@@ -186,8 +190,3 @@ func equals(other_mon:Monster) -> bool:
 	|| world_of_origin < 0 || other_mon.world_of_origin < 0):
 		return true
 	return false
-
-
-#func saveAndReload:
-	# Call saveData and loadData sequentially, ... 
-	# ... possibly setting everything to zero in between

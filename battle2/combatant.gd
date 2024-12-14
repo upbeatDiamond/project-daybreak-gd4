@@ -63,13 +63,6 @@ var monster:Monster
 var front_sprite_path : String = "res://assets/textures/monsters/zoonami_grimlit_front.png"
 var back_sprite_path : String = "res://assets/textures/monsters/zoonami_grimlit_back.png"
 
-# TODO RANGE /// replace with function to reduce data duplication with Monster
-#var hp : int = 30
-#var maxhp : int = 30
-#var fs : int = 30
-#var maxfs : int = 30
-# END TODO RANGE \\\ replace with function to reduce data duplication with Monster
-
 ## Psych Up regenerates HP or FS partially upon one or the other reaching 0.
 ## False = is spent (or never could), while true is expected for fresh threats.
 var can_psych_up = false

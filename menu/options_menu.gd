@@ -16,7 +16,5 @@ func _process(_delta):
 
 
 func _on_back_pressed():
-	GlobalRuntime.clean_up_descent( self )
-#	replace_by(  play_scene.instantiate()  )
-	queue_free()
+
 	pass # Replace with function body.

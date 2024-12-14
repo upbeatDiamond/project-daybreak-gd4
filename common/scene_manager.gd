@@ -80,8 +80,6 @@ func switch_to_interface( interface:InterfaceOptions ):
 		InterfaceOptions.BATTLE:
 			world_interface.process_mode = Node.PROCESS_MODE_DISABLED
 			battle_interface.process_mode = Node.PROCESS_MODE_INHERIT
-			#activity_interface_wrapper.scale = Vector2(1,1)
-			#activity_interface_wrapper.position = Vector2(0,0)
 			battle_interface.visible = true
 			player_viewport.visible = false
 			activity_interface_wrapper.visible = false
@@ -115,7 +113,7 @@ func change_map_from_path( map:String ) -> int:
 		next_map = scenes_ready[map][0]
 		scenes_ready.erase( map )
 	elif map.is_valid_filename():
-		next_map = load( map )#.new()
+		next_map = load( map )
 	else:
 		append_preload_map( map )
 		return -1
@@ -200,8 +198,6 @@ func mount_battle( battle:BattleSession ):
 		print("scene manager thinks the battle is ready...")
 		await (battle as BattleSession).session_completed
 	print("scene manager thinks the battle is over...")
-	#switch_to_interface( SceneManager.InterfaceOptions.WORLD )
-	#$PlayerCamView.grab_focus()
 	
 	## DEMO ONLY! Please remove!
 	mount_cinematic( load("res://cinematic/demo_end/demo_end_screen.tscn").instantiate() )
@@ -236,14 +232,12 @@ func update_preload_portals( ttl_decrement : int = 1 ):
 
 func fade_to_black( duration:=0.25 ) -> bool:
 	screen_transition.visible = true
-	var blackness = $ScreenTransition/Darkness #ColorRect.new()
-	#blackness.set_anchors_preset( Control.LayoutPreset.PRESET_FULL_RECT )
+	var blackness = $ScreenTransition/Darkness
 	blackness.color = Color.BLACK
 	blackness.visible = true
 	var new_modulate = Color.WHITE
 	new_modulate.a = 0
 	blackness.modulate = new_modulate
-	#screen_transition.add_child( blackness )
 	
 	print("darkness color +> ", blackness.color, blackness.modulate)
 	var move_tween = create_tween()
@@ -259,12 +253,8 @@ func fade_to_black( duration:=0.25 ) -> bool:
 
 
 func fade_in( duration:=0.75 ):
-	var blackness = $ScreenTransition/Darkness #ColorRect.new()
-	#blackness.set_anchors_preset( Control.LayoutPreset.PRESET_FULL_RECT )
-	#blackness.color = Color.BLACK
+	var blackness = $ScreenTransition/Darkness
 	blackness.visible = true
-	#blackness.modulate = Color.BLACK
-	#screen_transition.add_child( blackness )
 	
 	print("darkness color +> ", blackness.color, blackness.modulate)
 	var move_tween = create_tween()

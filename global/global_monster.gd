@@ -1,7 +1,7 @@
 extends Node
 # Most of this stuff oughta be static methods.
 
-const max_battle_techniques = 4
+const MAX_BATTLE_TECHNIQUES = 4
 
 enum PersonalityFactor
 {

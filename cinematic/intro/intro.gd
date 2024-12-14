@@ -26,8 +26,6 @@ var cine_finished := false;
 var volume_test = 99999
 
 signal reflect_kv(key, value);
-#signal request_kv(key, asker);
-#signal intro_finished(cutscene);
 
 var kv_bank = {};
 
@@ -76,18 +74,7 @@ func on_reflect_kv(key, value):
 	kv_bank[key] = value;
 	stage_finished = true;
 	play_next_stage();
-	#GlobalDatabase.insert_tuple_into_table( "key, value", [str(key), str(value)], GlobalDatabase.SystemData );
 
-
-# CODE DIRECTLY BELOW IS FOR THE DATABASE MANAGER CLASS TO HOLD/USE.
-#func insert_tuple_into_table( columns, attributes, table );
-#	var binder = "";
-#	for attr in attributes:
-#		binder += "?,"
-#	binder = binder.trim_suffix(",");
-#	return query_with_bindings( 
-#		str("INSERT INTO " + table + " (" + columns + ") VALUES (" + binder + ")" ),
-#		attributes );
 
 func sanitize(txt) -> String:
 	txt = txt.replace('&', '\\&');
@@ -96,8 +83,8 @@ func sanitize(txt) -> String:
 	txt = txt.replace('"', '&quot');
 	txt = txt.replace("'", '&apos');
 	txt = txt.replace('#', '&num');
-	#txt = txt.replace('', '');
 	return txt;
+
 
 func desanitize(txt) -> String:
 	txt = txt.replace('"', '&quot');
@@ -119,9 +106,7 @@ func _physics_process(delta):
 		play_next_stage()
 
 
-func play_next_stage():
-	#print(input_cooldown);
-	
+func play_next_stage():	
 	if input_cooldown <= 0 && !stage_locked && stage_finished:
 		# Move as long as the key/button is pressed.
 		progress = (progress + 1)

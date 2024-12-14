@@ -37,11 +37,8 @@ var run_speed = 8.0
 @export var is_local_player := false
 @export var tag = ""
 
-const LandingDustEffect = preload("res://overworld/landing_dust_effect.tscn")
-
 @onready var animation_tree = $AnimationTree
 @onready var animation_state #= animation_tree["parameters/playback"]
-#@onready var block_ray : RayCast2D = $Collision/BlockingRayCast2D
 @onready var event_ray : RayCast2D = $Collision/EventRayCast2D
 @onready var gfx = $GFX
 @onready var shadow = $GFX/Shadow

@@ -4,10 +4,10 @@ extends Control
 # tracks whether buttons can do things, and might be used for sound logic later
 var scene_enabled = true
 
-const play_scene_path = "res://overworld/level_maps/red_town.tscn"
-const play_cutscene_path = "res://cinematic/intro/intro.tscn"
+const PLAY_SCENE_PATH = "res://overworld/level_maps/red_town.tscn"
+const PLAY_CUTSCENE_PATH = "res://cinematic/intro/intro.tscn"
 
-@export var play_scene = preload(play_scene_path) :
+@export var play_scene = preload(PLAY_SCENE_PATH) :
 	get:
 		return play_scene
 	set( value ):
@@ -20,7 +20,7 @@ const play_cutscene_path = "res://cinematic/intro/intro.tscn"
 		else:
 			play_scene = get_node(value)
 
-@export var play_cutscene = preload(play_cutscene_path) :
+@export var play_cutscene = preload(PLAY_CUTSCENE_PATH) :
 	get:
 		return play_cutscene
 	set( value ):
@@ -41,7 +41,7 @@ func _ready():
 	## The following line SHOULD NOT be commented out... however...
 	## ... to debug more efficiently, we will be ignoring this ominous warning.
 	#GlobalDatabase.fetch_save_to_stage()
-	GlobalRuntime.scene_manager.append_preload_map( play_scene_path )
+	GlobalRuntime.scene_manager.append_preload_map( PLAY_SCENE_PATH )
 	
 	$Menu/GridContainer/Buttons/Play.grab_click_focus()
 	
@@ -75,7 +75,7 @@ func _on_play_pressed():
 			print( "cannot recover..." )
 		
 			if play_scene == null:
-				GlobalRuntime.scene_manager.change_map_from_path( play_scene_path )
+				GlobalRuntime.scene_manager.change_map_from_path( PLAY_SCENE_PATH )
 			else:
 				GlobalRuntime.scene_manager.change_map( play_scene )
 		queue_free()
@@ -83,16 +83,10 @@ func _on_play_pressed():
 
 
 func _on_options_pressed():
-	#GlobalRuntime.clean_up_descent( self )
-	#replace_by(  options_menu.instantiate()  )
-	#queue_free()
 	pass
 
 
 func _on_connection_pressed():
-	
-	GlobalDirector.run_screenplay("ch1_wakeup")
-	
 	pass
 
 

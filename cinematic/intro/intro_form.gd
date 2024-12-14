@@ -6,7 +6,6 @@ extends GridContainer
 @onready var btn_grp_skin = form_node.find_child("SkinBtn", true);
 @onready var btn_grp_hair = form_node.find_child("HairBtn", true);
 @onready var btn_grp_shape = form_node.find_child("ShapeBtn", true);
-#@onready var proXnoun_c = self.find_chilXd("ComnPron", true);
 
 @onready var skin_white 	= btn_grp_skin.find_child("SkinColorWhite", true);
 @onready var skin_pale 		= btn_grp_skin.find_child("SkinColorPale", true);

@@ -149,36 +149,6 @@ target_map_coordinates:=Vector2i(0,0), _origin_map_index:=MapIndex.INVALID_INDEX
 	GlobalDatabase.save_gamepiece( piece )
 	pass
 
-## Deprecated? If used, improve, else remove.
-#func reform_gamepiece_treelet( gamepiece:Gamepiece ):
-	#
-	#gamepiece.get_children()
-	#
-	## Indirectly repair the 'gamepiece' variable / class object
-	#var gp_repair = gamepiece_preload.instantiate() as Gamepiece
-	#gp_repair.transfer_data_from_gp( gamepiece )
-	#
-	## The ol' switcheroo!
-	#gamepiece = gp_repair
-	#
-	#var gamepiece_controller = gamepiece.find_child("Controller")
-	#if GlobalDatabase.is_gamepiece_player(gamepiece):
-		#gamepiece_controller.set_script( "res://overworld/characters/gamepiece_controller_player.gd" )
-		##var player_cam = Camera2D.new()
-		##gamepiece.add_child( player_cam )
-		#gamepiece.my_camera.priority = 1
-		##player_cam.zoom = Vector2(2.5, 2.5)
-		##player_cam.anchor_mode = Camera2D.ANCHOR_MODE_DRAG_CENTER
-		##player_cam.position_smoothing_enabled = true
-		##player_cam.position_smoothing_speed = 5
-	#else:
-		#gamepiece_controller.set_script( "res://overworld/characters/gamepiece_controller_mob.gd" )
-	#
-	#gamepiece_controller.set("gamepiece", gamepiece)
-	#gamepiece.controller = find_child("Controller")
-	#
-	#return gamepiece
-
 
 # If gp_id == -1, then ignore it.
 # Assumes you want to retrieve from the cache

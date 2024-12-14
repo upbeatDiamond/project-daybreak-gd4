@@ -9,10 +9,6 @@ var registered_things := {}	# Stores actor ids, referenced by (key)name
 var registered_names := {} 	# Stores displayed name, ref'd by keyname
 var registered_alias := {}	# Stores actor pseudonyms
 
-#var external_variables := {
-	#"player_name": "Steve?"
-#}
-
 # spritesheet?
 var iconsets : Dictionary
 var prev_line_type := "line"
