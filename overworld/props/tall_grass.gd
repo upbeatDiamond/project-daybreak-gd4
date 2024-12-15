@@ -1,14 +1,9 @@
-extends Area2D
+extends EventArea
 # This script is not a Gametoken, because/therefore destruction should be forgiven.
 
 var is_destruction_queued:=false
 const RAND_LIMIT = 255
 var rand_threshhold = 128
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	area_entered.connect(_on_area_entered)
-	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -16,9 +11,9 @@ func _process(_delta):
 	pass
 
 
-func _on_area_entered(area):
-	if area is Gamepiece or area.is_in_group("gamepiece"):
-		run_event(area as Gamepiece)
+func _on_body_entered(body):
+	if body is Gamepiece or body.is_in_group("gamepiece"):
+		run_event(body as Gamepiece)
 	pass
 
 
