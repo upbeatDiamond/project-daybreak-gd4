@@ -776,6 +776,10 @@ conditions = {
 "ch1_got_spanner": "== 0"
 }
 
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="Board"]
+position = Vector2(0, 8)
+navigation_polygon = SubResource("NavigationPolygon_rdb66")
+
 [node name="GrassDirt" type="TileMapLayer" parent="Board"]
 z_index = -2
 use_parent_material = true
@@ -855,10 +859,6 @@ gizmo_extents = 16.0
 script = ExtResource("9_77nyv")
 anchor_name = "RouteToRed"
 facing_direction = Vector2i(0, 1)
-
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
-position = Vector2(0, 8)
-navigation_polygon = SubResource("NavigationPolygon_rdb66")
 
 [node name="Trees" type="TileMapLayer" parent="."]
 z_index = -1
