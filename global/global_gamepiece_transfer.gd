@@ -8,7 +8,7 @@ enum MapIndex
 
 	INVALID_INDEX = -1,
 	TOWN_RED,		# Story gets going town, visited 2nd
-	TOWN_MAUVE,		# Might be merged with TOWN_GREEN ? or recycled...
+	TOWN_RESERVE_000,	# Might be merged with TOWN_GREEN ? or recycled...
 	TOWN_SCRATCH,
 	TOWN_PORT,		# Hub town
 	TOWN_HOME,		# Starting town, visited 1st
@@ -37,16 +37,26 @@ enum MapIndex
 	TOWN_PORT_MUSEUM,
 	TOWN_HOME_HOME,
 	TOWN_HOME_LAB,
-	TOWN_RESERVE_001,
-	TOWN_RESERVE_002,
-	TOWN_RESERVE_003,
-	TOWN_RESERVE_004,
-	TOWN_RESERVE_005,
-	TOWN_RESERVE_006,
-	TOWN_RESERVE_007,
-	TOWN_RESERVE_008,
-	TOWN_RESERVE_009,
-	TOWN_RESERVE_010,
+	TOWN_RED_GYM,
+	TOWN_GREEN_GYM,
+	TOWN_BLUE_GYM,
+	TOWN_SCRATCH_GYM,
+	TOWN_PORT_GYM,
+	TOWN_FIRE_GYM,
+	TOWN_MASTIC_GYM,
+	TOWN_ORACLE_GYM,
+	TOWN_FISH_GYM,
+	TOWN_THUNDER_GYM,
+	TOWN_THUNDER_CHURCH_EAST,
+	TOWN_THUNDER_CHURCH_WEST,
+	TOWN_BROWN_GYM,
+	TOWN_TECH_GYM,
+	TOWN_SNOWBALL_GYM,
+	TOWN_ZEPHYR_GYM,
+	TOWN_METAL_GYM,
+	TOWN_METAL_MINESHAFT,
+	TOWN_FOREST_GYM,
+	TOWN_PEAK_GYM,
 	
 	
 	# Items above represent buildings and interiors subordinate to towns/caves, and need 3 words
@@ -88,14 +98,12 @@ enum MapIndex
 	# *[1] - by "unlimited", I mean around 9223372036854773760 if we ignore DLC and mods.
 	
 	# From this point forward are identifiers that are extremely likely to change value.
-
-	TOWN_RED_GYM,
-	TOWN_GREEN_GYM,
-	TOWN_BLUE_GYM,
+	
 	MAX_VALUE,
 	# From this point on is compatibility aliases (As in, please phase these out, but carefully.)
 	
 	FAILSAFE_ROOM = INVALID_INDEX,
+	TOWN_MAUVE = TOWN_RESERVE_000,
 }
 
 var gamepiece_preload = preload( "res://overworld/characters/gamepiece.tscn" )
@@ -217,4 +225,3 @@ func eject_gamepieces_for_map( target_map_index:int ): #-> Array[Gamepiece]:
 		
 		gamepieces_by_map[ target_map_index ] = []
 		return output
-	
