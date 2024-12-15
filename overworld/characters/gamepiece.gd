@@ -141,7 +141,7 @@ func _ready():
 	GlobalRuntime.pause_gameworld.connect( _on_gameworld_pause )
 	GlobalRuntime.unpause_gameworld.connect( _on_gameworld_unpause )
 	position_stabilized = true
-	print("GP: I think I'm at ", current_position, " as ", tag)
+	#print("GP: I think I'm at ", current_position, " as ", tag)
 	if tag == "player" or monster.umid <= 1:
 		treat_as_player = true
 		#is_local_player = false
@@ -255,10 +255,9 @@ func move( direction ):
 		colliding_within.is_in_group("event_on_entry") and \
 		colliding_within.has_method("run_event"):
 			colliding_within.run_event( self )
-	else:
-	#if would_collide:
-		print("I don't think I can move to there...", scaled_direction + global_position, 
-				" % ", scaled_direction, "\n\t\ttrans ", self.transform, ";", self.global_transform)
+	#else:
+		#print("I don't think I can move to there...", scaled_direction + global_position, 
+				#" % ", scaled_direction, "\n\t\ttrans ", self.transform, ";", self.global_transform)
 	is_moving = false
 	traversal_mode = TraversalMode.STANDING
 	

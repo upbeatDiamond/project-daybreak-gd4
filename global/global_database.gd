@@ -8,7 +8,7 @@ extends Node
 
 var db : SQLite = null
 
-const VERBOSITY_LEVEL : int = SQLite.VERBOSE
+const VERBOSITY_LEVEL : int = SQLite.VERBOSE #NORMAL #
 
 ## Increment based on current date whenever format changes, Beta or higher.
 ## Also increment beforehand for funsies, I guess?
@@ -591,6 +591,7 @@ func validate_umid( umid:int=0 ) -> int:
 	#
 	
 	return umid
+
 
 func load_inventory( umid:int=0, compartment:int=-1 ) -> Array:
 	
