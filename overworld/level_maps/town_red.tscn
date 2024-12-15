@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=4 uid="uid://bkc6734uqagjw"]
+[gd_scene load_steps=28 format=4 uid="uid://dolvh7jnhyx5j"]
 
 [ext_resource type="Script" path="res://overworld/level_maps/level_map.gd" id="1_jpfmq"]
 [ext_resource type="Texture2D" uid="uid://claaq3m3x57i0" path="res://assets/textures/tilesets/dirtgrass_mauvetown.png" id="2_p1ydg"]

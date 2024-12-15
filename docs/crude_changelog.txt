@@ -37,6 +37,7 @@ To Do List + Constructive Commentary:
 	% Add/fix texture sheets
 		% Split rock and dirt tiles visually
 		% Fix the ledge art style
+	% Fix portal transition to avoid overlapping transitions, which can softlock
 	% Saving and Loading
 		% Refactor all save/load code regarding Gamepieces
 			% Instead of using signals, have all Gamepieces registered with GlobalGamepieceTransfer

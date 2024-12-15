@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=4 uid="uid://cy5r6u8b3aan2"]
+[gd_scene load_steps=21 format=4 uid="uid://bj441a5m77xig"]
 
 [ext_resource type="Script" path="res://overworld/level_maps/level_map.gd" id="1_61xgg"]
 [ext_resource type="Texture2D" uid="uid://claaq3m3x57i0" path="res://assets/textures/tilesets/dirtgrass_mauvetown.png" id="2_8i7a7"]
@@ -938,7 +938,7 @@ zoom = Vector2(2.5, 2.5)
 [node name="Portal" parent="." instance=ExtResource("9_jpa74")]
 position = Vector2(-96, 352)
 scale = Vector2(2, 2)
-map = "res://overworld/level_maps/home_town.tscn"
+map = "res://overworld/level_maps/town_home.tscn"
 target_anchor_name = "PlayerHouse"
 target_position = Vector2i(640, -96)
 target_facing = Vector2i(0, 1)

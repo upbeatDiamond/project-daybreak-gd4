@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dploeuvc2gd6p" path="res://menu/title_menu.tscn" id="2_6kute"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="2_7644i"]
 [ext_resource type="PackedScene" uid="uid://cpjyc350pwf57" path="res://player/player_menu.tscn" id="3_atd50"]
-[ext_resource type="PackedScene" uid="uid://cy5r6u8b3aan2" path="res://overworld/level_maps/home_town_home.tscn" id="3_huq3u"]
+[ext_resource type="PackedScene" path="res://overworld/level_maps/home_town_home.tscn" id="3_huq3u"]
 [ext_resource type="PackedScene" uid="uid://du2ixlhac4t4l" path="res://battle2/battle_scene_template.tscn" id="5_4t6kl"]
 [ext_resource type="PackedScene" uid="uid://cix5cxli0bhmt" path="res://dialog/UI/UI.tscn" id="5_5gkbf"]
 

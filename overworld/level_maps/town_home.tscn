@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://dwxfahlei5r4d"]
+[gd_scene load_steps=18 format=4 uid="uid://lywajc8qi2x"]
 
 [ext_resource type="Script" path="res://overworld/level_maps/level_map.gd" id="1_651ra"]
 [ext_resource type="TileSet" uid="uid://cjfkw688icgrw" path="res://overworld/level_maps/tilesets/home_town_lab.tres" id="2_85iav"]
@@ -807,7 +807,7 @@ portal_id = 1
 
 [node name="HomePortal" parent="Objects" instance=ExtResource("5_j4sa5")]
 position = Vector2(112, 272)
-map = "res://overworld/level_maps/home_town_home.tscn"
+map = "res://overworld/level_maps/town_home_home.tscn"
 target_anchor_name = "MainEntrance"
 target_position = Vector2i(80, 640)
 target_facing = Vector2i(0, -1)
