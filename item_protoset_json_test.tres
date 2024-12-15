@@ -1,7 +1,0 @@
-[gd_resource type="Resource" script_class="ItemProtoset" load_steps=2 format=3 uid="uid://b4k68yn0si4th"]
-
-[ext_resource type="Script" path="res://addons/gloot/core/item_protoset.gd" id="1"]
-
-[resource]
-script = ExtResource("1")
-json_data = "[{\"id\":\"stick\"},{\"id\":\"bottle\"},{\"id\":\"yellow\"}]"

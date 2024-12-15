@@ -18,6 +18,10 @@ run/main_scene="res://overworld/scene_manager.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout="res://common/default_bus_layout.tres"
+
 [autoload]
 
 GlobalDatabase="*res://global/global_database.gd"
