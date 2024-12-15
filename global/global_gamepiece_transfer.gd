@@ -1,7 +1,6 @@
 extends Node
 
-enum MapIndex
-{
+enum MapIndex {
 	# All references to these indexes should be through this enum in case of value reassignments
 	# Also in case of reassignment mismatches, avoid reassigning any enums.
 	# Generally ordered by ownership tier: Town{ Building{}, Road{ NookSmol{} }, NookBig{} }
@@ -107,19 +106,6 @@ enum MapIndex
 }
 
 var gamepiece_preload = preload( "res://overworld/characters/gamepiece.tscn" )
-#var gamepiece_player_preload = preload( "res://player/player.tscn" )
-var gamepieces_by_map : Array[Array] = []
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	gamepieces_by_map.resize( MapIndex.MAX_VALUE )
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	pass
 
 
 # Gamepieces should be made much smaller before storing, but there's only the player now, so eh.
@@ -135,21 +121,7 @@ target_map_coordinates:=Vector2i(0,0), _origin_map_index:=MapIndex.INVALID_INDEX
 	
 	piece.target_position = target_map_coordinates
 	
-	if gamepieces_by_map.size() < target_map_index:
-		gamepieces_by_map.resize( target_map_index + 1 )
-	
 	if target_map_index >= 0:
-		
-		if gamepieces_by_map == null:
-			gamepieces_by_map = []
-		
-		if target_map_index >= gamepieces_by_map.size():
-			gamepieces_by_map.resize( target_map_index + 1 )
-		
-		if gamepieces_by_map[target_map_index] == null:
-			gamepieces_by_map[target_map_index] = []
-		
-		gamepieces_by_map[target_map_index].append( piece )
 		
 		if piece.get_parent() != null:
 			piece.get_parent().remove_child( piece )
@@ -163,29 +135,12 @@ target_map_coordinates:=Vector2i(0,0), _origin_map_index:=MapIndex.INVALID_INDEX
 # If there's a cache fail and check_table == true, then check the db
 # There shouldn't be duplication of gamepieces in general, so besides linear search time, this good
 func pop_out_gamepiece( umid:int, gp_id:int=-1, check_table:=false ) -> Gamepiece:
-	var piece_list := []
-	for gamepieces in gamepieces_by_map:
-		piece_list.append_array(gamepieces)
-	for piece in piece_list:
-		# If it exists, then gp_id == -1 (check umid) or != -1 (check gp_id)
-		if piece != null and \
-		((piece.umid == umid or gp_id != -1) and (gp_id == -1 or gp_id == piece.unique_id)):
-			return piece
-	if check_table:
-		return GlobalDatabase.load_gamepiece( umid )
-	return null
+	var piece := eject_gamepiece(umid)
+	return piece
 
 
 func save_map_gamepieces( _map:LevelMap ):
 	await _save_map_placed_gamepieces(_map)
-	#await _save_map_stored_gamepieces(_map.map_index)
-
-
-#func _save_map_stored_gamepieces( _map_id:int ):
-	#if _map_id >= gamepieces_by_map.size():
-		#return
-	#for piece in gamepieces_by_map[_map_id]:
-		#GlobalDatabase.save_gamepiece( piece )
 
 
 func _save_map_placed_gamepieces( _map:LevelMap ):
@@ -195,15 +150,7 @@ func _save_map_placed_gamepieces( _map:LevelMap ):
 			GlobalDatabase.save_gamepiece( gp as Gamepiece )
 		elif not is_instance_valid(gp):
 			print("PIECE ALREADY FREED")
-	
-	## Depricated/redundant?
-	for piece in _map.current_gamepieces:
-		if is_instance_valid(piece) and piece is Gamepiece: # Check for if freed before saving
-			GlobalDatabase.save_gamepiece( piece as Gamepiece )
-		elif not is_instance_valid(piece):
-			print("PIECE ALREADY FREED")
-	
-	pass
+
 
 # When playing multiplayer, or even singleplayer, and an NPC/Guest changes to your map?
 # Detect that happened and warp them into your current map.
@@ -212,22 +159,12 @@ func warp_gamepiece_to_map( _map_index:MapIndex ):
 	pass
 
 
-func eject_gamepieces_for_map( target_map_index:int ): #-> Array[Gamepiece]:
-	if target_map_index < 0 || target_map_index >= gamepieces_by_map.size():
-		return []
-	else:
-		var output = gamepieces_by_map[ target_map_index ]
-		
-		for piece in gamepieces_by_map[ target_map_index ]:
-			piece.target_map = target_map_index
-			piece.current_map = piece.target_map
-			GlobalDatabase.save_gamepiece( piece )
-		
-		gamepieces_by_map[ target_map_index ] = []
-		return output
+func eject_gamepieces_for_map( target_map_index:int ) -> Array[Gamepiece]:
+	var gamepieces = GlobalDatabase.load_gamepieces_for_map( target_map_index )
+	return gamepieces
 
 
-func x_save_placed_gamepieces():
+func save_placed_gamepieces():
 	var tree = GlobalRuntime.scene_manager.get_tree()
 	var gamepieces = tree.get_nodes_in_group("gamepiece")
 	var maps = tree.get_nodes_in_group("level_map")
@@ -236,10 +173,10 @@ func x_save_placed_gamepieces():
 		map = maps[0].get("map_index")
 	for piece in gamepieces:
 		if piece is Gamepiece:
-			x_save_gamepiece(piece, map, piece.position, map)
+			save_gamepiece(piece, map, piece.position, map)
 
 
-func x_save_gamepiece( piece:Gamepiece, target_map_index:MapIndex, \
+func save_gamepiece( piece:Gamepiece, target_map_index:MapIndex, \
 target_map_coordinates:=Vector2i(0,0), _origin_map_index:=MapIndex.INVALID_INDEX ):
 	
 	if piece != null:
@@ -257,11 +194,6 @@ target_map_coordinates:=Vector2i(0,0), _origin_map_index:=MapIndex.INVALID_INDEX
 	GlobalDatabase.save_gamepiece( piece )
 
 
-func x_eject_gamepieces_for_map( target_map_index:int ) -> Array[Gamepiece]:
-	var gamepieces = GlobalDatabase.load_gamepieces_for_map( target_map_index )
-	return gamepieces
-
-
-func x_eject_gamepiece( umid:int ) -> Gamepiece:
+func eject_gamepiece( umid:int ) -> Gamepiece:
 	var gamepiece = GlobalDatabase.load_gamepiece(umid)
 	return gamepiece
