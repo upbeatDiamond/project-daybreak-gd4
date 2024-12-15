@@ -55,6 +55,7 @@ gamepiece=""
 event_on_touch="Activates by a gamepiece bumping or touching; needs to have a run_event( gamepiece:Gamepiece ) function to avoid crashes"
 event_on_interact="run_event(...) runs when a gamepiece interacts with it, which should be triggered by the gamepiece"
 event_on_entry="Activates by a gamepiece entering or overlapping; needs to have a run_event( gamepiece:Gamepiece ) function to avoid crashes"
+level_map="Tilemap-based environment for Gamepieces to navigate/wander within"
 
 [input]
 

@@ -769,7 +769,7 @@ sources/2 = SubResource("TileSetAtlasSource_jvadt")
 shader = ExtResource("4_342ik")
 shader_parameter/scroll_speed = Vector2(0.1, -0.05)
 
-[node name="RouteToRed" type="Node2D"]
+[node name="RouteToRed" type="Node2D" groups=["level_map"]]
 position = Vector2(48, 0)
 script = ExtResource("1_wg0ev")
 map_index = 2048

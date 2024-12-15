@@ -16,6 +16,7 @@ func _ready():
 		establish_ysort()
 		rehouse_gamepieces()
 		populate_with_gamepieces()
+	add_to_group("level_map")
 	print("Hoi! It's me! A Level Map!!!!")
 	pass
 

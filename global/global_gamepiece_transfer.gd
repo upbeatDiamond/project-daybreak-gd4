@@ -178,14 +178,14 @@ func pop_out_gamepiece( umid:int, gp_id:int=-1, check_table:=false ) -> Gamepiec
 
 func save_map_gamepieces( _map:LevelMap ):
 	await _save_map_placed_gamepieces(_map)
-	await _save_map_stored_gamepieces(_map.map_index)
+	#await _save_map_stored_gamepieces(_map.map_index)
 
 
-func _save_map_stored_gamepieces( _map_id:int ):
-	if _map_id >= gamepieces_by_map.size():
-		return
-	for piece in gamepieces_by_map[_map_id]:
-		GlobalDatabase.save_gamepiece( piece )
+#func _save_map_stored_gamepieces( _map_id:int ):
+	#if _map_id >= gamepieces_by_map.size():
+		#return
+	#for piece in gamepieces_by_map[_map_id]:
+		#GlobalDatabase.save_gamepiece( piece )
 
 
 func _save_map_placed_gamepieces( _map:LevelMap ):
@@ -225,3 +225,43 @@ func eject_gamepieces_for_map( target_map_index:int ): #-> Array[Gamepiece]:
 		
 		gamepieces_by_map[ target_map_index ] = []
 		return output
+
+
+func x_save_placed_gamepieces():
+	var tree = GlobalRuntime.scene_manager.get_tree()
+	var gamepieces = tree.get_nodes_in_group("gamepiece")
+	var maps = tree.get_nodes_in_group("level_map")
+	var map = MapIndex.INVALID_INDEX
+	if maps.size() >= 1:
+		map = maps[0].get("map_index")
+	for piece in gamepieces:
+		if piece is Gamepiece:
+			x_save_gamepiece(piece, map, piece.position, map)
+
+
+func x_save_gamepiece( piece:Gamepiece, target_map_index:MapIndex, \
+target_map_coordinates:=Vector2i(0,0), _origin_map_index:=MapIndex.INVALID_INDEX ):
+	
+	if piece != null:
+		piece.current_map = _origin_map_index
+		piece.target_map = target_map_index
+		piece.position_stabilized = false
+		if piece.current_map == MapIndex.INVALID_INDEX:
+			piece.current_map = piece.target_map
+	
+	piece.target_position = target_map_coordinates
+	
+	if piece.get_parent() != null:
+		piece.get_parent().remove_child( piece )
+	
+	GlobalDatabase.save_gamepiece( piece )
+
+
+func x_eject_gamepieces_for_map( target_map_index:int ) -> Array[Gamepiece]:
+	var gamepieces = GlobalDatabase.load_gamepieces_for_map( target_map_index )
+	return gamepieces
+
+
+func x_eject_gamepiece( umid:int ) -> Gamepiece:
+	var gamepiece = GlobalDatabase.load_gamepiece(umid)
+	return gamepiece
