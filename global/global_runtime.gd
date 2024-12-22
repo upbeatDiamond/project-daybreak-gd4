@@ -6,6 +6,7 @@ const DEFAULT_TILE_OFFSET := Vector2.ONE * floor(  (GlobalRuntime.DEFAULT_TILE_S
 const DEFAULT_TILE_OFFSET_INT := Vector2i( DEFAULT_TILE_OFFSET )
 const CAMERA_TWEEN_DURATION := 1.0
 
+var server_random : RandomNumberGenerator
 var gamepiece_input_ignored: bool	# Can the player move the characters/world?
 var gamepieces_paused: bool		# Can the characters/world move around on their own?
 var player_menu_enabled: bool		# Can the player open their menu?
@@ -165,6 +166,10 @@ const STATE_TRANSITION_EXCEPTIONS := {
 
 var current_io_state := GameIOState.TITLE_MENU
 
+
+func _init():
+	server_random = RandomNumberGenerator.new()
+	server_random.randomize()
 
 func _ready():
 	#scene_root_node = get_node(scene_root_path)
