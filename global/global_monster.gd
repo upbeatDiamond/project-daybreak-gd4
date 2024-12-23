@@ -22,11 +22,30 @@ enum PersonalityFactor {
 	TENSION,		# Low = patient,	High = frustrated
 }
 
+## This is used to enable monster breeding to carry color.
+## This should be directly stored in the Monster, used to generate color palette
+## The number of genes present is the minimum needed for the goals of the ...
+## ... design document, and may be expanded in the future.
 enum ColorGene {
-	COMMON,	# Default or neutral coloring
-	BLACK,	# Dark / Black; often cancels out w/ WHITE to be COMMON or GREY
-	WHITE,	# Pale / Albino; often cancels out w/ BLACK to be COMMON or GREY
-	SHINY,	# Recessive, often rare
+	COMMON = 0,	# Default or neutral coloring; 0 because default
+	BLACK,	# Dark / Black; might cancel out w/ WHITE
+	WHITE,	# Pale / Albino; might cancel out w/ BLACK
+	SHINY,	# Recessive; often acts like COMMON
+}
+
+## This is used to unify color expression based on color genes
+## This should not be directly stored in the Monster database table
+## Expression might change based on difficulties faced; genes may only increase
+## For example: BW/WB might become GREY, or BC and CB might express differently
+## As of the time of writing this comment, this is intended for fetching ...
+## ... color palette choices for monster sprites.
+enum ColorExpression{
+	COMMON,	# CC, CS/SC, BW/WB
+	DARK,	# BC/CB, BS/SB
+	BLACK,	# BB
+	PALE,	# WC/CW, WS/SW
+	WHITE,	# WW
+	SHINY,	# SS
 }
 
 enum RelationshipFactors{
@@ -74,22 +93,21 @@ enum SexBitfield{
 }
 
 # This is far from finished, and may be culturally sensitive
-enum GenderBitfield
-{
-	PRONOUN_MASC,			# uses/accepts masculine pronouns
-	PRONOUN_FEM,			# uses/accepts feminine pronouns
-	PRONOUN_MAV,			# uses/accepts maverique pronouns
-	PRONOUN_INAN,			# uses/accepts inanimate pronouns
+enum GenderBitfield{
+	PRONOUN_MASC,			# uses/accepts masculine pronouns, he/him
+	PRONOUN_FEM,			# uses/accepts feminine pronouns, she/her
+	PRONOUN_MAV,			# uses/accepts maverique pronouns, ve/ver
+	PRONOUN_NEUT,			# uses/accepts neuter pronouns
 	
 	IDENTIFY_MASC,
 	IDENTIFY_FEM,
 	IDENTIFY_MAV,
-	IDENTIFY_INAN,
+	IDENTIFY_NEUT,
 	
 	ASSOCIATE_MASC,
 	ASSOCIATE_FEM,
 	ASSOCIATE_MAV,
-	ASSOCIATE_INAN,
+	ASSOCIATE_NEUT,
 }
 
 
@@ -125,12 +143,45 @@ enum GameOfOrigin{
 }
 	
 
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	pass
+func color_expression_from_genes(gene1:ColorGene, gene2:ColorGene) -> ColorExpression:
+	match (gene1):
+		ColorGene.WHITE:
+			match (gene2):
+				ColorGene.WHITE:
+					return ColorExpression.WHITE
+				ColorGene.BLACK:
+					return ColorExpression.COMMON
+				#ColorGene.SHINY:
+					#return ColorExpression.PALE
+				_: #ColorGene.COMMON:
+					return ColorExpression.PALE
+		ColorGene.BLACK:
+			match (gene2):
+				ColorGene.WHITE:
+					return ColorExpression.COMMON
+				ColorGene.BLACK:
+					return ColorExpression.BLACK
+				#ColorGene.SHINY:
+					#return ColorExpression.DARK
+				_: #ColorGene.COMMON:
+					return ColorExpression.DARK
+		ColorGene.SHINY:
+			match (gene2):
+				ColorGene.WHITE:
+					return ColorExpression.PALE
+				ColorGene.BLACK:
+					return ColorExpression.DARK
+				ColorGene.SHINY:
+					return ColorExpression.SHINY
+				_: #ColorGene.COMMON:
+					return ColorExpression.COMMON
+		_: #ColorGene.COMMON:
+			match (gene2):
+				ColorGene.WHITE:
+					return ColorExpression.PALE
+				ColorGene.BLACK:
+					return ColorExpression.DARK
+				#ColorGene.SHINY:
+					#pass
+				_: #ColorGene.COMMON:
+					return ColorExpression.COMMON

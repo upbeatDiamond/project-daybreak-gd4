@@ -30,6 +30,10 @@ To Do List + Constructive Commentary:
 	% Add credits scroll for all code/addons, music, and sprites that can be sourced.
 	% Make playable the Mayhem/Raze demo, and integrate into the unified demo
 		% Or rather, rewrite it.
+	% Recombine and split classes
+		% GlobalMonster <= GlobalMonsterSpawner
+		% GlobalRuntime => GlobalState
+		% Try deleting GlobalBitfield?
 	% Add overworld sprites for Mom, and Barney for the upcoming demos
 	% Fix and finish the failsafe map's generation code, otherwise it's not very safe
 		% Make the shader actually do something, and put it in a nicer folder

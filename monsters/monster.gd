@@ -22,8 +22,10 @@ var ability = ""
 
 var birth_name := ""
 @export var nickname := ""
-var color_gene1 := GlobalMonster.ColorGene.COMMON
-var color_gene2 := GlobalMonster.ColorGene.COMMON
+var color_base_gene1 := GlobalMonster.ColorGene.COMMON
+var color_base_gene2 := GlobalMonster.ColorGene.COMMON
+var color_accent_gene1 := GlobalMonster.ColorGene.COMMON
+var color_accent_gene2 := GlobalMonster.ColorGene.COMMON
 
 # The currency level of this monster.
 # It should be an int, but floats might be accepted just in case.
