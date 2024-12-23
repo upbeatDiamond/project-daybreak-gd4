@@ -103,14 +103,18 @@ func _process(_delta):
 	pass
 
 
-func exists_monster( monster ) -> bool:
+func exists_monster( monster:Monster ) -> bool:
+	return exists_monster_umid( monster.umid );
+
+
+func exists_monster_umid( umid:int ) -> bool:
 	var row_array = ["name"]
 	
 	db = SQLite.new()
 	db.path = DB_PATH_USER_ACTIVE
 	db.open_db()
 	
-	var query_result = db.select_rows( TABLE_NAME_MONSTER, str("umid = ", monster.umid), row_array );
+	var query_result = db.select_rows( TABLE_NAME_MONSTER, str("umid = ", umid), row_array );
 	db.close_db()
 	
 	if (query_result is Array && query_result.size() > 0):

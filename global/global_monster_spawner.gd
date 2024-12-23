@@ -6,8 +6,8 @@ var umid_buffer:Array[int]=[]
 
 const UMID_BUFFER_MAX:=256	# Can never be more than this full.
 const UMID_BUFFER_MIN:=128	# Needs to be at least this full at any idle moment
-var umid_buffer_index = 0	# The current place in the awway to take from
-var umid_buffer_size = 0	# The estimated amount of UMIDs remaining in the buffer
+#var umid_buffer_index = 0	# The current place in the awway to take from
+#var umid_buffer_size = 0	# The estimated amount of UMIDs remaining in the buffer
 var umid_printed:=false
 
 
@@ -18,39 +18,48 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if umid_buffer_size < UMID_BUFFER_MIN:
-		call_deferred( "fill_umid_buffer" )
+	if umid_buffer.size() < UMID_BUFFER_MIN:
+		fill_umid_buffer.call_deferred()
 	elif umid_buffer.size() > UMID_BUFFER_MAX:
 		umid_buffer.slice(umid_buffer.size() - UMID_BUFFER_MIN)
 
-# Checks database for monster. If not found, create a new one.
-# MAKE SURE TO STORE IVs AND EVs IN THE DATABASE BEFORE HANDING BACK ...
-# ... THE MONSTER IF THESE ARE NOT STORED WITHIN THE MONSTER
 
-func spawn_monster( _rng_seed:int, _spawn_weights:Dictionary ) -> Object:
-	return null
-	#pass
+## Checks database for monster. If not found, create a new one.
+## MAKE SURE TO STORE IVs AND EVs IN THE DATABASE BEFORE HANDING BACK ...
+## ... THE MONSTER IF THESE ARE NOT STORED WITHIN THE MONSTER
+#func spawn_monster( _rng_seed:int, _spawn_weights:Dictionary ) -> Object:
+	#return null
+	##pass
+
+
+func get_fresh_umid() -> int:
+	var umid = _get_fresh_umid()
+	while GlobalDatabase.exists_monster_umid( umid ):
+		umid = _get_fresh_umid()
+	return umid
 
 # Should check the database to ensure there are no duplicate values.
-func get_fresh_umid():
-	var export = umid_buffer[umid_buffer_index]
+func _get_fresh_umid() -> int:
+	if umid_buffer.size() <= 0:
+		return generate_umid()
 	
-	while umid_buffer_size <= 0:
-		fill_umid_buffer()
+	var export = umid_buffer.pop_front()
 	
-	umid_buffer_index = (umid_buffer_index - 1) % UMID_BUFFER_MAX	# decrement index, wraparound
-	umid_buffer_size = min( umid_buffer_size-1, UMID_BUFFER_MAX )	# decrement size, limit
+	if umid_buffer.size() < UMID_BUFFER_MIN:
+		fill_umid_buffer.call_deferred()
+	
 	return export
 
 
 func fill_umid_buffer():
 	umid_buffer.resize( UMID_BUFFER_MAX )
 	
-	if umid_buffer_size < UMID_BUFFER_MAX:
-		umid_buffer.insert( umid_buffer_index, generate_umid() )
-		umid_buffer_index = (umid_buffer_index + 1) % UMID_BUFFER_MAX	# incr. index, wraparound
-		umid_buffer_size = min( umid_buffer_size+1, UMID_BUFFER_MAX )	# incr. size, limit
+	while umid_buffer.size() < UMID_BUFFER_MAX:
+		umid_buffer.append( generate_umid() )
+		#umid_buffer_index = (umid_buffer_index + 1) % UMID_BUFFER_MAX	# incr. index, wraparound
+		#umid_buffer_size = min( umid_buffer_size+1, UMID_BUFFER_MAX )	# incr. size, limit
 	pass
+
 
 ## TODO: incorporate the location a monster is found in into the UMID, so long as complexity is not lost.
 # Universal/Unique Monster Identification (Document)
@@ -78,7 +87,7 @@ func generate_umid() -> int:
 	
 	# We now have 24 bits to play with.
 	# Let's implement the machine ID next.
-	# I absolutely write this before, what?
+	# I absolutely wrote this before, what?
 	var machine_id = OS.get_unique_id().md5_buffer().decode_u64(0)
 	export_umid = export_umid | ( machine_id >> 40 )
 	

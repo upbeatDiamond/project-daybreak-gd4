@@ -14,10 +14,12 @@ func add_entry(species:int, weight:float, min_level:float, max_level:float):
 	entry_array.append( EncounterTableEntry.new(species, min_level, max_level) )
 	pass
 
+
 func _dump_entries():
 	pass
 
-func generate_new_monster():
+
+func generate_new_monster() -> Monster:
 	var rng = GlobalRuntime.server_random
 	
 	var selection = entry_selector.next()
@@ -30,7 +32,15 @@ func generate_new_monster():
 	var color1 : int = entry.roll_gene(rng)
 	var color2 : int = entry.roll_gene(rng)
 	
+	var umid : int = GlobalMonsterSpawner.get_fresh_umid()
+	var monster = Monster.new()
+	monster.umid = umid
+	monster.color_gene1 = color1
+	monster.color_gene2 = color2
+	monster.level = level
+	monster.species = entry.species
 	
+	return monster
 
 
 class EncounterTableEntry:
