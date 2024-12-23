@@ -3,8 +3,7 @@ extends Node
 
 const MAX_BATTLE_TECHNIQUES = 4
 
-enum PersonalityFactor
-{
+enum PersonalityFactor {
 	WARMTH,   		# Low = detached,	High = outgoing
 	REASONING,		# Low = concrete,	High = abstract
 	STABILITY,		# Low = easily upset,	High = mature
@@ -20,22 +19,26 @@ enum PersonalityFactor
 	EXPERIMENTAL,	# Low = traditional,	High = open to change
 	INDIVIDUALISM,	# Low = affiliative,	High = self-reliant
 	PERFECTIONISM,	# Low = fine w/chaos,	High = compulsive
-	TENSION			# Low = patient,	High = frustrated
+	TENSION,		# Low = patient,	High = frustrated
 }
 
-
-enum RelationshipFactors
-{
-	AFFECTION,	# Influenced by pF Warmth, Sensitivity, Abstractness
-	TRUST,   	# Influenced by pF Vigilance, Privacy, Apprehension
-	RESPECT,	# Influenced by pF Stability, Abstractness, Perfectionism
-	INTIMACY,	# Influenced by pF Experimental, Sensitivity, Boldness
-	OBSESSION,	# Influenced by pF Individualism, Boldness, Dominance
-	PLAYFULNESS	# Influenced by pF Warmth, Liveliness, Boldness
+enum ColorGene {
+	COMMON,	# Default or neutral coloring
+	BLACK,	# Dark / Black; often cancels out w/ WHITE to be COMMON or GREY
+	WHITE,	# Pale / Albino; often cancels out w/ BLACK to be COMMON or GREY
+	SHINY,	# Recessive, often rare
 }
 
-enum BattleStats
-{
+enum RelationshipFactors{
+	AFFECTION,		# Influenced by pF Warmth, Sensitivity, Abstractness
+	TRUST,   		# Influenced by pF Vigilance, Privacy, Apprehension
+	RESPECT,		# Influenced by pF Stability, Abstractness, Perfectionism
+	INTIMACY,		# Influenced by pF Experimental, Sensitivity, Boldness
+	OBSESSION,		# Influenced by pF Individualism, Boldness, Dominance
+	PLAYFULNESS,	# Influenced by pF Warmth, Liveliness, Boldness
+}
+
+enum BattleStats{
 	HEALTH,			# HP, ability to take damage (like a large jelly)
 	SPIRIT,			# Special Health
 	ATTACK,			# Ability to do damage
@@ -44,14 +47,13 @@ enum BattleStats
 	EVASION,		# Reaction time + difficulty being aimed at
 	INTIMIDATION,	# Special Attack
 	RESOLVE,		# Special Defense
-	MANA			# PP
+	MANA,			# PP
 }	
 
 # Might be implemented as integer that gets bitshifted and modulo'd
-enum BooleanFlags
-{
+enum BooleanFlags{
 	IS_EGG,
-	IS_LOST_SOUL
+	IS_LOST_SOUL,
 	
 }
 
@@ -60,8 +62,7 @@ enum BooleanFlags
 # There are generally 2 gametes in nature, so 2 here, although defining them is rough so...
 # ...blorboic and scrungly it is.
 # Two integers to track estrogenemia and androgenemia may influence this field
-enum SexBitfield
-{
+enum SexBitfield{
 	IS_SPERMATOGENIC,		# Produces small/mobile/scrungly cells
 	IS_OOGENIC,				# Produces large/immobile/blorboic cells
 	CAN_DEPOSIT_GAMETES,	# orthagonality check: if not a x-gen, it has a depositor.
@@ -93,8 +94,7 @@ enum GenderBitfield
 
 
 # ALL THESE WORLDS ARE OURS EXCEPT XXXXXX.
-enum LostSoulHints
-{
+enum LostSoulHints{
 	FAMILIAR,		# Represents creature from this game, but is corrupted or unimplemented
 	POCKET,			# From a world where electric mice run rampent
 	DENJU,			# From a world where the Metaverse can be walked into via phone towers
@@ -110,8 +110,7 @@ enum LostSoulHints
 }
 
 # Used to track when/where this monster was created. Lost Souls may have values that do not correspond.
-enum GameOfOrigin
-{
+enum GameOfOrigin{
 	SUNNY,
 	SHADY,
 	ZENITH,

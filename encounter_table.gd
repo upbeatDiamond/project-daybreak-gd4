@@ -1,36 +1,71 @@
 extends Node
 
-var species_table : ProbabilityTable
-var color_table : ProbabilityTable
-var species_table_meta : Dictionary = {}
+var entry_selector : ProbabilityTable
+var entry_array := []
 
 func _init() -> void:
-	color_table = ProbabilityTable.new(GlobalRuntime.server_random)
-	species_table = ProbabilityTable.new(GlobalRuntime.server_random)
+	#color_table = ProbabilityTable.new(GlobalRuntime.server_random)
+	entry_selector = ProbabilityTable.new(GlobalRuntime.server_random)
 
 
-func add_species(species:int, weight:float, avg_level:float, sd_level:float):
-	species_table.add_row(species, weight)
-	species_table_meta[species] = {"avg_level" = avg_level, "sd_level" = sd_level}
+func add_entry(species:int, weight:float, min_level:float, max_level:float):
+	var index = entry_array.size()
+	entry_selector.add_row(entry_array.size(), weight)
+	entry_array.append( EncounterTableEntry.new(species, min_level, max_level) )
 	pass
 
-
-func add_color(gene:int, weight:float):
+func _dump_entries():
 	pass
 
-
-func next_monster():
+func generate_new_monster():
 	var rng = GlobalRuntime.server_random
 	
-	var species = species_table.next()
-	var avg_level = species_table_meta[species]["avg_level"]
-	var sd_level = species_table_meta[species]["sd_level"]
+	var selection = entry_selector.next()
+	var entry = entry_array[selection]
 	
-	## Calculate level as a float, clamp to an integer no more than 2 standard
-	## deviations off, to avoid absurdly difficult monsters at random.
-	var level = rng.randfn(avg_level, sd_level)
-	level = floori( clamp(level, avg_level - 2*sd_level, avg_level + 2*sd_level ) )
+	## Calculate level as a float, clamp to an integer
+	var level = floori( rng.randf_range(entry.min_level, entry.max_level) )
 	
 	## Generate the two color genes
-	var color1 = color_table.next()
-	var color2 = color_table.next()
+	var color1 : int = entry.roll_gene(rng)
+	var color2 : int = entry.roll_gene(rng)
+	
+	
+
+
+class EncounterTableEntry:
+	
+	var species:int = 0
+	var max_level:float = 10.0
+	var min_level:float = max_level
+	var b_gene_weight:float = 10.0
+	var w_gene_weight:float = 10.0
+	var c_gene_weight:float = 10.0
+	var s_gene_weight:float = 0.01
+	
+	func _init(_species:int, _min_level:float, _max_level:=_min_level,
+			_b_gene_weight:float=b_gene_weight, _w_gene_weight:float=w_gene_weight, 
+			_c_gene_weight:float=s_gene_weight, _s_gene_weight:float=s_gene_weight):
+		species = _species
+		min_level = min(_min_level, _max_level)
+		max_level = max(_min_level, _max_level)
+	
+	
+	func roll_gene(rng:RandomNumberGenerator) -> int:
+		var bwcs_sum = b_gene_weight + w_gene_weight + c_gene_weight + s_gene_weight
+		
+		var rng_roll = rng.randf_range(0, bwcs_sum)
+		
+		## The exact order of these genes is not strictly important
+		## However, due to floating point precision, putting shiny last may
+		## cause even fewer shiny monsters.
+		## Sums are used to simplify the coding/debugging process, not runtime
+		## or mathematical efficiency nor showing off.
+		if rng_roll <= b_gene_weight:
+			return GlobalMonster.ColorGene.BLACK
+		elif rng_roll <= (b_gene_weight + w_gene_weight):
+			return GlobalMonster.ColorGene.WHITE
+		elif rng_roll <= (b_gene_weight + w_gene_weight + c_gene_weight):
+			return GlobalMonster.ColorGene.COMMON
+		else:
+			return GlobalMonster.ColorGene.SHINY
