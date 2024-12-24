@@ -252,7 +252,8 @@ func save_gamepiece( gamepiece:Gamepiece ):
 
 
 func load_gamepiece( umid:int ) -> Gamepiece:
-	var gamepiece = Gamepiece.new()
+	var gp_template = load("res://overworld/characters/gamepiece.tscn")
+	var gamepiece = gp_template.instantiate()
 	gamepiece.monster = Monster.new()
 	gamepiece.umid = umid
 	database_to_game(gamepiece, TKPV_GAMEPIECE, DB_PATH_USER_ACTIVE, "gamepiece", str(" UMID = ", umid ) )

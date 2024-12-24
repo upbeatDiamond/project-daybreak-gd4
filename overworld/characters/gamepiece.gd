@@ -99,8 +99,10 @@ func _init():
 
 
 func _ready():
+	assert(gfx != null, "Generation relies on Treelet? Why???")
+	
 	add_to_group("gamepiece")
-	controller.set_script(load("res://overworld/characters/gamepiece_controller.gd"))
+	#controller.set_script(load("res://overworld/characters/gamepiece_controller.gd"))
 	
 	# "animation_tree" serves as a canary for overall loading issues.
 	if animation_tree == null:
@@ -440,7 +442,7 @@ func set_teleport(loci: Vector2i, direction: Vector2i, map:="", anchor_name:="",
 	
 	var pause_prior: bool 
 	pause_prior = await controller.handle_map_change( map, silent )
-	var camera_tween_prior = my_camera.tween_duration
+	#var camera_tween_prior = my_camera.tween_duration
 	my_camera.tween_duration = 0
 	
 	var map_root = GlobalRuntime.scene_manager.get_overworld_root()
