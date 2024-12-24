@@ -45,7 +45,7 @@ func _on_body_entered(body:PhysicsBody2D):
 	pass
 	
 
-func run_event(gamepiece:Gamepiece):
+func run_event(_gamepiece:Gamepiece):
 	assert(false, "Run Event is an abstract class! Implement elsewhere!")
 
 

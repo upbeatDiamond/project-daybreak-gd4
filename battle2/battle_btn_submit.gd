@@ -33,11 +33,6 @@ func _link_to_gui(_gui:BattleClientGUI):
 	print(self, " is linked to ", _gui)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
-
 func enable_control():
 	self.disabled = false
 	print("enabled!")

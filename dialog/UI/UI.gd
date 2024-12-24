@@ -9,4 +9,4 @@ func start_dialog(index, _dialog_style = ""):
 	dialog.start_dialog(index)
 
 func _on_dialog_ended(text_id):
-	emit_signal("dialog_ended", text_id)
+	dialog_ended.emit(text_id)

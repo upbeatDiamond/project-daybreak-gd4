@@ -88,4 +88,4 @@ func _on_button_pressed(index:int, action):
 		for act in action:
 			print("Execute " + act)
 			GlobalDirector.execute(act)
-	emit_signal("choice_selected", index)
+	choice_selected.emit(index)

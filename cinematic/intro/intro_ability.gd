@@ -49,10 +49,10 @@ func on_reflect_pressed(_h:=true):
 
 
 
-func store_ability( ability ):
+func store_ability( _ability ):
 	if reflect_target != null && reflect_target.has_method( 'on_reflect_kv' ):
-		reflect_target.on_reflect_kv("player_ability", ability);
-	GlobalDatabase.save_keyval("player_ability", ability)
+		reflect_target.on_reflect_kv("player_ability", _ability);
+	GlobalDatabase.save_keyval("player_ability", _ability)
 	pass
 
 

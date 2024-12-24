@@ -81,7 +81,7 @@ func end_dialog():
 func set_curr(line:Dictionary):
 	if line["type"] == GlobalDirector.END_DIALOG_ID:
 		end_dialog()
-		emit_signal("dialog_ended", ":(") # FIX: should be id before end.
+		dialog_ended.emit(":(") # FIX: should be id before end.
 	else:
 		# Set current dialogNode, and free old to prevent orphaned nodes
 #		curr_dialog_node = DialogNode.new()
