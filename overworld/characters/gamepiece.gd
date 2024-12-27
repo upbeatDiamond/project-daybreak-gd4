@@ -43,7 +43,7 @@ var run_speed = 8.0
 @onready var gfx = $GFX
 @onready var shadow = $GFX/Shadow
 @onready var collision : CollisionShape2D = $Collision
-@onready var controller = $Controller
+@onready var controller : GamepieceController = $Controller
 @onready var move_tween : Tween
 @onready var my_camera : PhantomCamera2D = null
 
@@ -441,29 +441,9 @@ func set_teleport(loci: Vector2i, direction: Vector2i, map:="", anchor_name:="",
 	is_moving = false
 	
 	var pause_prior: bool 
-	pause_prior = await controller.handle_map_change( map, silent )
+	pause_prior = await controller.handle_map_change( map, anchor_name, silent )
 	#var camera_tween_prior = my_camera.tween_duration
 	my_camera.tween_duration = 0
-	
-	var map_root = GlobalRuntime.scene_manager.get_overworld_root()
-	var anchor_container
-	var anchor
-	
-	if map_root != null:
-		anchor_container = map_root.get_anchor_container()
-	if anchor_container != null:
-		anchor = anchor_container.get_anchor_by_name(anchor_name)
-	if anchor != null:
-		loci = anchor.global_position 
-		direction = anchor.facing_direction
-	print("anchor detail: ", anchor, " :+ name: ", anchor_name)
-	
-	my_camera.tween_resource.duration = 0
-	
-	shift_to_target( loci )
-	facing_direction = Vector2( direction.x, direction.y )
-	
-	print("teleport: gx %d, gy %d, x %d, y %d"%[global_position.x,global_position.y,loci.x,loci.y])
 	
 	if GlobalRuntime.scene_manager.phantom_camera_host._active_pcam_2d == my_camera:
 		GlobalRuntime.scene_manager.phantom_camera_host._prev_active_pcam_2d_transform.origin = global_position

@@ -1,4 +1,5 @@
 extends Node
+class_name GamepieceController
 
 var gamepiece : Gamepiece
 const INPUT_COOLDOWN_DEFAULT:float = 6.5;
@@ -170,25 +171,58 @@ func handle_movement_input():
 				" am at ", gamepiece.current_position, "")
 
 
-func handle_map_change( map:String, silent:bool=false ):
+func handle_map_change( map:String, anchor_name:String, silent:bool=false ):
 	var was_paused = gamepiece.is_paused
 	gamepiece.is_paused = true
 	
-	if !silent:
+	## TODO: update check to enable on-screen NPCs to have the fade out & fade in cycle.
+	if !silent and gamepiece.treat_as_player:
 		print("not silent warp!")
 		await GlobalRuntime.scene_manager.fade_to_black()
 	
-	GlobalRuntime.scene_manager.phantom_camera_host._prev_active_pcam_2d_transform.origin = gamepiece.global_position
+	# If the portal touched doesn't point to a specific map, implying it teleports locally
+	var tp_map_index = GlobalRuntime.scene_manager.get_map_index(map)
+	if tp_map_index < 0 and map != null and map != "":
+		print("Eek! I'm YIIKing the freak out!")
+		#assert(false)
 	
-	if GlobalRuntime.scene_manager.get_map_index(map) != null:
+	var map_root = GlobalRuntime.scene_manager.get_overworld_root()
+	var anchor_container
+	var anchor
+	var loci = gamepiece.global_position
+	var direction = gamepiece.facing_direction
+	
+	if map_root != null:
+		anchor_container = map_root.get_anchor_container()
+	if anchor_container != null:
+		anchor = anchor_container.get_anchor_by_name(anchor_name)
+	if anchor != null:
+		loci = anchor.global_position 
+		direction = anchor.facing_direction
+	print("anchor detail: ", anchor, " :+ name: ", anchor_name)
+	
+	gamepiece.my_camera.tween_resource.duration = 0
+	
+	#gamepiece.shift_to_target( loci )
+	#gamepiece.facing_direction = Vector2( direction.x, direction.y )
+	
+	print("teleport: gx %d, gy %d, x %d, y %d"%[gamepiece.global_position.x,gamepiece.global_position.y,loci.x,loci.y])
+	
+	if true:# != null:
 		GlobalGamepieceTransfer.submit_gamepiece( gamepiece, \
-			GlobalRuntime.scene_manager.get_map_index(map) )
-		GlobalRuntime.scene_manager.change_map_from_path(map)
+				GlobalRuntime.scene_manager.get_map_index(map), loci, \
+				GlobalGamepieceTransfer.MapIndex.INVALID_INDEX, direction )
+		
+		if gamepiece.treat_as_player:
+			GlobalRuntime.scene_manager.change_map_from_path(map)
 	
 	return was_paused
 
 
 func finalize_map_change( was_paused, silent ):
+	
+	GlobalRuntime.scene_manager.phantom_camera_host._prev_active_pcam_2d_transform.origin = gamepiece.global_position
+	
 	if !silent:
 		GlobalRuntime.scene_manager.fade_in()
 	
@@ -206,5 +240,5 @@ func finalize_map_change( was_paused, silent ):
 	gamepiece.position_stabilized = true
 	
 	# Save to preserve at least current position and facing direction
-	GlobalDatabase.save_gamepiece( gamepiece )
+	#GlobalDatabase.save_gamepiece( gamepiece )
 	pass

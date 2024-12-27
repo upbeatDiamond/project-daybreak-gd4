@@ -1,4 +1,5 @@
 extends Node
+class_name WarpAnchorContainer
 
 func get_anchor_by_name(anchor_name:String):
 	var children = self.get_children()

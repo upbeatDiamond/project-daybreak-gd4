@@ -35,14 +35,15 @@ func validate_keycard(gp:Gamepiece) -> bool:
 	return true
 
 
-func run_event( area ):
+func run_event( body:Gamepiece ):
 	# Early exit, to enable portals to be disabled
 	if not _match_conditions():
 		return
 	
-	if (area is Gamepiece or area.is_in_group("gamepiece")) and validate_keycard(area):
-		area.set_teleport(target_position, target_facing, map, target_anchor_name)
+	#if (area is Gamepiece or area.is_in_group("gamepiece")) and validate_keycard(area):
+	body.set_teleport(target_position, target_facing, map, target_anchor_name)
 
 
 func _on_body_entered(body: Node2D) -> void:
-	run_event(body)
+	if body is Gamepiece or body.is_in_group("Gamepiece"):
+		run_event(body)
