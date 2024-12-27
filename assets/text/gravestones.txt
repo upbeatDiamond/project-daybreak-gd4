@@ -1,0 +1,6 @@
+# Any lines which start with an octothorpe (#) should be ignored
+# All empty lines should be ignored
+# Any double forward slashes (//) should create a new line within an entry
+# All entries should live on the same line, else be separated by the parser
+
+jodin // died from being too badass 
