@@ -822,7 +822,7 @@ position = Vector2(16, 512)
 position = Vector2(0, 512)
 
 [node name="Rock" parent="Objects/Y-Sort" groups=["navigation_polygon_source"] instance=ExtResource("16_i8ay2")]
-position = Vector2(104, 864)
+position = Vector2(96, 864)
 
 [node name="Rock2" parent="Objects/Y-Sort" groups=["navigation_polygon_source"] instance=ExtResource("16_i8ay2")]
 position = Vector2(160, 648)
@@ -846,10 +846,10 @@ position = Vector2(112, 664)
 position = Vector2(192, 600)
 
 [node name="Rock9" parent="Objects/Y-Sort" groups=["navigation_polygon_source"] instance=ExtResource("16_i8ay2")]
-position = Vector2(208, 808)
+position = Vector2(208, 800)
 
 [node name="Rock10" parent="Objects/Y-Sort" groups=["navigation_polygon_source"] instance=ExtResource("16_i8ay2")]
-position = Vector2(176, 824)
+position = Vector2(168, 816)
 
 [node name="Rock11" parent="Objects/Y-Sort" groups=["navigation_polygon_source"] instance=ExtResource("16_i8ay2")]
 position = Vector2(80, 696)
@@ -869,7 +869,7 @@ position = Vector2(144, 648)
 [node name="Fog" type="Sprite2D" parent="."]
 z_index = 2
 material = SubResource("ShaderMaterial_c85oa")
-position = Vector2(248, 584)
+position = Vector2(240, 584)
 scale = Vector2(2.15501, -2.21482)
 texture = ExtResource("5_0gch1")
 

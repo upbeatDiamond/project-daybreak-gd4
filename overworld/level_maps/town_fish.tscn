@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=4 uid="uid://b1abi6e5ytu0r"]
+[gd_scene load_steps=27 format=4 uid="uid://dxu18xigqr5gv"]
 
 [ext_resource type="Script" path="res://overworld/level_maps/level_map.gd" id="1_b4bba"]
 [ext_resource type="Texture2D" uid="uid://claaq3m3x57i0" path="res://assets/textures/tilesets/dirtgrass_mauvetown.png" id="2_pa4q6"]
@@ -1647,7 +1647,7 @@ map_index = 9
 
 [node name="Board" type="Node2D" parent="."]
 
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="Board"]
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="Board" groups=["navigation_polygon_source"]]
 position = Vector2(0, 8)
 navigation_polygon = SubResource("NavigationPolygon_0rgau")
 
@@ -1673,7 +1673,7 @@ position = Vector2(256, 256)
 use_parent_material = true
 tile_set = SubResource("TileSet_2upmt")
 
-[node name="Y-Sort" type="Node2D" parent="Objects"]
+[node name="Y-Sort" type="Node2D" parent="Objects" groups=["navigation_polygon_source"]]
 y_sort_enabled = true
 
 [node name="TallGrass" parent="Objects/Y-Sort" instance=ExtResource("7_fb5ki")]
@@ -1859,7 +1859,7 @@ position = Vector2(576, 288)
 
 [node name="DaylightFilter" parent="." instance=ExtResource("10_5horc")]
 
-[node name="Trees" type="TileMapLayer" parent="."]
+[node name="Trees" type="TileMapLayer" parent="." groups=["navigation_polygon_source"]]
 z_index = -1
 use_parent_material = true
 position = Vector2(256, -320)

@@ -1,18 +1,18 @@
-[gd_scene load_steps=26 format=4 uid="uid://d1k0lcxhmjq5a"]
+[gd_scene load_steps=26 format=4 uid="uid://cywlusv7tldyk"]
 
-[ext_resource type="Script" path="res://overworld/level_maps/level_map.gd" id="1_u1rhj"]
-[ext_resource type="Texture2D" uid="uid://claaq3m3x57i0" path="res://assets/textures/tilesets/dirtgrass_mauvetown.png" id="2_gv5g3"]
-[ext_resource type="Texture2D" uid="uid://dg30v1evln7gc" path="res://assets/textures/tilesets/dirt_elevated.png" id="3_joomq"]
-[ext_resource type="Texture2D" uid="uid://bjfvjcmcytof0" path="res://assets/textures/tilesets/fence.png" id="4_txie8"]
-[ext_resource type="Texture2D" uid="uid://v6brr57fc5co" path="res://assets/textures/tilesets/interior_home.png" id="5_tu27j"]
-[ext_resource type="Texture2D" uid="uid://b3nqmhb1qe2d0" path="res://assets/textures/tilesets/tile_selection.png" id="6_xks5w"]
-[ext_resource type="PackedScene" uid="uid://db2gcrrcc6uej" path="res://overworld/props/tall_grass.tscn" id="7_obukn"]
-[ext_resource type="PackedScene" uid="uid://bx61t5b2ntp6r" path="res://overworld/buildings/house_2x3.tscn" id="9_nqite"]
-[ext_resource type="PackedScene" uid="uid://crk1pu5pxjnen" path="res://common/daylight_cycle_filter.tscn" id="10_m5uif"]
-[ext_resource type="Texture2D" uid="uid://c31wsgxwovdqm" path="res://assets/textures/tree_big_layering.png" id="11_ggkfu"]
-[ext_resource type="PackedScene" uid="uid://dup7lwhlludsr" path="res://overworld/props/portal.tscn" id="12_4m2b3"]
-[ext_resource type="Script" path="res://overworld/warp_anchor_container.gd" id="13_0cycb"]
-[ext_resource type="Script" path="res://overworld/props/warp_anchor.gd" id="14_lyqyr"]
+[ext_resource type="Script" path="res://overworld/level_maps/level_map.gd" id="1_2c0ba"]
+[ext_resource type="Texture2D" uid="uid://claaq3m3x57i0" path="res://assets/textures/tilesets/dirtgrass_mauvetown.png" id="2_dsai4"]
+[ext_resource type="Texture2D" uid="uid://dg30v1evln7gc" path="res://assets/textures/tilesets/dirt_elevated.png" id="3_4t6g3"]
+[ext_resource type="Texture2D" uid="uid://bjfvjcmcytof0" path="res://assets/textures/tilesets/fence.png" id="4_mlf5v"]
+[ext_resource type="Texture2D" uid="uid://v6brr57fc5co" path="res://assets/textures/tilesets/interior_home.png" id="5_0m8ix"]
+[ext_resource type="Texture2D" uid="uid://b3nqmhb1qe2d0" path="res://assets/textures/tilesets/tile_selection.png" id="6_qm44j"]
+[ext_resource type="PackedScene" uid="uid://db2gcrrcc6uej" path="res://overworld/props/tall_grass.tscn" id="7_em3yh"]
+[ext_resource type="PackedScene" uid="uid://bx61t5b2ntp6r" path="res://overworld/buildings/house_2x3.tscn" id="8_80gbp"]
+[ext_resource type="PackedScene" uid="uid://crk1pu5pxjnen" path="res://common/daylight_cycle_filter.tscn" id="9_snfyd"]
+[ext_resource type="Texture2D" uid="uid://c31wsgxwovdqm" path="res://assets/textures/tree_big_layering.png" id="10_4gxll"]
+[ext_resource type="PackedScene" uid="uid://dup7lwhlludsr" path="res://overworld/props/portal.tscn" id="11_kr5g1"]
+[ext_resource type="Script" path="res://overworld/warp_anchor_container.gd" id="12_whmp2"]
+[ext_resource type="Script" path="res://overworld/props/warp_anchor.gd" id="13_6208v"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_0rgau"]
 vertices = PackedVector2Array(967.023, -47.0078, 982.969, 575.023, 97.0703, 598.969, 144.93, -62.9766)
@@ -25,7 +25,7 @@ cell_size = 16.0
 agent_radius = 1.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_oy114"]
-texture = ExtResource("2_gv5g3")
+texture = ExtResource("2_dsai4")
 0:0/0 = 0
 0:0/0/terrain_set = 0
 0:0/0/terrains_peering_bit/bottom_right_corner = 2
@@ -591,7 +591,7 @@ texture = ExtResource("2_gv5g3")
 13:13/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5t3mx"]
-texture = ExtResource("3_joomq")
+texture = ExtResource("3_4t6g3")
 2:0/0 = 0
 2:0/0/terrain_set = 1
 2:0/0/terrain = 0
@@ -758,7 +758,7 @@ texture = ExtResource("3_joomq")
 4:5/0/terrains_peering_bit/top_left_corner = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2o4xq"]
-texture = ExtResource("4_txie8")
+texture = ExtResource("4_mlf5v")
 0:0/0 = 0
 0:0/0/terrain_set = 2
 0:0/0/terrain = 0
@@ -812,7 +812,7 @@ texture = ExtResource("4_txie8")
 3:1/0/terrain = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_a02p2"]
-texture = ExtResource("5_tu27j")
+texture = ExtResource("5_0m8ix")
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 1:0/0 = 0
@@ -952,7 +952,7 @@ sources/3 = SubResource("TileSetAtlasSource_a02p2")
 sources/2 = SubResource("TileSetAtlasSource_2o4xq")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nsigh"]
-texture = ExtResource("6_xks5w")
+texture = ExtResource("6_qm44j")
 0:0/0 = 0
 0:1/0 = 0
 
@@ -960,7 +960,7 @@ texture = ExtResource("6_xks5w")
 sources/0 = SubResource("TileSetAtlasSource_nsigh")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bxm01"]
-texture = ExtResource("2_gv5g3")
+texture = ExtResource("2_dsai4")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -1473,7 +1473,7 @@ texture = ExtResource("2_gv5g3")
 13:13/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qiiv1"]
-texture = ExtResource("3_joomq")
+texture = ExtResource("3_4t6g3")
 2:0/0 = 0
 2:0/0/terrain_set = 1
 2:0/0/terrain = 0
@@ -1640,7 +1640,7 @@ texture = ExtResource("3_joomq")
 4:5/0/terrains_peering_bit/top_left_corner = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v02fk"]
-texture = ExtResource("11_ggkfu")
+texture = ExtResource("10_4gxll")
 0:0/0 = 0
 1:0/0 = 0
 0:1/0 = 0
@@ -1695,9 +1695,9 @@ sources/0 = SubResource("TileSetAtlasSource_bxm01")
 sources/1 = SubResource("TileSetAtlasSource_qiiv1")
 sources/2 = SubResource("TileSetAtlasSource_v02fk")
 
-[node name="FireTown" type="Node2D"]
-script = ExtResource("1_u1rhj")
-map_index = 6
+[node name="RouteRedToFire" type="Node2D"]
+script = ExtResource("1_2c0ba")
+map_index = 2050
 
 [node name="Board" type="Node2D" parent="."]
 
@@ -1729,181 +1729,181 @@ tile_set = SubResource("TileSet_2upmt")
 [node name="Y-Sort" type="Node2D" parent="Objects"]
 y_sort_enabled = true
 
-[node name="TallGrass" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(144, -264)
 
-[node name="TallGrass2" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass2" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(144, -248)
 
-[node name="TallGrass3" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass3" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(144, -232)
 
-[node name="TallGrass4" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass4" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(144, -216)
 
-[node name="TallGrass5" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass5" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(128, -264)
 
-[node name="TallGrass6" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass6" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(128, -248)
 
-[node name="TallGrass7" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass7" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(128, -232)
 
-[node name="TallGrass8" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass8" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(128, -216)
 
-[node name="TallGrass9" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass9" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(112, -264)
 
-[node name="TallGrass10" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass10" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(112, -248)
 
-[node name="TallGrass11" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass11" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(112, -232)
 
-[node name="TallGrass12" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass12" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(112, -216)
 
-[node name="TallGrass13" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass13" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(96, -264)
 
-[node name="TallGrass14" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass14" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(96, -248)
 
-[node name="TallGrass15" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass15" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(96, -232)
 
-[node name="TallGrass16" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass16" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(96, -216)
 
-[node name="TallGrass17" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass17" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(80, -264)
 
-[node name="TallGrass18" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass18" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(80, -248)
 
-[node name="TallGrass19" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass19" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(80, -232)
 
-[node name="TallGrass20" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass20" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(80, -216)
 
-[node name="TallGrass21" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass21" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(64, -264)
 
-[node name="TallGrass22" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass22" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(64, -248)
 
-[node name="TallGrass23" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass23" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(64, -232)
 
-[node name="TallGrass24" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass24" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(64, -216)
 
-[node name="TallGrass25" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass25" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(48, -264)
 
-[node name="TallGrass26" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass26" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(48, -248)
 
-[node name="TallGrass27" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass27" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(48, -232)
 
-[node name="TallGrass28" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass28" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(48, -216)
 
-[node name="TallGrass29" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass29" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(32, -264)
 
-[node name="TallGrass30" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass30" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(32, -248)
 
-[node name="TallGrass31" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass31" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(32, -232)
 
-[node name="TallGrass32" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass32" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(32, -216)
 
-[node name="TallGrass33" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass33" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(-304, -296)
 
-[node name="TallGrass34" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass34" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(-304, -280)
 
-[node name="TallGrass35" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass35" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(-304, -264)
 
-[node name="TallGrass36" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass36" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(-320, -296)
 
-[node name="TallGrass37" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass37" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(-320, -280)
 
-[node name="TallGrass38" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass38" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(-320, -264)
 
-[node name="TallGrass39" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass39" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(-304, -248)
 
-[node name="TallGrass40" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass40" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(-304, -232)
 
-[node name="TallGrass41" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass41" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(-304, -216)
 
-[node name="TallGrass42" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass42" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(-320, -248)
 
-[node name="TallGrass43" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass43" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(-320, -232)
 
-[node name="TallGrass44" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass44" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(-320, -216)
 
-[node name="TallGrass45" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass45" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(-304, -200)
 
-[node name="TallGrass46" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass46" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(-304, -184)
 
-[node name="TallGrass47" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass47" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(-304, -168)
 
-[node name="TallGrass48" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass48" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(-320, -200)
 
-[node name="TallGrass49" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass49" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(-320, -184)
 
-[node name="TallGrass50" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass50" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(-320, -168)
 
-[node name="TallGrass51" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass51" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(-304, -152)
 
-[node name="TallGrass52" parent="Objects/Y-Sort" instance=ExtResource("7_obukn")]
+[node name="TallGrass52" parent="Objects/Y-Sort" instance=ExtResource("7_em3yh")]
 position = Vector2(-320, -152)
 
-[node name="House2" parent="Objects/Y-Sort" instance=ExtResource("9_nqite")]
+[node name="House2" parent="Objects/Y-Sort" instance=ExtResource("8_80gbp")]
 position = Vector2(176, 264)
 
-[node name="House3" parent="Objects/Y-Sort" instance=ExtResource("9_nqite")]
+[node name="House3" parent="Objects/Y-Sort" instance=ExtResource("8_80gbp")]
 position = Vector2(80, 136)
 
-[node name="House4" parent="Objects/Y-Sort" instance=ExtResource("9_nqite")]
+[node name="House4" parent="Objects/Y-Sort" instance=ExtResource("8_80gbp")]
 position = Vector2(632, 136)
 
-[node name="House5" parent="Objects/Y-Sort" instance=ExtResource("9_nqite")]
+[node name="House5" parent="Objects/Y-Sort" instance=ExtResource("8_80gbp")]
 position = Vector2(520, 264)
 
-[node name="House6" parent="Objects/Y-Sort" instance=ExtResource("9_nqite")]
+[node name="House6" parent="Objects/Y-Sort" instance=ExtResource("8_80gbp")]
 position = Vector2(824, 264)
 
-[node name="House1" parent="Objects/Y-Sort" instance=ExtResource("9_nqite")]
+[node name="House1" parent="Objects/Y-Sort" instance=ExtResource("8_80gbp")]
 position = Vector2(632, 264)
 
-[node name="DaylightFilter" parent="." instance=ExtResource("10_m5uif")]
+[node name="DaylightFilter" parent="." instance=ExtResource("9_snfyd")]
 
 [node name="Trees" type="TileMapLayer" parent="."]
 z_index = -1
@@ -1918,48 +1918,30 @@ position = Vector2(-8, -8)
 enabled = false
 zoom = Vector2(2.5, 2.5)
 
-[node name="Portal" parent="." instance=ExtResource("12_4m2b3")]
-position = Vector2(568, 16)
-scale = Vector2(4, 4)
-map = "res://overworld/level_maps/route_home_to_red.tscn"
-target_anchor_name = "ToTownRed"
-target_position = Vector2i(640, -96)
-target_facing = Vector2i(0, 1)
-portal_id = 1
-
-[node name="Portal2" parent="." instance=ExtResource("12_4m2b3")]
+[node name="Portal2" parent="." instance=ExtResource("11_kr5g1")]
 position = Vector2(-48, 160)
 scale = Vector2(4, 4)
-map = "res://overworld/level_maps/route_home_to_red.tscn"
-target_anchor_name = "ToTownRed"
+map = "res://overworld/level_maps/town_fire.tscn"
+target_anchor_name = "ToTownFire"
 target_position = Vector2i(640, -96)
 target_facing = Vector2i(0, 1)
 portal_id = 1
 
-[node name="Portal3" parent="." instance=ExtResource("12_4m2b3")]
-position = Vector2(568, 536)
-scale = Vector2(4, 4)
-map = "res://overworld/level_maps/route_home_to_red.tscn"
-target_anchor_name = "ToTownRed"
-target_position = Vector2i(640, -96)
-target_facing = Vector2i(0, 1)
-portal_id = 1
-
-[node name="Portal4" parent="." instance=ExtResource("12_4m2b3")]
+[node name="Portal4" parent="." instance=ExtResource("11_kr5g1")]
 position = Vector2(872, 304)
 scale = Vector2(4, 4)
-map = "res://overworld/level_maps/route_home_to_red.tscn"
+map = "res://overworld/level_maps/town_red.tscn"
 target_anchor_name = "ToTownRed"
 target_position = Vector2i(640, -96)
 target_facing = Vector2i(0, 1)
 portal_id = 1
 
 [node name="Anchors" type="Node" parent="."]
-script = ExtResource("13_0cycb")
+script = ExtResource("12_whmp2")
 
 [node name="WarpTownHome" type="Marker2D" parent="Anchors"]
 position = Vector2(736, 496)
 gizmo_extents = 16.0
-script = ExtResource("14_lyqyr")
+script = ExtResource("13_6208v")
 anchor_name = "ToRouteHome"
 facing_direction = Vector2i(0, -1)
