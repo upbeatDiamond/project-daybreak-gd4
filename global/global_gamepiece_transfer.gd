@@ -110,24 +110,14 @@ var gamepiece_preload = preload( "res://overworld/characters/gamepiece.tscn" )
 
 # Gamepieces should be made much smaller before storing, but there's only the player now, so eh.
 func submit_gamepiece( piece:Gamepiece, target_map_index:MapIndex, \
-target_map_coordinates:=Vector2i(0,0), origin_map_index:=MapIndex.INVALID_INDEX, facing_direction:=Vector2(0,1) ):
+target_map_coordinates:=Vector2i(0,0), _origin_map_index:=MapIndex.INVALID_INDEX, facing_direction:=Vector2(0,1) ):
 	
-	if piece != null:
-		piece.current_map = origin_map_index
-		piece.target_map = target_map_index
-		piece.position_stabilized = false
-		if piece.current_map == MapIndex.INVALID_INDEX:
-			piece.current_map = piece.target_map
-	
-	piece.target_position = target_map_coordinates
-	
+	save_gamepiece( piece, target_map_index, target_map_coordinates, _origin_map_index, facing_direction )
+
 	if target_map_index >= 0:
 		
 		if piece.get_parent() != null:
 			piece.get_parent().remove_child( piece )
-	
-	GlobalDatabase.save_gamepiece( piece )
-	pass
 
 
 # If gp_id == -1, then ignore it.
@@ -177,19 +167,23 @@ func save_placed_gamepieces():
 
 
 func save_gamepiece( piece:Gamepiece, target_map_index:MapIndex, \
-target_map_coordinates:=Vector2i(0,0), _origin_map_index:=MapIndex.INVALID_INDEX ):
+		target_map_coordinates:=Vector2i(0,0), \
+		_origin_map_index:=target_map_index, \
+		_facing_direction=piece.facing_direction ):
 	
-	if piece != null:
-		piece.current_map = _origin_map_index
-		piece.target_map = target_map_index
-		piece.position_stabilized = false
-		if piece.current_map == MapIndex.INVALID_INDEX:
-			piece.current_map = piece.target_map
+	if piece == null:
+		printerr("GlobalGamepieceTransfer attempted to save a null gamepiece; aborted!")
+		return
+	
+	#if piece != null:
+	piece.current_map = _origin_map_index
+	piece.target_map = target_map_index
+	piece.position_stabilized = false
+	#if piece.current_map == MapIndex.INVALID_INDEX:
+		#piece.current_map = piece.target_map
 	
 	piece.target_position = target_map_coordinates
-	
-	if piece.get_parent() != null:
-		piece.get_parent().remove_child( piece )
+	piece.facing_direction = _facing_direction
 	
 	GlobalDatabase.save_gamepiece( piece )
 
@@ -197,33 +191,3 @@ target_map_coordinates:=Vector2i(0,0), _origin_map_index:=MapIndex.INVALID_INDEX
 func eject_gamepiece( umid:int ) -> Gamepiece:
 	var gamepiece = GlobalDatabase.load_gamepiece(umid)
 	return gamepiece
-
-# Deprecated? If used, improve, else remove.
-#func reform_gamepiece_treelet( gamepiece:Gamepiece ):
-	#
-	#gamepiece.get_children()
-	#
-	## Indirectly repair the 'gamepiece' variable / class object
-	#var gp_repair = gamepiece_preload.instantiate() as Gamepiece
-	#gp_repair.transfer_data_from_gp( gamepiece )
-	#
-	## The ol' switcheroo!
-	#gamepiece = gp_repair
-	#
-	#var gamepiece_controller = gamepiece.find_child("Controller")
-	#if gamepiece.umid == 0:
-		#gamepiece_controller.set_script( "res://overworld/characters/gamepiece_controller_player.gd" )
-		#var player_cam = Camera2D.new()
-		#gamepiece.add_child( player_cam )
-		#player_cam.enabled = true
-		#player_cam.zoom = Vector2(2.5, 2.5)
-		#player_cam.anchor_mode = Camera2D.ANCHOR_MODE_DRAG_CENTER
-		#player_cam.position_smoothing_enabled = true
-		#player_cam.position_smoothing_speed = 5
-	#else:
-		#gamepiece_controller.set_script( "res://overworld/characters/gamepiece_controller_mob.gd" )
-	#
-	#gamepiece_controller.set("gamepiece", gamepiece)
-	#gamepiece.controller = find_child("Controller")
-	#
-	#return gamepiece
