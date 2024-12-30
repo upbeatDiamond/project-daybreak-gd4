@@ -21,7 +21,6 @@ func run_event( gp:Gamepiece ):
 	match gp.traversal_mode:
 		Gamepiece.TraversalMode.RUNNING, Gamepiece.TraversalMode.BICYCLING:
 			is_destruction_queued = true
-			pass
 		_:
 			pass
 	# run important scripts here, and then kill the grass if queued

@@ -176,11 +176,13 @@ func handle_map_change( map:String, anchor_name:String, silent:bool=false ):
 	gamepiece.is_paused = true
 	
 	## TODO: update check to enable on-screen NPCs to have the fade out & fade in cycle.
+	## Hide the teleport from the player by fading to black
 	if !silent and gamepiece.treat_as_player:
 		print("not silent warp!")
 		await GlobalRuntime.scene_manager.fade_to_black()
 	
 	# If the portal touched doesn't point to a specific map, implying it teleports locally
+	## TODO: make this call do something useful?
 	var tp_map_index = GlobalRuntime.scene_manager.get_map_index(map)
 	if tp_map_index < 0 and map != null and map != "":
 		print("Eek! I'm YIIKing the freak out!")
@@ -210,7 +212,7 @@ func handle_map_change( map:String, anchor_name:String, silent:bool=false ):
 	
 	if true:# != null:
 		GlobalGamepieceTransfer.submit_gamepiece( gamepiece, \
-				GlobalRuntime.scene_manager.get_map_index(map), loci, \
+				tp_map_index, loci, \
 				GlobalGamepieceTransfer.MapIndex.INVALID_INDEX, direction )
 		
 		if gamepiece.treat_as_player:
@@ -241,4 +243,19 @@ func finalize_map_change( was_paused, silent ):
 	
 	# Save to preserve at least current position and facing direction
 	#GlobalDatabase.save_gamepiece( gamepiece )
+	pass
+
+
+## When touching a teleport, the chain of function calls should end up here.
+func _start_teleport( map:String, anchor_name:String="", silent:bool=false ):
+	pass
+
+
+## When switching within the same map
+func _finish_teleport_local():
+	pass
+
+
+## When switching to/from a different map
+func _finish_teleport_distant():
 	pass

@@ -6,8 +6,8 @@ class_name LevelMap
 const Y_SORT_FOLDER_NAME:="Y-Sort"
 
 # linked to the gamepiece transfer class
-@export var map_index := ( -1 as GlobalGamepieceTransfer.MapIndex ) 
-var current_gamepieces:=[Gamepiece]
+@export var map_index := GlobalGamepieceTransfer.MapIndex.INVALID_INDEX 
+var current_gamepieces : Array[Gamepiece] = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
