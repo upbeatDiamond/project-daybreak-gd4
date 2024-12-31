@@ -6,7 +6,7 @@ extends Node
 ## We're going to need a lot of refactoring to account for changes in not only gameplay plans ...
 ## ... but also data being split across multiple tables.
 
-var db : SQLite = null
+#var db : SQLite = null
 
 const VERBOSITY_LEVEL : int = SQLite.VERBOSE #NORMAL #
 
@@ -113,8 +113,7 @@ func exists_monster( monster:Monster ) -> bool:
 
 func exists_monster_umid( umid:int ) -> bool:
 	var row_array = ["name"]
-	
-	db = SQLite.new()
+	var db := SQLite.new()
 	db.path = DB_PATH_USER_ACTIVE
 	db.open_db()
 	
@@ -170,7 +169,7 @@ target_table_name:String, _query_conditions:String=""  ):
 		i -= 1;
 		pass
 	
-	db = SQLite.new()
+	var db := SQLite.new()
 	db.verbosity_level = VERBOSITY_LEVEL
 	db.path = target_db_path
 	db.open_db()
@@ -190,7 +189,7 @@ target_table_name:String, query_conditions:String ):
 	var row_dict : Dictionary = {}
 	var selected_columns : Array = tablekey_propval.keys()
 	
-	db = SQLite.new()
+	var db := SQLite.new()
 	db.verbosity_level = VERBOSITY_LEVEL
 	db.path = target_db_path
 	db.open_db()
@@ -271,7 +270,7 @@ func load_gamepieces_for_map( map_id ) -> Array[Gamepiece]:
 	var selected_columns : Array = ["umid", "current_position", 
 									"current_direction", "current_action"];
 	
-	db = SQLite.new()
+	var db := SQLite.new()
 	db.path = DB_PATH_USER_ACTIVE
 	db.open_db()
 	
@@ -301,7 +300,7 @@ func load_player_data():
 	Realistically, you only need the first entry, so use [0] or pop_front.
 """
 func fetch_dex_from_index(species:int, row_array:Array[String]=["tag"]) -> Array:
-	db = SQLite.new()
+	var db := SQLite.new()
 	db.path = DB_PATH_PATCH_TEMPLATE
 	db.open_db()
 	
@@ -315,7 +314,7 @@ func fetch_dex_from_index(species:int, row_array:Array[String]=["tag"]) -> Array
 func save_keyval(_key:String, _val):
 	_key = cheap_sanitize(_key)
 	
-	db = SQLite.new()
+	var db := SQLite.new()
 	db.path = DB_PATH_USER_ACTIVE
 	db.open_db()
 	var query_template = str( "INSERT OR REPLACE INTO ", TABLE_NAME_KEYVAL, " ( key, value ) " )
@@ -329,7 +328,7 @@ func save_keyval(_key:String, _val):
 func load_keyval(_key:String, _val=null):
 	_key = cheap_sanitize(_key)
 	
-	db = SQLite.new()
+	var db := SQLite.new()
 	db.path = DB_PATH_USER_ACTIVE
 	db.open_db()
 	
@@ -376,6 +375,28 @@ func save_level_map( map:LevelMap ):
 	pass
 
 
+func get_map_index( map ) -> GlobalGamepieceTransfer.MapIndex:
+	if map is String: ## If the 'map' is a path to the file:
+		return _get_map_id_from_cache( map )
+	#elif map is LevelMap: ## If the map is an object, then ask it what its value is.
+	
+	return GlobalGamepieceTransfer.MapIndex.INVALID_INDEX
+
+
+func _get_map_id_from_cache( map:String ) -> GlobalGamepieceTransfer.MapIndex:
+	var db := SQLite.new()
+	db.path = DB_PATH_USER_ACTIVE
+	db.open_db()
+	
+	var target_table_name = "level_map"
+	var query_conditions : String = str("map_path = '", map, "'") 
+	
+	var fetched:Array = db.select_rows( target_table_name, query_conditions, ["map_id"] )
+	if fetched.size() == 0:
+		return GlobalGamepieceTransfer.MapIndex.INVALID_INDEX
+	return str(fetched[0]["map_id"]).to_int()
+
+
 # Predicts the ability to recover the previous state based on:
 # 1: Does the player exist? (code may change to account for non-zero UMID)
 # 2: Does the player exist in a valid map?
@@ -395,7 +416,6 @@ func can_recover_last_state() -> bool:
 
 func reset_save_file() -> void:
 	var db_reset = SQLite.new(); db_reset.path = DB_PATH_USER_TEMPLATE; db_reset.open_db()
-	#var db_commit = SQLite.new(); db_commit.path = DB_PATH_USER_COMMIT; db_commit.open_db()
 	
 	var globalized_active_path = ProjectSettings.globalize_path(DB_PATH_USER_ACTIVE) + ".db"
 	var globalized_commit_path = ProjectSettings.globalize_path(DB_PATH_USER_COMMIT) + ".db"
@@ -434,7 +454,6 @@ func _regenerate_user_database_folder():
 	config_file.set_value("meta", "config_version", VERSION_CODE)
 	config_file.save(CONFIG_FILE_PATH)
 	
-	
 	## Ensures there is a 'patchdata' database in the user save file
 	var patchdata_check = FileAccess.file_exists(DB_PATH_PATCH_USER)
 	if patchdata_check == false:
@@ -442,13 +461,13 @@ func _regenerate_user_database_folder():
 		var globalized_patch_path = ProjectSettings.globalize_path(DB_PATH_PATCH_USER) + ".db"
 		db_patch.query("VACUUM INTO \"" + globalized_patch_path + "\"")
 		db_patch.close_db()
-	pass
 
 
 func does_save_exist() -> bool:
 	return FileAccess.file_exists(str(DB_PATH_USER_ACTIVE, ".db"))
 
 
+## TODO: Rewrite this.
 # Loads the player, and the last map the player was known to be in, and returns the map path
 # In the future, may also update the in-game clock settings and trickle down save data
 func recover_last_state() -> String:
@@ -605,7 +624,7 @@ func validate_umid( umid:int=0 ) -> int:
 func load_inventory( umid:int=0, compartment:int=-1 ) -> Array:
 	
 	## Create database variable, open it for the user save data.
-	db = SQLite.new()
+	var db := SQLite.new()
 	db.path = DB_PATH_USER_ACTIVE
 	db.open_db()
 	
