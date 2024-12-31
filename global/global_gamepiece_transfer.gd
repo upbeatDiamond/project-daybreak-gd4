@@ -145,8 +145,8 @@ func _save_map_placed_gamepieces( _map:LevelMap ):
 # When playing multiplayer, or even singleplayer, and an NPC/Guest changes to your map?
 # Detect that happened and warp them into your current map.
 # Else, make sure they're saved in the relevant database.
-func warp_gamepiece_to_map( _map_index:MapIndex ):
-	pass
+#func warp_gamepiece_to_map( _map_index:MapIndex ):
+	#pass
 
 
 func eject_gamepieces_for_map( target_map_index:int ) -> Array[Gamepiece]:
@@ -154,13 +154,19 @@ func eject_gamepieces_for_map( target_map_index:int ) -> Array[Gamepiece]:
 	return gamepieces
 
 
-func save_placed_gamepieces():
+func guess_current_map() -> MapIndex:
 	var tree = GlobalRuntime.scene_manager.get_tree()
-	var gamepieces = tree.get_nodes_in_group("gamepiece")
 	var maps = tree.get_nodes_in_group("level_map")
 	var map = MapIndex.INVALID_INDEX
 	if maps.size() >= 1:
 		map = maps[0].get("map_index")
+	return map
+
+
+func save_placed_gamepieces() -> void:
+	var tree = GlobalRuntime.scene_manager.get_tree()
+	var gamepieces = tree.get_nodes_in_group("gamepiece")
+	var map = guess_current_map()
 	for piece in gamepieces:
 		if piece is Gamepiece:
 			save_gamepiece(piece, map, piece.position, map)
@@ -169,7 +175,7 @@ func save_placed_gamepieces():
 func save_gamepiece( piece:Gamepiece, target_map_index:MapIndex, \
 		target_map_coordinates:=Vector2i(0,0), \
 		_origin_map_index:=target_map_index, \
-		_facing_direction=piece.facing_direction ):
+		_facing_direction=piece.facing_direction ) -> void:
 	
 	if piece == null:
 		printerr("GlobalGamepieceTransfer attempted to save a null gamepiece; aborted!")
