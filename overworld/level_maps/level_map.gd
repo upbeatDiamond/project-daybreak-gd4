@@ -4,7 +4,7 @@ class_name LevelMap
 
 # Has to be -1 or a unique positive number
 @export var unique_id := -1			# not currently used, but do not remove yet
-const Y_SORT_FOLDER_NAME:="Y-Sort"
+const Y_SORT_FOLDER_NAME := "Y-Sort"
 
 # linked to the gamepiece transfer class
 @export var map_index := MapIndex.INVALID_INDEX 
@@ -14,18 +14,18 @@ enum MapIndex {
 	# All references to these indexes should be through this enum in case of value reassignments
 	# Also in case of reassignment mismatches, avoid reassigning any enums.
 	# Generally ordered by ownership tier: Town{ Building{}, Road{ NookSmol{} }, NookBig{} }
-
-	INVALID_INDEX = -1,
-	TOWN_RED,		# Story gets going town, visited 2nd
-	TOWN_RESERVE_000,	# Might be merged with TOWN_GREEN ? or recycled...
+	
+	INVALID_INDEX = -1, ## Default value, only use for Failsafe Town
+	TOWN_RED,			## Story gets going town, visited 2nd
+	TOWN_RESERVE_000,	## Might be merged with TOWN_GREEN ? or recycled...
 	TOWN_SCRATCH,
-	TOWN_PORT,		# Hub town
-	TOWN_HOME,		# Starting town, visited 1st
-	TOWN_GREEN,
-	TOWN_FIRE,		# They do pottery
-	TOWN_MASTIC,	# Farming?
+	TOWN_PORT,			## Hub town
+	TOWN_HOME,			## Starting town, visited 1st
+	TOWN_GREEN,			## They do farming?
+	TOWN_FIRE,			## They do pottery
+	TOWN_MASTIC,		## They do farming?
 	TOWN_ORACLE,
-	TOWN_FISH,
+	TOWN_FISH,			## They fish
 	TOWN_THUNDER,
 	TOWN_BLUE,
 	TOWN_BROWN,
@@ -33,14 +33,14 @@ enum MapIndex {
 	TOWN_SNOWBALL,
 	TOWN_ZEPHYR,
 	TOWN_METAL,
-	TOWN_FOREST,	# Exiting the forest is very simple, all you do is complete the gym badge
+	TOWN_FOREST,	## Exiting the forest is very simple, all you do is complete the gym badge
 	CAVE_NORTH,
 	CAVE_SOUTH,
 	TOWN_PEAK,
 	
-	# Items above represent towns/caves/plains and need exactly 2 words
-	# There can be up to 255 values between Invalid and Windmill
-	# If extensions are needed (please no), then values at the end of the list can be used.
+	## Items above represent towns/caves/plains and need exactly 2 words
+	## There can be up to 255 values between Invalid and Windmill
+	## If extensions are needed (please no), then values at the end of the list can be used.
 	
 	TOWN_PORT_WINDMILL = 256,
 	TOWN_PORT_MUSEUM,
@@ -198,11 +198,7 @@ func get_anchor_container():
 func pack_up():
 	var childs = get_children()
 	
-	# Tagged out to avoid massive duplication of the test NPC. Now only clones the Player.
-	# Recursively find & pack up gamepieces, assuming no gamepieces have gamepiece children
-	# Please replace this with a signal.
-	# EDIT TO ABOVE COMMENTS: Untagged out to see what happens. Doesn't break yet but... eh....????
-	
+	## redundant?
 	await save_map_gamepieces()
 	
 	for child in childs:
@@ -213,11 +209,6 @@ func pack_up():
 	
 	if get_tree().root == GlobalRuntime.scene_manager.get_tree().root:
 		GlobalRuntime.clean_up_node_descent( self )
-
-
-
-
-var gamepiece_preload = preload( "res://overworld/characters/gamepiece.tscn" )
 
 
 # Gamepieces should be made much smaller before storing, but there's only the player now, so eh.
