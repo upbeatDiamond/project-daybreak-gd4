@@ -17,6 +17,7 @@ class_name WarpAnchor
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	GlobalDatabase.save_anchor_coord( LevelMap.guess_current_map(), anchor_name, global_position )
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
