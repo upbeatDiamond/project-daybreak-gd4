@@ -72,7 +72,10 @@ enum BattleStats{
 # Might be implemented as integer that gets bitshifted and modulo'd
 enum BooleanFlags{
 	IS_EGG,
-	IS_LOST_SOUL,
+	IS_BAD_EGG,
+	CAN_ACCESS_DREAMS,
+	USE_NICKNAME,
+	DISABLE_TRADING,
 	
 }
 
@@ -82,14 +85,11 @@ enum BooleanFlags{
 # ...blorboic and scrungly it is.
 # Two integers to track estrogenemia and androgenemia may influence this field
 enum SexBitfield{
-	IS_SPERMATOGENIC,		# Produces small/mobile/scrungly cells
-	IS_OOGENIC,				# Produces large/immobile/blorboic cells
-	CAN_DEPOSIT_GAMETES,	# orthagonality check: if not a x-gen, it has a depositor.
-	CAN_RECIEVE_GAMETES,	# orthagonality check: if not x-gen but can recieve & deposit, then stores.
-	CAN_GESTATE_GAMETES,	# can make Egg
-	PRODUCES_MILK,			# yeah
-	
-	# Gene byte has been removed
+	IS_SPERMATOGENIC 	= 0b00000_1,	# Produces small/mobile/scrungly cells
+	IS_OOGENIC 			= 0b0000_10,	# Produces large/immobile/blorboic cells
+	CAN_DEPOSIT_GAMETES = 0b000_100,	# Has a depositor.
+	CAN_RECIEVE_GAMETES = 0b00_1000,	# Stores.
+	CAN_GESTATE_GAMETES = 0b0_10000,	# can make Egg
 }
 
 # This is far from finished, and may be culturally sensitive
@@ -97,7 +97,7 @@ enum GenderBitfield{
 	PRONOUN_MASC,			# uses/accepts masculine pronouns, he/him
 	PRONOUN_FEM,			# uses/accepts feminine pronouns, she/her
 	PRONOUN_MAV,			# uses/accepts maverique pronouns, ve/ver
-	PRONOUN_NEUT,			# uses/accepts neuter pronouns
+	PRONOUN_NEUT,			# uses/accepts neuter pronouns, it/its
 	
 	IDENTIFY_MASC,
 	IDENTIFY_FEM,
@@ -141,7 +141,6 @@ enum GameOfOrigin{
 	SPARK,
 	SNAP,
 }
-	
 
 func color_expression_from_genes(gene1:ColorGene, gene2:ColorGene) -> ColorExpression:
 	match (gene1):
