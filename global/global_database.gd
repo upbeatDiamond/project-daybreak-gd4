@@ -394,6 +394,7 @@ func _get_map_id_from_cache( map:String ) -> LevelMap.MapIndex:
 	var query_conditions : String = str("map_path = '", map, "'") 
 	
 	var fetched:Array = db.select_rows( target_table_name, query_conditions, ["map_id"] )
+	db.close_db()
 	if fetched.size() == 0:
 		return LevelMap.MapIndex.INVALID_INDEX
 	return str(fetched[0]["map_id"]).to_int() as LevelMap.MapIndex
@@ -409,7 +410,7 @@ func get_anchor_coord( map_id:LevelMap.MapIndex, anchor:String ) -> Vector2:
 	var query_conditions : String = str("map_id = ", map_id, ", anchor_name = '", cheap_sanitize(anchor), "'") 
 	
 	var fetched:Array = db.select_rows( target_table_name, query_conditions, ["anchor_name", "coordinate"] )
-	
+	db.close_db()
 	if fetched.size() == 0:
 		return Vector2.ZERO
 	else:#if fetched.size() == 1:
@@ -427,6 +428,7 @@ func save_anchor_coord( map_id:LevelMap.MapIndex, anchor:String, position:Vector
 			" ( map_id, anchor_name, coordinate ) values ( ? , ?, ? )" )
 	print(query_template)
 	var _success = db.query_with_bindings( query_template, [map_id, cheap_sanitize(anchor), db_wrap(position)] );
+	db.close_db()
 	pass
 
 
@@ -440,7 +442,9 @@ func erase_anchor_coord( map_id:LevelMap.MapIndex, anchor:String):
 			" WHERE map_id = ", map_id, " AND anchor_name LIKE '", cheap_sanitize(anchor) , "'" )
 	print(query_template)
 	var _success = db.query( query_template );
+	db.close_db()
 	pass
+
 
 # Predicts the ability to recover the previous state based on:
 # 1: Does the player exist? (code may change to account for non-zero UMID)
