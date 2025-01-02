@@ -400,13 +400,46 @@ func _get_map_id_from_cache( map:String ) -> LevelMap.MapIndex:
 
 
 
-func get_anchor_coord( map_id:LevelMap.MapIndex, anchor:String ):
+func get_anchor_coord( map_id:LevelMap.MapIndex, anchor:String ) -> Vector2:
+	var db := SQLite.new()
+	db.path = DB_PATH_USER_ACTIVE
+	db.open_db()
 	
+	var target_table_name = "map_anchor"
+	var query_conditions : String = str("map_id = ", map_id, ", anchor_name = '", cheap_sanitize(anchor), "'") 
+	
+	var fetched:Array = db.select_rows( target_table_name, query_conditions, ["anchor_name", "coordinate"] )
+	
+	if fetched.size() == 0:
+		return Vector2.ZERO
+	else:#if fetched.size() == 1:
+		return db_unwrap(fetched[0]["coordinate"]) as Vector2
 	pass
 
 
 func save_anchor_coord( map_id:LevelMap.MapIndex, anchor:String, position:Vector2 ):
+	var db := SQLite.new()
+	db.path = DB_PATH_USER_ACTIVE
+	db.open_db()
 	
+	var target_table_name = "map_anchor"
+	var query_template = str( "INSERT OR REPLACE INTO ", target_table_name, \
+			" ( map_id, anchor_name, coordinate ) values ( ? , ?, ? )" )
+	print(query_template)
+	var _success = db.query_with_bindings( query_template, [map_id, cheap_sanitize(anchor), db_wrap(position)] );
+	pass
+
+
+func erase_anchor_coord( map_id:LevelMap.MapIndex, anchor:String):
+	var db := SQLite.new()
+	db.path = DB_PATH_USER_ACTIVE
+	db.open_db()
+	
+	var target_table_name = "map_anchor"
+	var query_template = str( "DELETE FROM ", target_table_name, \
+			" WHERE map_id = ", map_id, " AND anchor_name LIKE '", cheap_sanitize(anchor) , "'" )
+	print(query_template)
+	var _success = db.query( query_template );
 	pass
 
 # Predicts the ability to recover the previous state based on:

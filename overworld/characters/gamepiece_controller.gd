@@ -253,10 +253,11 @@ func _start_teleport( map:String, anchor_name:String="", silent:bool=false ):
 		#_origin_map_index:=target_map_index, \
 		#_facing_direction=piece.facing_direction
 	
-	var map_index = GlobalDatabase.get_map_index(map)
-	var anchor_coord = GlobalDatabase.get_anchor_coord(map_index, anchor_name)
+	var target_map = GlobalDatabase.get_map_index(map)
+	var anchor_coord = GlobalDatabase.get_anchor_coord(target_map, anchor_name)
+	var current_map = LevelMap.guess_current_map()
 	
-	LevelMap.save_gamepiece(gamepiece,  )
+	LevelMap.save_gamepiece(gamepiece, target_map, anchor_coord, current_map )
 	
 	pass
 
