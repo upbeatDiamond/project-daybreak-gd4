@@ -5,10 +5,10 @@ class_name WarpAnchor
 # Used as a form of unique ID within a given map
 @export var anchor_name:String: 
 	set(val):
-		if Engine.is_editor_hint():
-			GlobalDatabase.erase_anchor_coord(map, anchor_name)
-			anchor_name = val
-			_save_self_to_db()
+		#if Engine.is_editor_hint():
+		GlobalDatabase.erase_anchor_coord(map, anchor_name)
+		anchor_name = val
+		_save_self_to_db()
 
 # Used to tell which way an entity should face upon entry
 @export var facing_direction:Vector2i
@@ -24,6 +24,7 @@ class_name WarpAnchor
 var has_saved_self := false
 var map := LevelMap.MapIndex.INVALID_INDEX
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var parent = get_parent()
@@ -33,11 +34,7 @@ func _ready():
 			break
 		parent = get_parent()
 	if parent == null and map == LevelMap.MapIndex.INVALID_INDEX:
-		assert(false, "WarpAnchor needs to be inside a LevelMap!")
-	
-	if Engine.is_editor_hint():
-		_save_self_to_db()
-	
+		print("Warning: WarpAnchor should be inside a LevelMap!")
 	pass # Replace with function body.
 
 
