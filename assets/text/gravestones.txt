@@ -3,4 +3,5 @@
 # Any double forward slashes (//) should create a new line within an entry
 # All entries should live on the same line, else be separated by the parser
 
-jodin // died from being too badass 
+Jodin // Died from being too cool 
+Satoshi // The Very Best
