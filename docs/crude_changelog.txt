@@ -32,9 +32,6 @@ To Do List + Constructive Commentary:
 	% Make playable the Mayhem/Raze demo, and integrate into the unified demo
 		% Or rather, rewrite it.
 	% Recombine and split classes
-		% GlobalMonster <= GlobalMonsterSpawner
-		% GlobalRuntime => GlobalState
-		% Try deleting GlobalBitfield?
 	% Add overworld sprites for Mom, and Barney for the upcoming demos
 	% Fix and finish the failsafe map's generation code, otherwise it's not very safe
 		% Make the shader actually do something, and put it in a nicer folder
@@ -44,10 +41,7 @@ To Do List + Constructive Commentary:
 		% Fix the ledge art style
 	% Fix portal transition to avoid overlapping transitions, which can softlock
 	% Saving and Loading
-		% Refactor all save/load code regarding Gamepieces
-			% Instead of using signals, have all Gamepieces registered with GlobalGamepieceTransfer
-				% When saving, save all members of GlobalGamepieceTransfer
-				% Use global groups? This point is from before global groups were stable.
+		% Refactor save/load code regarding Gamepieces
 			% Gamepiece's data transfer code should be more complete
 			% Gamepieces should automatically fix themselves upon being 'placed'
 		% Add Gametokens and save code for that
