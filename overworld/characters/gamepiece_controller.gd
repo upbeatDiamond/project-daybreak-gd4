@@ -211,9 +211,8 @@ func handle_map_change( map:String, anchor_name:String, silent:bool=false ):
 	print("teleport: gx %d, gy %d, x %d, y %d"%[gamepiece.global_position.x,gamepiece.global_position.y,loci.x,loci.y])
 	
 	if true:# != null:
-		GlobalGamepieceTransfer.submit_gamepiece( gamepiece, \
-				tp_map_index, loci, \
-				GlobalGamepieceTransfer.MapIndex.INVALID_INDEX, direction )
+		LevelMap.store_gamepiece( gamepiece, tp_map_index, loci, \
+				LevelMap.MapIndex.INVALID_INDEX, direction )
 		
 		if gamepiece.treat_as_player:
 			GlobalRuntime.scene_manager.change_map_from_path(map)
@@ -248,6 +247,17 @@ func finalize_map_change( was_paused, silent ):
 
 ## When touching a teleport, the chain of function calls should end up here.
 func _start_teleport( map:String, anchor_name:String="", silent:bool=false ):
+	
+	#piece:Gamepiece, target_map_index:MapIndex, \
+		#target_map_coordinates:=Vector2i(0,0), \
+		#_origin_map_index:=target_map_index, \
+		#_facing_direction=piece.facing_direction
+	
+	var map_index = GlobalDatabase.get_map_index(map)
+	var anchor_coord = GlobalDatabase.get_anchor_coord(map_index, anchor_name)
+	
+	LevelMap.save_gamepiece(gamepiece,  )
+	
 	pass
 
 

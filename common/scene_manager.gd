@@ -223,8 +223,8 @@ func update_preload_portals( ttl_decrement : int = 1 ):
 		
 		# If their TTL is expired, remove from the list
 		if scenes_ready[rs][1] < 0:
-			if scenes_ready[rs][0] is LevelMap:
-				await GlobalGamepieceTransfer.save_map_gamepieces( scenes_ready[rs][0] )
+			#if scenes_ready[rs][0] is LevelMap:
+				#await LevelMap.save_map_gamepieces( scenes_ready[rs][0] )
 			GlobalRuntime.clean_up_node_descent( scenes_ready[rs][0] )
 			scenes_ready.erase(rs)
 	pass

@@ -184,7 +184,7 @@ func place_gamepieces( gamepieces:Array ):
 
 
 func populate_with_gamepieces():
-	var gamepieces = GlobalGamepieceTransfer.eject_gamepieces_for_map(map_index)
+	var gamepieces = eject_gamepieces_for_map()
 	
 	place_gamepieces( gamepieces )
 	pass
@@ -221,7 +221,7 @@ var gamepiece_preload = preload( "res://overworld/characters/gamepiece.tscn" )
 
 
 # Gamepieces should be made much smaller before storing, but there's only the player now, so eh.
-func store_gamepiece( piece:Gamepiece, target_map_index:MapIndex, \
+static func store_gamepiece( piece:Gamepiece, target_map_index:MapIndex, \
 target_map_coordinates:=Vector2i(0,0), _origin_map_index:=MapIndex.INVALID_INDEX, facing_direction:=Vector2(0,1) ):
 	
 	save_gamepiece( piece, target_map_index, target_map_coordinates, _origin_map_index, facing_direction )
@@ -246,7 +246,6 @@ func save_map_gamepieces():
 
 
 func _save_map_placed_gamepieces():
-	
 	for gp in GlobalRuntime.scene_manager.get_tree().get_nodes_in_group("gamepiece"):
 		if is_instance_valid(gp) and gp is Gamepiece: # Check for if freed before saving
 			GlobalDatabase.save_gamepiece( gp as Gamepiece )
@@ -284,13 +283,14 @@ func save_placed_gamepieces() -> void:
 			save_gamepiece(piece, map, piece.position, map)
 
 
-func save_gamepiece( piece:Gamepiece, target_map_index:MapIndex, \
+## TODO: Move to Gamepiece?
+static func save_gamepiece( piece:Gamepiece, target_map_index:MapIndex, \
 		target_map_coordinates:=Vector2i(0,0), \
 		_origin_map_index:=target_map_index, \
 		_facing_direction=piece.facing_direction ) -> void:
 	
 	if piece == null:
-		printerr("GlobalGamepieceTransfer attempted to save a null gamepiece; aborted!")
+		printerr("LevelMap/GGT attempted to save a null gamepiece; aborted!")
 		return
 	
 	#if piece != null:

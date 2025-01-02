@@ -29,11 +29,12 @@ const DB_PATH_USER_BACKUP := "user://database/save_backup"
 ## Reset is to be used if the prior three are all absent.
 const DB_PATH_USER_TEMPLATE := "res://database/save_template"
 
-## TODO: make uppercase + update names!
+## TODO: update names!
 const TABLE_NAME_MONSTER := "monster"
 const TABLE_NAME_GAMEPIECE := "gamepiece"
 const TABLE_NAME_KEYVAL := "variables"
 const TABLE_NAME_SPECIES := "species"
+const TABLE_NAME_ANCHOR := "map_anchor"
 
 # Enums with Table = Key, Property = Value
 # Table_col : [ obj property name, fallback ]
@@ -365,7 +366,7 @@ func load_map_link_data():
 
 func load_level_map( map:int ):
 	var dummy_map := LevelMap.new()
-	dummy_map.map_index = (map as GlobalGamepieceTransfer.MapIndex)
+	dummy_map.map_index = (map as LevelMap.MapIndex)
 	return database_to_game(dummy_map, TKPV_LEVEL_MAP, DB_PATH_USER_ACTIVE, "level_map", str("map_id = ", map) )
 
 
@@ -375,15 +376,16 @@ func save_level_map( map:LevelMap ):
 	pass
 
 
-func get_map_index( map ) -> GlobalGamepieceTransfer.MapIndex:
+func get_map_index( map ) -> LevelMap.MapIndex:
 	if map is String: ## If the 'map' is a path to the file:
 		return _get_map_id_from_cache( map )
 	#elif map is LevelMap: ## If the map is an object, then ask it what its value is.
 	
-	return GlobalGamepieceTransfer.MapIndex.INVALID_INDEX
+	return LevelMap.MapIndex.INVALID_INDEX
 
 
-func _get_map_id_from_cache( map:String ) -> GlobalGamepieceTransfer.MapIndex:
+## TODO: Needs testing
+func _get_map_id_from_cache( map:String ) -> LevelMap.MapIndex:
 	var db := SQLite.new()
 	db.path = DB_PATH_USER_ACTIVE
 	db.open_db()
@@ -393,9 +395,19 @@ func _get_map_id_from_cache( map:String ) -> GlobalGamepieceTransfer.MapIndex:
 	
 	var fetched:Array = db.select_rows( target_table_name, query_conditions, ["map_id"] )
 	if fetched.size() == 0:
-		return GlobalGamepieceTransfer.MapIndex.INVALID_INDEX
-	return str(fetched[0]["map_id"]).to_int()
+		return LevelMap.MapIndex.INVALID_INDEX
+	return str(fetched[0]["map_id"]).to_int() as LevelMap.MapIndex
 
+
+
+func get_anchor_coord( map_id:LevelMap.MapIndex, anchor:String ):
+	
+	pass
+
+
+func save_anchor_coord( map_id:LevelMap.MapIndex, anchor:String, position:Vector2 ):
+	
+	pass
 
 # Predicts the ability to recover the previous state based on:
 # 1: Does the player exist? (code may change to account for non-zero UMID)

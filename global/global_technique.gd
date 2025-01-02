@@ -102,7 +102,7 @@ func execute_technique( _move:Technique, _users:Array[Combatant], _targets:Array
 	for user in _users:
 		for target in _targets:
 			@warning_ignore("static_called_on_instance")
-			raw_damage = GlobalTechnique.calculate_raw_damage( [_move.type_one, _move.type_two], user, target )
+			raw_damage = calculate_raw_damage( [_move.type_one, _move.type_two], user, target )
 			
 			tags = {"raw_damage":raw_damage}
 			

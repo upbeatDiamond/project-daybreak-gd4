@@ -106,8 +106,9 @@ func _ready():
 	
 	# "animation_tree" serves as a canary for overall loading issues.
 	if animation_tree == null:
-		get_parent().add_child( GlobalGamepieceTransfer.reform_gamepiece_treelet( self ) )
-		get_parent().remove_child( self )
+		#get_parent().add_child( GlobalGamepieceTransfer.reform_gamepiece_treelet( self ) )
+		#get_parent().remove_child( self )
+		assert(false)
 		return
 	
 	if facing_direction == null:

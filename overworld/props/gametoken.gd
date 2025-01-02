@@ -1,5 +1,5 @@
 extends Area2D
-class_name Gametoken
+#class_name Gametoken
 
 # Intended to be used for items and pushable objects
 

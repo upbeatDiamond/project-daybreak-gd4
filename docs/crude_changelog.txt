@@ -14,6 +14,7 @@ Noteworthy Additions:
 
 Noteworthy Subtractions:
 	- Removed multiple addons, which shouldn't be noticable for the player
+	- Removed GlobalGamepieceTransfer (merged with LevelMap)
 
 
 Noteworthy Changes:
