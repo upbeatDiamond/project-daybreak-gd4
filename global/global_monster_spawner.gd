@@ -38,7 +38,7 @@ func get_fresh_umid() -> int:
 		umid = _get_fresh_umid()
 	return umid
 
-# Should check the database to ensure there are no duplicate values.
+## Should check the database to ensure there are no duplicate values.
 func _get_fresh_umid() -> int:
 	if umid_buffer.size() <= 0:
 		return generate_umid()
@@ -62,19 +62,19 @@ func fill_umid_buffer():
 
 
 ## TODO: incorporate the location a monster is found in into the UMID, so long as complexity is not lost.
-# Universal/Unique Monster Identification (Document)
+## Universal/Unique Monster Identification (Document)
 func generate_umid() -> int:
 	
-	# UMID: pronounced like "ju-em ai-dii" / "You am, I Dee"
-	# umid: pronounced like UMID or like "humid" but with no 'h'. Same exact meaning.
-	# No IPA here because it messes up the character spacing in the Godot editor
+	## UMID: pronounced like "ju-em ai-dii" / "You am, I Dee"
+	## umid: pronounced like UMID or like "humid" but with no 'h'. Same exact meaning.
+	## No IPA here because it messes up the character spacing in the Godot editor
 	
-	# using Twitter, Discord, and Sony as a basis...
-	# ...knowing that Discord and Sony used Twitter as a basis...
-	# We start with the sign bit, and the time.
-	# We'll approximate Sony's way for this part, tracking more time but with less precision.
+	## using Twitter, Discord, and Sony as a basis...
+	## ...knowing that Discord and Sony used Twitter as a basis...
+	## We start with the sign bit, and the time.
+	## We'll approximate Sony's way for this part, tracking more time but with less precision.
 	
-	# Assume a 64 bit integer
+	## Assume a 64 bit integer
 	var export_umid:= 0;
 	
 	var unix_time = Time.get_unix_time_from_datetime_dict(Time.get_datetime_dict_from_system())
@@ -83,29 +83,29 @@ func generate_umid() -> int:
 	@warning_ignore("integer_division")
 	unix_time = int(unix_time + milliseconds) / 10 
 	
-	export_umid = unix_time << (64-40) # bits in an integer - (1 + timestamp length)
+	export_umid = unix_time << (64-40) ## bits in an integer - (1 + timestamp length)
 	
-	# We now have 24 bits to play with.
-	# Let's implement the machine ID next.
-	# I absolutely wrote this before, what?
+	## We now have 24 bits to play with.
+	## Let's implement the machine ID next.
+	## I absolutely wrote this before, what?
 	var machine_id = OS.get_unique_id().md5_buffer().decode_u64(0)
 	export_umid = export_umid | ( machine_id >> 40 )
 	
-	# Now the entire ID is a timestamp and a computer ID.
-	# It did obfuscate the timestamp and computer ID together before, but now it doesn't.
-	# Less secure for the wary, but more secure for the gamers because less chance of collisions
+	## Now the entire ID is a timestamp and a computer ID.
+	## It did obfuscate the timestamp and computer ID together before, but now it doesn't.
+	## Less secure for the wary, but more secure for the gamers because less chance of collisions
 	
-	# Finally, the incrementor, which allows for more monsters generated per 10 ms.
-	# ...per centisecond? It might also slow down the system slightly, making itself useless...
-	# ...if it weren't for those RGB 65k CUP core 10M hz computer (doubles as oven)
-	# Although... there can still be overflow if over 2048 UMIDs are generated in one centisec.
-	# Which would require a generation rate of over 200,000 per second
+	## Finally, the incrementor, which allows for more monsters generated per 10 ms.
+	## ...per centisecond? It might also slow down the system slightly, making itself useless...
+	## ...if it weren't for those RGB 65k CUP core 10M hz computer (doubles as oven)
+	## Although... there can still be overflow if over 2048 UMIDs are generated in one centisec.
+	## Which would require a generation rate of over 200,000 per second
 	
 	umid_counter = (umid_counter + 1) % 0b1000_0000_0000
 	export_umid = export_umid + umid_counter
 	
-	# practically impossible to achieve. You need some real TAS to get this.
-	# maybe if the game runs for many years, and overlaps with the incrementor?
+	## practically impossible to achieve. You need some real TAS to get this.
+	## maybe if the game runs for many years, and overlaps with the incrementor?
 	if export_umid < 0:
 		export_umid = 0 - export_umid	
 	
@@ -113,9 +113,9 @@ func generate_umid() -> int:
 		print( str(export_umid, " is not a valid ID, recalculating...") )
 		return generate_umid()
 	
-	# if UMID does not yet exist, return that it can be used
-	# if UMID does exist, keep poking around at new values until an unused UMID is found
-	# spare IDs may be stored to avoid loading times when new monsters are generated
+	## if UMID does not yet exist, return that it can be used
+	## if UMID does exist, keep poking around at new values until an unused UMID is found
+	## spare IDs may be stored to avoid loading times when new monsters are generated
 	export_umid = GlobalDatabase.validate_umid( export_umid )
 	
 	return export_umid
