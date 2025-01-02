@@ -125,6 +125,13 @@ func _ready():
 		populate_with_gamepieces()
 	add_to_group("level_map")
 	print("Hoi! It's me! A Level Map!!!!")
+	
+	if GlobalRuntime.rw_mode == GlobalRuntime.RWMode.DEVELOPMENT:
+		var anchors = get_tree().get_nodes_in_group("warp_anchor")
+		for anchor in anchors:
+			if anchor is WarpAnchor:
+				anchor.map = self.map_index ## Redundancy
+				anchor._save_self_to_db()
 	pass
 
 

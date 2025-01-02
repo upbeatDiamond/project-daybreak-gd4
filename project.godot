@@ -60,6 +60,7 @@ event_on_interact="run_event(...) runs when a gamepiece interacts with it, which
 event_on_entry="Activates by a gamepiece entering or overlapping; needs to have a run_event( gamepiece:Gamepiece ) function to avoid crashes"
 level_map="Tilemap-based environment for Gamepieces to navigate/wander within"
 navigation_polygon_source=""
+warp_anchor="Belongs to the WarpAnchor class, or related. Used to scan for teleport target changes."
 
 [input]
 

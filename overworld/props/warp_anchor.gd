@@ -5,7 +5,6 @@ class_name WarpAnchor
 # Used as a form of unique ID within a given map
 @export var anchor_name:String: 
 	set(val):
-		#if Engine.is_editor_hint():
 		GlobalDatabase.erase_anchor_coord(map, anchor_name)
 		anchor_name = val
 		_save_self_to_db()
@@ -35,12 +34,14 @@ func _ready():
 		parent = get_parent()
 	if parent == null and map == LevelMap.MapIndex.INVALID_INDEX:
 		print("Warning: WarpAnchor should be inside a LevelMap!")
+	
+	add_to_group("warp_anchor")
 	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if not has_saved_self and not Engine.is_editor_hint():
+	if not has_saved_self and GlobalRuntime.rw_mode == GlobalRuntime.RWMode.DEVELOPMENT:
 		_save_self_to_db()
 	pass
 

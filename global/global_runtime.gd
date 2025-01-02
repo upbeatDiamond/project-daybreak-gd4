@@ -11,6 +11,7 @@ var gamepiece_input_ignored: bool	# Can the player move the characters/world?
 var gamepieces_paused: bool		# Can the characters/world move around on their own?
 var player_menu_enabled: bool		# Can the player open their menu?
 var multiplayer_enabled: bool
+var rw_mode := RWMode.DEVELOPMENT ## RW Mode = Read/Write/Run Mode
 
 const META_INPUT_COOLDOWN_RESET := 0.05
 var meta_input_cooldown := 0.0
@@ -43,7 +44,13 @@ signal pause_gameworld
 signal unpause_gameworld
 signal save_data
 
-
+## RW Mode = Read/Write/Run Mode
+enum RWMode { 
+	DEBUG, 			## Debug should make symbols apparent and print excessively
+	DEVELOPMENT,	## Development should be allowed to save to template database(s)
+	DEMO,			## Demo should hide unfinished/unstable features
+	RELEASE			## Release should hide silly 'print' statements
+}
 
 enum GameIOState {
 	TITLE_MENU,
@@ -75,6 +82,8 @@ enum GameIOState {
 	CINEMATIC_QUEUE_BATTLE,
 	WORLD_DIALOG_QUEUE_BATTLE,
 	WORLD_DIALOG_ENDED, ## Unused?
+	
+	ANYTHING,	## Similar to a MAX, this is for transition statements
 }
 
 const STATES_WORLD_VISIBLE := [
