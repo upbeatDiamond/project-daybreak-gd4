@@ -27,6 +27,21 @@ class_name Portal
 # an id for linking; make sure target_facing can be multiplied by -1 without invalid positioning
 @export var portal_id : int				# use with the Enabled bool
 @export var enabled : bool				# flip based on player progress
+var _validated := false
+
+
+func _process(_delta: float) -> void:
+	if not _validated:
+		var map_id
+		var current_map = LevelMap.guess_current_map()
+		if FileAccess.file_exists(map):
+			map_id = GlobalDatabase.get_map_index(map)
+		else:
+			map_id = current_map
+		
+		if LevelMap.guess_current_map() == map_id:
+			target_position = GlobalDatabase.get_anchor_coord(map_id, target_anchor_name)
+		_validated = true
 
 
 func validate_keycard(gp:Gamepiece) -> bool:
