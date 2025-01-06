@@ -230,15 +230,6 @@ target_map_coordinates:=Vector2i(0,0), _origin_map_index:=MapIndex.INVALID_INDEX
 			piece.get_parent().remove_child( piece )
 
 
-# If gp_id == -1, then ignore it.
-# Assumes you want to retrieve from the cache
-# If there's a cache fail and check_table == true, then check the db
-# There shouldn't be duplication of gamepieces in general, so besides linear search time, this good
-func pop_out_gamepiece( umid:int, check_table:=false ) -> Gamepiece:
-	var piece := eject_gamepiece(umid)
-	return piece
-
-
 func save_map_gamepieces():
 	await _save_map_placed_gamepieces()
 
@@ -249,13 +240,6 @@ func _save_map_placed_gamepieces():
 			GlobalDatabase.save_gamepiece( gp as Gamepiece )
 		elif not is_instance_valid(gp):
 			print("PIECE ALREADY FREED")
-
-
-# When playing multiplayer, or even singleplayer, and an NPC/Guest changes to your map?
-# Detect that happened and warp them into your current map.
-# Else, make sure they're saved in the relevant database.
-#func warp_gamepiece_to_map( _map_index:MapIndex ):
-	#pass
 
 
 func eject_gamepieces_for_map(  target_map_index:int=map_index ) -> Array[Gamepiece]:

@@ -8,14 +8,16 @@ var input_cooldown := 0.0
 var is_rendered := false
 var target_position = Vector2(0,0)
 
+var nav_mode := NavigationMode.KEYBOARD_LOCAL
+const MOVE_QUEUE_CAPACITY := 3
+
 enum NavigationMode{
 	KEYBOARD_LOCAL = 0,
 	KEYBOARD_STREAMED,
 	AUTONAV
 }
 
-var nav_mode := NavigationMode.KEYBOARD_LOCAL
-const MOVE_QUEUE_CAPACITY := 3
+
 
 func _ready() -> void:
 	if gamepiece == null:
@@ -38,7 +40,6 @@ func _get_configuration_warnings() -> PackedStringArray:
 
 
 func _process(_delta):
-	#super._process(_delta)
 	if gamepiece.is_node_ready():
 		if not is_rendered and gamepiece.umid == 0:
 			var palette_base_path = str("res://assets/textures/monsters/overworld/human/human_palette_",GlobalDatabase.load_keyval("player_sprite_base_palette"),".png")
@@ -48,8 +49,6 @@ func _process(_delta):
 			if FileAccess.file_exists(palette_base_path):
 				gamepiece.find_child("SpriteBase").material.set_shader_parameter("palette", load(palette_base_path))
 			is_rendered = true
-		#gamepiece._check_collision_on_move_end()
-	#print( "controller thinks gp = %d", gamepiece )
 
 
 func _physics_process(_delta):
@@ -85,7 +84,7 @@ func _autonav_next_move() -> Vector2:
 	
 	print(new_direction, " % ", target_position)
 	
-	# Quick patch, because sometimes the navigation agent gets stuck on corners?
+	## Quick patch, because sometimes the navigation agent gets stuck on corners?
 	var bonk = await gamepiece._peek_exterior_collision(new_direction * gamepiece.vector2_from_facing())
 	if bonk:
 		new_direction = new_direction * gamepiece.vector2_from_facing()
@@ -122,18 +121,16 @@ func set_autonav(target_pos:Vector2):
 
 
 func handle_movement_input():
-	#if !gamepiece.is_paused and !GlobalRuntime.gamepiece_input_ignored:
-	## ^ This should already be checked by the caller.
-	var input_direction = await _handle_movement_direction()#Input.get_vector("player_left", "player_right", "player_up", "player_down")
+	var input_direction = await _handle_movement_direction()
 	
 	if input_direction == Vector2.ZERO:
 		return
 	
-	# This section deals with some diagonal inputs contextually
-	# If x and y are not equal, choose the greater.
-	# Else, change direction so the character moves zig-zag
-	# Else, follow the direction the character is facing, 
-	# if X and Y are 0 or NaN.
+	## This section deals with some diagonal inputs contextually
+	## If x and y are not equal, choose the greater.
+	## Else, change direction so the character moves zig-zag
+	## Else, follow the direction the character is facing, 
+	## if X and Y are 0 or NaN.
 	
 	if (abs(input_direction.x) > abs(input_direction.y)):
 		input_direction = Vector2(sign(input_direction.x), 0)
@@ -143,8 +140,8 @@ func handle_movement_input():
 		input_direction = Vector2(0, sign(input_direction.y))
 	elif ( gamepiece.vector2_from_facing().y > 0 ):
 		input_direction = Vector2(sign(input_direction.x), 0)
-		
-	# Zig-zag?
+	
+	## Zig-zag?
 	if (input_direction.x != 0) && (input_direction.y != 0) && (input_direction != Vector2.ZERO):
 		input_direction = Vector2( sign(input_direction.x)*(gamepiece.vector2_from_facing().y), 
 								sign(input_direction.y)*(gamepiece.vector2_from_facing().x));
@@ -154,7 +151,7 @@ func handle_movement_input():
 	
 	gamepiece.facing_direction = input_direction;
 	
-	var is_running = _handle_movement_running()#Input.is_action_pressed("ui_fast")
+	var is_running = _handle_movement_running()
 	if is_running:
 		movement.method = gamepiece.TraversalMode.RUNNING
 	elif gamepiece.vector2i_from_facing() != movement.to_facing_vector2i():
@@ -170,46 +167,6 @@ func handle_movement_input():
 		gamepiece.update_anim_tree()
 		print("GPC: I think I, ", gamepiece.tag, 
 				" am at ", gamepiece.current_position, "")
-
-
-#func handle_map_change( map:String, anchor_name:String, silent:bool=false ):
-	#
-	## If the portal touched doesn't point to a specific map, implying it teleports locally
-	### TODO: make this call do something useful?
-	#var tp_map_index = GlobalRuntime.scene_manager.get_map_index(map)
-	#if tp_map_index < 0 and map != null and map != "":
-		#print("Eek! I'm YIIKing the freak out!")
-		##assert(false)
-	#
-	#var map_root = GlobalRuntime.scene_manager.get_overworld_root()
-	#var anchor_container
-	#var anchor
-	#var loci = gamepiece.global_position
-	#var direction = gamepiece.facing_direction
-	#
-	#if map_root != null:
-		#anchor_container = map_root.get_anchor_container()
-	#if anchor_container != null:
-		#anchor = anchor_container.get_anchor_by_name(anchor_name)
-	#if anchor != null:
-		#loci = anchor.global_position 
-		#direction = anchor.facing_direction
-	#print("anchor detail: ", anchor, " :+ name: ", anchor_name)
-	#
-	#gamepiece.my_camera.tween_resource.duration = 0
-	#
-	##gamepiece.shift_to_target( loci )
-	##gamepiece.facing_direction = Vector2( direction.x, direction.y )
-	#
-	#print("teleport: gx %d, gy %d, x %d, y %d"%[gamepiece.global_position.x,gamepiece.global_position.y,loci.x,loci.y])
-	#
-	#if true:# != null:
-		#LevelMap.store_gamepiece( gamepiece, tp_map_index, loci, \
-				#LevelMap.MapIndex.INVALID_INDEX, direction )
-		#
-		#if gamepiece.treat_as_player:
-			#GlobalRuntime.scene_manager.change_map_from_path(map)
-	
 
 
 func finish_teleport(silent:bool=false):
@@ -256,17 +213,3 @@ func _finish_teleport_local(silent:bool=false):
 	GlobalRuntime.scene_manager.get_overworld_root().scene_file_path)
 	
 	pass
-
-
-### When switching to/from a different map
-#func _finish_teleport_distant():
-	### Guard clause
-	#if not gamepiece.treat_as_player:
-		#return
-	#
-	#
-	#pass
-
-## ^ tagged out, because why should this be treated specially?
-## TP code is mostly about hiding the sloppy way gamepieces are moved around
-## Deletion and regeneration should be sufficient for this, which already happens

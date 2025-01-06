@@ -110,7 +110,7 @@ func update_status( status_condition ):
 
 func _update_nickname():
 	if (combatant != null and (name_field is Label or name_field is RichTextLabel)):
-		# Change nickname to be up to the character limit in length.
+		## Change nickname to be up to the character limit in length.
 		name_field.text = combatant.nickname.substr(0, min(NICKNAME_LENGTH, combatant.nickname.length()) )
 		name_field.text = str( name_field.text, "♀" )
 	pass

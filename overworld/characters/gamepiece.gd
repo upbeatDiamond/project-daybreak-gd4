@@ -34,24 +34,23 @@ var walk_speed = 5.0
 var jump_speed = 5.0
 var run_speed = 8.0
 @export var treat_as_player := false
-@export var is_local_player := false
 @export var tag = ""
 
 @onready var animation_tree : AnimationTree = $AnimationTree
 @onready var animation_state #= animation_tree["parameters/playback"]
 @onready var event_ray : RayCast2D = $Collision/EventRayCast2D
-@onready var gfx = $GFX
-@onready var shadow = $GFX/Shadow
+@onready var gfx : Marker2D = $GFX
+@onready var shadow : Sprite2D = $GFX/Shadow
 @onready var collision : CollisionShape2D = $Collision
 @onready var controller : GamepieceController = $Controller
 @onready var move_tween : Tween
 @onready var my_camera : PhantomCamera2D = null
 
-var is_paused := false;	# true if cannot act; this shouldn't be set by Gamepiece OR its controller
-var is_moving := false;	# true if currently tweening a traversal (walking, running, jumping, etc)
-var was_moving := false;	# true if animation for an 'is_moving' action would still be playing
-var position_is_known := true;	# false if the gamepiece needs a new position calculated.
-var position_stabilized := false;	#current_position == global_position; or, "has been placed yet"
+var is_paused := false	# true if cannot act; this shouldn't be set by Gamepiece OR its controller
+var is_moving := false	# true if currently tweening a traversal (walking, running, jumping, etc)
+var was_moving := false	# true if animation for an 'is_moving' action would still be playing
+var position_is_known := true	# false if the gamepiece needs a new position calculated.
+var position_stabilized := false	#current_position == global_position; or, "has been placed yet"
 @export var facing_direction := FacingDirection.NORTH	# Used for animation state
 
 var traversal_mode = TraversalMode.STANDING
@@ -60,7 +59,7 @@ enum TraversalMode {
 	STANDING, 	# 🧍‍♀️ 
 	WALKING, 	# 🚶‍♀️ 
 	RUNNING, 	# 🏃‍♂️ 
-	TRUDGING, 	# Did you know comments can have emojis? It may be text, but woah it renders!
+	TRUDGING, 	# Did you know comments can have emojis? So cool!
 	SLIDING, 	# 🧊 
 	SPINNING, 	# 🔄
 	SWIMMING, 	# 🏊‍♂️ 
@@ -80,7 +79,7 @@ var current_map := -1	# overwritten by code, do not trust; still used for databa
 @export var current_position := Vector2i(0,0):
 	set( pos ): 
 		shift_to_target(pos)
-		current_position = pos#self.global_position 
+		current_position = pos
 	get:
 		if position_stabilized:
 			return self.global_position

@@ -927,7 +927,6 @@ position = Vector2(-144, -64)
 [node name="Player" parent="Objects/Y-Sort" instance=ExtResource("5_17bh2")]
 position = Vector2(-80, -64)
 treat_as_player = true
-is_local_player = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 visible = false

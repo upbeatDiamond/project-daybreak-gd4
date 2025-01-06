@@ -5,11 +5,11 @@ var state_prior := GlobalRuntime.GameIOState.WORLD
 var is_running_event := false
 
 var key_values := {}
-var registered_things := {}	# Stores actor ids, referenced by (key)name
-var registered_names := {} 	# Stores displayed name, ref'd by keyname
-var registered_alias := {}	# Stores actor pseudonyms
+var registered_things := {}	## Stores actor ids, referenced by (key)name
+var registered_names := {} 	## Stores displayed name, ref'd by keyname
+var registered_alias := {}	## Stores actor pseudonyms
 
-# spritesheet?
+## spritesheet?
 var iconsets : Dictionary
 var prev_line_type := "line"
 var next_line : Dictionary

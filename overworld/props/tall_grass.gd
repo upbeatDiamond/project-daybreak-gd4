@@ -6,11 +6,6 @@ const RAND_LIMIT = 255
 var rand_threshhold = 128
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	pass
-
-
 func _on_body_entered(body):
 	if body is Gamepiece or body.is_in_group("gamepiece"):
 		run_event(body as Gamepiece)

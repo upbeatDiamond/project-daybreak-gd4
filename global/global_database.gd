@@ -413,7 +413,7 @@ func get_anchor_coord( map_id:LevelMap.MapIndex, anchor:String ) -> Vector2:
 	db.close_db()
 	if fetched.size() == 0:
 		return Vector2.ZERO
-	else:#if fetched.size() == 1:
+	else:##if fetched.size() >= 1:
 		return db_unwrap(fetched[0]["coordinate"]) as Vector2
 
 
@@ -445,10 +445,10 @@ func erase_anchor_coord( map_id:LevelMap.MapIndex, anchor:String):
 	pass
 
 
-# Predicts the ability to recover the previous state based on:
-# 1: Does the player exist? (code may change to account for non-zero UMID)
-# 2: Does the player exist in a valid map?
-# 3: Does the valid map have a known file path?
+## Predicts the ability to recover the previous state based on:
+## 1: Does the player exist? (code may change to account for non-zero UMID)
+## 2: Does the player exist in a valid map?
+## 3: Does the valid map have a known file path?
 func can_recover_last_state() -> bool:
 	var gp_player = load_gamepiece( 0 )
 	if gp_player == null:
@@ -605,8 +605,8 @@ func commit_save_from_active() -> bool:
 	success = db_commit.query("VACUUM INTO \"" + globalized_backup_path + "\"")
 	
 	db_commit.close_db()
-	# If the VACUUM INTO Backup did not work, then DO NOT then delete the Commit version.
-	# This is why we have three copies, so we can delete one and still be able to recover.
+	## If the VACUUM INTO Backup did not work, then DO NOT then delete the Commit version.
+	## This is why we have three copies, so we can delete one and still be able to recover.
 	if success:
 		print("commit => backup succeeded")
 		if FileAccess.file_exists(DB_PATH_USER_COMMIT + ".db" ):
