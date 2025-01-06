@@ -6,8 +6,8 @@ class_name WarpAnchor
 @export var anchor_name:String: 
 	set(val):
 		GlobalDatabase.erase_anchor_coord(map, anchor_name)
+		has_saved_self = false
 		anchor_name = val
-		_save_self_to_db()
 
 # Used to tell which way an entity should face upon entry
 @export var facing_direction:Vector2i
@@ -26,14 +26,7 @@ var map := LevelMap.MapIndex.INVALID_INDEX
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var parent = get_parent()
-	while parent != null:
-		if parent is LevelMap:
-			map = parent.map_index
-			break
-		parent = get_parent()
-	if parent == null and map == LevelMap.MapIndex.INVALID_INDEX:
-		print("Warning: WarpAnchor should be inside a LevelMap!")
+	_scan_for_map_id()
 	
 	add_to_group("warp_anchor")
 	pass # Replace with function body.
@@ -48,8 +41,21 @@ func _process(_delta):
 
 func _save_self_to_db():
 	GlobalDatabase.save_anchor_coord( map, anchor_name, global_position )
+	print("Saved: ", map, "/", anchor_name, "/", global_position)
 	has_saved_self = true
 
 
 func get_warp_anchor_name() -> String:
 	return anchor_name
+
+func _scan_for_map_id():
+	var parent = get_parent()
+	while parent != null:
+		if parent is LevelMap:
+			map = parent.map_index
+			break
+		parent = parent.get_parent()
+	if parent == null and map == LevelMap.MapIndex.INVALID_INDEX:
+		print("Warning: WarpAnchor should be inside a LevelMap!")
+	elif map == LevelMap.MapIndex.INVALID_INDEX:
+		print("Warning: WarpAnchor should be inside a valid LevelMap!")

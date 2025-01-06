@@ -1,6 +1,7 @@
 extends Node
 class_name WarpAnchorContainer
 
+
 func get_anchor_by_name(anchor_name:String):
 	var children = self.get_children()
 	for child in children:
@@ -8,5 +9,13 @@ func get_anchor_by_name(anchor_name:String):
 			if str(child.get_warp_anchor_name()).to_lower().strip_edges() \
 			== anchor_name.to_lower().strip_edges():
 				return child
+
+
+func save_anchors():
+	var children = self.get_children()
 	
-	pass
+	for child in children:
+		if child is WarpAnchor:
+			if not child.is_node_ready():
+				child._scan_for_map_id()
+			child._save_self_to_db()

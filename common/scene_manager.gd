@@ -50,8 +50,11 @@ func _process(_delta):
 				pass
 			ResourceLoader.THREAD_LOAD_LOADED:
 				scenes_ready[ scenes_waiting[i] ] = [ResourceLoader.load_threaded_get( scenes_waiting[i] ).instantiate(), TTL_RESET]
+				scenes_ready[ scenes_waiting[i] ][0].get_anchor_container().save_anchors()
 				scenes_waiting.remove_at(i)
 				pass
+			_:
+				i += 1
 		
 	pass
 
