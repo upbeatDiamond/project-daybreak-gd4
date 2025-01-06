@@ -41,7 +41,7 @@ func run_event( body:Gamepiece ):
 		return
 	
 	#if (area is Gamepiece or area.is_in_group("gamepiece")) and validate_keycard(area):
-	body.set_teleport(target_position, target_facing, map, target_anchor_name)
+	body.teleport(target_position, target_facing, map, target_anchor_name)
 
 
 func _on_body_entered(body: Node2D) -> void:

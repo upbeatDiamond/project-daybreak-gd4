@@ -54,12 +54,13 @@ var position_is_known := true;	# false if the gamepiece needs a new position cal
 var position_stabilized := false;	#current_position == global_position; or, "has been placed yet"
 @export var facing_direction = Vector2(0,-1):	# Used for animation state
 	set(value):
+		if value is Vector2i:
+			value = Vector2(value.x, value.y)
 		facing_direction = value
 
 var traversal_mode = TraversalMode.STANDING
 
-enum TraversalMode
-{
+enum TraversalMode {
 	STANDING, 	# 🧍‍♀️ 
 	WALKING, 	# 🚶‍♀️ 
 	RUNNING, 	# 🏃‍♂️ 
@@ -71,7 +72,15 @@ enum TraversalMode
 	BICYCLING, 	# 🚲 
 }
 
-var current_map := -1	# depricated, overwritten by code, do not trust
+## TODO Upcoming rewrite: use enum instead of Vector2/2i
+enum FacingDirection {
+	NORTH,
+	EAST,
+	SOUTH,
+	WEST
+}
+
+var current_map := -1	# overwritten by code, do not trust; still used for database storage hack
 @export var current_position := Vector2i(0,0):
 	set( pos ): 
 		shift_to_target(pos)
@@ -378,7 +387,7 @@ func _update_sprites(_tag:String, clear_prev:=true):
 		print( addr_dress, " not found! gp line 315 - dress ", _tag )
 
 
-##	Not the same as move, used for in-map teleportation.
+##	Not the same as 'move', used for in-map teleportation.
 func shift_to_target( target:Vector2i ):
 	var new_position = GlobalRuntime.snap_to_grid_corner_f( target )
 	self.global_position = new_position
@@ -429,29 +438,36 @@ func update_anim_tree():
 			pass
 
 
-func set_spawn(loci: Vector2, direction: Vector2):
-	set_teleport(loci, direction)
+#func set_spawn(loci: Vector2, direction: Vector2):
+	#teleport(loci, direction)
 
 
-func teleport_to_anchor(map:String, anchor:String):
-	set_teleport(Vector2i(0,0), Vector2i(0,0), map, anchor)
+func teleport_to_anchor(map:String, anchor:String, silent:=false):
+	teleport(Vector2i(0,0), Vector2i(0,0), map, anchor)
 	pass
 
 
-func set_teleport(loci: Vector2i, direction: Vector2i, map:="", anchor_name:="", silent:=false):
+func teleport(loci: Vector2i, direction: Vector2i, map:="", anchor_name:="", silent:=false):
 	is_moving = false
 	
 	var is_paused_prior := is_paused
 	is_paused = true
-	#pause_prior = await controller.handle_map_change( map, anchor_name, silent )
-	#var camera_tween_prior = my_camera.tween_duration
+	if map.is_valid_filename() and FileAccess.file_exists(map) and anchor_name.length() > 0:
+		controller._start_teleport_map(map, anchor_name, silent)
+	else:
+		controller._start_teleport_local(loci, direction, silent)
+	controller.finish_teleport( silent )
+	position_stabilized = true
+	is_paused = is_paused_prior
+
+
+func _snap_camera_to_protag():
 	my_camera.tween_duration = 0
 	
 	if GlobalRuntime.scene_manager.phantom_camera_host._active_pcam_2d == my_camera:
 		GlobalRuntime.scene_manager.phantom_camera_host._prev_active_pcam_2d_transform.origin = global_position
 	my_camera.tween_resource.duration = GlobalRuntime.CAMERA_TWEEN_DURATION
-	controller.finalize_map_change( silent )
-	is_paused = is_paused_prior
+	pass
 
 
 # Among Us reference?

@@ -140,6 +140,7 @@ func change_map( map_template ):
 	
 	world_interface.add_child( next_map ) #.instantiate()
 	GlobalRuntime._switch_io_state(GlobalRuntime.GameIOState.WORLD)
+	GlobalDatabase.save_level_map( next_map )
 	pass
 
 

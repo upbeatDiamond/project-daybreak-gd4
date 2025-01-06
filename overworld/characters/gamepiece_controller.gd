@@ -171,110 +171,101 @@ func handle_movement_input():
 				" am at ", gamepiece.current_position, "")
 
 
-func handle_map_change( map:String, anchor_name:String, silent:bool=false ):
-	
-	## TODO: update check to enable on-screen NPCs to have the fade out & fade in cycle.
-	## Hide the teleport from the player by fading to black
-	if !silent and gamepiece.treat_as_player:
-		print("not silent warp!")
-		await GlobalRuntime.scene_manager.fade_to_black()
-	
-	# If the portal touched doesn't point to a specific map, implying it teleports locally
-	## TODO: make this call do something useful?
-	var tp_map_index = GlobalRuntime.scene_manager.get_map_index(map)
-	if tp_map_index < 0 and map != null and map != "":
-		print("Eek! I'm YIIKing the freak out!")
-		#assert(false)
-	
-	var map_root = GlobalRuntime.scene_manager.get_overworld_root()
-	var anchor_container
-	var anchor
-	var loci = gamepiece.global_position
-	var direction = gamepiece.facing_direction
-	
-	if map_root != null:
-		anchor_container = map_root.get_anchor_container()
-	if anchor_container != null:
-		anchor = anchor_container.get_anchor_by_name(anchor_name)
-	if anchor != null:
-		loci = anchor.global_position 
-		direction = anchor.facing_direction
-	print("anchor detail: ", anchor, " :+ name: ", anchor_name)
-	
-	gamepiece.my_camera.tween_resource.duration = 0
-	
-	#gamepiece.shift_to_target( loci )
-	#gamepiece.facing_direction = Vector2( direction.x, direction.y )
-	
-	print("teleport: gx %d, gy %d, x %d, y %d"%[gamepiece.global_position.x,gamepiece.global_position.y,loci.x,loci.y])
-	
-	if true:# != null:
-		LevelMap.store_gamepiece( gamepiece, tp_map_index, loci, \
-				LevelMap.MapIndex.INVALID_INDEX, direction )
-		
-		if gamepiece.treat_as_player:
-			GlobalRuntime.scene_manager.change_map_from_path(map)
+#func handle_map_change( map:String, anchor_name:String, silent:bool=false ):
+	#
+	## If the portal touched doesn't point to a specific map, implying it teleports locally
+	### TODO: make this call do something useful?
+	#var tp_map_index = GlobalRuntime.scene_manager.get_map_index(map)
+	#if tp_map_index < 0 and map != null and map != "":
+		#print("Eek! I'm YIIKing the freak out!")
+		##assert(false)
+	#
+	#var map_root = GlobalRuntime.scene_manager.get_overworld_root()
+	#var anchor_container
+	#var anchor
+	#var loci = gamepiece.global_position
+	#var direction = gamepiece.facing_direction
+	#
+	#if map_root != null:
+		#anchor_container = map_root.get_anchor_container()
+	#if anchor_container != null:
+		#anchor = anchor_container.get_anchor_by_name(anchor_name)
+	#if anchor != null:
+		#loci = anchor.global_position 
+		#direction = anchor.facing_direction
+	#print("anchor detail: ", anchor, " :+ name: ", anchor_name)
+	#
+	#gamepiece.my_camera.tween_resource.duration = 0
+	#
+	##gamepiece.shift_to_target( loci )
+	##gamepiece.facing_direction = Vector2( direction.x, direction.y )
+	#
+	#print("teleport: gx %d, gy %d, x %d, y %d"%[gamepiece.global_position.x,gamepiece.global_position.y,loci.x,loci.y])
+	#
+	#if true:# != null:
+		#LevelMap.store_gamepiece( gamepiece, tp_map_index, loci, \
+				#LevelMap.MapIndex.INVALID_INDEX, direction )
+		#
+		#if gamepiece.treat_as_player:
+			#GlobalRuntime.scene_manager.change_map_from_path(map)
 	
 
 
-func finalize_map_change( silent ):
-	
-	GlobalRuntime.scene_manager.phantom_camera_host._prev_active_pcam_2d_transform.origin = gamepiece.global_position
-	
-	if !silent:
-		GlobalRuntime.scene_manager.fade_in()
-	
-	gamepiece.traversal_mode = Gamepiece.TraversalMode.STANDING
-	gamepiece.update_anim_tree()
-	#gamepiece.is_paused = was_paused
-	
-	print(GlobalRuntime.scene_manager.get_overworld_root(), \
-	GlobalRuntime.scene_manager.get_overworld_root().scene_file_path)
-	
-	var map = (GlobalRuntime.scene_manager.get_overworld_root() as LevelMap)
-	
-	GlobalDatabase.save_level_map( map )
-	
-	gamepiece.position_stabilized = true
-	
-	# Save to preserve at least current position and facing direction
-	#GlobalDatabase.save_gamepiece( gamepiece )
-	pass
+func finish_teleport(silent:bool=false):
+	_finish_teleport_local(silent)
 
 
 func _start_teleport_local(loci: Vector2i, direction: Vector2i, silent:=false):
 	gamepiece.shift_to_target(loci)
-	pass
+	print("teleport: gx %d, gy %d, x %d, y %d"%[gamepiece.global_position.x,gamepiece.global_position.y,loci.x,loci.y])
+	gamepiece.facing_direction = direction
+	gamepiece._snap_camera_to_protag()
 
 
 ## When touching a teleport, the chain of function calls should end up here.
 func _start_teleport_map( map:String, anchor_name:String="", silent:bool=false ):
-	
+	## Parse and then save where the gamepiece ought to be.
 	var target_map_id = GlobalDatabase.get_map_index(map)
 	var anchor_coord = GlobalDatabase.get_anchor_coord(target_map_id, anchor_name)
 	var current_map_id = LevelMap.guess_current_map()
+	print("anchor detail: ", anchor_coord, " :+ name: ", anchor_name)
 	
 	LevelMap.save_gamepiece(gamepiece, target_map_id, anchor_coord, current_map_id )
 	
+	## If the teleport position may be visible, move it properly.
+	## Else, delete it, and make sure we are on the map the player is in
 	if current_map_id == target_map_id:
 		_start_teleport_local(anchor_coord, Vector2i.ZERO, silent)
 	elif gamepiece.treat_as_player:
 		GlobalRuntime.scene_manager.change_map_from_path(map)
 	else:
 		gamepiece.pack_up()
-	pass
 
 
 ## When switching within the same map
-func _finish_teleport_local():
+func _finish_teleport_local(silent:bool=false):
 	
-	#gamepiece.global_position = 
+	if !silent:
+		GlobalRuntime.scene_manager.fade_in()
+	
+	gamepiece.traversal_mode = Gamepiece.TraversalMode.STANDING
+	gamepiece.update_anim_tree()
+	
+	print(GlobalRuntime.scene_manager.get_overworld_root(), \
+	GlobalRuntime.scene_manager.get_overworld_root().scene_file_path)
 	
 	pass
 
 
-## When switching to/from a different map
-func _finish_teleport_distant():
-	if gamepiece.treat_as_player:
-		pass
-	pass
+### When switching to/from a different map
+#func _finish_teleport_distant():
+	### Guard clause
+	#if not gamepiece.treat_as_player:
+		#return
+	#
+	#
+	#pass
+
+## ^ tagged out, because why should this be treated specially?
+## TP code is mostly about hiding the sloppy way gamepieces are moved around
+## Deletion and regeneration should be sufficient for this, which already happens
