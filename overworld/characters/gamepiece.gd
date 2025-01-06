@@ -520,6 +520,7 @@ func kill_imposters():
 				queue_free()
 			#elif piece.unique_id == unique_id:
 				#piece.unique_id *= 2
+				#piece.unique_id += 1
 		pass
 	return true
 
