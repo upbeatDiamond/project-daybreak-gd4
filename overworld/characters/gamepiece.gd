@@ -47,11 +47,11 @@ var run_speed = 8.0
 @onready var move_tween : Tween
 @onready var my_camera : PhantomCamera2D = null
 
-var is_paused = false;	# true if cannot act; this shouldn't be set by Gamepiece OR its controller
-var is_moving = false;	# true if currently tweening a traversal (walking, running, jumping, etc)
-var was_moving = false;	# true if animation for an 'is_moving' action would still be playing
-var position_is_known = true;	# false if the gamepiece needs a new position calculated.
-var position_stabilized = false;	#current_position == global_position; or, "has been placed yet"
+var is_paused := false;	# true if cannot act; this shouldn't be set by Gamepiece OR its controller
+var is_moving := false;	# true if currently tweening a traversal (walking, running, jumping, etc)
+var was_moving := false;	# true if animation for an 'is_moving' action would still be playing
+var position_is_known := true;	# false if the gamepiece needs a new position calculated.
+var position_stabilized := false;	#current_position == global_position; or, "has been placed yet"
 @export var facing_direction = Vector2(0,-1):	# Used for animation state
 	set(value):
 		facing_direction = value
@@ -441,15 +441,17 @@ func teleport_to_anchor(map:String, anchor:String):
 func set_teleport(loci: Vector2i, direction: Vector2i, map:="", anchor_name:="", silent:=false):
 	is_moving = false
 	
-	var pause_prior: bool 
-	pause_prior = await controller.handle_map_change( map, anchor_name, silent )
+	var is_paused_prior := is_paused
+	is_paused = true
+	#pause_prior = await controller.handle_map_change( map, anchor_name, silent )
 	#var camera_tween_prior = my_camera.tween_duration
 	my_camera.tween_duration = 0
 	
 	if GlobalRuntime.scene_manager.phantom_camera_host._active_pcam_2d == my_camera:
 		GlobalRuntime.scene_manager.phantom_camera_host._prev_active_pcam_2d_transform.origin = global_position
 	my_camera.tween_resource.duration = GlobalRuntime.CAMERA_TWEEN_DURATION
-	controller.finalize_map_change( pause_prior, silent )
+	controller.finalize_map_change( silent )
+	is_paused = is_paused_prior
 
 
 # Among Us reference?
@@ -502,3 +504,8 @@ func transfer_data_from_gp(gamepiece:Gamepiece):
 	if gamepiece.controller != null:
 		controller.set_script( gamepiece.controller.get_script() )
 	pass
+
+
+## Calls the function to start deleting this node and its children
+func pack_up():
+	GlobalRuntime.clean_up_node_descent(self)

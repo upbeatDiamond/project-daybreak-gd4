@@ -172,8 +172,6 @@ func handle_movement_input():
 
 
 func handle_map_change( map:String, anchor_name:String, silent:bool=false ):
-	var was_paused = gamepiece.is_paused
-	gamepiece.is_paused = true
 	
 	## TODO: update check to enable on-screen NPCs to have the fade out & fade in cycle.
 	## Hide the teleport from the player by fading to black
@@ -217,10 +215,9 @@ func handle_map_change( map:String, anchor_name:String, silent:bool=false ):
 		if gamepiece.treat_as_player:
 			GlobalRuntime.scene_manager.change_map_from_path(map)
 	
-	return was_paused
 
 
-func finalize_map_change( was_paused, silent ):
+func finalize_map_change( silent ):
 	
 	GlobalRuntime.scene_manager.phantom_camera_host._prev_active_pcam_2d_transform.origin = gamepiece.global_position
 	
@@ -229,7 +226,7 @@ func finalize_map_change( was_paused, silent ):
 	
 	gamepiece.traversal_mode = Gamepiece.TraversalMode.STANDING
 	gamepiece.update_anim_tree()
-	gamepiece.is_paused = was_paused
+	#gamepiece.is_paused = was_paused
 	
 	print(GlobalRuntime.scene_manager.get_overworld_root(), \
 	GlobalRuntime.scene_manager.get_overworld_root().scene_file_path)
@@ -245,28 +242,39 @@ func finalize_map_change( was_paused, silent ):
 	pass
 
 
+func _start_teleport_local(loci: Vector2i, direction: Vector2i, silent:=false):
+	gamepiece.shift_to_target(loci)
+	pass
+
+
 ## When touching a teleport, the chain of function calls should end up here.
-func _start_teleport( map:String, anchor_name:String="", silent:bool=false ):
+func _start_teleport_map( map:String, anchor_name:String="", silent:bool=false ):
 	
-	#piece:Gamepiece, target_map_index:MapIndex, \
-		#target_map_coordinates:=Vector2i(0,0), \
-		#_origin_map_index:=target_map_index, \
-		#_facing_direction=piece.facing_direction
+	var target_map_id = GlobalDatabase.get_map_index(map)
+	var anchor_coord = GlobalDatabase.get_anchor_coord(target_map_id, anchor_name)
+	var current_map_id = LevelMap.guess_current_map()
 	
-	var target_map = GlobalDatabase.get_map_index(map)
-	var anchor_coord = GlobalDatabase.get_anchor_coord(target_map, anchor_name)
-	var current_map = LevelMap.guess_current_map()
+	LevelMap.save_gamepiece(gamepiece, target_map_id, anchor_coord, current_map_id )
 	
-	LevelMap.save_gamepiece(gamepiece, target_map, anchor_coord, current_map )
-	
+	if current_map_id == target_map_id:
+		_start_teleport_local(anchor_coord, Vector2i.ZERO, silent)
+	elif gamepiece.treat_as_player:
+		GlobalRuntime.scene_manager.change_map_from_path(map)
+	else:
+		gamepiece.pack_up()
 	pass
 
 
 ## When switching within the same map
 func _finish_teleport_local():
+	
+	#gamepiece.global_position = 
+	
 	pass
 
 
 ## When switching to/from a different map
 func _finish_teleport_distant():
+	if gamepiece.treat_as_player:
+		pass
 	pass
