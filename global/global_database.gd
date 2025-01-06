@@ -415,7 +415,6 @@ func get_anchor_coord( map_id:LevelMap.MapIndex, anchor:String ) -> Vector2:
 		return Vector2.ZERO
 	else:#if fetched.size() == 1:
 		return db_unwrap(fetched[0]["coordinate"]) as Vector2
-	pass
 
 
 func save_anchor_coord( map_id:LevelMap.MapIndex, anchor:String, position:Vector2 ):

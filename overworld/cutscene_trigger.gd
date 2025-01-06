@@ -28,7 +28,7 @@ func _process(_delta: float) -> void:
 	pass
 
 
-func run_event( gamepiece:Gamepiece ):
+func run_event( _gamepiece:Gamepiece ):
 	
 	# Early exit, to decrease ability for multiple cutscenes to occur at once
 	if GlobalDirector.is_paused():

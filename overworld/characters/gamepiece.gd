@@ -14,11 +14,11 @@ signal gamepiece_moved( direction:Vector2, global_endpoint:Vector2, mode:Travers
 signal gamepiece_moving( direction:Vector2, global_endpoint:Vector2, mode:TraversalMode )
 
 
-# -1 = invalid / unset
-# 0 = player 1
-# 0-255 = reserved for players, in case of future multiplayer version
-# not to be confused with UMID, which reserves 1-512 for important characters
-@export var unique_id := -1	# may be removed unless useful for screenplays
+## -1 = invalid / unset
+## 0 = player 1
+## 0-255 = reserved for players, in case of future multiplayer version
+## not to be confused with UMID, which reserves 1-512 for important characters
+#@export var unique_id := -1	# may be removed unless useful for screenplays
 @export var umid := -1:
 	set(_umid):
 		umid = _umid
@@ -37,7 +37,7 @@ var run_speed = 8.0
 @export var is_local_player := false
 @export var tag = ""
 
-@onready var animation_tree = $AnimationTree
+@onready var animation_tree : AnimationTree = $AnimationTree
 @onready var animation_state #= animation_tree["parameters/playback"]
 @onready var event_ray : RayCast2D = $Collision/EventRayCast2D
 @onready var gfx = $GFX
@@ -52,11 +52,7 @@ var is_moving := false;	# true if currently tweening a traversal (walking, runni
 var was_moving := false;	# true if animation for an 'is_moving' action would still be playing
 var position_is_known := true;	# false if the gamepiece needs a new position calculated.
 var position_stabilized := false;	#current_position == global_position; or, "has been placed yet"
-@export var facing_direction = Vector2(0,-1):	# Used for animation state
-	set(value):
-		if value is Vector2i:
-			value = Vector2(value.x, value.y)
-		facing_direction = value
+@export var facing_direction := FacingDirection.NORTH	# Used for animation state
 
 var traversal_mode = TraversalMode.STANDING
 
@@ -111,17 +107,14 @@ func _ready():
 	assert(gfx != null, "Generation relies on Treelet? Why???")
 	
 	add_to_group("gamepiece")
-	#controller.set_script(load("res://overworld/characters/gamepiece_controller.gd"))
 	
 	# "animation_tree" serves as a canary for overall loading issues.
 	if animation_tree == null:
-		#get_parent().add_child( GlobalGamepieceTransfer.reform_gamepiece_treelet( self ) )
-		#get_parent().remove_child( self )
 		assert(false)
 		return
 	
 	if facing_direction == null:
-		facing_direction = Vector2(0,1)
+		facing_direction = FacingDirection.SOUTH
 	
 	animation_state = animation_tree["parameters/playback"]
 	my_camera = (self.find_child("PhantomCamera", true) as PhantomCamera2D)
@@ -196,9 +189,6 @@ func set_umid(new_umid:int):
 
 
 func update_rays( direction : Vector2 ):
-	#block_ray.target_position = direction * GlobalRuntime.DEFAULT_TILE_SIZE
-	#block_ray.force_raycast_update()
-	
 	event_ray.target_position = direction * GlobalRuntime.DEFAULT_TILE_SIZE
 	event_ray.force_raycast_update()
 	event_ray.clear_exceptions()
@@ -216,15 +206,8 @@ func move( direction ):
 	
 	facing_direction = direction
 	
-	#_check_exterior_event_collision(direction)
-	#var gfx_pos_prior = gfx.global_position
 	var scaled_direction = GlobalRuntime.snap_to_grid_corner_f(direction * GlobalRuntime.DEFAULT_TILE_SIZE)
-	#var test_transform = self.global_transform
-	#test_transform.x.x = 0.8
-	#test_transform.y.y = 0.8
-	#test_transform.origin += (GlobalRuntime.DEFAULT_TILE_OFFSET * (1 - 0.8) )
 	var would_collide = _peek_exterior_collision(direction)
-	
 	
 	if not would_collide: 
 		
@@ -236,8 +219,8 @@ func move( direction ):
 		var new_position = GlobalRuntime.snap_to_grid(collision.position + \
 			scaled_direction )
 		
-		# Before this match is run, try looking for materials that change the...
-		# ... character's speed/animation, and change the traversal mode to match.
+		## Before this match is run, try looking for materials that change the...
+		## ... character's speed/animation, and change the traversal mode to match.
 		
 		match traversal_mode:
 			TraversalMode.WALKING:
@@ -247,7 +230,6 @@ func move( direction ):
 			_:
 				move_speed = walk_speed
 		update_anim_tree()
-		
 		
 		collision.position = new_position
 		
@@ -274,7 +256,6 @@ func move( direction ):
 	traversal_mode = TraversalMode.STANDING
 	
 	## Used to check for event after moving... is it actually used/useful?
-	#var normalized_direction = direction.normalized() * GlobalRuntime.DEFAULT_TILE_SIZE
 	_check_touch_event_collision(direction)
 
 
@@ -392,10 +373,6 @@ func shift_to_target( target:Vector2i ):
 	var new_position = GlobalRuntime.snap_to_grid_corner_f( target )
 	self.global_position = new_position
 	resync_position()
-	
-	#if collision != null:
-	#	collision.global_position = GlobalRuntime.snap_to_grid_center_f( target )
-	#resync_position()
 
 
 func entered_door():
@@ -409,12 +386,9 @@ func queue_movement( movement:Movement ):
 func resync_position():
 	if collision == null:
 		return
-	#print("gp ", umid, "/", unique_id, " global position ~ ", current_position)
 	
 	var collision_gp = collision.global_position
 	var gfx_gp = collision.global_position - (GlobalRuntime.DEFAULT_TILE_OFFSET)
-	#if gfx != null:
-	#	gfx_gp = gfx.global_position
 	
 	self.global_position = Vector2(collision_gp) - (Vector2.ONE * GlobalRuntime.DEFAULT_TILE_OFFSET)
 	collision.global_position = Vector2(collision_gp)
@@ -422,11 +396,76 @@ func resync_position():
 		gfx.global_position = Vector2(gfx_gp)
 
 
+func set_facing_from_vector2(vector):
+	if vector is Vector2:
+		facing_direction = _facing_from_vector2(vector)
+	if vector is Vector2i:
+		facing_direction = _facing_from_vector2i(vector)
+
+
+static func _facing_from_vector2(vector:Vector2) -> FacingDirection:
+	if abs(vector.x) > abs(vector.y):
+		if sign(vector.x) < 0:
+			return FacingDirection.WEST
+		else:
+			return FacingDirection.EAST
+	else:
+		if sign(vector.x) < 0:
+			return FacingDirection.NORTH
+		else:
+			return FacingDirection.SOUTH
+
+
+static func _facing_from_vector2i(vector:Vector2i) -> FacingDirection:
+	if abs(vector.x) > abs(vector.y):
+		if sign(vector.x) < 0:
+			return FacingDirection.WEST
+		else:
+			return FacingDirection.EAST
+	else:
+		if sign(vector.x) < 0:
+			return FacingDirection.NORTH
+		else:
+			return FacingDirection.SOUTH
+
+
+func vector2i_from_facing():
+	return _vector2i_from_facing(facing_direction)
+
+
+func vector2_from_facing():
+	return _vector2_from_facing(facing_direction)
+
+
+static func _vector2i_from_facing(facing:FacingDirection) -> Vector2i:
+	match facing:
+		FacingDirection.NORTH:
+			return Vector2i(0,-1)
+		FacingDirection.EAST:
+			return Vector2i(0,1)
+		FacingDirection.WEST:
+			return Vector2i(0,-1)
+		_:#FacingDirection.SOUTH:
+			return Vector2i(0,1)
+
+
+static func _vector2_from_facing(facing:FacingDirection) -> Vector2:
+	match facing:
+		FacingDirection.NORTH:
+			return Vector2(0,-1)
+		FacingDirection.EAST:
+			return Vector2(0,1)
+		FacingDirection.WEST:
+			return Vector2(0,-1)
+		_:#FacingDirection.SOUTH:
+			return Vector2(0,1)
+
+
 func update_anim_tree():
-	if facing_direction.x != 0 || facing_direction.y != 0:
-		animation_tree.set("parameters/Idle/blend_position", facing_direction)
-		animation_tree.set("parameters/Walk/blend_position", facing_direction)
-		animation_tree.set("parameters/Run/blend_position", facing_direction)
+	var facing_vector = vector2_from_facing()
+	animation_tree.set("parameters/Idle/blend_position", facing_vector)
+	animation_tree.set("parameters/Walk/blend_position", facing_vector)
+	animation_tree.set("parameters/Run/blend_position", facing_vector)
 	
 	match traversal_mode:
 		TraversalMode.WALKING:
@@ -436,10 +475,6 @@ func update_anim_tree():
 		_:
 			animation_state.travel("Idle", false)
 			pass
-
-
-#func set_spawn(loci: Vector2, direction: Vector2):
-	#teleport(loci, direction)
 
 
 func teleport_to_anchor(map:String, anchor:String, silent:=false):
@@ -484,8 +519,8 @@ func kill_imposters():
 			elif !is_inside_tree():
 				umid = -1
 				queue_free()
-			elif piece.unique_id == unique_id:
-				piece.unique_id *= 2
+			#elif piece.unique_id == unique_id:
+				#piece.unique_id *= 2
 		pass
 	return true
 
@@ -494,20 +529,19 @@ func kill_imposters():
 # This function as a non-descriptive name because this is an EARLY BUILD
 # Unless... it fixed itself and can be used anywhere?
 func save_gamepiece():
-	if is_inside_tree():
-		kill_imposters()
-		current_position = global_position
-		current_map = GlobalRuntime.scene_manager.get_overworld_root().map_index
-	else:
+	if not is_inside_tree():
 		return
-	print("save gp ", umid, "/", unique_id, " global position ~ ", current_position)
+	kill_imposters()
+	current_position = global_position
+	current_map = GlobalRuntime.scene_manager.get_overworld_root().map_index
+	print("save gp ", umid, "/", 0, " global position ~ ", current_position)
 	GlobalDatabase.save_gamepiece(self)
 	pass
 
 
 func transfer_data_from_gp(gamepiece:Gamepiece):
 	var bool_pidgeonhole = false
-	unique_id = gamepiece.unique_id
+	#unique_id = gamepiece.unique_id
 	umid = gamepiece.umid
 	monster = gamepiece.monster
 	

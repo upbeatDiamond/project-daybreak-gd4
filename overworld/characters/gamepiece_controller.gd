@@ -86,9 +86,9 @@ func _autonav_next_move() -> Vector2:
 	print(new_direction, " % ", target_position)
 	
 	# Quick patch, because sometimes the navigation agent gets stuck on corners?
-	var bonk = await gamepiece._peek_exterior_collision(new_direction * gamepiece.facing_direction.abs())
+	var bonk = await gamepiece._peek_exterior_collision(new_direction * gamepiece.vector2_from_facing())
 	if bonk:
-		new_direction = new_direction * Vector2( abs(gamepiece.facing_direction.y), abs(gamepiece.facing_direction.x) )
+		new_direction = new_direction * gamepiece.vector2_from_facing()
 	
 	return new_direction
 
@@ -134,19 +134,20 @@ func handle_movement_input():
 	# Else, change direction so the character moves zig-zag
 	# Else, follow the direction the character is facing, 
 	# if X and Y are 0 or NaN.
+	
 	if (abs(input_direction.x) > abs(input_direction.y)):
 		input_direction = Vector2(sign(input_direction.x), 0)
 	elif (abs(input_direction.x) < abs(input_direction.y)):
 		input_direction = Vector2(0, sign(input_direction.y))
-	elif ( abs(gamepiece.facing_direction.x) > 0 ):
+	elif ( gamepiece.vector2_from_facing().x > 0 ):
 		input_direction = Vector2(0, sign(input_direction.y))
-	elif ( abs(gamepiece.facing_direction.x) > 0 ):
+	elif ( gamepiece.vector2_from_facing().y > 0 ):
 		input_direction = Vector2(sign(input_direction.x), 0)
 		
 	# Zig-zag?
 	if (input_direction.x != 0) && (input_direction.y != 0) && (input_direction != Vector2.ZERO):
-		input_direction = Vector2( sign(input_direction.x)*abs(gamepiece.facing_direction.y), 
-								sign(input_direction.y)*abs(gamepiece.facing_direction.x));
+		input_direction = Vector2( sign(input_direction.x)*(gamepiece.vector2_from_facing().y), 
+								sign(input_direction.y)*(gamepiece.vector2_from_facing().x));
 	
 	print("GPC: Input direction = ", input_direction)
 	var movement := Movement.new( input_direction )
@@ -156,7 +157,7 @@ func handle_movement_input():
 	var is_running = _handle_movement_running()#Input.is_action_pressed("ui_fast")
 	if is_running:
 		movement.method = gamepiece.TraversalMode.RUNNING
-	elif Vector2i(gamepiece.facing_direction) != movement.to_facing_vector2i():
+	elif gamepiece.vector2i_from_facing() != movement.to_facing_vector2i():
 		movement.method = gamepiece.TraversalMode.STANDING
 		input_cooldown = INPUT_COOLDOWN_DEFAULT
 	else:
@@ -218,7 +219,7 @@ func finish_teleport(silent:bool=false):
 func _start_teleport_local(loci: Vector2i, direction: Vector2i, silent:=false):
 	gamepiece.shift_to_target(loci)
 	print("teleport: gx %d, gy %d, x %d, y %d"%[gamepiece.global_position.x,gamepiece.global_position.y,loci.x,loci.y])
-	gamepiece.facing_direction = direction
+	gamepiece.set_facing_from_vector2(direction)
 	gamepiece._snap_camera_to_protag()
 
 
