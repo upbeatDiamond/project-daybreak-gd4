@@ -1,7 +1,6 @@
-Welcome to crude changelog, the log that gets facts wrong about your favorite changes.
-I'm jan Wiwijen (jan Opitamon), and today I'll be discussing a pre-alpha version of a Godot project.
-
-January - March, September, but mostly December 2024
+Welcome to Crude Changelog, the log that gets facts wrong about YOUR favorite 
+changes. I'm jan Wiwijen (jan Opitamon), and in this changelog, we'll be looking
+at a pre-alpha version of Monster Pager: Daybreak.
 
 Codename: Project Daybreak
 Update: Pre-alpha 7/8,
@@ -20,6 +19,7 @@ Noteworthy Subtractions:
 Noteworthy Changes:
 	* Game now runs on a state chart system
 	* Revised gamepiece teleport/anchor system
+	* Gamepiece facing direction uses an enum (cannot face diagonal/zero)
 
 
 
