@@ -407,12 +407,13 @@ func get_anchor_coord( map_id:LevelMap.MapIndex, anchor:String ) -> Vector2:
 	db.open_db()
 	
 	var target_table_name = "map_anchor"
-	var query_conditions : String = str("map_id = ", map_id, ", anchor_name = '", cheap_sanitize(anchor), "'") 
+	var query_conditions : String = str("map_id = ", map_id, " AND anchor_name LIKE '", cheap_sanitize(anchor), "'") 
 	
 	var fetched:Array = db.select_rows( target_table_name, query_conditions, ["anchor_name", "coordinate"] )
 	db.close_db()
 	if fetched.size() == 0:
-		return Vector2.ZERO
+		return Vector2.INF
+		print("!!! malformed anchor coord query?")
 	else:##if fetched.size() >= 1:
 		return db_unwrap(fetched[0]["coordinate"]) as Vector2
 
@@ -539,7 +540,7 @@ func recover_last_state() -> String:
 	gp_player.current_position = gp_player.current_position
 	await overworld.place_gamepieces( [gp_player] )
 	gp_player.visible = true
-	gp_player.unique_id = 0
+	#gp_player.unique_id = 0
 	#gp_player.my_camera.tween_resource.duration = 0#my_camera.reset_smoothing()
 	for child in gp_player.get_children():
 		if child is Node2D:

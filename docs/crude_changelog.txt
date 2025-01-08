@@ -19,6 +19,7 @@ Noteworthy Subtractions:
 
 Noteworthy Changes:
 	* Game now runs on a state chart system
+	* Revised gamepiece teleport/anchor system
 
 
 

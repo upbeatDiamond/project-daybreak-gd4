@@ -2,15 +2,15 @@ extends RefCounted
 class_name Movement
 
 # enum for facing/moving towards direction
-enum Direction{
-	NEUTRAL = 0,
-	NORTH = 1,
-	EAST,
-	SOUTH,
-	WEST,
-}
+#enum Direction{
+	#NEUTRAL = -1,
+	#NORTH = 0,
+	#EAST,
+	#SOUTH,
+	#WEST,
+#}
 
-var direction:Direction
+var direction:Gamepiece.FacingDirection
 var method:Gamepiece.TraversalMode # how fast you're moving / on what terrain
 
 
@@ -20,25 +20,25 @@ func _init( vector=Vector2i(0,0), _method:=Gamepiece.TraversalMode.WALKING ):
 	method = _method
 	
 	if abs(vector.x) == abs(vector.y):
-		direction = Direction.NEUTRAL
+		direction = Gamepiece.FacingDirection.SOUTH
 	elif abs(vector.x) > abs(vector.y):
 		if int(vector.x + 0.5) >= 1:
-			direction = Direction.SOUTH
+			direction = Gamepiece.FacingDirection.SOUTH
 		else:
-			direction = Direction.NORTH
+			direction = Gamepiece.FacingDirection.NORTH
 	else:
 		if int(vector.y + 0.5) >= 1:
-			direction = Direction.EAST
+			direction = Gamepiece.FacingDirection.EAST
 		else:
-			direction = Direction.WEST
+			direction = Gamepiece.FacingDirection.WEST
 	pass
 
 
 func to_facing_vector2i() -> Vector2i:
 	var vector_export := Vector2i(0,0)
 	
-	vector_export.x = int(direction == Direction.SOUTH) - int(direction == Direction.NORTH)
-	vector_export.y = int(direction == Direction.EAST) - int(direction == Direction.WEST)
+	vector_export.x = int(direction == Gamepiece.FacingDirection.SOUTH) - int(direction == Gamepiece.FacingDirection.NORTH)
+	vector_export.y = int(direction == Gamepiece.FacingDirection.EAST) - int(direction == Gamepiece.FacingDirection.WEST)
 	
 	return vector_export
 

@@ -194,24 +194,27 @@ func update_rays( direction : Vector2 ):
 
 
 func move( direction ):
-	if (direction is Vector2 and direction == Vector2.ZERO) or \
-		(direction is Vector2i and direction == Vector2i.ZERO):
-		return
-	if not direction is Movement:
-		direction = Movement.new(direction, traversal_mode)
+	if direction is Vector2 or direction is Vector2i:
+		direction = Vector2(direction)
+		if direction == Vector2.ZERO:
+			return
 	
-	traversal_mode = direction.method
-	direction = direction.to_cell_vector2f()
+	var movement
+	if direction is Movement:
+		movement = direction
+	else:
+		movement = Movement.new(direction, traversal_mode)
 	
-	facing_direction = direction
+	traversal_mode = movement.method
+	facing_direction = movement.direction
 	
-	var scaled_direction = GlobalRuntime.snap_to_grid_corner_f(direction * GlobalRuntime.DEFAULT_TILE_SIZE)
-	var would_collide = _peek_exterior_collision(direction)
+	var scaled_direction = GlobalRuntime.snap_to_grid_corner_f(movement.to_facing_vector2f() * GlobalRuntime.DEFAULT_TILE_SIZE)
+	var would_collide = _peek_exterior_collision(movement.to_facing_vector2f())
 	
 	if not would_collide: 
 		
 		var colliding_within
-		update_rays(direction)
+		update_rays(movement.to_facing_vector2f())
 		if event_ray.is_colliding():
 			colliding_within = event_ray.get_collider()
 		
@@ -255,7 +258,8 @@ func move( direction ):
 	traversal_mode = TraversalMode.STANDING
 	
 	## Used to check for event after moving... is it actually used/useful?
-	_check_touch_event_collision(direction)
+	_check_touch_event_collision(movement.to_facing_vector2f())
+	print("movement complete")
 
 
 ##	Check for touching the surface of an adjecent object/cell
@@ -437,27 +441,19 @@ func vector2_from_facing():
 
 
 static func _vector2i_from_facing(facing:FacingDirection) -> Vector2i:
-	match facing:
-		FacingDirection.NORTH:
-			return Vector2i(0,-1)
-		FacingDirection.EAST:
-			return Vector2i(0,1)
-		FacingDirection.WEST:
-			return Vector2i(0,-1)
-		_:#FacingDirection.SOUTH:
-			return Vector2i(0,1)
+	return Vector2i(_vector2_from_facing(facing))
 
 
 static func _vector2_from_facing(facing:FacingDirection) -> Vector2:
 	match facing:
 		FacingDirection.NORTH:
-			return Vector2(0,-1)
+			return Vector2(-1,0)
 		FacingDirection.EAST:
 			return Vector2(0,1)
 		FacingDirection.WEST:
 			return Vector2(0,-1)
 		_:#FacingDirection.SOUTH:
-			return Vector2(0,1)
+			return Vector2(1,0)
 
 
 func update_anim_tree():

@@ -40,7 +40,9 @@ func _process(_delta: float) -> void:
 			map_id = current_map
 		
 		if LevelMap.guess_current_map() == map_id:
-			target_position = GlobalDatabase.get_anchor_coord(map_id, target_anchor_name)
+			var test_target_position = GlobalDatabase.get_anchor_coord(map_id, target_anchor_name)
+			if test_target_position != Vector2.INF:
+				target_position = test_target_position
 		_validated = true
 
 

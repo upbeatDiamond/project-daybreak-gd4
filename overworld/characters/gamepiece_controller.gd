@@ -2,7 +2,7 @@ extends Node
 class_name GamepieceController
 
 var gamepiece : Gamepiece
-const INPUT_COOLDOWN_DEFAULT:float = 6.5;
+const INPUT_COOLDOWN_DEFAULT:float = 0.25;
 var input_cooldown := 0.0
 @onready var navigation_agent_2d : NavigationAgent2D
 var is_rendered := false
@@ -149,7 +149,7 @@ func handle_movement_input():
 	print("GPC: Input direction = ", input_direction)
 	var movement := Movement.new( input_direction )
 	
-	gamepiece.facing_direction = input_direction;
+	gamepiece._facing_from_vector2(input_direction);
 	
 	var is_running = _handle_movement_running()
 	if is_running:
@@ -161,7 +161,7 @@ func handle_movement_input():
 		movement.method = gamepiece.TraversalMode.WALKING
 	
 	if input_direction != Vector2.ZERO:
-		gamepiece.facing_direction = input_direction;
+		gamepiece._facing_from_vector2(input_direction);
 		gamepiece.position_stabilized = true
 		gamepiece.queue_movement( movement )
 		gamepiece.update_anim_tree()
