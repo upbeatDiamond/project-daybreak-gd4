@@ -220,7 +220,7 @@ func pack_up():
 
 # Gamepieces should be made much smaller before storing, but there's only the player now, so eh.
 static func store_gamepiece( piece:Gamepiece, target_map_index:MapIndex, \
-target_map_coordinates:=Vector2i(0,0), _origin_map_index:=MapIndex.INVALID_INDEX, facing_direction:=Vector2(0,1) ):
+target_map_coordinates:=Vector2i(0,0), _origin_map_index:=MapIndex.INVALID_INDEX, facing_direction:=Gamepiece.FacingDirection.SOUTH ):
 	
 	save_gamepiece( piece, target_map_index, target_map_coordinates, _origin_map_index, facing_direction )
 	
@@ -269,7 +269,7 @@ func save_placed_gamepieces() -> void:
 static func save_gamepiece( piece:Gamepiece, target_map_index:MapIndex, \
 		target_map_coordinates:=Vector2i(0,0), \
 		_origin_map_index:=target_map_index, \
-		_facing_direction=piece.facing_direction ) -> void:
+		_facing_direction:=piece.facing_direction ) -> void:
 	
 	if piece == null:
 		printerr("LevelMap/GGT attempted to save a null gamepiece; aborted!")

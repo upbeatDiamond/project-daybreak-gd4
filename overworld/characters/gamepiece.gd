@@ -482,7 +482,8 @@ func teleport(loci: Vector2i, direction: Vector2i, map:="", anchor_name:="", sil
 	
 	var is_paused_prior := is_paused
 	is_paused = true
-	if map.is_valid_filename() and FileAccess.file_exists(map) and anchor_name.length() > 0:
+	print(FileAccess.file_exists(map), ";", anchor_name.length())
+	if FileAccess.file_exists(map) and anchor_name.length() > 0:
 		controller._start_teleport_map(map, anchor_name, silent)
 	else:
 		controller._start_teleport_local(loci, direction, silent)
