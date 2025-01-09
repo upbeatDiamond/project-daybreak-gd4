@@ -90,7 +90,7 @@ func run_event( area ):
 		area.is_paused = true
 		area.move_tween.kill()
 		
-		if pointing_direction == area.facing_direction:
+		if pointing_direction == area.vector2_from_facing():
 			
 			var new_position = area.global_position + \
 				2*(pointing_direction * GlobalRuntime.DEFAULT_TILE_SIZE)
