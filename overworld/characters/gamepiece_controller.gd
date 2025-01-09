@@ -188,16 +188,16 @@ func _start_teleport_map( map:String, anchor_name:String="", silent:bool=false )
 	var current_map_id = LevelMap.guess_current_map()
 	print("anchor detail: ", anchor_coord, " :+ name: ", anchor_name)
 	
-	LevelMap.save_gamepiece(gamepiece, target_map_id, anchor_coord, current_map_id )
+	LevelMap.save_gamepiece(gamepiece, target_map_id, anchor_coord, target_map_id )
 	
 	## If the teleport position may be visible, move it properly.
 	## Else, delete it, and make sure we are on the map the player is in
 	if current_map_id == target_map_id:
 		_start_teleport_local(anchor_coord, Vector2i.ZERO, silent)
-	elif gamepiece.treat_as_player:
-		GlobalRuntime.scene_manager.change_map_from_path(map)
 	else:
 		gamepiece.pack_up()
+		if gamepiece.treat_as_player:
+			GlobalRuntime.scene_manager.change_map_from_path(map)
 
 
 ## When switching within the same map
