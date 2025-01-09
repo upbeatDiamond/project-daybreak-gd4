@@ -51,6 +51,7 @@ var is_moving := false	# true if currently tweening a traversal (walking, runnin
 var was_moving := false	# true if animation for an 'is_moving' action would still be playing
 var position_is_known := true	# false if the gamepiece needs a new position calculated.
 var position_stabilized := false	#current_position == global_position; or, "has been placed yet"
+var marked_for_deletion := true
 @export var facing_direction := FacingDirection.NORTH	# Used for animation state
 
 var traversal_mode = TraversalMode.STANDING
@@ -152,6 +153,9 @@ func _ready():
 
 
 func _process(_delta):	
+	if marked_for_deletion:
+		pack_up()
+		return
 	if not is_paused:
 		if move_queue.size() > 0 && is_moving == false:
 			move( (move_queue.pop_front() as Movement) )
@@ -276,7 +280,10 @@ func _check_touch_event_collision(direction:Vector2):
 		if colliding_with is CollisionObject2D:
 			event_ray.add_exception(colliding_with)
 			print(colliding_with)
-		await get_tree().process_frame
+		if is_inside_tree():
+			await get_tree().process_frame
+		else:
+			break
 	pass
 
 
@@ -473,7 +480,7 @@ func update_anim_tree():
 
 
 func teleport_to_anchor(map:String, anchor:String, silent:=false):
-	teleport(Vector2i(0,0), Vector2i(0,0), map, anchor)
+	teleport(Vector2i(0,0), Vector2i(0,0), map, anchor, silent)
 	pass
 
 
@@ -555,4 +562,5 @@ func transfer_data_from_gp(gamepiece:Gamepiece):
 
 ## Calls the function to start deleting this node and its children
 func pack_up():
-	GlobalRuntime.clean_up_node_descent(self)
+	marked_for_deletion = true
+	GlobalRuntime.call_deferred("clean_up_node_descent", self)# clean_up_node_descent(self)
