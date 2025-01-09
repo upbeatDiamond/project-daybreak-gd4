@@ -1,14 +1,17 @@
 Welcome to Crude Changelog, the log that gets facts wrong about YOUR favorite 
 changes. I'm jan Wiwijen (jan Opitamon), and in this changelog, we'll be looking
-at a pre-alpha version of Monster Pager: Daybreak.
+at a pre-alpha version of a Godot project.
 
 Codename: Project Daybreak
-Update: Pre-alpha 7/8,
+Update: Pre-alpha 7/8, ""
 TL;DR: 
 
 Noteworthy Additions:
 	+ Replaced player menu GUI
 		+ Replaced inventory GUI
+	+ Added/replaced some monster sprites
+	+ Added (generic) maps for each town
+	+ Added (untested/unfinished) spawning tool for tall grass 
 
 
 Noteworthy Subtractions:
