@@ -40,7 +40,10 @@ func _process(_delta: float) -> void:
 func _on_body_entered(body:PhysicsBody2D):
 	if activation_mode == ActivationMode.ACTIVE_ON_ENTER and \
 			(body is Gamepiece or body.get_groups().has("gamepiece")):
-		print("Body entered! ", body)
+		print("EventArea: Body entered! ", body)
+		if body.is_moving:
+			print("EventArea: Body is paused, ", body)
+			return
 		run_event(body)
 	pass
 	
