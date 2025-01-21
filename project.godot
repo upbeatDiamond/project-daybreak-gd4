@@ -29,12 +29,13 @@ GlobalMonster="*res://global/global_monster.gd"
 GlobalMonsterSpawner="*res://global/global_monster_spawner.gd"
 GlobalTechnique="res://global/global_technique.gd"
 GlobalBitManip="res://global/global_bit_manip.gd"
-GlobalRuntime="*res://global/global_runtime.gd"
+GlobalState="*res://global/global_state.gd"
 GlobalClock="*res://global/global_clock.gd"
 GlobalDirector="*res://global/global_director.gd"
 CommandServer="*res://addons/command-terminal/src/CommandServer.gd"
 BattleServer="*res://global/battle_server.gd"
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
+GlobalTools="*res://global/global_tools.gd"
 
 [display]
 
