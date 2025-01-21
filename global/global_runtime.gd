@@ -7,9 +7,6 @@ const DEFAULT_TILE_OFFSET_INT := Vector2i( DEFAULT_TILE_OFFSET )
 const CAMERA_TWEEN_DURATION := 1.0
 
 var server_random : RandomNumberGenerator
-var gamepiece_input_ignored: bool	# Can the player move the characters/world?
-var gamepieces_paused: bool		# Can the characters/world move around on their own?
-var player_menu_enabled: bool		# Can the player open their menu?
 var multiplayer_enabled: bool
 var rw_mode := RWMode.DEVELOPMENT ## RW Mode = Read/Write/Run Mode
 
@@ -135,6 +132,17 @@ const STATES_PLAYER_INTERACT_ON_EXIT := [
 const STATES_DIALOG_ACTIVE := [
 	GameIOState.WORLD_DIALOG,
 ]
+const STATES_TIME_PROGRESS := [
+	GameIOState.WORLD, 
+	GameIOState.WORLD_TRANSITION, ## For pausing menu access; should activate interact on finish
+	GameIOState.WORLD_DIALOG,
+	GameIOState.WORLD_MENU,
+	GameIOState.WORLD_MENU_SAVE,
+	GameIOState.WORLD_MENU_CLOSE,
+	GameIOState.WORLD_MENU_QUIT,
+	GameIOState.WORLD_DIALOG_QUEUE_BATTLE, 
+	GameIOState.WORLD_DIALOG_ENDED,
+]
 
 ## Prior : { Next : Redirect }
 const STATE_TRANSITION_EXCEPTIONS := {
@@ -180,10 +188,9 @@ func _init():
 	server_random = RandomNumberGenerator.new()
 	server_random.randomize()
 
+
 func _ready():
-	#scene_root_node = get_node(scene_root_path)
 	_switch_io_state(current_io_state)
-	pass
 
 
 func _process(_delta: float) -> void:
@@ -231,29 +238,6 @@ func _input(event):
 	pass
 
 
-
-##  Returns prior state of boolean
-func gameworld_input_enabled( value:bool ) -> bool:
-	print("DEPRICATED FUNCTIONALITY! GAMEPIECE IGNORE INPUT => STATE TRANSITION")
-	var _ret = not gamepiece_input_ignored
-	gamepiece_input_ignored = not value
-	return _ret
-
-
-func gamepieces_set_paused( value:bool ):
-	print("DEPRICATED FUNCTIONALITY! GAMEPIECE SET PAUSED => STATE TRANSITION")
-	if value and multiplayer_enabled:
-		## TODO: If online multiplayer, don't pause the whole world, just this session's player.
-		pause_gameworld.emit()
-		#gamepieces_paused
-	elif value:
-		pause_gameworld.emit()
-		gamepieces_paused = true
-	else:
-		unpause_gameworld.emit()
-		gamepieces_paused = false
-
-
 # Queues deletion of a node and all of its child nodes
 # This is intended to slow down inevitable memory leakage
 # Maybe the arrays mess this up, but it also helps clean up scene transitions sometimes
@@ -262,8 +246,6 @@ func clean_up_node_descent( target_node : Node ):
 	if target_node.has_method("clean_up"):
 		target_node.clean_up()
 	clean_up_descent(target_node)
-	#if target_node.get_parent() != null:
-	#	target_node.get_parent().remove_child(target_node)
 	target_node.queue_free()
 
 
@@ -294,7 +276,6 @@ func save_game_data():
 	save_data.emit()
 	
 	print("saved!");
-	pass
 
 
 func multiply_string( _text:String, count:int, _separator:="" ) -> String:
@@ -341,14 +322,25 @@ func snap_to_grid_corner_i( pos ) -> Vector2i:
 # So why not host the function call and pass it over?
 func switch_to_interface( interface:SceneManager.InterfaceOptions ):
 	scene_manager.switch_to_interface( interface )
-	pass
 
 
-func is_player_menu_enabled():
-	return player_menu_enabled;
+func is_player_menu_enabled() -> bool:
+	return current_io_state in STATES_TOGGLE_PLAYER_MENU
 
 
-# Copied & modified from "JRPG Demo", do not use yet.
+func is_gamepiece_input_ignored() -> bool:
+	return not (current_io_state in STATES_PLAYER_CAN_MOVE)
+
+
+func is_all_gamepieces_paused() -> bool:
+	return not (current_io_state in STATES_ANYONE_CAN_MOVE)
+
+
+func should_time_progress() -> bool:
+	return current_io_state in STATES_TIME_PROGRESS
+
+
+## Copied & modified from "JRPG Demo"
 func start_combat(combat_actors):
 	#screen_transition()
 	activity_root_node.add_child(combat_screen)
@@ -377,9 +369,5 @@ func _switch_io_state(new_state:GameIOState) -> GameIOState:
 			scene_manager.switch_to_interface(scene_manager.InterfaceOptions.BATTLE)
 		else:
 			scene_manager.switch_to_interface(scene_manager.InterfaceOptions.ACTIVITY)
-	
-	gamepieces_paused = not (current_io_state in STATES_ANYONE_CAN_MOVE)
-	gamepiece_input_ignored = not (current_io_state in STATES_PLAYER_CAN_MOVE)
-	player_menu_enabled = current_io_state in STATES_TOGGLE_PLAYER_MENU
 	
 	return prior_state
