@@ -8,7 +8,7 @@ var _entry_array := []
 
 
 func _init() -> void:
-	_entry_selector = ProbabilityTable.new(GlobalRuntime.server_random)
+	_entry_selector = ProbabilityTable.new(GlobalState.server_random)
 
 
 func add_entry(species:int, weight:float, min_level:float, max_level:float):
@@ -25,7 +25,7 @@ func _dump_entries():
 ## TODO: have GlobalMonsterSpawner generate gender/sex ratio based on PatchData,
 ## and all that other jazz, and compile it here.
 func generate_new_monster() -> Monster:
-	var rng = GlobalRuntime.server_random
+	var rng = GlobalState.server_random
 	
 	var selection = _entry_selector.next()
 	var entry : EncounterTableEntry = _entry_array[selection]

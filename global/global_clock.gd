@@ -117,7 +117,7 @@ func reset_time_cache():
 
 
 func is_time_paused() -> bool:
-	return world_time_enabled and not is_stale and not GlobalRuntime.should_time_progress()
+	return world_time_enabled and not is_stale and not GlobalState.should_time_progress()
 #endregion Overworld Time
 #region Solar Time
 
@@ -184,7 +184,7 @@ func get_day_in_season():
 
 
 ## Hour count within the day
-func get_hour():
+func get_hour() -> int:
 	return (current_solar_ticks % TICKS_PER_GAME_DAY) / TICKS_PER_GAME_HOUR
 
 

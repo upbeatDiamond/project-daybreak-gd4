@@ -53,7 +53,7 @@ func _process(_delta):
 
 func _physics_process(_delta):
 	if nav_mode == NavigationMode.KEYBOARD_LOCAL and \
-		(GlobalRuntime.gamepiece_input_ignored or gamepiece.is_paused):
+		(GlobalState.gamepiece_input_ignored or gamepiece.is_paused):
 		return
 	elif gamepiece.move_queue.size() <= 1 && gamepiece.is_moving == false && input_cooldown <= 0:
 		handle_movement_input()
@@ -73,8 +73,8 @@ func _autonav_next_move() -> Vector2:
 	navigation_agent_2d.target_position = target_position
 	
 	@warning_ignore("integer_division")
-	if abs(get_parent().global_position.x - target_position.x) <= GlobalRuntime.DEFAULT_TILE_SIZE/2 and\
-		abs(get_parent().global_position.y - target_position.y) <= GlobalRuntime.DEFAULT_TILE_SIZE/2 :
+	if abs(get_parent().global_position.x - target_position.x) <= GlobalTools.DEFAULT_TILE_SIZE/2 and\
+		abs(get_parent().global_position.y - target_position.y) <= GlobalTools.DEFAULT_TILE_SIZE/2 :
 		nav_mode = NavigationMode.KEYBOARD_LOCAL
 		return Vector2.ZERO
 	
@@ -197,19 +197,19 @@ func _start_teleport_map( map:String, anchor_name:String="", silent:bool=false )
 	else:
 		gamepiece.pack_up()
 		if gamepiece.treat_as_player:
-			GlobalRuntime.scene_manager.change_map_from_path(map)
+			GlobalState.scene_manager.change_map_from_path(map)
 
 
 ## When switching within the same map
 func _finish_teleport_local(silent:bool=false):
 	
 	if !silent:
-		GlobalRuntime.scene_manager.fade_in()
+		GlobalState.scene_manager.fade_in()
 	
 	gamepiece.traversal_mode = Gamepiece.TraversalMode.STANDING
 	gamepiece.update_anim_tree()
 	
-	print(GlobalRuntime.scene_manager.get_overworld_root(), \
-	GlobalRuntime.scene_manager.get_overworld_root().scene_file_path)
+	print(GlobalState.scene_manager.get_overworld_root(), \
+	GlobalState.scene_manager.get_overworld_root().scene_file_path)
 	
 	pass

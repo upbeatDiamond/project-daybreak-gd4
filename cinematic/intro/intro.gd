@@ -342,14 +342,14 @@ func music_end():
 	await get_tree().physics_frame
 	
 	
-	GlobalRuntime.scene_manager.fade_to_black($Background/AudioIntroHeartbeat.stream.get_length())
+	GlobalState.scene_manager.fade_to_black($Background/AudioIntroHeartbeat.stream.get_length())
 	# If the song is not over, wait it out...
 	if ($Background/AudioIntroBrightness as AudioStreamPlayer).playing:
 		await $Background/AudioIntroBrightness.finished
 	
 	#await GlobalRuntime.scene_manager.fade_out_finished
 	
-	GlobalRuntime.scene_manager.fade_in(0.25)
+	GlobalState.scene_manager.fade_in(0.25)
 	# ... then end the cinematic.
 	cinematic_finished.emit(self)
 	return

@@ -34,7 +34,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if not has_saved_self and GlobalRuntime.rw_mode == GlobalRuntime.RWMode.DEVELOPMENT:
+	if not has_saved_self and GlobalState.rw_mode == GlobalState.RWMode.DEVELOPMENT:
 		_save_self_to_db()
 	pass
 

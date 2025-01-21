@@ -139,7 +139,7 @@ func change_map( map_template ):
 		#GlobalRuntime.clean_up_node_descent( child )
 	
 	world_interface.add_child( next_map ) #.instantiate()
-	GlobalRuntime._switch_io_state(GlobalRuntime.GameIOState.WORLD)
+	GlobalState._switch_io_state(GlobalState.GameIOState.WORLD)
 	GlobalDatabase.save_level_map( next_map )
 	pass
 
@@ -173,21 +173,21 @@ func mount_cinematic( cine:Control):
 	if not cine.is_inside_tree():
 		activity_interface.add_child( cine )
 	switch_to_interface( SceneManager.InterfaceOptions.ACTIVITY )
-	var prior_state = GlobalRuntime._switch_io_state(GlobalRuntime.GameIOState.CINEMATIC_STARTED)
+	var prior_state = GlobalState._switch_io_state(GlobalState.GameIOState.CINEMATIC_STARTED)
 	await (cine as Cinematic).cinematic_finished
 	for child in activity_interface.get_children():
 		child.queue_free()
 	switch_to_interface( SceneManager.InterfaceOptions.WORLD ) # redundant?
-	GlobalRuntime._switch_io_state( GlobalRuntime.GameIOState.CINEMATIC_ENDED )
+	GlobalState._switch_io_state( GlobalState.GameIOState.CINEMATIC_ENDED )
 	$PlayerCamView.grab_focus()
 	pass
 
 
-func mount_activity( activity:Control, state:GlobalRuntime.GameIOState ):
+func mount_activity( activity:Control, state:GlobalState.GameIOState ):
 	## I assume this works as a check for if the activity & scene manager co-exist
 	for child in activity_interface.get_children():
 		activity_interface.remove_child(child)
-		GlobalRuntime.clean_up_node_descent(child)
+		GlobalTools.clean_up_node_descent(child)
 	
 	if not activity.is_inside_tree():
 		activity_interface.add_child( activity )
@@ -229,7 +229,7 @@ func update_preload_portals( ttl_decrement : int = 1 ):
 		if scenes_ready[rs][1] < 0:
 			#if scenes_ready[rs][0] is LevelMap:
 				#await LevelMap.save_map_gamepieces( scenes_ready[rs][0] )
-			GlobalRuntime.clean_up_node_descent( scenes_ready[rs][0] )
+			GlobalTools.clean_up_node_descent( scenes_ready[rs][0] )
 			scenes_ready.erase(rs)
 	pass
 

@@ -9,9 +9,10 @@ TL;DR:
 Noteworthy Additions:
 	+ Replaced player menu GUI
 		+ Replaced inventory GUI
-	+ Added/replaced some monster sprites
+	+ Added and replaced some monster sprites
 	+ Added (generic) maps for each town
 	+ Added (untested/unfinished) spawning tool for tall grass 
+	+ Added graveyard.txt, to be displayed on gravestones
 
 
 Noteworthy Subtractions:
@@ -21,10 +22,17 @@ Noteworthy Subtractions:
 
 Noteworthy Changes:
 	* Game now runs on a state chart system
+		* Split GlobalRuntime into GlobalTools and GlobalState
+			> "Runtime" implies the class runs code, which is not true
+			> G.Runtime did not follow the single-responsibility principle
+			> GlobalState is for the scene manager, i/o state, and syncing data (rng)
+			> GlobalTools is for unit conversions and engine/library gimmicks
 	* Revised gamepiece teleport/anchor system
+		* For debug purposes, all anchors try to save their coordinates to the save file
 	* Gamepiece facing direction uses an enum (cannot face diagonal/zero)
+	
 
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To Do List + Constructive Commentary:
 	% Repair/polish intro cinematic sequence

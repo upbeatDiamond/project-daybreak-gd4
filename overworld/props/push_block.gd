@@ -23,7 +23,7 @@ func run_event( gamepiece:Gamepiece ):
 		# get gamepiece's relative position and/or raycast
 		# copy this to raycast to a new position
 		var direction = (global_position - gamepiece.global_position).normalized()
-		block_ray.target_position = block_ray.position+(direction*GlobalRuntime.DEFAULT_TILE_SIZE)
+		block_ray.target_position = block_ray.position+(direction*GlobalTools.DEFAULT_TILE_SIZE)
 		block_ray.force_raycast_update()
 		
 		#print("event caught! on... PushBlock!")
@@ -35,8 +35,8 @@ func run_event( gamepiece:Gamepiece ):
 			
 			#print(str( "block ray not colliding!", direction) )
 			
-			var new_position = collision.global_position+(direction*GlobalRuntime.DEFAULT_TILE_SIZE)
-			new_position = GlobalRuntime.snap_to_grid_center_f( new_position )
+			var new_position = collision.global_position+(direction*GlobalTools.DEFAULT_TILE_SIZE)
+			new_position = GlobalTools.snap_to_grid_center_f( new_position )
 			
 			collision.global_position = new_position
 			
@@ -62,7 +62,7 @@ func resync_position():
 	var collision_gp = collision.global_position
 	var gfx_gp = gfx.global_position
 	
-	self.global_position = GlobalRuntime.snap_to_grid_corner_f(collision_gp)
+	self.global_position = GlobalTools.snap_to_grid_corner_f(collision_gp)
 	collision.global_position = collision_gp
 	gfx.global_position = gfx_gp
 	pass

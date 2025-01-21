@@ -27,7 +27,7 @@ var day_length = 24
 func _process(delta):
 	time = time + delta # Change this line to use the new Global !!!!!!!!!!!!!
 	
-	current_hour = fmod((time / 10), 24 )
+	current_hour = GlobalClock.get_hour()
 	#print("Current hour = %f, time = %f, temp = %f" % [current_hour, time, get_daylight_temp(time) ])
 	
 	#self.color = 

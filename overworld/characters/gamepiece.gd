@@ -98,7 +98,7 @@ var move_queue :Array[Movement] = []
 
 
 func _init():
-	GlobalRuntime.save_data.connect( save_gamepiece )
+	GlobalState.save_data.connect( save_gamepiece )
 	monster = Monster.new()
 	monster.umid = umid
 
@@ -130,7 +130,7 @@ func _ready():
 	$GFX/SpriteBase.visible = true
 	$GFX/SpriteAccent.visible = true
 	$GFX/SpriteClothes.visible = true
-	GlobalRuntime.snap_to_grid( position )
+	GlobalTools.snap_to_grid( position )
 	animation_tree.active = true
 	update_anim_tree()
 	
@@ -143,8 +143,8 @@ func _ready():
 	_update_monster()
 	kill_imposters()
 	
-	GlobalRuntime.pause_gameworld.connect( _on_gameworld_pause )
-	GlobalRuntime.unpause_gameworld.connect( _on_gameworld_unpause )
+	GlobalState.pause_gameworld.connect( _on_gameworld_pause )
+	GlobalState.unpause_gameworld.connect( _on_gameworld_unpause )
 	position_stabilized = true
 	#print("GP: I think I'm at ", current_position, " as ", tag)
 	if tag == "player" or monster.umid <= 1:
@@ -165,7 +165,7 @@ func _process(_delta):
 			update_anim_tree()
 			was_moving = false
 	if is_moving and not was_moving:
-		my_camera.tween_duration = GlobalRuntime.CAMERA_TWEEN_DURATION
+		my_camera.tween_duration = GlobalTools.CAMERA_TWEEN_DURATION
 		gamepiece_moving_signal.emit()
 	elif not was_moving and not is_moving:
 		gamepiece_stopped_signal.emit()
@@ -192,7 +192,7 @@ func set_umid(new_umid:int):
 
 
 func update_rays( direction : Vector2 ):
-	event_ray.target_position = direction * GlobalRuntime.DEFAULT_TILE_SIZE
+	event_ray.target_position = direction * GlobalTools.DEFAULT_TILE_SIZE
 	event_ray.force_raycast_update()
 	event_ray.clear_exceptions()
 
@@ -212,7 +212,7 @@ func move( direction ):
 	traversal_mode = movement.method
 	facing_direction = movement.direction
 	
-	var scaled_direction = GlobalRuntime.snap_to_grid_corner_f(movement.to_facing_vector2f() * GlobalRuntime.DEFAULT_TILE_SIZE)
+	var scaled_direction = GlobalTools.snap_to_grid_corner_f(movement.to_facing_vector2f() * GlobalTools.DEFAULT_TILE_SIZE)
 	var would_collide = _peek_exterior_collision(movement.to_facing_vector2f())
 	
 	if not would_collide: 
@@ -222,7 +222,7 @@ func move( direction ):
 		if event_ray.is_colliding():
 			colliding_within = event_ray.get_collider()
 		
-		var new_position = GlobalRuntime.snap_to_grid(collision.position + \
+		var new_position = GlobalTools.snap_to_grid(collision.position + \
 			scaled_direction )
 		
 		## Before this match is run, try looking for materials that change the...
@@ -244,7 +244,7 @@ func move( direction ):
 			move_tween = create_tween()
 			if move_tween != null:
 				move_tween.tween_property(gfx, "position",
-					new_position - GlobalRuntime.DEFAULT_TILE_OFFSET, 
+					new_position - GlobalTools.DEFAULT_TILE_OFFSET, 
 					1/move_speed ).set_trans(Tween.TRANS_LINEAR)
 				is_moving = true
 				await move_tween.finished
@@ -289,11 +289,11 @@ func _check_touch_event_collision(direction:Vector2):
 
 func _peek_exterior_collision(direction:Vector2):
 	const TEST_TRANSFORM_RESCALE := 0.8
-	var scaled_direction = GlobalRuntime.snap_to_grid_corner_f(direction * GlobalRuntime.DEFAULT_TILE_SIZE)
+	var scaled_direction = GlobalTools.snap_to_grid_corner_f(direction * GlobalTools.DEFAULT_TILE_SIZE)
 	var test_transform = self.global_transform
 	test_transform.x.x = TEST_TRANSFORM_RESCALE
 	test_transform.y.y = TEST_TRANSFORM_RESCALE
-	test_transform.origin += (GlobalRuntime.DEFAULT_TILE_OFFSET * (1 - TEST_TRANSFORM_RESCALE) )
+	test_transform.origin += (GlobalTools.DEFAULT_TILE_OFFSET * (1 - TEST_TRANSFORM_RESCALE) )
 	return test_move( test_transform, scaled_direction, null, 0 )
 
 
@@ -380,7 +380,7 @@ func _update_sprites(_tag:String, clear_prev:=true):
 
 ##	Not the same as 'move', used for in-map teleportation.
 func shift_to_target( target:Vector2i ):
-	var new_position = GlobalRuntime.snap_to_grid_corner_f( target )
+	var new_position = GlobalTools.snap_to_grid_corner_f( target )
 	self.global_position = new_position
 	resync_position()
 
@@ -398,9 +398,9 @@ func resync_position():
 		return
 	
 	var collision_gp = collision.global_position
-	var gfx_gp = collision.global_position - (GlobalRuntime.DEFAULT_TILE_OFFSET)
+	var gfx_gp = collision.global_position - (GlobalTools.DEFAULT_TILE_OFFSET)
 	
-	self.global_position = Vector2(collision_gp) - (Vector2.ONE * GlobalRuntime.DEFAULT_TILE_OFFSET)
+	self.global_position = Vector2(collision_gp) - (Vector2.ONE * GlobalTools.DEFAULT_TILE_OFFSET)
 	collision.global_position = Vector2(collision_gp)
 	if gfx != null:
 		gfx.global_position = Vector2(gfx_gp)
@@ -502,9 +502,9 @@ func teleport(loci: Vector2i, direction: Vector2i, map:="", anchor_name:="", sil
 func _snap_camera_to_protag():
 	my_camera.tween_duration = 0
 	
-	if GlobalRuntime.scene_manager.phantom_camera_host._active_pcam_2d == my_camera:
-		GlobalRuntime.scene_manager.phantom_camera_host._prev_active_pcam_2d_transform.origin = global_position
-	my_camera.tween_resource.duration = GlobalRuntime.CAMERA_TWEEN_DURATION
+	if GlobalTools.scene_manager.phantom_camera_host._active_pcam_2d == my_camera:
+		GlobalTools.scene_manager.phantom_camera_host._prev_active_pcam_2d_transform.origin = global_position
+	my_camera.tween_resource.duration = GlobalTools.CAMERA_TWEEN_DURATION
 	pass
 
 
@@ -537,7 +537,7 @@ func save_gamepiece():
 		return
 	kill_imposters()
 	current_position = global_position
-	current_map = GlobalRuntime.scene_manager.get_overworld_root().map_index
+	current_map = GlobalState.scene_manager.get_overworld_root().map_index
 	print("save gp ", umid, "/", 0, " global position ~ ", current_position)
 	GlobalDatabase.save_gamepiece(self)
 	pass
@@ -563,4 +563,4 @@ func transfer_data_from_gp(gamepiece:Gamepiece):
 ## Calls the function to start deleting this node and its children
 func pack_up():
 	marked_for_deletion = true
-	GlobalRuntime.call_deferred("clean_up_node_descent", self)# clean_up_node_descent(self)
+	GlobalTools.call_deferred("clean_up_node_descent", self)# clean_up_node_descent(self)

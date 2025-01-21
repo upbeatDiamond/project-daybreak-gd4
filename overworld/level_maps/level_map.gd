@@ -118,15 +118,15 @@ enum MapIndex {
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if GlobalRuntime.scene_manager != null:
-		GlobalRuntime.scene_manager.update_preload_portals()
+	if GlobalState.scene_manager != null:
+		GlobalState.scene_manager.update_preload_portals()
 		establish_ysort()
 		rehouse_gamepieces()
 		populate_with_gamepieces()
 	add_to_group("level_map")
 	print("Hoi! It's me! A Level Map!!!!")
 	
-	if GlobalRuntime.rw_mode == GlobalRuntime.RWMode.DEVELOPMENT:
+	if GlobalState.rw_mode == GlobalState.RWMode.DEVELOPMENT:
 		var anchors = get_tree().get_nodes_in_group("warp_anchor")
 		for anchor in anchors:
 			if anchor is WarpAnchor:
@@ -177,7 +177,7 @@ func place_gamepieces( gamepieces:Array ):
 				if old_piece != null:
 					if (old_piece as Node).get_parent() != null:
 						(old_piece as Node).get_parent().remove_child(old_piece)
-					GlobalRuntime.clean_up_node_descent( old_piece )
+					GlobalTools.clean_up_node_descent( old_piece )
 					current_gamepieces.remove_at( current_gamepieces.find(old_piece) )
 		
 		current_gamepieces.append(piece)
@@ -214,8 +214,8 @@ func pack_up():
 		else:
 			childs.append_array( child.get_children() )
 	
-	if get_tree().root == GlobalRuntime.scene_manager.get_tree().root:
-		GlobalRuntime.clean_up_node_descent( self )
+	if get_tree().root == GlobalState.scene_manager.get_tree().root:
+		GlobalTools.clean_up_node_descent( self )
 
 
 # Gamepieces should be made much smaller before storing, but there's only the player now, so eh.
@@ -235,7 +235,7 @@ func save_map_gamepieces():
 
 
 func _save_map_placed_gamepieces():
-	for gp in GlobalRuntime.scene_manager.get_tree().get_nodes_in_group("gamepiece"):
+	for gp in GlobalState.scene_manager.get_tree().get_nodes_in_group("gamepiece"):
 		if is_instance_valid(gp) and gp is Gamepiece: # Check for if freed before saving
 			if not gp.marked_for_deletion:
 				GlobalDatabase.save_gamepiece( gp as Gamepiece )
@@ -249,7 +249,7 @@ func eject_gamepieces_for_map(  target_map_index:int=map_index ) -> Array[Gamepi
 
 
 static func guess_current_map() -> MapIndex:
-	var tree = GlobalRuntime.scene_manager.get_tree()
+	var tree = GlobalState.scene_manager.get_tree()
 	var maps = tree.get_nodes_in_group("level_map")
 	var map = MapIndex.INVALID_INDEX
 	if maps.size() >= 1:
@@ -258,7 +258,7 @@ static func guess_current_map() -> MapIndex:
 
 
 func save_placed_gamepieces() -> void:
-	var tree = GlobalRuntime.scene_manager.get_tree()
+	var tree = GlobalState.scene_manager.get_tree()
 	var gamepieces = tree.get_nodes_in_group("gamepiece")
 	var map = guess_current_map()
 	for piece in gamepieces:

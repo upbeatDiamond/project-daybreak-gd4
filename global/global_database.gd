@@ -174,7 +174,7 @@ target_table_name:String, _query_conditions:String=""  ):
 	db.verbosity_level = VERBOSITY_LEVEL
 	db.path = target_db_path
 	db.open_db()
-	var pre_bind = GlobalRuntime.multiply_string(" ? ", cols.size(), "," )
+	var pre_bind = GlobalTools.multiply_string(" ? ", cols.size(), "," )
 	var query_template = str( "INSERT OR REPLACE INTO ", target_table_name, " ( " )
 	for col in cols:
 		query_template = str(query_template, " ", col, ", ")
@@ -412,8 +412,8 @@ func get_anchor_coord( map_id:LevelMap.MapIndex, anchor:String ) -> Vector2:
 	var fetched:Array = db.select_rows( target_table_name, query_conditions, ["anchor_name", "coordinate"] )
 	db.close_db()
 	if fetched.size() == 0:
-		return Vector2.INF
 		print("!!! malformed anchor coord query?")
+		return Vector2.INF
 	else:##if fetched.size() >= 1:
 		return db_unwrap(fetched[0]["coordinate"]) as Vector2
 
@@ -527,13 +527,13 @@ func recover_last_state() -> String:
 	if map_player == null:
 		return ""
 	
-	GlobalRuntime.scene_manager.append_preload_map( map_player.scene_file_path )
-	while !GlobalRuntime.scene_manager.map_is_ready( map_player.scene_file_path ):
+	GlobalState.scene_manager.append_preload_map( map_player.scene_file_path )
+	while !GlobalState.scene_manager.map_is_ready( map_player.scene_file_path ):
 		await get_tree().process_frame
 		await get_tree().process_frame
-	GlobalRuntime.scene_manager.change_map_from_path( map_player.scene_file_path )
+	GlobalState.scene_manager.change_map_from_path( map_player.scene_file_path )
 	
-	var overworld = GlobalRuntime.scene_manager.get_overworld_root() as LevelMap
+	var overworld = GlobalState.scene_manager.get_overworld_root() as LevelMap
 	var gp_model := load("res://player/player.tscn")
 	var gp_player : Gamepiece = gp_model.instantiate()
 	gp_player.transfer_data_from_gp(gp_read)

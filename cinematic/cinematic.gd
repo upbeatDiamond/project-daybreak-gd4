@@ -7,7 +7,7 @@ signal cinematic_finished(cinematic:Cinematic);
 
 
 func start_cine():
-	GlobalRuntime.scene_manager.mount_cinematic(self)
+	GlobalState.scene_manager.mount_cinematic(self)
 	cinematic_started.emit(self)
 
 

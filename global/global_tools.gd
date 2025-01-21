@@ -51,10 +51,20 @@ func snap_to_grid_center_i( pos ) -> Vector2i:
 
 func snap_to_grid_corner_f( pos ) -> Vector2:
 	pos = Vector2(pos.x - DEFAULT_TILE_OFFSET.x, pos.y - DEFAULT_TILE_OFFSET.y)
-	return pos.snapped(Vector2.ONE * GlobalRuntime.DEFAULT_TILE_SIZE)
+	return pos.snapped(Vector2.ONE * GlobalTools.DEFAULT_TILE_SIZE)
 
 
 func snap_to_grid_corner_i( pos ) -> Vector2i:
 	pos = Vector2i(pos.x - DEFAULT_TILE_OFFSET.x, pos.y - DEFAULT_TILE_OFFSET.y)
-	pos = pos.snapped(Vector2i.ONE * GlobalRuntime.DEFAULT_TILE_SIZE) #+ DEFAULT_TILE_OFFSET_INT
+	pos = pos.snapped(Vector2i.ONE * GlobalTools.DEFAULT_TILE_SIZE) #+ DEFAULT_TILE_OFFSET_INT
 	return pos
+
+func multiply_string( _text:String, count:int, _separator:="" ) -> String:
+	var ret = ""
+	if count > 0:
+		ret = _text
+		count -= 1
+		while count > 0:
+			ret = str(ret, _separator, _text)
+			count -= 1
+	return ret

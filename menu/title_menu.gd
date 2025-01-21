@@ -41,7 +41,7 @@ func _ready():
 	## The following line SHOULD NOT be commented out... however...
 	## ... to debug more efficiently, we will be ignoring this ominous warning.
 	#GlobalDatabase.fetch_save_to_stage()
-	GlobalRuntime.scene_manager.append_preload_map( PLAY_SCENE_PATH )
+	GlobalState.scene_manager.append_preload_map( PLAY_SCENE_PATH )
 	
 	$Menu/GridContainer/Buttons/Play.grab_click_focus()
 	
@@ -64,7 +64,7 @@ func _on_play_pressed():
 			#GlobalRuntime.scene_manager.mount_cinematic(play_cutscene.instantiate());
 			#pass
 		
-		GlobalRuntime.clean_up_descent( self )
+		GlobalTools.clean_up_descent( self )
 		
 		if GlobalDatabase.can_recover_last_state():
 			print( GlobalDatabase.load_keyval("player_name"), " can recover, I think!" )
@@ -75,9 +75,9 @@ func _on_play_pressed():
 			print( "cannot recover..." )
 		
 			if play_scene == null:
-				GlobalRuntime.scene_manager.change_map_from_path( PLAY_SCENE_PATH )
+				GlobalState.scene_manager.change_map_from_path( PLAY_SCENE_PATH )
 			else:
-				GlobalRuntime.scene_manager.change_map( play_scene )
+				GlobalState.scene_manager.change_map( play_scene )
 		queue_free()
 	pass
 
@@ -96,5 +96,5 @@ func _on_quit_pressed():
 
 func _on_credits_pressed():
 	if scene_enabled:
-		GlobalRuntime.activity_root_node.add_child( credits_menu.instantiate() )
+		GlobalState.activity_root_node.add_child( credits_menu.instantiate() )
 		scene_enabled = false

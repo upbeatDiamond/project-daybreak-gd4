@@ -27,7 +27,7 @@ func mount_battle(battle):
 	add_child(battle)
 	current_battle = battle
 	print("Server adopted a battle")
-	GlobalRuntime._switch_io_state(GlobalRuntime.GameIOState.BATTLE)
+	GlobalState._switch_io_state(GlobalState.GameIOState.BATTLE)
 
 
 func new_battle_dummy() -> BattleSession:
@@ -95,7 +95,7 @@ func new_battle_dummy() -> BattleSession:
 	#team_away.battlers.append(_fighter)
 	
 	var battle = BattleSession.new(team_home, team_away)
-	GlobalRuntime.scene_manager.mount_battle(battle)
+	GlobalState.scene_manager.mount_battle(battle)
 	battle.battle_finished.connect(end_battle)
 	mount_battle(battle)
 	

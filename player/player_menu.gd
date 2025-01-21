@@ -53,7 +53,7 @@ func update_cursor(new_index:int=selected_option):
 
 
 func _process(delta):
-	if GlobalRuntime.current_io_state == GlobalRuntime.GameIOState.WORLD_MENU:
+	if GlobalState.current_io_state == GlobalState.GameIOState.WORLD_MENU:
 		visible = true
 		item_list.grab_focus()
 		item_list.grab_click_focus()
@@ -91,14 +91,14 @@ func handle_input(event):
 func trigger_submenu():
 	match screen_selected:
 		ScreenListing.CLOSED:
-			GlobalRuntime._switch_io_state(GlobalRuntime.GameIOState.WORLD_MENU_CLOSE)
+			GlobalState._switch_io_state(GlobalState.GameIOState.WORLD_MENU_CLOSE)
 		
 		ScreenListing.PARTY_SCREEN:
 			pass #GlobalRuntime.scene_manager.mount_activity( ?, GlobalRuntime.GameIOState.WORLD_MENU_PARTY)
 		
 		ScreenListing.SAVE:
 			print("Feature Unfinished: Save")
-			await GlobalRuntime.save_game_data()
+			await GlobalState.save_game_data()
 			# should wait between saving gamepieces and committing...
 			GlobalDatabase.commit_save_from_active()
 			#selected_option = (ScreenListing.SAVE) % option_count
@@ -129,5 +129,5 @@ func trigger_submenu():
 			pass #GlobalRuntime.scene_manager.mount_activity( ?, GlobalRuntime.GameIOState.WORLD_MENU_INVENTORY)
 		
 		_: #ScreenListing.PAUSE_MENU:
-			GlobalRuntime._switch_io_state(GlobalRuntime.GameIOState.WORLD_MENU)
+			GlobalState._switch_io_state(GlobalState.GameIOState.WORLD_MENU)
 			

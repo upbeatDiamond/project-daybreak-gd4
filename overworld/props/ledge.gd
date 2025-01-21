@@ -50,32 +50,32 @@ func _update_size():
 		child.position -= current_pos_offset
 	
 	if collision != null:
-		collision.shape.size.x = length * GlobalRuntime.DEFAULT_TILE_SIZE
+		collision.shape.size.x = length * GlobalTools.DEFAULT_TILE_SIZE
 	else:
 		is_dirty = true
 	
 	if sprite_side == null || sprite_right == null || sprite_left == null:
 		is_dirty = true
 		return
-	sprite_side.region_rect.size.x = int( floor(sprite_side_x * (length-1) ) * GlobalRuntime.DEFAULT_TILE_SIZE )
+	sprite_side.region_rect.size.x = int( floor(sprite_side_x * (length-1) ) * GlobalTools.DEFAULT_TILE_SIZE )
 	#print("update spriteside scalex ~ ", sprite_side_x * length)
 	@warning_ignore( "integer_division" )
-	sprite_side.position.x = (length * GlobalRuntime.DEFAULT_TILE_SIZE)/2 
-	sprite_right.position.x = ( (length - (sprite_right_x/2) ) * GlobalRuntime.DEFAULT_TILE_SIZE)
+	sprite_side.position.x = (length * GlobalTools.DEFAULT_TILE_SIZE)/2 
+	sprite_right.position.x = ( (length - (sprite_right_x/2) ) * GlobalTools.DEFAULT_TILE_SIZE)
 	@warning_ignore( "integer_division" )
-	collision.position.x = (length * GlobalRuntime.DEFAULT_TILE_SIZE)/2 
+	collision.position.x = (length * GlobalTools.DEFAULT_TILE_SIZE)/2 
 	
 	self.rotation = Vector2(0,1).angle_to( pointing_direction )
 	
 	match pointing_direction:
 		Vector2.DOWN:
-			current_pos_offset = Vector2(0,0) * GlobalRuntime.DEFAULT_TILE_SIZE
+			current_pos_offset = Vector2(0,0) * GlobalTools.DEFAULT_TILE_SIZE
 		Vector2.UP:
-			current_pos_offset = Vector2(-1,-1) * GlobalRuntime.DEFAULT_TILE_SIZE
+			current_pos_offset = Vector2(-1,-1) * GlobalTools.DEFAULT_TILE_SIZE
 		Vector2.LEFT:
-			current_pos_offset = Vector2(0,-1) * GlobalRuntime.DEFAULT_TILE_SIZE
+			current_pos_offset = Vector2(0,-1) * GlobalTools.DEFAULT_TILE_SIZE
 		Vector2.RIGHT:
-			current_pos_offset = Vector2(-1,0) * GlobalRuntime.DEFAULT_TILE_SIZE
+			current_pos_offset = Vector2(-1,0) * GlobalTools.DEFAULT_TILE_SIZE
 	
 	# set offset, so the first tile's top-left corner is always in the same spot, within float err
 	for child in children:
@@ -93,11 +93,11 @@ func run_event( area ):
 		if pointing_direction == area.vector2_from_facing():
 			
 			var new_position = area.global_position + \
-				2*(pointing_direction * GlobalRuntime.DEFAULT_TILE_SIZE)
-			new_position = GlobalRuntime.snap_to_grid_corner_f( new_position )
+				2*(pointing_direction * GlobalTools.DEFAULT_TILE_SIZE)
+			new_position = GlobalTools.snap_to_grid_corner_f( new_position )
 			print("pointeing direction ~ ", pointing_direction)
 			
-			var new_pos_collision = GlobalRuntime.snap_to_grid_center_f( new_position )
+			var new_pos_collision = GlobalTools.snap_to_grid_center_f( new_position )
 			area.collision.global_position = new_pos_collision
 			
 			if is_inside_tree():
@@ -114,7 +114,7 @@ func run_event( area ):
 
 
 func _parabola_jump( progress, start, end, thing ) -> Vector2:
-	var h = JUMP_HEIGHT * GlobalRuntime.DEFAULT_TILE_SIZE
+	var h = JUMP_HEIGHT * GlobalTools.DEFAULT_TILE_SIZE
 	progress = clamp(progress, 0.0, 1.0)
 	
 	# Remember, high Y on Desmos is 'up', but when porting to Godot, Y = 'down', thus...
