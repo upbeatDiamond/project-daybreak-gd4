@@ -17,8 +17,6 @@ Noteworthy Additions:
 
 Noteworthy Subtractions:
 	- Removed multiple addons, which shouldn't be noticable for the player
-	- Removed GlobalGamepieceTransfer (merged with LevelMap)
-	- Removed GlobalBitManip (merged with GlobalTools)
 
 
 Noteworthy Changes:
@@ -28,6 +26,10 @@ Noteworthy Changes:
 			> G.Runtime did not follow the single-responsibility principle
 			> GlobalState is for scene manager, i/o state, and syncing (rng)
 			> GlobalTools is for unit conversions and engine/library gimmicks
+	* Merged global classes which have similar roles
+		- Removed GlobalGamepieceTransfer (merged into LevelMap)
+		- Removed GlobalBitManip (merged into GlobalTools)
+		- Removed GlobalMonsterSpawner (merged into GlobalMonster)
 	* Revised gamepiece teleport/anchor system
 		* For debug purposes, anchors try to save their position to player file
 	* Gamepiece facing direction uses an enum (cannot face diagonal/zero)
@@ -90,5 +92,7 @@ General Commentary:
 	> All assets not made for this project need proper credit (CC-BY-4.0, SIL), or to be PD/CC-0.
 		> FilmCow's sound pack license is beyond the limit of restrictiveness. Avoid using.
 	
-	> The name "For The Longest Time" may not be reused for any pre-Alpha or Alpha stable releases.
-	> It may be reused for Betas, or patches, but ideally use for neither.
+	> The name "For The Longest Time" may not be reused for 
+	> any pre-Alpha or Alpha stable releases.
+	> Names of pre-existing properties should be avoided for
+	> any Beta or Release versions regardless.
