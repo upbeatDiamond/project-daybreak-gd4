@@ -26,7 +26,6 @@ buses/default_bus_layout="res://common/default_bus_layout.tres"
 
 GlobalDatabase="*res://global/global_database.gd"
 GlobalMonster="*res://global/global_monster.gd"
-GlobalMonsterSpawner="*res://global/global_monster_spawner.gd"
 GlobalTechnique="res://global/global_technique.gd"
 GlobalState="*res://global/global_state.gd"
 GlobalClock="*res://global/global_clock.gd"
