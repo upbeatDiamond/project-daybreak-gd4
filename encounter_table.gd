@@ -33,7 +33,7 @@ func generate_new_monster() -> Monster:
 	## Calculate level as a float, clamp to an integer
 	var level = floori( rng.randf_range(entry.min_level, entry.max_level) )
 	
-	var umid : int = GlobalMonsterSpawner.get_fresh_umid()
+	var umid : int = GlobalMonster.get_fresh_umid()
 	var monster = Monster.new()
 	monster.umid = umid
 	monster.color_base_gene1 = entry.roll_color_gene(rng)
