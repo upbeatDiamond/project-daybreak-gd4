@@ -24,16 +24,16 @@ buses/default_bus_layout="res://common/default_bus_layout.tres"
 
 [autoload]
 
+GlobalState="*res://global/global_state.gd"
+GlobalTools="*res://global/global_tools.gd"
+GlobalClock="*res://global/global_clock.gd"
 GlobalDatabase="*res://global/global_database.gd"
 GlobalMonster="*res://global/global_monster.gd"
 GlobalTechnique="res://global/global_technique.gd"
-GlobalState="*res://global/global_state.gd"
-GlobalClock="*res://global/global_clock.gd"
 GlobalDirector="*res://global/global_director.gd"
-CommandServer="*res://addons/command-terminal/src/CommandServer.gd"
 BattleServer="*res://global/battle_server.gd"
+CommandServer="*res://addons/command-terminal/src/CommandServer.gd"
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
-GlobalTools="*res://global/global_tools.gd"
 
 [display]
 
