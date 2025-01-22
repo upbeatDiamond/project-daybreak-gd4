@@ -68,3 +68,35 @@ func multiply_string( _text:String, count:int, _separator:="" ) -> String:
 			ret = str(ret, _separator, _text)
 			count -= 1
 	return ret
+
+#region Bit Manip
+
+func get_flag_bit(bitfield:int, flag_index:int):
+	return get_bitflag(bitfield, flag_index);
+
+func get_bitflag(bitfield:int, flag_index:int):
+	return compare_bitfield_flag(bitfield, flag_index);
+
+# Needs testing, depricated name
+func compare_bitfield_flag( bitfield:int, flag_index:int ):
+	return (bitfield >> flag_index) & 0x1
+
+# Needs testing
+func compare_bitfield_mask( bitfield:int, mask:int ):
+	return bitfield & mask
+
+func set_bitflag(bitfield:int, flag_index:int, value:int):
+	return update_bitfield_flag( bitfield, flag_index, value )
+
+func invert_bitfield( bitfield:int ):
+	return 0 - bitfield - 1		# Some weird Two's Complement stuff, not yet tested
+
+# Needs testing, depricated name
+func update_bitfield_flag( bitfield:int, flag_index:int, value:int ):
+	var filter = 1						# Sets the variable to 0x00...01
+	value = value << flag_index			# Shifts the value into position
+	filter = ~(filter << flag_index)	# Shifts the 1 into position, ...
+										# ...then flips everything so that that bit is excluded.
+	return (bitfield & filter) + value	# Fills in excluded position with new bit value
+
+#endregion
