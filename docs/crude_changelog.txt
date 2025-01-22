@@ -18,6 +18,7 @@ Noteworthy Additions:
 Noteworthy Subtractions:
 	- Removed multiple addons, which shouldn't be noticable for the player
 	- Removed GlobalGamepieceTransfer (merged with LevelMap)
+	- Removed GlobalBitManip (merged with GlobalTools)
 
 
 Noteworthy Changes:
@@ -25,11 +26,12 @@ Noteworthy Changes:
 		* Split GlobalRuntime into GlobalTools and GlobalState
 			> "Runtime" implies the class runs code, which is not true
 			> G.Runtime did not follow the single-responsibility principle
-			> GlobalState is for the scene manager, i/o state, and syncing data (rng)
+			> GlobalState is for scene manager, i/o state, and syncing (rng)
 			> GlobalTools is for unit conversions and engine/library gimmicks
 	* Revised gamepiece teleport/anchor system
-		* For debug purposes, all anchors try to save their coordinates to the save file
+		* For debug purposes, anchors try to save their position to player file
 	* Gamepiece facing direction uses an enum (cannot face diagonal/zero)
+	* Revised GlobalDayCycle into GlobalClock
 	
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
