@@ -198,3 +198,21 @@ func get_hour_minutes():
 	return current_solar_ticks % TICKS_PER_GAME_HOUR * 60 / TICKS_PER_GAME_MINUTE
 
 #endregion Overworld Time
+#region Saving
+
+func _save_time_to_db():
+	GlobalDatabase.save_keyval("GlobalClock::CurrentWorldTicks", current_world_ticks)
+	GlobalDatabase.save_keyval("GlobalClock::CurrentSolarTicks", current_solar_ticks)
+	GlobalDatabase.save_keyval("GlobalClock::CurrentDay", current_day)
+	GlobalDatabase.save_keyval("GlobalClock::CurrentYear", current_year)
+	pass
+
+
+func _load_time_from_db():
+	current_world_ticks = GlobalDatabase.load_keyval("GlobalClock::CurrentWorldTicks", current_world_ticks)
+	current_solar_ticks = GlobalDatabase.load_keyval("GlobalClock::CurrentSolarTicks", current_solar_ticks)
+	current_day = GlobalDatabase.save_keyval("GlobalClock::CurrentDay", current_day)
+	current_year = GlobalDatabase.save_keyval("GlobalClock::CurrentYear", current_year)
+	pass
+
+#endregion Saving

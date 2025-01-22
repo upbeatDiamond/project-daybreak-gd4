@@ -521,7 +521,7 @@ func is_gamepiece_player(gamepiece:Gamepiece):
 
 #endregion
 
-#region Save Data
+#region Meta: Save Data
 
 ## Predicts the ability to recover the previous state based on:
 ## 1: Does the player exist? (code may change to account for non-zero UMID)
@@ -696,15 +696,17 @@ func commit_save_from_active() -> bool:
 
 #endregion
 
+#region Globals
 
-
-##TODO: Refactor current save system to use this (currently empty) function
-# Saves data stored in Global/Autoload classes, like in-game time/date, etc
+## Saves data stored in Global/Autoload classes, like in-game time/date, etc
 func save_global_data():
+	GlobalClock._save_time_to_db()
 	pass
 
 
-##TODO: Expand current load/"recover" system to use this (currently empty) function
-# Loads stored data into Global/Autoload classes, like in-game time/date, etc
+## Loads stored data into Global/Autoload classes, like in-game time/date, etc
 func load_global_data():
+	GlobalClock._load_time_from_db()
 	pass
+
+#endregion Globals
