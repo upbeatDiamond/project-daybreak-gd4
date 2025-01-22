@@ -169,11 +169,11 @@ func get_overworld_root():
 
 func mount_cinematic( cine:Control):
 	
-	# I assume this works as a check for if the cine & scene manager co-exist
+	## I assume this works as a check for if the cine & scene manager co-exist
 	if not cine.is_inside_tree():
 		activity_interface.add_child( cine )
 	switch_to_interface( SceneManager.InterfaceOptions.ACTIVITY )
-	var prior_state = GlobalState._switch_io_state(GlobalState.GameIOState.CINEMATIC_STARTED)
+	#var prior_state = GlobalState._switch_io_state(GlobalState.GameIOState.CINEMATIC_STARTED)
 	await (cine as Cinematic).cinematic_finished
 	for child in activity_interface.get_children():
 		child.queue_free()
@@ -183,7 +183,7 @@ func mount_cinematic( cine:Control):
 	pass
 
 
-func mount_activity( activity:Control, state:GlobalState.GameIOState ):
+func mount_activity( activity:Control, state:=GlobalState.GameIOState.ACTIVITY ):
 	## I assume this works as a check for if the activity & scene manager co-exist
 	for child in activity_interface.get_children():
 		activity_interface.remove_child(child)
@@ -191,6 +191,8 @@ func mount_activity( activity:Control, state:GlobalState.GameIOState ):
 	
 	if not activity.is_inside_tree():
 		activity_interface.add_child( activity )
+	
+	GlobalState._switch_io_state(state)
 	
 	## There should be more stuff here, no?
 	pass

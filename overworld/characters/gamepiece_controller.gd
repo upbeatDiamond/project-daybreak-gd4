@@ -149,7 +149,7 @@ func handle_movement_input():
 	print("GPC: Input direction = ", input_direction)
 	var movement := Movement.new( input_direction )
 	
-	gamepiece._facing_from_vector2(input_direction);
+	gamepiece.facing_from_vector2(input_direction);
 	
 	var is_running = _handle_movement_running()
 	if is_running:
@@ -161,7 +161,7 @@ func handle_movement_input():
 		movement.method = gamepiece.TraversalMode.WALKING
 	
 	if input_direction != Vector2.ZERO:
-		gamepiece._facing_from_vector2(input_direction);
+		gamepiece.facing_from_vector2(input_direction);
 		gamepiece.position_stabilized = true
 		gamepiece.queue_movement( movement )
 		gamepiece.update_anim_tree()
@@ -173,7 +173,7 @@ func finish_teleport(silent:bool=false):
 	_finish_teleport_local(silent)
 
 
-func _start_teleport_local(loci: Vector2i, direction: Vector2i, silent:=false):
+func _start_teleport_local(loci: Vector2i, direction: Vector2i, _silent:=false):
 	gamepiece.shift_to_target(loci)
 	print("teleport: gx %d, gy %d, x %d, y %d"%[gamepiece.global_position.x,gamepiece.global_position.y,loci.x,loci.y])
 	gamepiece.set_facing_from_vector2(direction)

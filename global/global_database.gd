@@ -6,6 +6,7 @@ extends Node
 ## We're going to need a lot of refactoring to account for changes in not only gameplay plans ...
 ## ... but also data being split across multiple tables.
 
+#region Constants
 
 const VERBOSITY_LEVEL : int = SQLite.VERBOSE #NORMAL
 
@@ -95,9 +96,12 @@ const TKPV_LEVEL_MAP = {
 const CONFIG_FILE_PATH := "user://config.cfg"
 
 
+var player_umid : int
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_regenerate_user_database_folder() 
+	player_umid = str(value_from_config_save("player_umid")).to_int()
 	## ^ Called every session, to ensure the game has PatchData to work with.
 	## This should allow games to be moddable to some extent.
 
@@ -105,9 +109,12 @@ func _ready():
 #region Wrapping and Packing
 
 func value_from_config_save(key:String):
-	var config = ConfigFile.new(); config.load(CONFIG_FILE_PATH)
-	var player_umid = config.get_value( config.get_value("save", "current"), key )
-	return 
+	var config = ConfigFile.new(); 
+	var error = config.load(CONFIG_FILE_PATH)
+	if error != Error.OK:
+		return config.get_value( config.get_value("save", "current"), key )
+	return null
+
 
 func game_to_database(thing:Object, tablekey_propval:Dictionary, target_db_path:String, \
 target_table_name:String, _query_conditions:String=""  ):
@@ -425,7 +432,6 @@ func save_anchor_coord( map_id:LevelMap.MapIndex, anchor:String, position:Vector
 	print(query_template)
 	var _success = db.query_with_bindings( query_template, [map_id, cheap_sanitize(anchor), db_wrap(position)] );
 	db.close_db()
-	pass
 
 
 func erase_anchor_coord( map_id:LevelMap.MapIndex, anchor:String):
@@ -516,8 +522,7 @@ func fetch_dex_from_index(species:int, row_array:Array[String]=["tag"]) -> Array
 #region Validation
 
 func is_gamepiece_player(gamepiece:Gamepiece):
-	var player_umid = value_from_config_save( "player_umid" )
-	return gamepiece.umid == str(player_umid).to_int()
+	return gamepiece.umid == player_umid
 
 #endregion
 

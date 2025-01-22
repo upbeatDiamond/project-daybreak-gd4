@@ -211,8 +211,8 @@ func _save_time_to_db():
 func _load_time_from_db():
 	current_world_ticks = GlobalDatabase.load_keyval("GlobalClock::CurrentWorldTicks", current_world_ticks)
 	current_solar_ticks = GlobalDatabase.load_keyval("GlobalClock::CurrentSolarTicks", current_solar_ticks)
-	current_day = GlobalDatabase.save_keyval("GlobalClock::CurrentDay", current_day)
-	current_year = GlobalDatabase.save_keyval("GlobalClock::CurrentYear", current_year)
+	current_day = GlobalDatabase.load_keyval("GlobalClock::CurrentDay", current_day)
+	current_year = GlobalDatabase.load_keyval("GlobalClock::CurrentYear", current_year)
 	pass
 
 #endregion Saving

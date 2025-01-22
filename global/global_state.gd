@@ -31,10 +31,9 @@ var meta_input_cooldown := 0.0
 
 @onready var activity_root_node : Node = get_node(activity_root_path)
 
-
-signal pause_gameworld
-signal unpause_gameworld
-signal save_data
+signal gameworld_paused
+signal gameworld_unpaused
+signal save_triggered
 
 ## RW Mode = Read/Write/Run Mode
 enum RWMode { 
@@ -131,12 +130,10 @@ const STATES_DIALOG_ACTIVE := [
 const STATES_TIME_PROGRESS := [
 	GameIOState.WORLD, 
 	GameIOState.WORLD_TRANSITION, ## For pausing menu access; should activate interact on finish
-	GameIOState.WORLD_DIALOG,
 	GameIOState.WORLD_MENU,
 	GameIOState.WORLD_MENU_SAVE,
 	GameIOState.WORLD_MENU_CLOSE,
 	GameIOState.WORLD_MENU_QUIT,
-	GameIOState.WORLD_DIALOG_QUEUE_BATTLE, 
 	GameIOState.WORLD_DIALOG_ENDED,
 ]
 const STATES_META := [
@@ -249,7 +246,7 @@ func save_game_data():
 	GlobalDatabase.save_global_data()
 	print("Saving game data... but not all of it! TODO: expand scope")
 	
-	save_data.emit()
+	save_triggered.emit()
 	_switch_io_state(prior_state)
 	print("saved!");
 
@@ -311,5 +308,10 @@ func _switch_io_state(new_state:GameIOState) -> GameIOState:
 			scene_manager.switch_to_interface(scene_manager.InterfaceOptions.BATTLE)
 		elif not (current_io_state in STATES_META):
 			scene_manager.switch_to_interface(scene_manager.InterfaceOptions.ACTIVITY)
+	
+	if current_io_state in STATES_TIME_PROGRESS:
+		gameworld_unpaused.emit()
+	else:
+		gameworld_paused.emit()
 	
 	return prior_state

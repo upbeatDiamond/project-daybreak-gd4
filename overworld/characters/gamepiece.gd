@@ -4,14 +4,14 @@ class_name Gamepiece
 # 4th lineage player script, but with player stuff (and commented out code) scooped out...
 # ... and 2nd + 3rd lineage stuff shoved into it and then trimmed down.
 
-signal gamepiece_moving_signal
-signal gamepiece_stopped_signal
-signal gamepiece_entering_door_signal
-signal gamepiece_entered_door_signal
+#signal gamepiece_moving_signal
+#signal gamepiece_stopped_signal
+#signal gamepiece_entering_door_signal
+#signal gamepiece_entered_door_signal
 
 
-signal gamepiece_moved( direction:Vector2, global_endpoint:Vector2, mode:TraversalMode )
-signal gamepiece_moving( direction:Vector2, global_endpoint:Vector2, mode:TraversalMode )
+#signal gamepiece_moved( direction:Vector2, global_endpoint:Vector2, mode:TraversalMode )
+#signal gamepiece_moving( direction:Vector2, global_endpoint:Vector2, mode:TraversalMode )
 
 
 ## -1 = invalid / unset
@@ -98,7 +98,7 @@ var move_queue :Array[Movement] = []
 
 
 func _init():
-	GlobalState.save_data.connect( save_gamepiece )
+	GlobalState.save_triggered.connect( save_gamepiece )
 	monster = Monster.new()
 	monster.umid = umid
 
@@ -139,12 +139,12 @@ func _ready():
 		monster = Monster.new()
 		monster.umid = _umid
 	
-	GlobalDatabase.update_gamepiece(self)
+	GlobalDatabase.refresh_gamepiece(self)
 	_update_monster()
 	kill_imposters()
 	
-	GlobalState.pause_gameworld.connect( _on_gameworld_pause )
-	GlobalState.unpause_gameworld.connect( _on_gameworld_unpause )
+	GlobalState.gameworld_paused.connect( _on_gameworld_pause )
+	GlobalState.gameworld_unpaused.connect( _on_gameworld_unpause )
 	position_stabilized = true
 	#print("GP: I think I'm at ", current_position, " as ", tag)
 	if tag == "player" or monster.umid <= 1:
@@ -166,9 +166,10 @@ func _process(_delta):
 			was_moving = false
 	if is_moving and not was_moving:
 		my_camera.tween_duration = GlobalTools.CAMERA_TWEEN_DURATION
-		gamepiece_moving_signal.emit()
+		#gamepiece_moving_signal.emit()
 	elif not was_moving and not is_moving:
-		gamepiece_stopped_signal.emit()
+		#gamepiece_stopped_signal.emit()
+		pass
 
 
 func _on_gameworld_pause():

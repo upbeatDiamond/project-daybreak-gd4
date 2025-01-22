@@ -103,9 +103,9 @@ func _update_fs_rational():
 			fs_rational.text = str(0, "/", 0)
 
 
-func update_status( status_condition ):
-	
-	pass
+#func update_status( status_condition ):
+	#
+	#pass
 
 
 func _update_nickname():
