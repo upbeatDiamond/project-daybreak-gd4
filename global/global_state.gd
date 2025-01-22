@@ -74,6 +74,7 @@ enum GameIOState {
 	CINEMATIC_QUEUE_BATTLE,
 	WORLD_DIALOG_QUEUE_BATTLE,
 	WORLD_DIALOG_ENDED, ## Unused?
+	SAVING, ## While actively saving the game; avoid using!
 	
 	ANYTHING,	## Similar to a MAX, this is for transition statements
 }
@@ -238,10 +239,14 @@ func freeze_node(node:Node, freeze:bool):
 
 
 func save_game_data():
-	#for gp in scene_manager.get_tree().get_nodes_in_group("gamepiece"):
-	#	await GlobalDatabase.save_gamepiece( gp as Gamepiece )
-	save_data.emit()
+	var prior_state = current_io_state
+	_switch_io_state(GameIOState.SAVING)
 	
+	GlobalDatabase.save_global_data()
+	print("Saving game data... but not all of it! TODO: expand scope")
+	
+	save_data.emit()
+	_switch_io_state(prior_state)
 	print("saved!");
 
 
