@@ -139,6 +139,10 @@ const STATES_TIME_PROGRESS := [
 	GameIOState.WORLD_DIALOG_QUEUE_BATTLE, 
 	GameIOState.WORLD_DIALOG_ENDED,
 ]
+const STATES_META := [
+	GameIOState.SAVING,
+	GameIOState.PAUSED_DEBUG,
+]
 
 ## Prior : { Next : Redirect }
 const STATE_TRANSITION_EXCEPTIONS := {
@@ -305,7 +309,7 @@ func _switch_io_state(new_state:GameIOState) -> GameIOState:
 			scene_manager.switch_to_interface(scene_manager.InterfaceOptions.WORLD)
 		elif current_io_state in STATES_BATTLE:
 			scene_manager.switch_to_interface(scene_manager.InterfaceOptions.BATTLE)
-		else:
+		elif not (current_io_state in STATES_META):
 			scene_manager.switch_to_interface(scene_manager.InterfaceOptions.ACTIVITY)
 	
 	return prior_state
