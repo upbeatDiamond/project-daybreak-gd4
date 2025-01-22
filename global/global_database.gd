@@ -6,13 +6,12 @@ extends Node
 ## We're going to need a lot of refactoring to account for changes in not only gameplay plans ...
 ## ... but also data being split across multiple tables.
 
-#var db : SQLite = null
 
-const VERBOSITY_LEVEL : int = SQLite.VERBOSE #NORMAL #
+const VERBOSITY_LEVEL : int = SQLite.VERBOSE #NORMAL
 
 ## Increment based on current date whenever format changes, Beta or higher.
 ## Also increment beforehand for funsies, I guess?
-const VERSION_CODE := 20241210
+const VERSION_CODE := 20241211
 
 ## Used for balance patches and backwards compatibility with future monster additions
 ## Please copy this file to user:// upon not finding one in user://
@@ -103,37 +102,12 @@ func _ready():
 	## This should allow games to be moddable to some extent.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	pass
+#region Wrapping and Packing
 
-
-func exists_monster( monster:Monster ) -> bool:
-	return exists_monster_umid( monster.umid );
-
-
-func exists_monster_umid( umid:int ) -> bool:
-	var row_array = ["name"]
-	var db := SQLite.new()
-	db.path = DB_PATH_USER_ACTIVE
-	db.open_db()
-	
-	var query_result = db.select_rows( TABLE_NAME_MONSTER, str("umid = ", umid), row_array );
-	db.close_db()
-	
-	if (query_result is Array && query_result.size() > 0):
-		return true
-	return false
-
-
-func load_monster( umid:int ) -> Monster:
-	var mon = Monster.new()
-	
-	mon = database_to_game(mon, TKPV_MONSTER, DB_PATH_USER_ACTIVE, 
-			TABLE_NAME_MONSTER, str("umid = ", umid))
-	
-	return mon
-
+func value_from_config_save(key:String):
+	var config = ConfigFile.new(); config.load(CONFIG_FILE_PATH)
+	var player_umid = config.get_value( config.get_value("save", "current"), key )
+	return 
 
 func game_to_database(thing:Object, tablekey_propval:Dictionary, target_db_path:String, \
 target_table_name:String, _query_conditions:String=""  ):
@@ -226,24 +200,72 @@ target_table_name:String, query_conditions:String ):
 	return thing
 
 
-# To be called by GlobalMonsterSpawner
-func store_monster( monster ):
+# Used for save/load_keyval, to avoid escaping strings too early
+func cheap_sanitize( statement:String ):
+	statement = statement.replace(")", "")
+	statement = statement.replace("(", "")
+	statement = statement.replace("'", "")
+	statement = statement.replace('"', "")
+	statement = statement.replace(';', "")
+	statement = statement.replace('/', "//")
+	statement = statement.replace('\\', "/")
+	return statement
+
+
+func db_wrap(thing):
+	match typeof(thing):
+		TYPE_BOOL, TYPE_INT:
+			return thing
+		TYPE_STRING, TYPE_STRING_NAME:
+			return str(thing)
+	return var_to_bytes(thing)
+
+
+func db_unwrap(thing):
+	if typeof(thing) == TYPE_PACKED_BYTE_ARRAY:
+		return bytes_to_var(thing)
+	return thing
+
+#endregion
+
+#region Monster
+
+func verify_monster_exists( umid:int ) -> bool:
+	var row_array = ["name"]
+	var db := SQLite.new()
+	db.path = DB_PATH_USER_ACTIVE
+	db.open_db()
+	
+	var query_result = db.select_rows( TABLE_NAME_MONSTER, str("umid = ", umid), row_array );
+	db.close_db()
+	
+	if (query_result is Array && query_result.size() > 0):
+		return true
+	return false
+
+
+func save_monster( monster ):
 	game_to_database( monster, TKPV_MONSTER, DB_PATH_USER_ACTIVE, TABLE_NAME_MONSTER, \
 	str("UMID = ", monster.umid) )
 
 
-func save_monster( monster ):
-	if( exists_monster( monster ) ):
-		update_monster( monster )
-	else:
-		store_monster( monster )
-
-
 # Contains code to save monster character to database
-func update_monster( monster ):
+func refresh_monster( monster ):
 	database_to_game( monster, TKPV_MONSTER, DB_PATH_USER_ACTIVE, TABLE_NAME_MONSTER, \
 	str("UMID = ", monster.umid) )
 
+
+func load_monster( umid:int ) -> Monster:
+	var mon = Monster.new()
+	
+	mon = database_to_game(mon, TKPV_MONSTER, DB_PATH_USER_ACTIVE, 
+			TABLE_NAME_MONSTER, str("umid = ", umid))
+	
+	return mon
+
+#endregion
+
+#region Gamepiece
 
 func save_gamepiece( gamepiece:Gamepiece ):
 	var umid = gamepiece.umid
@@ -261,7 +283,7 @@ func load_gamepiece( umid:int ) -> Gamepiece:
 	return gamepiece
 
 
-func update_gamepiece( gamepiece:Gamepiece ) -> Gamepiece:
+func refresh_gamepiece( gamepiece:Gamepiece ) -> Gamepiece:
 	database_to_game(gamepiece, TKPV_GAMEPIECE, DB_PATH_USER_ACTIVE, "gamepiece", str(" UMID = ", gamepiece.umid ) )
 	database_to_game(gamepiece.monster, TKPV_MONSTER, DB_PATH_USER_ACTIVE, "monster", str(" UMID = ", gamepiece.umid ) )
 	return gamepiece
@@ -287,28 +309,9 @@ func load_gamepieces_for_map( map_id ) -> Array[Gamepiece]:
 	db.close_db()
 	return gamepiece_array
 
+#endregion
 
-func save_player_data():
-	pass
-
-
-func load_player_data():
-	pass
-
-
-"""
-	Returns a list of all matching monsters.
-	Realistically, you only need the first entry, so use [0] or pop_front.
-"""
-func fetch_dex_from_index(species:int, row_array:Array[String]=["tag"]) -> Array:
-	var db := SQLite.new()
-	db.path = DB_PATH_PATCH_TEMPLATE
-	db.open_db()
-	
-	var query_result = db.select_rows( TABLE_NAME_SPECIES, str("species_ID = ", species), row_array );
-	db.close_db()
-	return query_result
-
+#region Key-Value
 
 # Does not use game_to_database because GtDB is for objects and looks iffy.
 # This is smaller, and probably more stable, at the small cost of overall code expansion.
@@ -341,18 +344,25 @@ func load_keyval(_key:String, _val=null):
 		_val = fetched.front()["value"]
 	return _val
 
+#endregion
 
-# Used for save/load_keyval, to avoid escaping strings too early
-func cheap_sanitize( statement:String ):
-	statement = statement.replace(")", "")
-	statement = statement.replace("(", "")
-	statement = statement.replace("'", "")
-	statement = statement.replace('"', "")
-	statement = statement.replace(';', "")
-	statement = statement.replace('/', "//")
-	statement = statement.replace('\\', "/")
-	return statement
+#region Level Map
 
+
+## TODO: Needs testing
+func _get_map_id_from_cache( map:String ) -> LevelMap.MapIndex:
+	var db := SQLite.new()
+	db.path = DB_PATH_USER_ACTIVE
+	db.open_db()
+	
+	var target_table_name = "level_map"
+	var query_conditions : String = str("map_path = '", map, "'") 
+	
+	var fetched:Array = db.select_rows( target_table_name, query_conditions, ["map_id"] )
+	db.close_db()
+	if fetched.size() == 0:
+		return LevelMap.MapIndex.INVALID_INDEX
+	return str(fetched[0]["map_id"]).to_int() as LevelMap.MapIndex
 
 # Saves the gametoken & graph connection data
 func save_map_link_data():
@@ -383,23 +393,9 @@ func get_map_index( map ) -> LevelMap.MapIndex:
 	
 	return LevelMap.MapIndex.INVALID_INDEX
 
+#endregion
 
-## TODO: Needs testing
-func _get_map_id_from_cache( map:String ) -> LevelMap.MapIndex:
-	var db := SQLite.new()
-	db.path = DB_PATH_USER_ACTIVE
-	db.open_db()
-	
-	var target_table_name = "level_map"
-	var query_conditions : String = str("map_path = '", map, "'") 
-	
-	var fetched:Array = db.select_rows( target_table_name, query_conditions, ["map_id"] )
-	db.close_db()
-	if fetched.size() == 0:
-		return LevelMap.MapIndex.INVALID_INDEX
-	return str(fetched[0]["map_id"]).to_int() as LevelMap.MapIndex
-
-
+#region Anchor
 
 func get_anchor_coord( map_id:LevelMap.MapIndex, anchor:String ) -> Vector2:
 	var db := SQLite.new()
@@ -445,6 +441,87 @@ func erase_anchor_coord( map_id:LevelMap.MapIndex, anchor:String):
 	db.close_db()
 	pass
 
+#endregion
+
+#region Inventory
+
+func load_inventory( umid:int=0, compartment:int=-1 ) -> Array:
+	
+	## Create database variable, open it for the user save data.
+	var db := SQLite.new()
+	db.path = DB_PATH_USER_ACTIVE
+	db.open_db()
+	
+	## Get all items listed for the selected user, then close the database.
+	var query_conditions : String = str("umid = '", umid, "'") 
+	var fetched:Array = db.select_rows( "inventory", query_conditions, ["item", "quantity"] )
+	db.close_db()
+	
+	## Using the same database interface, open Patch Data
+	db.path = DB_PATH_PATCH_USER
+	db.open_db()
+	
+	## If the compartment number is valid, cull irrelevant entries from the list of available items
+	if compartment >= 0 and compartment < Inventory.Categories.MAX:
+		query_conditions = str("bag_slot = '", compartment, "'") 
+	else:
+		query_conditions = "true"
+	var item_templates:Array = db.select_rows( "item", query_conditions, 
+			["id", "tr_key", "sprite", "tr_key_detail", "stack_size"] )
+	db.close_db()
+	
+	## Reformat the item templates from Patch Data to be easier to iterate through
+	var templates := {}
+	for item in item_templates:
+		templates[ item["id"] ] = { 
+			"tr_key" : item["tr_key"],
+			"tr_key_detail" : item["tr_key_detail"],
+			"sprite_path" : item["sprite"],
+			"stack_size" : item["stack_size"]
+		}
+	
+	var filtered = []
+	
+	## If the fetched row has an item in the appropriate bag slot, give it the translation key and
+	## prepare to submit it to the function caller.
+	for row in fetched:
+		if row["item"] in templates.keys():
+			var item = templates[row["item"]]
+			row["tr_key"] = item["tr_key"]
+			row["tr_key_detail"] = item["tr_key_detail"]
+			row["sprite_path"] = item["sprite_path"]
+			row["stack_size"] = item["stack_size"]
+			filtered.append(row)
+	
+	return filtered
+
+#endregion
+
+#region Bestiary
+
+##	Returns a list of all matching monsters.
+##	Realistically, you only need the first entry, so use [0] or pop_front.
+
+func fetch_dex_from_index(species:int, row_array:Array[String]=["tag"]) -> Array:
+	var db := SQLite.new()
+	db.path = DB_PATH_PATCH_TEMPLATE
+	db.open_db()
+	
+	var query_result = db.select_rows( TABLE_NAME_SPECIES, str("species_ID = ", species), row_array );
+	db.close_db()
+	return query_result
+
+#endregion
+
+#region Validation
+
+func is_gamepiece_player(gamepiece:Gamepiece):
+	var player_umid = value_from_config_save( "player_umid" )
+	return gamepiece.umid == str(player_umid).to_int()
+
+#endregion
+
+#region Save Data
 
 ## Predicts the ability to recover the previous state based on:
 ## 1: Does the player exist? (code may change to account for non-zero UMID)
@@ -551,18 +628,6 @@ func recover_last_state() -> String:
 	return map_player.scene_file_path
 
 
-##TODO: Refactor current save system to use this (currently empty) function
-# Saves data stored in Global/Autoload classes, like in-game time/date, etc
-func save_global_data():
-	pass
-
-
-##TODO: Expand current load/"recover" system to use this (currently empty) function
-# Loads stored data into Global/Autoload classes, like in-game time/date, etc
-func load_global_data():
-	pass
-
-
 func fetch_save_to_stage():
 	var db_commit = SQLite.new(); db_commit.path = DB_PATH_USER_COMMIT; db_commit.open_db()
 	var db_backup = SQLite.new(); db_backup.path = DB_PATH_USER_BACKUP; db_backup.open_db()
@@ -629,93 +694,17 @@ func commit_save_from_active() -> bool:
 	
 	return success
 
-
-func is_gamepiece_player(gamepiece:Gamepiece):
-	var player_umid = value_from_config_save( "player_umid" )
-	return gamepiece.umid == str(player_umid).to_int()
+#endregion
 
 
-func value_from_config_save(key:String):
-	var config = ConfigFile.new(); config.load(CONFIG_FILE_PATH)
-	var player_umid = config.get_value( config.get_value("save", "current"), key )
-	return 
+
+##TODO: Refactor current save system to use this (currently empty) function
+# Saves data stored in Global/Autoload classes, like in-game time/date, etc
+func save_global_data():
+	pass
 
 
-func db_wrap(thing):
-	match typeof(thing):
-		TYPE_BOOL, TYPE_INT:
-			return thing
-		TYPE_STRING, TYPE_STRING_NAME:
-			return str(thing)
-	return var_to_bytes(thing)
-
-
-func db_unwrap(thing):
-	if typeof(thing) == TYPE_PACKED_BYTE_ARRAY:
-		return bytes_to_var(thing)
-	return thing
-
-
-func validate_umid( umid:int=0 ) -> int:
-	
-	# if UMID is taken, increment to the first untaken value
-	# if all taken values are used, start from the start?
-	# maybe use a binary tree type search?
-	# else:
-	# SELECT MIN(id + 1) AS next_id
-	# FROM my_table
-	# WHERE (id + 1) >= {{umid}} AND (id + 1) NOT IN (SELECT id FROM my_table)
-	#
-	
-	return umid
-
-
-func load_inventory( umid:int=0, compartment:int=-1 ) -> Array:
-	
-	## Create database variable, open it for the user save data.
-	var db := SQLite.new()
-	db.path = DB_PATH_USER_ACTIVE
-	db.open_db()
-	
-	## Get all items listed for the selected user, then close the database.
-	var query_conditions : String = str("umid = '", umid, "'") 
-	var fetched:Array = db.select_rows( "inventory", query_conditions, ["item", "quantity"] )
-	db.close_db()
-	
-	## Using the same database interface, open Patch Data
-	db.path = DB_PATH_PATCH_USER
-	db.open_db()
-	
-	## If the compartment number is valid, cull irrelevant entries from the list of available items
-	if compartment >= 0 and compartment < Inventory.Categories.MAX:
-		query_conditions = str("bag_slot = '", compartment, "'") 
-	else:
-		query_conditions = "true"
-	var item_templates:Array = db.select_rows( "item", query_conditions, 
-			["id", "tr_key", "sprite", "tr_key_detail", "stack_size"] )
-	db.close_db()
-	
-	## Reformat the item templates from Patch Data to be easier to iterate through
-	var templates := {}
-	for item in item_templates:
-		templates[ item["id"] ] = { 
-			"tr_key" : item["tr_key"],
-			"tr_key_detail" : item["tr_key_detail"],
-			"sprite_path" : item["sprite"],
-			"stack_size" : item["stack_size"]
-		}
-	
-	var filtered = []
-	
-	## If the fetched row has an item in the appropriate bag slot, give it the translation key and
-	## prepare to submit it to the function caller.
-	for row in fetched:
-		if row["item"] in templates.keys():
-			var item = templates[row["item"]]
-			row["tr_key"] = item["tr_key"]
-			row["tr_key_detail"] = item["tr_key_detail"]
-			row["sprite_path"] = item["sprite_path"]
-			row["stack_size"] = item["stack_size"]
-			filtered.append(row)
-	
-	return filtered
+##TODO: Expand current load/"recover" system to use this (currently empty) function
+# Loads stored data into Global/Autoload classes, like in-game time/date, etc
+func load_global_data():
+	pass
