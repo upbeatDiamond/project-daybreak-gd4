@@ -937,44 +937,27 @@ zoom = Vector2(2.5, 2.5)
 [node name="Portal" parent="." instance=ExtResource("9_jpa74")]
 position = Vector2(-96, 352)
 scale = Vector2(2, 2)
-width = null
-height = null
 map = "res://overworld/level_maps/town_home.tscn"
-keycard_id = null
 target_anchor_name = "PlayerHouse"
 target_position = Vector2i(640, -96)
 target_facing = Vector2i(0, 1)
-is_silent = null
 portal_id = 1
-enabled = null
 
 [node name="Portal2" parent="." instance=ExtResource("9_jpa74")]
 position = Vector2(128, 128)
 scale = Vector2(2, 2)
-width = null
-height = null
-map = null
-keycard_id = null
 target_anchor_name = "PlayerBedroom"
 target_position = Vector2i(640, -96)
 target_facing = Vector2i(0, 1)
-is_silent = null
 portal_id = 1
-enabled = null
 
 [node name="Portal3" parent="." instance=ExtResource("9_jpa74")]
 position = Vector2(-288, -192)
 scale = Vector2(2, 2)
-width = null
-height = null
-map = null
-keycard_id = null
 target_anchor_name = "MainPlayerBedroomDoor"
 target_position = Vector2i(640, -96)
 target_facing = Vector2i(0, 1)
-is_silent = null
 portal_id = 1
-enabled = null
 
 [node name="Bed" parent="." instance=ExtResource("11_p31mf")]
 position = Vector2(-80, -192)
