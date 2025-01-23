@@ -4,7 +4,7 @@
 [ext_resource type="TileSet" uid="uid://cjfkw688icgrw" path="res://overworld/level_maps/tilesets/home_town_lab.tres" id="2_85iav"]
 [ext_resource type="PackedScene" uid="uid://mr16k2apn43v" path="res://overworld/props/push_block.tscn" id="5_byyr8"]
 [ext_resource type="PackedScene" uid="uid://dup7lwhlludsr" path="res://overworld/props/portal.tscn" id="5_j4sa5"]
-[ext_resource type="PackedScene" uid="uid://bx61t5b2ntp6r" path="res://overworld/buildings/house_2x3.tscn" id="6_owl0c"]
+[ext_resource type="PackedScene" uid="uid://bx61t5b2ntp6r" path="res://overworld/props/house_2x3.tscn" id="6_owl0c"]
 [ext_resource type="PackedScene" uid="uid://crk1pu5pxjnen" path="res://common/daylight_cycle_filter.tscn" id="7_qfdiq"]
 [ext_resource type="Texture2D" uid="uid://claaq3m3x57i0" path="res://assets/textures/tilesets/dirtgrass_mauvetown.png" id="8_xra7o"]
 [ext_resource type="Script" path="res://overworld/props/warp_anchor.gd" id="9_77nyv"]

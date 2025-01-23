@@ -12,9 +12,9 @@
 [ext_resource type="PackedScene" uid="uid://crk1pu5pxjnen" path="res://common/daylight_cycle_filter.tscn" id="9_nwmxn"]
 [ext_resource type="PackedScene" uid="uid://dup7lwhlludsr" path="res://overworld/props/portal.tscn" id="10_herdd"]
 [ext_resource type="Script" path="res://overworld/warp_anchor_container.gd" id="11_06385"]
-[ext_resource type="PackedScene" uid="uid://bx61t5b2ntp6r" path="res://overworld/buildings/house_2x3.tscn" id="11_ojq30"]
+[ext_resource type="PackedScene" uid="uid://bx61t5b2ntp6r" path="res://overworld/props/house_2x3.tscn" id="11_ojq30"]
 [ext_resource type="Script" path="res://overworld/props/warp_anchor.gd" id="12_qgo77"]
-[ext_resource type="PackedScene" uid="uid://c8i64eij70w8n" path="res://overworld/buildings/house.tscn" id="13_n18n8"]
+[ext_resource type="PackedScene" uid="uid://c8i64eij70w8n" path="res://overworld/props/house.tscn" id="13_n18n8"]
 [ext_resource type="Texture2D" uid="uid://c31wsgxwovdqm" path="res://assets/textures/tree_big_layering.png" id="16_k0u2e"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_oy114"]

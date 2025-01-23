@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://v6brr57fc5co" path="res://assets/textures/tilesets/interior_home.png" id="5_tu27j"]
 [ext_resource type="Texture2D" uid="uid://b3nqmhb1qe2d0" path="res://assets/textures/tilesets/tile_selection.png" id="6_xks5w"]
 [ext_resource type="PackedScene" uid="uid://db2gcrrcc6uej" path="res://overworld/props/tall_grass.tscn" id="7_obukn"]
-[ext_resource type="PackedScene" uid="uid://bx61t5b2ntp6r" path="res://overworld/buildings/house_2x3.tscn" id="9_nqite"]
+[ext_resource type="PackedScene" uid="uid://bx61t5b2ntp6r" path="res://overworld/props/house_2x3.tscn" id="9_nqite"]
 [ext_resource type="PackedScene" uid="uid://crk1pu5pxjnen" path="res://common/daylight_cycle_filter.tscn" id="10_m5uif"]
 [ext_resource type="Texture2D" uid="uid://c31wsgxwovdqm" path="res://assets/textures/tree_big_layering.png" id="11_ggkfu"]
 [ext_resource type="PackedScene" uid="uid://dup7lwhlludsr" path="res://overworld/props/portal.tscn" id="12_4m2b3"]
