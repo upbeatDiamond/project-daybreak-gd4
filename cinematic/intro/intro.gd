@@ -11,6 +11,7 @@ var input_cooldown := INPUT_COOLDOWN_DEFAULT / 2;
 var stage_locked := false;
 var stage_finished := true;
 var cine_finished := false;
+@export var gamepiece : Gamepiece
 @onready var intro_naming  = self.find_child("Naming",  true);
 @onready var intro_gender  = self.find_child("Gender",  true);
 @onready var intro_form    = self.find_child("Form",    true);
@@ -56,8 +57,7 @@ func _ready():
 	
 	for i in [intro_naming, intro_gender, intro_form, intro_ability, intro_revise]:
 		if i.has_method( 'set_reflect_target' ):
-			i.set_reflect_target( self );
-			pass
+			i.set_reflect_target( self )
 	
 	music_fade_in(0);
 	
@@ -127,9 +127,8 @@ func switch_stage(stage:int):
 	await tween.finished
 	
 	survey.visible = false;
-	var gp = find_child("Gamepiece")
-	if gp != null:
-		gp.visible = false;
+	if gamepiece != null:
+		gamepiece.visible = false;
 	# set all direct children of Selections to invisible
 	
 	for n in (self.find_child("Selection", true) as Container).get_children():
@@ -184,7 +183,8 @@ func switch_stage(stage:int):
 			set_prompt("In this world, how would people perceive your form?");
 			var form_meta = (self.find_child("FormMeta", true) as Container)
 			form_meta.visible = true;
-			find_child("Gamepiece").visible = true;
+			if gamepiece != null:
+				gamepiece.visible = true;
 			music_fade_out(4);
 			music_fade_out(5);
 			stage_finished = false;

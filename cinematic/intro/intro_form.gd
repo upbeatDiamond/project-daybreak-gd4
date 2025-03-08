@@ -2,31 +2,31 @@ extends GridContainer
 
 
 
-@onready var form_node = self.get_parent().find_child("Form", true);
-@onready var btn_grp_skin = form_node.find_child("SkinBtn", true);
-@onready var btn_grp_hair = form_node.find_child("HairBtn", true);
-@onready var btn_grp_shape = form_node.find_child("ShapeBtn", true);
+@onready var form_node = self.get_parent().find_child("Form", true)
+@onready var btn_grp_skin = form_node.find_child("SkinBtn", true)
+@onready var btn_grp_hair = form_node.find_child("HairBtn", true)
+@onready var btn_grp_shape = form_node.find_child("ShapeBtn", true)
 
-@onready var skin_white 	= btn_grp_skin.find_child("SkinColorWhite", true);
-@onready var skin_pale 		= btn_grp_skin.find_child("SkinColorPale", true);
-@onready var skin_shiny 	= btn_grp_skin.find_child("SkinColorShiny", true);
-@onready var skin_common 	= btn_grp_skin.find_child("SkinColorNeutral", true);
-@onready var skin_dark 		= btn_grp_skin.find_child("SkinColorDark", true);
-@onready var skin_black 	= btn_grp_skin.find_child("SkinColorBlack", true);
+@onready var skin_white 	= btn_grp_skin.find_child("SkinColorWhite", true)
+@onready var skin_pale 		= btn_grp_skin.find_child("SkinColorPale", true)
+@onready var skin_shiny 	= btn_grp_skin.find_child("SkinColorShiny", true)
+@onready var skin_common 	= btn_grp_skin.find_child("SkinColorNeutral", true)
+@onready var skin_dark 		= btn_grp_skin.find_child("SkinColorDark", true)
+@onready var skin_black 	= btn_grp_skin.find_child("SkinColorBlack", true)
 
-@onready var hair_white 	= btn_grp_hair.find_child("HairColorWhite", true);
-@onready var hair_pale 		= btn_grp_hair.find_child("HairColorPale", true);
-@onready var hair_shiny 	= btn_grp_hair.find_child("HairColorShiny", true);
-@onready var hair_common 	= btn_grp_hair.find_child("HairColorNeutral", true);
-@onready var hair_dark 		= btn_grp_hair.find_child("HairColorDark", true);
-@onready var hair_black 	= btn_grp_hair.find_child("HairColorBlack", true);
+@onready var hair_white 	= btn_grp_hair.find_child("HairColorWhite", true)
+@onready var hair_pale 		= btn_grp_hair.find_child("HairColorPale", true)
+@onready var hair_shiny 	= btn_grp_hair.find_child("HairColorShiny", true)
+@onready var hair_common 	= btn_grp_hair.find_child("HairColorNeutral", true)
+@onready var hair_dark 		= btn_grp_hair.find_child("HairColorDark", true)
+@onready var hair_black 	= btn_grp_hair.find_child("HairColorBlack", true)
 
-@onready var style_masc		= btn_grp_shape.find_child("ShapeStyleMasc");
-@onready var style_neut		= btn_grp_shape.find_child("ShapeStyleNeut");
-@onready var style_fem		= btn_grp_shape.find_child("ShapeStyleFem");
+@onready var style_masc		= btn_grp_shape.find_child("ShapeStyleMasc")
+@onready var style_neut		= btn_grp_shape.find_child("ShapeStyleNeut")
+@onready var style_fem		= btn_grp_shape.find_child("ShapeStyleFem")
 
-@onready var btn_reflect = self.find_child("Reflect");
-var reflect_target : Node;
+@onready var btn_reflect = self.find_child("Reflect")
+var reflect_target : Node
 
 @onready var form_meta 		= self.get_parent()
 
@@ -107,7 +107,7 @@ func store_form( color_primary, hormone, color_secondary ):
 
 
 func set_reflect_target(n:Node):
-	reflect_target = n;
+	reflect_target = n
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

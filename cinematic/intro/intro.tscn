@@ -30,7 +30,7 @@
 shader = ExtResource("1_ht6sq")
 shader_parameter/speed = null
 
-[node name="Intro" type="Control"]
+[node name="Intro" type="Control" node_paths=PackedStringArray("gamepiece")]
 texture_filter = 3
 texture_repeat = 2
 material = SubResource("ShaderMaterial_3e5c5")
@@ -41,6 +41,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_q0ap4")
+gamepiece = NodePath("Gamepiece")
 
 [node name="Background" type="TextureRect" parent="."]
 texture_repeat = 2
@@ -71,7 +72,6 @@ position = Vector2(768, 320)
 scale = Vector2(8, 8)
 umid = 0
 tag = "player_sunny"
-facing_direction = Vector2(0, 1)
 
 [node name="Survey" type="CenterContainer" parent="."]
 layout_mode = 1
