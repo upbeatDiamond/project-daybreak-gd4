@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://tm5w56my1wdr"]
+
+[ext_resource type="Script" path="res://overworld/characters/gamepiece_ghost.gd" id="1_j00vb"]
+
+[node name="GamepieceGhost" type="Marker2D"]
+script = ExtResource("1_j00vb")
