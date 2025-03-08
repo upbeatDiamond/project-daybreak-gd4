@@ -192,7 +192,7 @@ func _ready():
 
 func _process(_delta: float) -> void:
 	
-	if Input.is_action_pressed("menu") and meta_input_cooldown > 0:
+	if Input.is_action_pressed("ui_menu") and meta_input_cooldown > 0:
 		meta_input_cooldown = max( meta_input_cooldown, META_INPUT_COOLDOWN_RESET )
 	
 	if meta_input_cooldown > 0:
@@ -200,7 +200,7 @@ func _process(_delta: float) -> void:
 		if meta_input_cooldown > 0:
 			return
 	
-	if Input.is_action_pressed("menu"):
+	if Input.is_action_pressed("ui_menu"):
 		meta_input_cooldown = max( meta_input_cooldown, META_INPUT_COOLDOWN_RESET )
 		print(STATES_TOGGLE_PLAYER_MENU)
 		if STATES_TOGGLE_PLAYER_MENU.find( current_io_state ) >= 0 :
