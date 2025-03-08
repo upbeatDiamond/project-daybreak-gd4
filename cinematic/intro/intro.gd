@@ -127,7 +127,9 @@ func switch_stage(stage:int):
 	await tween.finished
 	
 	survey.visible = false;
-	find_child("Gamepiece").visible = false;
+	var gp = find_child("Gamepiece")
+	if gp != null:
+		gp.visible = false;
 	# set all direct children of Selections to invisible
 	
 	for n in (self.find_child("Selection", true) as Container).get_children():
