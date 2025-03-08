@@ -53,7 +53,7 @@ func _process(_delta):
 
 func _physics_process(_delta):
 	if nav_mode == NavigationMode.KEYBOARD_LOCAL and \
-		(GlobalState.gamepiece_input_ignored or gamepiece.is_paused):
+		(GlobalState.is_gamepiece_input_ignored() or gamepiece.is_paused):
 		return
 	elif gamepiece.move_queue.size() <= 1 && gamepiece.is_moving == false && input_cooldown <= 0:
 		handle_movement_input()
