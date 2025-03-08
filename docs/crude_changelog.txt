@@ -13,10 +13,10 @@ Noteworthy Additions:
 	+ Add (generic) maps for each town
 	+ Add (untested/unfinished) spawning tool for tall grass 
 	+ Add graveyard.txt, to be displayed on gravestones
-	+ Add
+	+ Add gamepiece ghost (unused as of yet)
 
 Noteworthy Subtractions:
-	- Remov multiple addons (shouldn't be noticed by the player)
+	- Remove multiple addons (shouldn't be noticed by the player)
 
 
 Noteworthy Changes:
