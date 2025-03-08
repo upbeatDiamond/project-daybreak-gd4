@@ -2,52 +2,46 @@ extends Node
 class_name Monster
 
 # Used for proper saving/loading/reloading
-@export var umid = -1
-@export var world_of_origin = -1
+@export var umid : int = -1
+@export var world_of_origin : int = -1
 
 	# Used to track what moves should be accessible at this point, ...
 	# ... and is used in same places as stat increases and Evo checks
-@export var level := -1
+@export var level : int = -1
 
 	# Used to track experience points, which reset upon levelling up
-@export var experience := -1
+@export var experience : int = -1
 
 
-	# Either reference ID for species base info, or storage of summary 
-var species := -1
+	# Reference ID for species base info
+var species : int = -1
 
-	# Either reference ID for ability info, or storage of object
-var ability = ""
+	# Reference ID for ability info
+var ability : String = ""
 
 
-var birth_name := ""
+var legal_name := ""
 @export var nickname := ""
 var color_base_gene1 := GlobalMonster.ColorGene.COMMON
 var color_base_gene2 := GlobalMonster.ColorGene.COMMON
 var color_accent_gene1 := GlobalMonster.ColorGene.COMMON
 var color_accent_gene2 := GlobalMonster.ColorGene.COMMON
 
-# The currency level of this monster.
-# It should be an int, but floats might be accepted just in case.
-#var funds = 0
-var keycard = 0
+# The currency level of this monster, technically.
+var reputation : int = 0
+var keycard : int = 0
 
-var met_at_level = -1
+var met_at_level : int = -1
 
 var health: set = set_health, get = get_health;
+var attack : int = 10
+var defense : int = 10
+var speed : int = 10
+var special : int = 10
 var spirit: set = set_spirit, get = get_spirit;
-var speed = 10#:
-	#set(val):
-		#stats_current[ GlobalMonster.BattleStats.SPEED ] = val
-	#get:
-		#return stats_current[ GlobalMonster.BattleStats.SPEED ]
-# May convert to PackedByteArray or Dictionary
-# Represents genetic component to personality
-var p_factor_base = PackedByteArray(); 
-
-# May convert to PackedByteArray or Dictionary
-# Represents independent personality development
-var p_factor_offset = PackedByteArray();
+var charisma : int = 10
+var resolve : int = 10
+var evasion : int = 10
 
 # The moves currently accessible
 var techniques_learned = {}
@@ -74,11 +68,7 @@ var activity_heap = {}
 
 
 func _init():
-	p_factor_base.resize( GlobalMonster.PersonalityFactor.size() );
-	p_factor_offset.resize( GlobalMonster.PersonalityFactor.size() );
 	techniques_active.resize( GlobalMonster.MAX_BATTLE_TECHNIQUES );
-	stats_base.resize( GlobalMonster.BattleStats.size() );
-	stats_current.resize( GlobalMonster.BattleStats.size() );
 	pass # Replace with function body.
 
 
@@ -150,16 +140,16 @@ func set_max_spirit( _max:int ):
 	stats_base[ GlobalMonster.BattleStats.SPIRIT ] = _max;
 
 
-# can turn this into a setget
-func get_stat( stat_type:GlobalMonster.BattleStats ):
-	var stat = stats_current[ stat_type ]
-	if (stat == null):
-		stat = 0
-	return stat 
-
-# can turn this into a setget
-func set_stat( stat_type:GlobalMonster.BattleStats, value:int ):
-	stats_current[ stat_type ] = value
+## can turn this into a setget
+#func get_stat( stat_type:GlobalMonster.BattleStats ):
+	#var stat = stats_current[ stat_type ]
+	#if (stat == null):
+		#stat = 0
+	#return stat 
+#
+## can turn this into a setget
+#func set_stat( stat_type:GlobalMonster.BattleStats, value:int ):
+	#stats_current[ stat_type ] = value
 
 # Write this monster to disk, or to a database, ...
 # ... by sending the results of packData to global/singleton

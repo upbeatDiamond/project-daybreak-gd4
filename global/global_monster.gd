@@ -16,24 +16,24 @@ const MAX_BATTLE_TECHNIQUES = 4
 
 #region Enums
 
-enum PersonalityFactor {
-	WARMTH,   		# Low = detached,	High = outgoing
-	REASONING,		# Low = concrete,	High = abstract
-	STABILITY,		# Low = easily upset,	High = mature
-	DOMINANCE,		# Low = humble,	High = dominant
-	LIVELINESS,		# Low = restrained,	High = expressive
-	LAWFULNESS,		# Low = expedient,	High = dutiful
-	BOLDNESS,		# Low = hesitant,	High = uninhibited
-	SENSITIVITY,	# Low = utilitarian,	High = sentimental
-	VIGILANCE,		# Low = trusting,	High = skeptical
-	ABSTRACTNESS,	# Low = practical,	High = imaginative
-	PRIVACY,		# Low = genuine,	High = shrewd
-	APPREHENSION,	# Low = guiltless,	High = insecure
-	EXPERIMENTAL,	# Low = traditional,	High = open to change
-	INDIVIDUALISM,	# Low = affiliative,	High = self-reliant
-	PERFECTIONISM,	# Low = fine w/chaos,	High = compulsive
-	TENSION,		# Low = patient,	High = frustrated
-}
+#enum PersonalityFactor {
+	#WARMTH,   		# Low = detached,	High = outgoing
+	#REASONING,		# Low = concrete,	High = abstract
+	#STABILITY,		# Low = easily upset,	High = mature
+	#DOMINANCE,		# Low = humble,	High = dominant
+	#LIVELINESS,		# Low = restrained,	High = expressive
+	#LAWFULNESS,		# Low = expedient,	High = dutiful
+	#BOLDNESS,		# Low = hesitant,	High = uninhibited
+	#SENSITIVITY,	# Low = utilitarian,	High = sentimental
+	#VIGILANCE,		# Low = trusting,	High = skeptical
+	#ABSTRACTNESS,	# Low = practical,	High = imaginative
+	#PRIVACY,		# Low = genuine,	High = shrewd
+	#APPREHENSION,	# Low = guiltless,	High = insecure
+	#EXPERIMENTAL,	# Low = traditional,	High = open to change
+	#INDIVIDUALISM,	# Low = affiliative,	High = self-reliant
+	#PERFECTIONISM,	# Low = fine w/chaos,	High = compulsive
+	#TENSION,		# Low = patient,	High = frustrated
+#}
 
 ## This is used to enable monster breeding to carry color.
 ## This should be directly stored in the Monster, used to generate color palette
