@@ -124,24 +124,9 @@ enum GenderBitfield{
 }
 
 
-# ALL THESE WORLDS ARE OURS EXCEPT XXXXXX.
-enum LostSoulHints{
-	FAMILIAR,		# Represents creature from this game, but is corrupted or unimplemented
-	POCKET,			# From a world where electric mice run rampent
-	DENJU,			# From a world where the Metaverse can be walked into via phone towers
-	DIGI,			# From a world where very round cats can become very curvy vakyries
-	CORO,	
-	NEXO,
-	FREESTENDHAL,	# From Freestendhal
-	LUXA,			# From Luxamon
-	TUXE,			# From Tuxemon
-	DAWNBRINGER,	# From Dawnbringer
-	GUARDIAN,		# From Guardian Monsters
-	LOYALTYLIES,	# From Loyalty Lies
-}
-
-# Used to track when/where this monster was created. Lost Souls may have values that do not correspond.
-enum GameOfOrigin{
+# Used to track when/where this monster was created.
+enum GameOfOrigin {
+	UNKNOWN, ## Not an officially registered game
 	SUNNY,
 	SHADY,
 	ZENITH,
@@ -199,7 +184,7 @@ func fill_umid_buffer():
 	pass
 
 
-## TODO: incorporate the location a monster is found in into the UMID, so long as complexity is not lost.
+## TODO: incorporate monster's spawn location into the UMID, so long as complexity is not lost.
 ## Universal/Unique Monster Identification (Document)
 func generate_umid() -> int:
 	
