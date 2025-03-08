@@ -7,16 +7,16 @@ Update: Pre-alpha 7/8, ""
 TL;DR: 
 
 Noteworthy Additions:
-	+ Replaced player menu GUI
-		+ Replaced inventory GUI
-	+ Added and replaced some monster sprites
-	+ Added (generic) maps for each town
-	+ Added (untested/unfinished) spawning tool for tall grass 
-	+ Added graveyard.txt, to be displayed on gravestones
-
+	+ Replac player menu GUI
+		+ Replac inventory GUI
+	+ Add and replaced some monster sprites
+	+ Add (generic) maps for each town
+	+ Add (untested/unfinished) spawning tool for tall grass 
+	+ Add graveyard.txt, to be displayed on gravestones
+	+ Add
 
 Noteworthy Subtractions:
-	- Removed multiple addons, which shouldn't be noticable for the player
+	- Remov multiple addons (shouldn't be noticed by the player)
 
 
 Noteworthy Changes:
@@ -26,14 +26,14 @@ Noteworthy Changes:
 			> G.Runtime did not follow the single-responsibility principle
 			> GlobalState is for scene manager, i/o state, and syncing (rng)
 			> GlobalTools is for unit conversions and engine/library gimmicks
-	* Merged global classes which have similar roles
-		- Removed GlobalGamepieceTransfer (merged into LevelMap)
-		- Removed GlobalBitManip (merged into GlobalTools)
-		- Removed GlobalMonsterSpawner (merged into GlobalMonster)
-	* Revised gamepiece teleport/anchor system
+	* Merge global classes which have similar roles
+		- Remove GlobalGamepieceTransfer (merged into LevelMap)
+		- Remove GlobalBitManip (merged into GlobalTools)
+		- Remove GlobalMonsterSpawner (merged into GlobalMonster)
+	* Revise gamepiece teleport/anchor system
 		* For debug purposes, anchors try to save their position to player file
 	* Gamepiece facing direction uses an enum (cannot face diagonal/zero)
-	* Revised GlobalDayCycle into GlobalClock
+	* Revise GlobalDayCycle into GlobalClock
 	
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -71,12 +71,17 @@ General Commentary:
 	> Global classes go into "res://global" and include "global" in their names.
 		> Exception: if the global class is part of an addon or workaround.
 	
-	> Functions must be separated with 2 blank lines, uninterrupted.
+	> Functions should be separated with 2 blank lines, uninterrupted.
 	> Comments before a function should explain as if it is class documentation
 	> Comments in a function should say 'why'/'how' rather than 'what'/'where'
 		> More like: "this line solves an edge case related to char *"  
 		> Less like: [var v = 2] "this line sets v to 2"
 			> I (jan Wiwijen) don't follow my own rules. This is a bad thing.
+	
+	> Outside of addons, do not refer to any files in the project by their UIDs
+		> uid://* are to be used for the TRX localization system exclusively
+		> res://* files should be expected to block updates/writing
+		> user://* files should be (re)generated as needed using res:// data
 	
 	> Generally, code for a thing should be inside it, or its direct controller.
 	
