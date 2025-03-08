@@ -173,7 +173,7 @@ func mount_cinematic( cine:Control):
 	if not cine.is_inside_tree():
 		activity_interface.add_child( cine )
 	switch_to_interface( SceneManager.InterfaceOptions.ACTIVITY )
-	#var prior_state = GlobalState._switch_io_state(GlobalState.GameIOState.CINEMATIC_STARTED)
+	GlobalState._switch_io_state(GlobalState.GameIOState.CINEMATIC_STARTED)
 	await (cine as Cinematic).cinematic_finished
 	for child in activity_interface.get_children():
 		child.queue_free()
