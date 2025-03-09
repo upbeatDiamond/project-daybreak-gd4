@@ -109,7 +109,7 @@ func _handle_movement_direction() -> Vector2:
 func _handle_movement_running() -> bool:
 	match nav_mode:
 		NavigationMode.KEYBOARD_LOCAL:
-			return Input.is_action_pressed("ui_fast")
+			return Input.is_action_pressed("player_sprint")
 		NavigationMode.AUTONAV:
 			return false
 	return false
@@ -149,7 +149,7 @@ func handle_movement_input():
 	print("GPC: Input direction = ", input_direction)
 	var movement := Movement.new( input_direction )
 	
-	gamepiece.facing_from_vector2(input_direction);
+	Gamepiece._facing_from_vector2(input_direction);
 	
 	var is_running = _handle_movement_running()
 	if is_running:
@@ -161,7 +161,7 @@ func handle_movement_input():
 		movement.method = gamepiece.TraversalMode.WALKING
 	
 	if input_direction != Vector2.ZERO:
-		gamepiece.facing_from_vector2(input_direction);
+		Gamepiece._facing_from_vector2(input_direction);
 		gamepiece.position_stabilized = true
 		gamepiece.queue_movement( movement )
 		gamepiece.update_anim_tree()
