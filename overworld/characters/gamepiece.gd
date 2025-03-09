@@ -51,7 +51,7 @@ var is_moving := false	# true if currently tweening a traversal (walking, runnin
 var was_moving := false	# true if animation for an 'is_moving' action would still be playing
 var position_is_known := true	# false if the gamepiece needs a new position calculated.
 var position_stabilized := false	#current_position == global_position; or, "has been placed yet"
-var marked_for_deletion := true
+var marked_for_deletion := false
 @export var facing_direction := FacingDirection.NORTH	# Used for animation state
 
 var traversal_mode = TraversalMode.STANDING
@@ -503,8 +503,8 @@ func teleport(loci: Vector2i, direction: Vector2i, map:="", anchor_name:="", sil
 func _snap_camera_to_protag():
 	my_camera.tween_duration = 0
 	
-	if GlobalTools.scene_manager.phantom_camera_host._active_pcam_2d == my_camera:
-		GlobalTools.scene_manager.phantom_camera_host._prev_active_pcam_2d_transform.origin = global_position
+	if GlobalState.scene_manager.phantom_camera_host._active_pcam_2d == my_camera:
+		GlobalState.scene_manager.phantom_camera_host._prev_active_pcam_2d_transform.origin = global_position
 	my_camera.tween_resource.duration = GlobalTools.CAMERA_TWEEN_DURATION
 	pass
 
