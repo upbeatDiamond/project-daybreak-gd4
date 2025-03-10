@@ -31,40 +31,40 @@ var color_accent_gene2 := GlobalMonster.ColorGene.COMMON
 var reputation : int = 0
 var keycard : int = 0
 
-var met_at_level : int = -1
+## IV = Individual/Inherent Values
+## Generated based on species stats, and modified from there
+## To avoid excessive database access, combine with species default values
+## Worst case, change in base stats can be attributed to regional differences?
+var iv_health : int = 10
+var iv_attack : int = 10
+var iv_defense : int = 10
+var iv_speed : int = 10
+var iv_special : int = 10
+var iv_spirit : int = 10
+var iv_charisma : int = 10
+var iv_resolve : int = 10
+var iv_evasion : int = 10
 
-var health: set = set_health, get = get_health;
-var attack : int = 10
-var defense : int = 10
-var speed : int = 10
-var special : int = 10
-var spirit: set = set_spirit, get = get_spirit;
-var charisma : int = 10
-var resolve : int = 10
-var evasion : int = 10
+## EV = Effort Values
+## Increases/decreases based on actions taken
+## Separated from IV to allow for EV resetting
+var ev_health : int = 10
+var ev_attack : int = 10
+var ev_defense : int = 10
+var ev_speed : int = 10
+var ev_special : int = 10
+var ev_spirit : int = 10
+var ev_charisma : int = 10
+var ev_resolve : int = 10
+var ev_evasion : int = 10
+
+var current_health : int = 10
+var current_spirit : int = 10
 
 # The moves currently accessible
-var techniques_learned = {}
 var techniques_active = []; 
 
 var status_conditions = {}
-
-# The state the stats should be reset to upon healing
-# Might be split into IVs, AV/EVs, and Species Strengths
-# Called 'max' in the database, in comparison to HP
-var stats_base = [];
-var stats_growth = [];
-
-# The stats to be used during battles, ...
-# ... stored in array format due to lack of need outside of battle
-var stats_current = []; 
-
-# Maps other UMIDs and players onto relationship value arrays
-# might contain analogue to Memories
-var relationships = {}
-
-# Stores one's current endeavors
-var activity_heap = {}
 
 
 func _init():
@@ -72,84 +72,50 @@ func _init():
 	pass # Replace with function body.
 
 
-func get_current_stat():
-	pass
-
-
 # get current health level
-func get_health() -> int:
-	var _health = stats_current[ GlobalMonster.BattleStats.HEALTH ];
-	if (_health == null):
-		_health = 0
-	return _health
+func get_current_health() -> int:
+	#var _health = stats_current[ GlobalMonster.BattleStats.HEALTH ];
+	#if (_health == null):
+		#_health = 0
+	return current_health#_health
 
 
 # can turn this into a setget
-func set_health( _health:int ):
-	stats_current[ GlobalMonster.BattleStats.HEALTH ] = _health;
-	return stats_current[ GlobalMonster.BattleStats.HEALTH ] # for debug?
+func set_current_health( _health:int ) -> void:
+	#stats_current[ GlobalMonster.BattleStats.HEALTH ] = _health;
+	current_health = _health
 
 
 # get default health level
 func get_max_health() -> int:
-	var _health = stats_base[ GlobalMonster.BattleStats.HEALTH ];
-	if (_health == null):
-		_health = 0
-	return _health
+	return ev_health + iv_health
 
 
 func set_max_health( _max:int ):
-	stats_base[ GlobalMonster.BattleStats.HEALTH ] = _max;
+	ev_health = _max - iv_health
 
 
-# Separated for future damage animations, or abilities
-func reduce_health( damage ):
-	set_health( get_health() - damage );
+func tweak_base_health( change:int ):
+	ev_health += change
 
 
-# Separated for future healing animations, or abilities
-func increase_health( healing ):
-	set_health( get_health() + healing );
+func get_current_spirit() -> int:
+	return current_spirit
 
-
-func change_base_health( change ):
-	stats_base[ GlobalMonster.BattleStats.HEALTH ] += change;
-
-
-# Deprecated due to get_stat, but don't remove yet
-func get_spirit() -> int:
-	var _spirit = stats_current[ GlobalMonster.BattleStats.SPIRIT ];
-	if (_spirit == null):
-		_spirit = 0
-	return _spirit
 
 # can turn this into a setget
-func set_spirit( _spirit:int ):
-	stats_current[ GlobalMonster.BattleStats.SPIRIT ] = _spirit;
-	return stats_current[ GlobalMonster.BattleStats.SPIRIT ] # for debug?
+func set_spirit( _spirit:int ) -> void:
+	current_spirit = _spirit
+
 
 # get default spirit level
 func get_max_spirit() -> int:
-	var _spirit = stats_base[ GlobalMonster.BattleStats.SPIRIT ];
-	if (_spirit == null):
-		_spirit = 0
-	return _spirit
+	return ev_spirit + iv_spirit
 
 
-func set_max_spirit( _max:int ):
-	stats_base[ GlobalMonster.BattleStats.SPIRIT ] = _max;
+func set_max_spirit( _max:int ) -> void:
+	ev_spirit = _max - iv_spirit 
 
-
-## can turn this into a setget
-#func get_stat( stat_type:GlobalMonster.BattleStats ):
-	#var stat = stats_current[ stat_type ]
-	#if (stat == null):
-		#stat = 0
-	#return stat 
-#
-## can turn this into a setget
-#func set_stat( stat_type:GlobalMonster.BattleStats, value:int ):
-	#stats_current[ stat_type ] = value
 
 # Write this monster to disk, or to a database, ...
 # ... by sending the results of packData to global/singleton
@@ -173,8 +139,7 @@ func get_active_techniques():
 
 
 func _to_string():
-	return str(name, "(", umid, ") is a ", species, " with techniques ", \
-	techniques_learned, " and stats ", stats_base, " -> ", stats_current)
+	return str(name, "(", umid, ") is a ", species)
 
 
 func equals(other_mon:Monster) -> bool:
