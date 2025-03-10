@@ -86,8 +86,8 @@ var current_map := -1	# overwritten by code, do not trust; still used for databa
 			return self.global_position
 		return current_position 
 
-@export var target_map := 0
-@export var target_position := Vector2(0,0)
+#@export var target_map := 0
+#@export var target_position := Vector2(0,0)
 var move_queue :Array[Movement] = []
 # ^ The movement queue should be updated to account for the ability to turn, ...
 # ... and to switch traversal modes.
