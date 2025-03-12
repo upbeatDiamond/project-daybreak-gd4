@@ -277,13 +277,13 @@ static func save_gamepiece( piece:Gamepiece, target_map_index:MapIndex, \
 		return
 	
 	#if piece != null:
-	piece.current_map = _origin_map_index
-	piece.target_map = target_map_index
+	piece.current_map = target_map_index
+	#piece.target_map = target_map_index
 	piece.position_stabilized = false
 	#if piece.current_map == MapIndex.INVALID_INDEX:
 		#piece.current_map = piece.target_map
 	
-	piece.target_position = target_map_coordinates
+	piece.current_position = target_map_coordinates
 	piece.facing_direction = _facing_direction
 	
 	GlobalDatabase.save_gamepiece( piece )
