@@ -136,14 +136,16 @@ func get_max_fs():
 	return monster.get_max_spirit()
 
 
-func set_fs(fs):
+func set_fs(fs) -> int:
 	var old_fs = get_fs()
 	fs_changed.emit(fs, old_fs)
-	return monster.set_spirit(fs)
+	monster.set_spirit(fs)
+	return monster.get_current_spirit()
 
 
-func set_max_fs(maximum:int):
-	return monster.set_max_spirit(maximum)# monster.max_spirit
+func set_max_fs(maximum:int) -> void:
+	monster.set_max_spirit(maximum)# monster.max_spirit
+	#return maximum
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
