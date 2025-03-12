@@ -29,6 +29,7 @@ func reset_clyde():
 
 
 func _load_screenplay(file_name: String, block:String="") -> void:
+	return
 	clyde.load_dialogue(file_name, block)
 	
 	for connection in clyde.variable_changed.get_connections():
@@ -47,17 +48,20 @@ func _load_screenplay(file_name: String, block:String="") -> void:
 
 
 func run_screenplay(file_name: String, block:String="") -> void:
+	return
 	_load_screenplay(file_name, block)
 	_start_current_screenplay()
 	pass
 
 
 func _start_current_screenplay():
+	return
 	state_prior = GlobalState._switch_io_state(GlobalState.GameIOState.WORLD_DIALOG)
 	GlobalState.scene_manager.dialog_box.start_dialog( await get_next_line() )
 
 
 func get_next_line() -> Dictionary:
+	return {}
 	next_line = clyde.get_content()
 	
 	if next_line["type"] == "line" and next_line.has("speaker") \
@@ -83,26 +87,30 @@ func get_next_line() -> Dictionary:
 
 
 func _continue_current_screenplay():
-	
+	return
 	pass
 
 
 func choose_dialog_option(id:int):
+	return
 	clyde.choose(id)
 	pass
 
 
 func _end_current_screenplay():
+	return
 	print( GlobalState.GameIOState.find_key(state_prior), ", Wowza!" )
 	GlobalState._switch_io_state( state_prior )
 
 
 func _on_variable_changed(key:String, val:Variant, val_prev:Variant):
+	return
 	print("Director says '", key, "' tried to change from ", val_prev, "to", val)
 	pass
 
 
 func _on_event_triggered(key: String):
+	return
 	print("event: ", key)
 	
 	match key.strip_edges().to_lower():
@@ -114,16 +122,18 @@ func _on_event_triggered(key: String):
 
 
 func _on_external_variable_update(key:String, value) -> void:
+	return
 	set_key_value(key,value)
 
 
 func _on_external_variable_fetch(key:String):
+	return
 	return get_key_value(key)
 
 
 # return the value for a key
 func get_key_value( key:String ):
-	
+	return
 	match key:
 		"pc_they":
 			pass
@@ -164,6 +174,7 @@ func get_key_value( key:String ):
 
 
 func set_key_value( key:String, value ):
+	return
 	if str(value).strip_edges().is_valid_int():
 		value = str(value).to_int()
 	elif str(value).strip_edges().is_valid_float():
@@ -176,6 +187,7 @@ func set_key_value( key:String, value ):
 	Runs a string as an action command, as a Clyde hack.
 """
 func do_string(do:String):
+	return
 	do = str(do + " ").to_lower()
 	var parameters = do.split(" ")
 	var d = parameters[0]
@@ -264,6 +276,7 @@ var END_DIALOG_ID = "end" # The dialog next_id that will end the dialog, reserve
 
 # Loads a file as JSON, returns JSON
 func load_file(file_name):
+	return
 	var file #= FileAccess.new()
 	if FileAccess.file_exists(file_name):
 		file = FileAccess.open(file_name, FileAccess.READ)
