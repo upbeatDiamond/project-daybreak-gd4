@@ -42,32 +42,35 @@ const TABLE_NAME_ANCHOR := "map_anchor"
 # Any property name that includes brackets should be split off and parsed.
 const TKPV_MONSTER = {
 	"status_effects": 		{ "fallback": "" },
-	"franchise_ID": 		{ "fallback": 0 },
 	"species_ID": 			{ "property": "species", "fallback": -1 },
 	"variant_ID": 			{ "fallback": 0 },
 	"umid": 				{ "property": "umid", "fallback": -1 }, #stats_growth
-	"current_health": 	 	{ "property": "stats_current", "index":GlobalMonster.BattleStats.HEALTH, "fallback": -1 },
-	"current_spirit": 	 	{ "property": "stats_current", "index":GlobalMonster.BattleStats.SPIRIT, "fallback": -1 },
-	"current_attack": 	 	{ "property": "stats_current", "index":GlobalMonster.BattleStats.ATTACK, "fallback": -1 },
-	"current_defense": 	 	{ "property": "stats_current", "index":GlobalMonster.BattleStats.DEFENSE, "fallback": -1 },
-	"current_speed": 	 	{ "property": "stats_current", "index":GlobalMonster.BattleStats.SPEED, "fallback": -1 },
-	"current_evasion": 	 	{ "property": "stats_current", "index":GlobalMonster.BattleStats.EVASION, "fallback": -1 },
-	"current_intimidate":	{ "property": "stats_current", "index":GlobalMonster.BattleStats.INTIMIDATION, "fallback": -1 },
-	"current_resolve": 	 	{ "property": "stats_current", "index":GlobalMonster.BattleStats.RESOLVE, "fallback": -1 },
-	"current_mana": 		{ "property": "stats_current", "index":GlobalMonster.BattleStats.MANA, "fallback": -1 },
-	"max_health": 			{ "property": "stats_current", "index":GlobalMonster.BattleStats.HEALTH, "fallback": -1 },
-	"max_spirit": 			{ "property": "stats_current", "index":GlobalMonster.BattleStats.SPIRIT, "fallback": -1 },
-	"max_attack": 			{ "property": "stats_current", "index":GlobalMonster.BattleStats.ATTACK, "fallback": -1 },
-	"max_defense": 			{ "property": "stats_current", "index":GlobalMonster.BattleStats.DEFENSE, "fallback": -1 },
-	"max_speed": 			{ "property": "stats_current", "index":GlobalMonster.BattleStats.SPEED, "fallback": -1 },
-	"max_evasion": 			{ "property": "stats_current", "index":GlobalMonster.BattleStats.EVASION, "fallback": -1 },
-	"max_intimidate": 		{ "property": "stats_current", "index":GlobalMonster.BattleStats.INTIMIDATION, "fallback": -1 },
-	"max_resolve": 			{ "property": "stats_current", "index":GlobalMonster.BattleStats.RESOLVE, "fallback": -1 },
-	"max_mana": 			{ "property": "stats_current", "index":GlobalMonster.BattleStats.MANA, "fallback": -1 },
+	"current_health": 	 	{ "property": "current_health", "fallback": 10 },
+	"current_spirit": 	 	{ "property": "current_spirit", "fallback": 10 },
+	"ev_health": 	 		{ "property": "ev_health", "fallback": 10 },
+	"ev_spirit": 	 		{ "property": "ev_spirit", "fallback": 10 },
+	"ev_attack": 	 		{ "property": "ev_attack", "fallback": 10 },
+	"ev_defense": 	 		{ "property": "ev_defense", "fallback": 10 },
+	"ev_speed": 	 		{ "property": "ev_speed", "fallback": 10 },
+	"ev_special": 	 		{ "property": "ev_special", "fallback": 10 },
+	"ev_charisma":			{ "property": "ev_charisma", "fallback": 10 },
+	"ev_resolve": 	 		{ "property": "ev_resolve", "fallback": 10 },
+	"ev_evasion": 			{ "property": "ev_evasion", "fallback": 10 },
+	"iv_health": 	 		{ "property": "iv_health", "fallback": 10 },
+	"iv_spirit": 	 		{ "property": "iv_spirit", "fallback": 10 },
+	"iv_attack": 	 		{ "property": "iv_attack", "fallback": 10 },
+	"iv_defense": 	 		{ "property": "iv_defense", "fallback": 10 },
+	"iv_speed": 	 		{ "property": "iv_speed", "fallback": 10 },
+	"iv_special": 	 		{ "property": "iv_special", "fallback": 10 },
+	"iv_charisma":			{ "property": "iv_charisma", "fallback": 10 },
+	"iv_resolve": 	 		{ "property": "iv_resolve", "fallback": 10 },
+	"iv_evasion": 			{ "property": "iv_evasion", "fallback": 10 },
 	"ability": 				{ "property": "ability", "fallback":  0},
-	"exp": 					{ "property": "experience", "fallback":  0},
+	"experience": 			{ "property": "experience", "fallback":  0},
+	"reputation": 			{ "property": "reputation", "fallback":  0},
+	"keycard": 				{ "property": "keycard", "fallback":  0},
 	"level": 				{ "property": "level", "fallback":  1},
-	"name": 				{ "property": "birth_name", "fallback":  "John Smith"},
+	"name": 				{ "property": "legal_name", "fallback":  "John Smith"},
 	"color_base_gene1": 	{ "property": "color_base_gene1", "fallback":  0},
 	"color_base_gene2": 	{ "property": "color_base_gene2", "fallback":  0},
 	"color_accent_gene1": 	{ "property": "color_accent_gene1", "fallback":  0},
@@ -88,7 +91,7 @@ const TKPV_GAMEPIECE = {
 	"current_direction":	{"property": "facing_direction", 	"fallback": Vector2i(0,1)},
 }
 
-const TKPV_LEVEL_MAP = {
+const TKPV_LEVELMAP = {
 	"map_id": {"property":"map_index", "fallback":-1},
 	"map_path": {"property":"scene_file_path", "fallback":""},
 }
@@ -148,6 +151,10 @@ target_table_name:String, _query_conditions:String=""  ):
 				row_dict[key] = thing.get( tablekey_propval[key]["property"] )
 				if (row_dict[key] is Array or row_dict[key] is Dictionary) and tablekey_propval[key].has( "index" ):
 					row_dict[key] = thing.get(tablekey_propval[key]["property"])[ tablekey_propval[key]["index"] ]
+			elif thing != null:
+				row_dict[key] = thing.get( key )
+				if (row_dict[key] is Array or row_dict[key] is Dictionary) and tablekey_propval[key].has( "index" ):
+					row_dict[key] = thing.get(key)[ tablekey_propval[key]["index"] ]
 			else:
 				row_dict[key] = null
 			
@@ -399,12 +406,12 @@ func load_map_link_data():
 func load_level_map( map:int ):
 	var dummy_map := LevelMap.new()
 	dummy_map.map_index = (map as LevelMap.MapIndex)
-	return database_to_game(dummy_map, TKPV_LEVEL_MAP, DB_PATH_USER_ACTIVE, "level_map", str("map_id = ", map) )
+	return database_to_game(dummy_map, TKPV_LEVELMAP, DB_PATH_USER_ACTIVE, "level_map", str("map_id = ", map) )
 
 
 # Saves which file path correlates to the level map index
 func save_level_map( map:LevelMap ):
-	game_to_database(map, TKPV_LEVEL_MAP, DB_PATH_USER_ACTIVE, "level_map", str("map_id = ", map.map_index) )
+	game_to_database(map, TKPV_LEVELMAP, DB_PATH_USER_ACTIVE, "level_map", str("map_id = ", map.map_index) )
 	pass
 
 
@@ -608,6 +615,10 @@ func _regenerate_user_database_folder():
 		var globalized_patch_path = ProjectSettings.globalize_path(DB_PATH_PATCH_USER) + ".db"
 		db_patch.query("VACUUM INTO \"" + globalized_patch_path + "\"")
 		db_patch.close_db()
+
+
+func _rebuild_sql_tables():
+	pass
 
 
 func does_save_exist() -> bool:
