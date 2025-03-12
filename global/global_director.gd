@@ -1,6 +1,6 @@
 extends Node
 
-var clyde : ClydeDialogue
+var clyde #: ClydeDialogue
 var state_prior := GlobalState.GameIOState.WORLD
 var is_running_event := false
 
@@ -23,8 +23,9 @@ func _ready() -> void:
 
 
 func reset_clyde():
-	clyde = ClydeDialogue.new()
-	clyde.dialogue_folder = "res://screenplays/clyde"
+	#clyde = ClydeDialogue.new()
+	#clyde.dialogue_folder = "res://screenplays/clyde"
+	pass
 
 
 func _load_screenplay(file_name: String, block:String="") -> void:
