@@ -108,17 +108,19 @@ func _ready():
 
 #region Wrapping and Packing
 
-func value_from_config_save(key:String):
+func value_from_config_save(key:String) -> Variant:
 	var config = ConfigFile.new(); 
 	var error = config.load(CONFIG_FILE_PATH)
+	if error != Error.OK:
+		print("Config file issue! Guess we can't find out about ", key)
+		return null
 	key = key.strip_edges().strip_escapes()
 	print(config.get_value("save", "current"))
 	return config.get_value( config.get_value("save", "current"), key )
-	#print("Config file issue! Guess we can't find out about ", key)
-	return null
+	
 
 
-func value_into_config_save(key:String, value):
+func value_into_config_save(key:String, value) -> void:
 	var config = ConfigFile.new(); 
 	var error = config.load(CONFIG_FILE_PATH)
 	key = key.strip_edges().strip_escapes()
