@@ -111,9 +111,22 @@ func _ready():
 func value_from_config_save(key:String):
 	var config = ConfigFile.new(); 
 	var error = config.load(CONFIG_FILE_PATH)
-	if error != Error.OK:
-		return config.get_value( config.get_value("save", "current"), key )
+	key = key.strip_edges().strip_escapes()
+	print(config.get_value("save", "current"))
+	return config.get_value( config.get_value("save", "current"), key )
+	#print("Config file issue! Guess we can't find out about ", key)
 	return null
+
+
+func value_into_config_save(key:String, value):
+	var config = ConfigFile.new(); 
+	var error = config.load(CONFIG_FILE_PATH)
+	key = key.strip_edges().strip_escapes()
+	print(config.get_value("save", "current"))
+	if error == Error.OK:
+		config.set_value(config.get_value("save", "current"), key, value)
+		print(config.get_value( config.get_value("save", "current"), key ))
+		config.save(CONFIG_FILE_PATH)
 
 
 func game_to_database(thing:Object, tablekey_propval:Dictionary, target_db_path:String, \
@@ -536,7 +549,7 @@ func can_recover_last_state() -> bool:
 	var gp_player = load_gamepiece( 0 )
 	if gp_player == null:
 		return false
-	var map_player = load_level_map( gp_player.target_map )
+	var map_player = load_level_map( gp_player.current_map )
 	if map_player == null:
 		return false
 	gp_player.umid = -1
@@ -567,8 +580,9 @@ func reset_save_file() -> void:
 	config.set_value("save", "current", rand_name)
 	if config.has_section(rand_name):
 		config.erase_section(rand_name) ## In case of random number collision
-	config.set_value(rand_name, "player_umid", 0)
 	config.save(CONFIG_FILE_PATH)
+	value_into_config_save("player_umid", 0)
+	
 
 
 func _regenerate_user_database_folder():
@@ -602,7 +616,8 @@ func does_save_exist() -> bool:
 # Loads the player, and the last map the player was known to be in, and returns the map path
 # In the future, may also update the in-game clock settings and trickle down save data
 func recover_last_state() -> String:
-	var gp_read : Gamepiece = load_gamepiece( 0 )
+	var gp_umid : int = value_from_config_save("player_umid")
+	var gp_read : Gamepiece = load_gamepiece( gp_umid )
 	if gp_read == null:
 		return ""
 	var map_player = load_level_map( gp_read.current_map )
